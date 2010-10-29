@@ -2,7 +2,7 @@
 
 = Build Notes =
 
-For now, I'll just mention that this project is based on the Water Sprint project developed by Erik Johnson.
+For now, I'll just mention that this project is based on the [http://code.google.com/p/supermaritimekart/source/browse/#svn/branches/WaterSprint Water Sprint] project developed by Erik Johnson.
 
 
 = Details =
