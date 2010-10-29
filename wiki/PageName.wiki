@@ -1,0 +1,21 @@
+#summary Pick-ups
+
+= Introduction =
+
+Things you can pick up during the game.
+
+
+= Details =
+
+Offensive:
+  * machine gun
+  * grenade launcher
+  * grapling hook
+
+Defense:
+  * armor
+
+Vessel:
+  * health
+  * turbo
+  
