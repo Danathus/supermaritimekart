@@ -11,11 +11,13 @@ Offensive:
   * machine gun
   * grenade launcher
   * grapling hook
+  * ...
 
 Defense:
   * armor
+  * ...
 
 Vessel:
   * health
   * turbo
-  
+  * ...  
