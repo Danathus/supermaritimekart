@@ -1,0 +1,17 @@
+mesh output
+x <-> y is 0.0-1.0 range
+heightmap resolution (512x512)
+Set units to WM units (0..1)
+
+
+Import .obj mesh
+Scale vertex to about 250
+Optimze
+UV map
+Rotate X +90
+translate to center (-125, -125)
+Add material
+ -set diffuse to white
+ -add texture map
+ 
+Export
