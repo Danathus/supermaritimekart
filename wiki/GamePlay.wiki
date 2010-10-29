@@ -1,0 +1,8 @@
+#summary How the game plays
+
+= Introduction =
+
+This will be a multi-player, networked death-match game.  The user drives a boat while trying to destroy the other players.
+
+
+= Details =
