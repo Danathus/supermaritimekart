@@ -1,0 +1,13 @@
+#summary Here is where general notes for building are to go.
+
+= Build Notes =
+
+For now, I'll just mention that this project is based on the Water Sprint project developed by Erik Johnson.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
