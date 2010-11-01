@@ -10,3 +10,7 @@ This will be a multi-player, networked death-match game.  The user drives a boat
   * Single player mode (player is the driver and the gunner)
     * Two player mode (one player drives, one player shoots, using the same pc)
   * Multiplayer (each single/two player PC is connected)
+
+There is no timed event, all players start in the "kiddie pool" where weapons are disabled.  Players cross the "DMZ" into the Death Match arena, where weapons are active.
+
+You play until you die, when you respawn in the kiddie pool.
