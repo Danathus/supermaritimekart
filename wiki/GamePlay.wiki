@@ -7,6 +7,6 @@ This will be a multi-player, networked death-match game.  The user drives a boat
 
 = Details =
 
-Single player mode (player is the driver and the gunner)
-Two player mode (one player drives, one player shoots, using the same pc)
-Multiplayer (each single/two player PC is connected)
+  * Single player mode (player is the driver and the gunner)
+  * Two player mode (one player drives, one player shoots, using the same pc)
+  * Multiplayer (each single/two player PC is connected)
