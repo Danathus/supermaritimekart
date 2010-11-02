@@ -1,22 +1,26 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+# Convert to CMake standard path string
 FILE(TO_CMAKE_PATH "$ENV{DELTA_ROOT}" DELTA_ROOT_CMAKE)
+FILE(TO_CMAKE_PATH "$ENV{DELTA_SHARED_CODE}" DELTA_SHARED_CODE_CMAKE)
 
 # where the Find*.cmake files are
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMakeModules
                       ${DELTA_ROOT_CMAKE}/CMakeModules
+                      ${DELTA_SHARED_CODE_CMAKE}/CMakeModules
                       ${CMAKE_MODULE_PATH})
                       
 SET(APP_NAME SuperMaritimeKart) # USE_FUN
 
 PROJECT(${APP_NAME})
 
-FIND_PACKAGE(dtABC  REQUIRED)
-FIND_PACKAGE(dtCore REQUIRED)
-FIND_PACKAGE(dtDAL  REQUIRED)
-FIND_PACKAGE(dtUtil REQUIRED)
-FIND_PACKAGE(dtQt   REQUIRED)
-FIND_PACKAGE(OpenGL REQUIRED)
+FIND_PACKAGE(dtABC   REQUIRED)
+FIND_PACKAGE(dtCore  REQUIRED)
+FIND_PACKAGE(dtDAL   REQUIRED)
+FIND_PACKAGE(dtUtil  REQUIRED)
+FIND_PACKAGE(dtQt    REQUIRED)
+FIND_PACKAGE(OpenGL  REQUIRED)
+FIND_PACKAGE(NetCore REQUIRED)
 
 SET(SOURCE_PATH ${CMAKE_SOURCE_DIR}/src)
 SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
@@ -62,4 +66,5 @@ TARGET_LINK_LIBRARIES(${APP_NAME} ${DTCORE_LIBRARIES}
                                   ${DTDAL_LIBRARIES}
                                   ${DTUTIL_LIBRARIES}                                 
                                   ${OPENGL_gl_LIBRARY}
+                                  ${NETCORE_LIBRARIES}
 )
