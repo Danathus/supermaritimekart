@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Things you can pick up during the game.
+Things you can pick up and deploy during the game.
 
 
 = Details =
@@ -10,14 +10,19 @@ Things you can pick up during the game.
 Offensive:
   * machine gun
   * grenade launcher
-  * grapling hook
+  * grappling hook
+  * depth charges
+  * mines
+  * mortar
+  * torpedo
+  * ramming spikes
   * ...
 
 Defense:
-  * armor
+  * armor/shields
   * ...
 
 Vessel:
   * health
-  * turbo
-  * ...  
+  * turbo/nitro
+  * ...
