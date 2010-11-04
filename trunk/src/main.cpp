@@ -12,13 +12,13 @@
 
 
 int main(int argc, char **argv)
-{   
+{
    if (dtUtil::FileUtils::GetInstance().FileExists("data/config.xml"))
    {
       std::string dataPath = dtUtil::GetDeltaDataPathList();
       dtUtil::SetDataFilePathList(dataPath + ";" + dtUtil::FileUtils::GetInstance().CurrentDirectory() + "/data");
 
-      dtCore::RefPtr<dtABC::Application> app = new dtABC::Application("config.xml");
+      dtCore::RefPtr<SuperMaritimeKart> app = new SuperMaritimeKart("config.xml");
       app->Config();
       app->Run();
    }
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
       // Give users a chance to see the console
       LOG_ALWAYS("Hit a key to exit...");
       while (!_kbhit()){}
-   }   
+   }
 
    return 0;
 }

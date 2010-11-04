@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<map xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="delta3dMap" xsi:schemaLocation="delta3dMap map.xsd">
+    <header>
+        <name>JustOcean</name>
+        <description></description>
+        <author></author>
+        <comment></comment>
+        <copyright></copyright>
+        <createTimestamp>2009-11-22T19:23:23-08:00</createTimestamp>
+        <lastUpdateTimestamp>2009-12-02T07:43:59-08:00</lastUpdateTimestamp>
+        <editorVersion>2.4.0</editorVersion>
+        <schemaVersion>1.0</schemaVersion>
+    </header>
+    <libraries>
+        <library>
+            <name>dtOcean</name>
+            <version></version>
+        </library>
+        <library>
+            <name>BoatActors</name>
+            <version></version>
+        </library>
+        <library>
+            <name>dtActors</name>
+            <version></version>
+        </library>
+    </libraries>
+    <actors>
+        <environmentActor>62cdc01f-f77b-459b-a44c-9228160a0f13</environmentActor>
+        <actor>
+            <type>dtcore.Player Start</type>
+            <id>3de4ca1b-228c-49d7-97b2-93d3afb04b62</id>
+            <name>PlayerStart</name>
+            <property>
+                <name>Description</name>
+                <string></string>
+            </property>
+            <property>
+                <name>Rotation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Normal Rescaling</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Show Collision Geometry</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Collision Type</name>
+                <enumerated>NONE</enumerated>
+            </property>
+            <property>
+                <name>Collision Radius</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Length</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Box</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Enable Collision</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Render Proxy Node</name>
+                <boolean>false</boolean>
+            </property>
+        </actor>
+        <actor>
+            <type>dtOcean.OceanActor</type>
+            <id>62cdc01f-f77b-459b-a44c-9228160a0f13</id>
+            <name>OceanActor_01</name>
+            <property>
+                <name>Description</name>
+                <string></string>
+            </property>
+            <property>
+                <name>Rotation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Normal Rescaling</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Show Collision Geometry</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Collision Type</name>
+                <enumerated>NONE</enumerated>
+            </property>
+            <property>
+                <name>Collision Radius</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Length</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Box</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Enable Collision</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Render Proxy Node</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Enable Dynamics</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Mass</name>
+                <float>4.1887903</float>
+            </property>
+            <property>
+                <name>Center of Gravity</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Initial Ownership</name>
+                <enumerated>Server Local</enumerated>
+            </property>
+            <property>
+                <name>Local Actor Update Policy</name>
+                <enumerated>ACCEPT_ALL</enumerated>
+            </property>
+            <property>
+                <name>ShaderGroup</name>
+                <string></string>
+            </property>
+        </actor>
+        <actor>
+            <type>dtOcean.OceanConfigActor</type>
+            <id>7b078f30-e047-4350-98bb-91b964fad62c</id>
+            <name>OceanConfigActor_01</name>
+            <property>
+                <name>Ocean Height</name>
+                <double>0</double>
+            </property>
+            <property>
+                <name>Use Default Scene Shader</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Enable Crest Foam</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Enable Endless Ocean</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Enable Reflections</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Reflection Damping</name>
+                <float>0.30000001</float>
+            </property>
+            <property>
+                <name>Enable Refractions</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Enable God Rays</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Enable Silt</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Enable Underwater DOF</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Enable Glare</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>FFT Grid Size</name>
+                <integer>64</integer>
+            </property>
+            <property>
+                <name>Resolution</name>
+                <integer>128</integer>
+            </property>
+            <property>
+                <name>Number of Tiles</name>
+                <integer>17</integer>
+            </property>
+            <property>
+                <name>Wind Direction</name>
+                <vec2>
+                    <value1>0.000000</value1>
+                    <value2>1.000000</value2>
+                </vec2>
+            </property>
+            <property>
+                <name>Wind Speed</name>
+                <float>12</float>
+            </property>
+            <property>
+                <name>Depth</name>
+                <float>10000</float>
+            </property>
+            <property>
+                <name>Wave Scale</name>
+                <float>9.9999999e-009</float>
+            </property>
+            <property>
+                <name>Is Choppy</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Choppy Factor</name>
+                <float>5</float>
+            </property>
+            <property>
+                <name>Anim Loop Time</name>
+                <float>10</float>
+            </property>
+            <property>
+                <name>Number of Frames</name>
+                <integer>128</integer>
+            </property>
+            <property>
+                <name>Skybox Up</name>
+                <resourceType>Textures</resourceType>
+                <resourceDisplayName>Textures:sky_clear:up.png</resourceDisplayName>
+                <resource>Textures:sky_clear:up.png</resource>
+            </property>
+            <property>
+                <name>Skybox Down</name>
+                <resourceType>Textures</resourceType>
+                <resourceDisplayName>Textures:sky_clear:down.png</resourceDisplayName>
+                <resource>Textures:sky_clear:down.png</resource>
+            </property>
+            <property>
+                <name>Skybox Left</name>
+                <resourceType>Textures</resourceType>
+                <resourceDisplayName>Textures:sky_clear:west.png</resourceDisplayName>
+                <resource>Textures:sky_clear:west.png</resource>
+            </property>
+            <property>
+                <name>Skybox Right</name>
+                <resourceType>Textures</resourceType>
+                <resourceDisplayName>Textures:sky_clear:east.png</resourceDisplayName>
+                <resource>Textures:sky_clear:east.png</resource>
+            </property>
+            <property>
+                <name>Skybox Front</name>
+                <resourceType>Textures</resourceType>
+                <resourceDisplayName>Textures:sky_clear:north.png</resourceDisplayName>
+                <resource>Textures:sky_clear:north.png</resource>
+            </property>
+            <property>
+                <name>Skybox Back</name>
+                <resourceType>Textures</resourceType>
+                <resourceDisplayName>Textures:sky_clear:south.png</resourceDisplayName>
+                <resource>Textures:sky_clear:south.png</resource>
+            </property>
+            <property>
+                <name>Foam Bottom Height</name>
+                <float>2.2</float>
+            </property>
+            <property>
+                <name>Foam Top Height</name>
+                <float>3</float>
+            </property>
+            <property>
+                <name>Light Color</name>
+                <colorRGBA>
+                    <valueR>0.500000</valueR>
+                    <valueG>0.500000</valueG>
+                    <valueB>0.600000</valueB>
+                    <valueA>1.000000</valueA>
+                </colorRGBA>
+            </property>
+            <property>
+                <name>Above Water Fog Height</name>
+                <float>0.0012000001</float>
+            </property>
+            <property>
+                <name>Under Water Fog Height</name>
+                <float>0.0020000001</float>
+            </property>
+            <property>
+                <name>Above Water Fog Color</name>
+                <colorRGBA>
+                    <valueR>0.800000</valueR>
+                    <valueG>0.900000</valueG>
+                    <valueB>0.900000</valueB>
+                    <valueA>1.000000</valueA>
+                </colorRGBA>
+            </property>
+            <property>
+                <name>Under Water Fog Color</name>
+                <colorRGBA>
+                    <valueR>0.100000</valueR>
+                    <valueG>0.200000</valueG>
+                    <valueB>0.400000</valueB>
+                    <valueA>1.000000</valueA>
+                </colorRGBA>
+            </property>
+            <property>
+                <name>Under Water Diffuse Color</name>
+                <colorRGBA>
+                    <valueR>0.100000</valueR>
+                    <valueG>0.300000</valueG>
+                    <valueB>0.400000</valueB>
+                    <valueA>1.000000</valueA>
+                </colorRGBA>
+            </property>
+            <property>
+                <name>Under Water Attentuation</name>
+                <vec3>
+                    <value1>0.015000</value1>
+                    <value2>0.007500</value2>
+                    <value3>0.005000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Glare Attentuation</name>
+                <float>0.80000001</float>
+            </property>
+            <property>
+                <name>Sun Diffuse Color</name>
+                <colorRGBA>
+                    <valueR>0.700000</valueR>
+                    <valueG>0.700000</valueG>
+                    <valueB>0.700000</valueB>
+                    <valueA>1.000000</valueA>
+                </colorRGBA>
+            </property>
+            <property>
+                <name>Sun Direction</name>
+                <vec3>
+                    <value1>520.000000</value1>
+                    <value2>1900.000000</value2>
+                    <value3>550.000000</value3>
+                </vec3>
+            </property>
+        </actor>
+        <actor>
+            <type>Shared.BoatActor</type>
+            <id>fb06f9cb-7a10-4e9e-bb2a-eddd974cd732</id>
+            <name>Boat_01</name>
+            <property>
+                <name>Description</name>
+                <string></string>
+            </property>
+            <property>
+                <name>Rotation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Normal Rescaling</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Show Collision Geometry</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Collision Type</name>
+                <enumerated>CUBE</enumerated>
+            </property>
+            <property>
+                <name>Collision Radius</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Length</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Box</name>
+                <vec3>
+                    <value1>2.500000</value1>
+                    <value2>8.000000</value2>
+                    <value3>3.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Enable Collision</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Render Proxy Node</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Enable Dynamics</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Mass</name>
+                <float>0.1</float>
+            </property>
+            <property>
+                <name>Center of Gravity</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Initial Ownership</name>
+                <enumerated>Server Local</enumerated>
+            </property>
+            <property>
+                <name>Local Actor Update Policy</name>
+                <enumerated>ACCEPT_ALL</enumerated>
+            </property>
+            <property>
+                <name>ShaderGroup</name>
+                <string></string>
+            </property>
+            <property>
+                <name>static mesh</name>
+                <resourceType>StaticMeshes</resourceType>
+                <resourceDisplayName>StaticMeshes::DefendCG_Amb.IVE</resourceDisplayName>
+                <resource>StaticMeshes::DefendCG_Amb.IVE</resource>
+            </property>
+            <property>
+                <name>use cache object</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Scale</name>
+                <vec3>
+                    <value1>1.000000</value1>
+                    <value2>1.000000</value2>
+                    <value3>1.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>alternateCollisionMesh</name>
+                <resourceType>StaticMeshes</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
+            <property>
+                <name>FloatPointArray</name>
+                <array>
+                    <size>9</size>
+                    <element>
+                        <index>0</index>
+                        <property>
+                            <name>FloatPoint</name>
+                            <vec3>
+                                <value1>0.000000</value1>
+                                <value2>3.900000</value2>
+                                <value3>0.100000</value3>
+                            </vec3>
+                        </property>
+                    </element>
+                    <element>
+                        <index>1</index>
+                        <property>
+                            <name>FloatPoint</name>
+                            <vec3>
+                                <value1>1.000000</value1>
+                                <value2>2.400000</value2>
+                                <value3>-0.200000</value3>
+                            </vec3>
+                        </property>
+                    </element>
+                    <element>
+                        <index>2</index>
+                        <property>
+                            <name>FloatPoint</name>
+                            <vec3>
+                                <value1>-1.000000</value1>
+                                <value2>2.400000</value2>
+                                <value3>-0.200000</value3>
+                            </vec3>
+                        </property>
+                    </element>
+                    <element>
+                        <index>3</index>
+                        <property>
+                            <name>FloatPoint</name>
+                            <vec3>
+                                <value1>1.100000</value1>
+                                <value2>0.000000</value2>
+                                <value3>-0.200000</value3>
+                            </vec3>
+                        </property>
+                    </element>
+                    <element>
+                        <index>4</index>
+                        <property>
+                            <name>FloatPoint</name>
+                            <vec3>
+                                <value1>-1.100000</value1>
+                                <value2>0.000000</value2>
+                                <value3>-0.200000</value3>
+                            </vec3>
+                        </property>
+                    </element>
+                    <element>
+                        <index>5</index>
+                        <property>
+                            <name>FloatPoint</name>
+                            <vec3>
+                                <value1>1.000000</value1>
+                                <value2>-2.400000</value2>
+                                <value3>-0.400000</value3>
+                            </vec3>
+                        </property>
+                    </element>
+                    <element>
+                        <index>6</index>
+                        <property>
+                            <name>FloatPoint</name>
+                            <vec3>
+                                <value1>-1.000000</value1>
+                                <value2>-2.400000</value2>
+                                <value3>-0.400000</value3>
+                            </vec3>
+                        </property>
+                    </element>
+                    <element>
+                        <index>7</index>
+                        <property>
+                            <name>FloatPoint</name>
+                            <vec3>
+                                <value1>0.000000</value1>
+                                <value2>-2.400000</value2>
+                                <value3>-0.300000</value3>
+                            </vec3>
+                        </property>
+                    </element>
+                    <element>
+                        <index>8</index>
+                        <property>
+                            <name>FloatPoint</name>
+                            <vec3>
+                                <value1>0.000000</value1>
+                                <value2>0.000000</value2>
+                                <value3>1.900000</value3>
+                            </vec3>
+                        </property>
+                    </element>
+                </array>
+            </property>
+            <property>
+                <name>Mu</name>
+                <vec3>
+                    <value1>14.000000</value1>
+                    <value2>0.800000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>ERP</name>
+                <float>0.0099999998</float>
+            </property>
+            <property>
+                <name>CFM</name>
+                <float>0.1</float>
+            </property>
+            <property>
+                <name>MaxBuoyantForce</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>MaxPlaningForce</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>MinAngleDeg</name>
+                <float>-25</float>
+            </property>
+            <property>
+                <name>MaxAngleDeg</name>
+                <float>25</float>
+            </property>
+            <property>
+                <name>MinThrust</name>
+                <float>-100</float>
+            </property>
+            <property>
+                <name>MaxThrust</name>
+                <float>550</float>
+            </property>
+            <property>
+                <name>ThrustPosition</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>-3.000000</value2>
+                    <value3>-0.500000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Speed</name>
+                <float>60</float>
+            </property>
+            <property>
+                <name>TurnRate</name>
+                <float>180</float>
+            </property>
+            <property>
+                <name>SpeedDecay</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>TurnDecay</name>
+                <float>200</float>
+            </property>
+            <property>
+                <name>EngineCutSpeed</name>
+                <float>100</float>
+            </property>
+            <property>
+                <name>WakeEmitter</name>
+                <resourceType>Particles</resourceType>
+                <resourceDisplayName>Particles::wake.osg</resourceDisplayName>
+                <resource>Particles::wake.osg</resource>
+            </property>
+            <property>
+                <name>PropWashEmitter</name>
+                <resourceType>Particles</resourceType>
+                <resourceDisplayName>Particles::propwash.osg</resourceDisplayName>
+                <resource>Particles::propwash.osg</resource>
+            </property>
+            <property>
+                <name>BowSplashEmitter</name>
+                <resourceType>Particles</resourceType>
+                <resourceDisplayName>Particles::bow_spray3.osg</resourceDisplayName>
+                <resource>Particles::bow_spray3.osg</resource>
+            </property>
+            <property>
+                <name>EngineSound</name>
+                <resourceType>Sounds</resourceType>
+                <resourceDisplayName>Sounds::r1k.wav</resourceDisplayName>
+                <resource>Sounds::r1k.wav</resource>
+            </property>
+            <property>
+                <name>UsePositionalSounds</name>
+                <boolean>false</boolean>
+            </property>
+        </actor>
+    </actors>
+    <groups>
+        <group>
+            <actor>62cdc01f-f77b-459b-a44c-9228160a0f13</actor>
+            <actor>7b078f30-e047-4350-98bb-91b964fad62c</actor>
+        </group>
+        <group>
+            <actor>fb06f9cb-7a10-4e9e-bb2a-eddd974cd732</actor>
+        </group>
+    </groups>
+    <presetCameras></presetCameras>
+</map>

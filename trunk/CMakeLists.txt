@@ -17,6 +17,7 @@ PROJECT(${APP_NAME})
 FIND_PACKAGE(dtABC   REQUIRED)
 FIND_PACKAGE(dtCore  REQUIRED)
 FIND_PACKAGE(dtDAL   REQUIRED)
+FIND_PACKAGE(dtAudio REQUIRED)
 FIND_PACKAGE(dtUtil  REQUIRED)
 FIND_PACKAGE(dtGame  REQUIRED)
 FIND_PACKAGE(OpenGL  REQUIRED)
@@ -67,6 +68,7 @@ TARGET_LINK_LIBRARIES(${APP_NAME} ${DTCORE_LIBRARIES}
                                   ${DTDAL_LIBRARIES}
                                   ${DTUTIL_LIBRARIES}
                                   ${DTGAME_LIBRARIES}
+                                  ${DTAUDIO_LIBRARIES}
                                   ${OPENGL_gl_LIBRARY}
                                   ${NETCORE_LIBRARIES}
 )
