@@ -7,15 +7,15 @@
 
 class SuperMaritimeKart;
 
-class SuperMaritimeKartComponent : public dtGame::GMComponent
+class SuperMaritimeKartMessenger : public dtGame::GMComponent
 {
 public:
-   SuperMaritimeKartComponent(SuperMaritimeKart& application);
+   SuperMaritimeKartMessenger(SuperMaritimeKart& application);
 
    virtual void ProcessMessage(const dtGame::Message& message);
 
 protected:
-   virtual ~SuperMaritimeKartComponent();
+   virtual ~SuperMaritimeKartMessenger();
 
 private:
    dtCore::RefPtr<SuperMaritimeKart> mApplication;

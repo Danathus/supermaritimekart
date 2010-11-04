@@ -1,4 +1,4 @@
-#include <SuperMaritimeKartComponent.h>
+#include <SuperMaritimeKartMessenger.h>
 #include <SuperMaritimeKart.h>
 
 #include <dtGame/gamemanager.h>
@@ -10,19 +10,19 @@ using namespace dtCore;
 using namespace dtABC;
 
 ////////////////////////////////////////////////////////////////////////////////
-SuperMaritimeKartComponent::SuperMaritimeKartComponent(SuperMaritimeKart& application)
+SuperMaritimeKartMessenger::SuperMaritimeKartMessenger(SuperMaritimeKart& application)
 : dtGame::GMComponent("SuperMaritimeKartComponent")
 , mApplication(&application)
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-SuperMaritimeKartComponent::~SuperMaritimeKartComponent()
+SuperMaritimeKartMessenger::~SuperMaritimeKartMessenger()
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void SuperMaritimeKartComponent::ProcessMessage(const dtGame::Message& message)
+void SuperMaritimeKartMessenger::ProcessMessage(const dtGame::Message& message)
 {
    if(message.GetMessageType() == dtGame::MessageType::INFO_MAP_LOADED)
    {
