@@ -18,7 +18,7 @@ FIND_PACKAGE(dtABC   REQUIRED)
 FIND_PACKAGE(dtCore  REQUIRED)
 FIND_PACKAGE(dtDAL   REQUIRED)
 FIND_PACKAGE(dtUtil  REQUIRED)
-FIND_PACKAGE(dtQt    REQUIRED)
+FIND_PACKAGE(dtGame  REQUIRED)
 FIND_PACKAGE(OpenGL  REQUIRED)
 FIND_PACKAGE(NetCore REQUIRED)
 
@@ -49,6 +49,7 @@ INCLUDE_DIRECTORIES(${HEADER_PATH}
                     ${DTCORE_INCLUDE_DIRECTORIES}
                     ${DTDAL_INCLUDE_DIRECTORIES}
                     ${DTUTIL_INCLUDE_DIRECTORIES}
+                    ${DTGAME_INCLUDE_DIRECTORIES}
                     ${OPENGL_INCLUDE_DIR}
 )
 
@@ -64,7 +65,8 @@ ADD_EXECUTABLE(${APP_NAME} ${APP_TYPE}
 TARGET_LINK_LIBRARIES(${APP_NAME} ${DTCORE_LIBRARIES}
                                   ${DTABC_LIBRARIES}
                                   ${DTDAL_LIBRARIES}
-                                  ${DTUTIL_LIBRARIES}                                 
+                                  ${DTUTIL_LIBRARIES}
+                                  ${DTGAME_LIBRARIES}
                                   ${OPENGL_gl_LIBRARY}
                                   ${NETCORE_LIBRARIES}
 )
