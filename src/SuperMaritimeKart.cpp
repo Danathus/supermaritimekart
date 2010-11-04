@@ -1,12 +1,11 @@
 #include <SuperMaritimeKart.h>
-#include <SuperMaritimeKartComponent.h>
+#include <SuperMaritimeKartMessenger.h>
+#include <CameraController.h>
 
 #include <dtGame/gamemanager.h>
 #include <dtAudio/audiomanager.h>
 #include <dtUtil/exception.h>
 
-using namespace dtCore;
-using namespace dtABC;
 
 ////////////////////////////////////////////////////////////////////////////////
 SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
@@ -39,7 +38,10 @@ void SuperMaritimeKart::Config()
          mGameManager->ChangeMap("JustOcean");
 
          SuperMaritimeKartMessenger* appComponent = new SuperMaritimeKartMessenger(*this);
+         CameraController* cameraComponent = new CameraController(*GetCamera(),*GetKeyboard(), *GetMouse());
+
          mGameManager->AddComponent(*appComponent);
+         mGameManager->AddComponent(*cameraComponent);
       }
    }
    catch (const dtUtil::Exception& e)

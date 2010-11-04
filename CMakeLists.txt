@@ -21,7 +21,9 @@ FIND_PACKAGE(dtAudio REQUIRED)
 FIND_PACKAGE(dtUtil  REQUIRED)
 FIND_PACKAGE(dtGame  REQUIRED)
 FIND_PACKAGE(OpenGL  REQUIRED)
+FIND_PACKAGE(dtOcean REQUIRED) #For the OceanActor
 FIND_PACKAGE(NetCore REQUIRED)
+FIND_PACKAGE(BoatActors REQUIRED)
 
 SET(SOURCE_PATH ${CMAKE_SOURCE_DIR}/src)
 SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
@@ -30,6 +32,8 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 SET(SOURCE_FILES
     ${SOURCE_PATH}/SuperMaritimeKart.cpp
     ${SOURCE_PATH}/SuperMaritimeKartMessenger.cpp
+    ${SOURCE_PATH}/CameraController.cpp
+    ${SOURCE_PATH}/CameraMouseListener.cpp
     ${SOURCE_PATH}/GeometryUtils.cpp
     ${SOURCE_PATH}/main.cpp
 )
@@ -38,6 +42,8 @@ SET(SOURCE_FILES
 SET(HEADER_FILES
     ${HEADER_PATH}/SuperMaritimeKart.h
     ${HEADER_PATH}/SuperMaritimeKartMessenger.h
+    ${HEADER_PATH}/CameraController.h
+    ${HEADER_PATH}/CameraMouseListener.h
     ${HEADER_PATH}/GeometryUtils.h
 )
 
@@ -53,7 +59,9 @@ INCLUDE_DIRECTORIES(${HEADER_PATH}
                     ${DTDAL_INCLUDE_DIRECTORIES}
                     ${DTUTIL_INCLUDE_DIRECTORIES}
                     ${DTGAME_INCLUDE_DIRECTORIES}
+                    ${DTOCEAN_INCLUDE_DIR}
                     ${OPENGL_INCLUDE_DIR}
+                    ${BOATACTORS_INCLUDE_DIRECTORIES}
 )
 
 ##################### EXECUTABLE BUILDING ######################
@@ -73,4 +81,6 @@ TARGET_LINK_LIBRARIES(${APP_NAME} ${DTCORE_LIBRARIES}
                                   ${DTAUDIO_LIBRARIES}
                                   ${OPENGL_gl_LIBRARY}
                                   ${NETCORE_LIBRARIES}
+                                  ${BOATACTORS_LIBRARIES}
+                                  ${DTOCEAN_LIBRARIES}
 )
