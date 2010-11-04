@@ -14,6 +14,7 @@ namespace dtGame
 
 class SuperMaritimeKart : public dtABC::Application
 {
+   friend class SuperMaritimeKartComponent;
 public:
    SuperMaritimeKart(const std::string& configFilename = "config.xml");
 
@@ -26,6 +27,8 @@ public:
 
 protected:
    virtual ~SuperMaritimeKart();
+
+   void OnMapLoaded();
 
 private:
    dtCore::RefPtr<dtGame::GameManager> mGameManager;

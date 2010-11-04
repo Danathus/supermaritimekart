@@ -1,4 +1,5 @@
 #include <SuperMaritimeKart.h>
+#include <SuperMaritimeKartComponent.h>
 
 #include <dtGame/gamemanager.h>
 #include <dtAudio/audiomanager.h>
@@ -35,9 +36,11 @@ void SuperMaritimeKart::Config()
       if (mGameManager->GetProjectContext().empty())
       {
          mGameManager->SetProjectContext("./data", true);
-      }
+         mGameManager->ChangeMap("JustOcean");
 
-      mGameManager->ChangeMap("JustOcean");
+         SuperMaritimeKartComponent* appComponent = new SuperMaritimeKartComponent(*this);
+         mGameManager->AddComponent(*appComponent);
+      }
    }
    catch (const dtUtil::Exception& e)
    {
@@ -62,6 +65,13 @@ bool SuperMaritimeKart::KeyPressed(const dtCore::Keyboard* keyboard, int kc)
 {
    return false;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+void SuperMaritimeKart::OnMapLoaded()
+{
+
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
