@@ -27,6 +27,7 @@ int main(int argc, char **argv)
       LOG_ALWAYS("Unable to find config file, working directory may need to be set.");
 
       // Give users a chance to see the console
+      LOG_ALWAYS("Hit a key to exit...");
       while (!_kbhit()){}
    }   
 
