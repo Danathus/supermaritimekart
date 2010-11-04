@@ -68,7 +68,7 @@ BoatActor* CameraController::GetBoatToControl() const
    GetGameManager()->FindActorByType(*BoatActorsLibraryRegistry::BOAT_ACTOR_TYPE, boatActor);
    if (boatActor)
    {
-      return static_cast<BoatActor*>(boatActor->GetActor());
+      return dynamic_cast<BoatActor*>(boatActor->GetActor());
    }
    else
    {

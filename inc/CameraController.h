@@ -3,6 +3,7 @@
 
 #include <dtGame/gmcomponent.h>
 
+////////////////////////////////////////////////////////////////////////////////
 
 namespace dtCore
 {
@@ -14,6 +15,8 @@ namespace dtCore
 
 class BoatActor;
 class CameraMouseListener;
+
+////////////////////////////////////////////////////////////////////////////////
 
 class CameraController : public dtGame::GMComponent
 {
@@ -35,13 +38,14 @@ public:
 
 protected:
    virtual ~CameraController();
-	
+
 private:
    BoatActor* GetBoatToControl() const;
    void UpdateOrbit(const dtCore::Transform &xform);
    void UpdateFollow(const dtCore::Transform &xform,const double deltaTime);
    void UpdateCameraPosition(const double deltaTime);
    void SetupControls();
+
    dtCore::RefPtr<dtCore::Camera> mCamera;
    dtCore::RefPtr<dtCore::Mouse> mMouse;
    dtCore::RefPtr<CameraMouseListener> mMouseListener;
@@ -49,4 +53,7 @@ private:
    dtCore::RefPtr<dtCore::OrbitMotionModel> mMotion;
    CameraModes mCameraMode; ///<current camera mode
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
 #endif //cameracontrol_h__
