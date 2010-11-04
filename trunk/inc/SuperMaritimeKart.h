@@ -10,6 +10,8 @@ namespace dtGame
    class GameManager;
 }
 
+class FloatingActor;
+
 ////////////////////////////////////////////////////////////////////////////////
 
 class SuperMaritimeKart : public dtABC::Application
@@ -32,6 +34,10 @@ protected:
 
 private:
    dtCore::RefPtr<dtGame::GameManager> mGameManager;
+
+   void AttachOceanHeightToBoat();
+
+   void GetFloatingActors(std::vector<FloatingActor*>& floatingActors);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
