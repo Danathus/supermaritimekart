@@ -14,7 +14,7 @@ namespace dtGame
 
 class SuperMaritimeKart : public dtABC::Application
 {
-   friend class SuperMaritimeKartComponent;
+   friend class SuperMaritimeKartMessenger;
 public:
    SuperMaritimeKart(const std::string& configFilename = "config.xml");
 

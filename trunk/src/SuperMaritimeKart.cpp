@@ -38,7 +38,7 @@ void SuperMaritimeKart::Config()
          mGameManager->SetProjectContext("./data", true);
          mGameManager->ChangeMap("JustOcean");
 
-         SuperMaritimeKartComponent* appComponent = new SuperMaritimeKartComponent(*this);
+         SuperMaritimeKartMessenger* appComponent = new SuperMaritimeKartMessenger(*this);
          mGameManager->AddComponent(*appComponent);
       }
    }

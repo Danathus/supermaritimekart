@@ -29,7 +29,7 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 ################### SOURCE FILES #####################
 SET(SOURCE_FILES
     ${SOURCE_PATH}/SuperMaritimeKart.cpp
-    ${SOURCE_PATH}/SuperMaritimeKartComponent.cpp
+    ${SOURCE_PATH}/SuperMaritimeKartMessenger.cpp
     ${SOURCE_PATH}/GeometryUtils.cpp
     ${SOURCE_PATH}/main.cpp
 )
@@ -37,7 +37,7 @@ SET(SOURCE_FILES
 ################### HEADER FILES #####################
 SET(HEADER_FILES
     ${HEADER_PATH}/SuperMaritimeKart.h
-    ${HEADER_PATH}/SuperMaritimeKartComponent.h
+    ${HEADER_PATH}/SuperMaritimeKartMessenger.h
     ${HEADER_PATH}/GeometryUtils.h
 )
 
