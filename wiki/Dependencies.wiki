@@ -1,0 +1,9 @@
+#summary One-sentence summary of this page.
+
+= SMK Dependencies =
+
+SuperMaritimeKart has numerous external projects that it depends on.
+
+  * Delta3D
+  * dtOcean
+  * SharedCode (_note: currently only available to SMK developers_)
