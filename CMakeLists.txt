@@ -15,6 +15,7 @@ SET(APP_NAME SuperMaritimeKart) # USE_FUN
 PROJECT(${APP_NAME})
 
 FIND_PACKAGE(dtABC               REQUIRED)
+FIND_PACKAGE(dtActors            REQUIRED)
 FIND_PACKAGE(dtCore              REQUIRED)
 FIND_PACKAGE(dtDAL               REQUIRED)
 FIND_PACKAGE(dtAudio             REQUIRED)
@@ -66,6 +67,7 @@ SET(RESOURCE_FILES
 ##################### INCLUDE DIRECTORIES ######################
 INCLUDE_DIRECTORIES(${HEADER_PATH}
                     ${DTABC_INCLUDE_DIRECTORIES}
+                    ${DTACTORS_INCLUDE_DIRECTORIES}
                     ${DTCORE_INCLUDE_DIRECTORIES}
                     ${DTDAL_INCLUDE_DIRECTORIES}
                     ${DTUTIL_INCLUDE_DIRECTORIES}
@@ -88,6 +90,7 @@ ADD_EXECUTABLE(${APP_NAME} ${APP_TYPE}
 
 TARGET_LINK_LIBRARIES(${APP_NAME} ${DTCORE_LIBRARIES}
                                   ${DTABC_LIBRARIES}
+                                  ${DTACTORS_LIBRARIES}
                                   ${DTDAL_LIBRARIES}
                                   ${DTUTIL_LIBRARIES}
                                   ${DTGAME_LIBRARIES}

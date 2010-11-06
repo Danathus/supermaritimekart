@@ -7,8 +7,8 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-21T09:21:17-08:00</createTimestamp>
-        <lastUpdateTimestamp>2009-12-03T09:38:21-08:00</lastUpdateTimestamp>
-        <editorVersion>2.4.0</editorVersion>
+        <lastUpdateTimestamp>2010-11-06T15:46:19-08:00</lastUpdateTimestamp>
+        <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
     <libraries>
@@ -34,6 +34,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -133,6 +137,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -141,6 +167,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -240,6 +270,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -248,6 +300,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -347,6 +403,28 @@
                     <value3>1.714016</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -355,6 +433,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -454,6 +536,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -462,6 +566,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -561,6 +669,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -569,6 +699,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -668,6 +802,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -676,6 +832,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -775,6 +935,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -783,6 +965,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -882,6 +1068,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtOcean.OceanActor</type>
@@ -890,6 +1098,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -971,6 +1183,12 @@
                 <name>ShaderGroup</name>
                 <string></string>
             </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -979,6 +1197,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -1078,6 +1300,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -1086,6 +1330,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -1185,6 +1433,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -1193,6 +1463,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -1292,6 +1566,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtOcean.OceanConfigActor</type>
@@ -1387,6 +1683,10 @@
             <property>
                 <name>Number of Frames</name>
                 <integer>256</integer>
+            </property>
+            <property>
+                <name>SkyBox Radius</name>
+                <float>1900</float>
             </property>
             <property>
                 <name>Skybox Up</name>
@@ -1515,6 +1815,10 @@
                 <string></string>
             </property>
             <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
                 <name>Rotation</name>
                 <vec3>
                     <value1>0.000000</value1>
@@ -1612,6 +1916,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -1620,6 +1946,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -1719,6 +2049,28 @@
                     <value3>0.718895</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -1727,6 +2079,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -1826,6 +2182,28 @@
                     <value3>0.718895</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -1834,6 +2212,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -1933,6 +2315,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Player Start</type>
@@ -1941,6 +2345,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -2002,6 +2410,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -2101,6 +2513,28 @@
                     <value3>1.464812</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -2109,6 +2543,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -2208,6 +2646,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -2216,6 +2676,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -2315,6 +2779,28 @@
                     <value3>1.714016</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -2323,6 +2809,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -2422,6 +2912,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -2430,6 +2942,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -2529,6 +3045,28 @@
                     <value3>1.464812</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Static Mesh</type>
@@ -2537,6 +3075,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -2646,6 +3188,10 @@
                 <string></string>
             </property>
             <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
                 <name>Rotation</name>
                 <vec3>
                     <value1>0.000000</value1>
@@ -2743,6 +3289,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -2751,6 +3319,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -2850,6 +3422,28 @@
                     <value3>2.011125</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -2858,6 +3452,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -2957,6 +3555,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -2965,6 +3585,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -3064,6 +3688,28 @@
                     <value3>0.746010</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -3072,6 +3718,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -3171,6 +3821,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -3179,6 +3851,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -3278,6 +3954,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
@@ -3286,6 +3984,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -3385,6 +4087,28 @@
                     <value3>1.000000</value3>
                 </vec3>
             </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
         </actor>
         <actor>
             <type>Shared.BoatActor</type>
@@ -3393,6 +4117,10 @@
             <property>
                 <name>Description</name>
                 <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Rotation</name>
@@ -3464,7 +4192,7 @@
             </property>
             <property>
                 <name>Initial Ownership</name>
-                <enumerated>Server Local</enumerated>
+                <enumerated>PROTOTYPE</enumerated>
             </property>
             <property>
                 <name>Local Actor Update Policy</name>
@@ -3490,6 +4218,22 @@
                     <value1>1.000000</value1>
                     <value2>1.000000</value2>
                     <value3>1.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Rotation</name>
+                <vec3>
+                    <value1>-0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Model Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
@@ -3698,6 +4442,12 @@
             <property>
                 <name>UsePositionalSounds</name>
                 <boolean>false</boolean>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
             </property>
         </actor>
     </actors>

@@ -6,8 +6,11 @@
 #include <BoatActors/ActorLibraryRegistry.h>
 #include <BoatActors/BoatActor.h>
 
+#include <dtActors/engineactorregistry.h>
+#include <dtActors/playerstartactorproxy.h>
 #include <dtCore/deltawin.h>
 #include <dtCore/keyboard.h>
+#include <dtCore/transform.h>
 #include <dtGame/messagetype.h>
 
 #include <dtOcean/actorregistry.h>
@@ -42,7 +45,7 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
       dtOcean::OceanActor* ocean = GetOcean();
       mpOceanResizer->SetOceanActor(ocean);
 
-      mpBoat = GetBoatToControl();
+      mpBoat = CreateBoatToControl();
       if (mpBoat != NULL)
       {
          SetupControlledBoat(ocean);
@@ -59,18 +62,40 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-BoatActor* BoatController::GetBoatToControl() const
+BoatActor* BoatController::CreateBoatToControl()
 {
-   dtDAL::ActorProxy* boatActor;
-   GetGameManager()->FindActorByType(*BoatActorsLibraryRegistry::BOAT_ACTOR_TYPE, boatActor);
-   if (boatActor)
+   std::vector<dtDAL::ActorProxy*> boatPrototypes;
+   GetGameManager()->FindPrototypesByActorType(*BoatActorsLibraryRegistry::BOAT_ACTOR_TYPE, boatPrototypes);
+   if (!boatPrototypes.empty())
    {
-      return dynamic_cast<BoatActor*>(boatActor->GetActor());
+      dtCore::RefPtr<dtGame::GameActorProxy> boatActor;
+      GetGameManager()->CreateActorFromPrototype(boatPrototypes[0]->GetActor()->GetUniqueId(), boatActor);
+      if (boatActor.valid())
+      {
+         GetGameManager()->AddActor(*boatActor, false, true);
+         return dynamic_cast<BoatActor*>(boatActor->GetActor());
+      }
    }
-   else
+
+   return NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+osg::Vec3 BoatController::GetStartLocation() const
+{
+   dtActors::PlayerStartActorProxy* spawnProxy;
+   GetGameManager()->FindActorByType(*dtActors::EngineActorRegistry::PLAYER_START_ACTOR_TYPE, spawnProxy);
+   if (spawnProxy)
    {
-      return NULL;
+      dtActors::PlayerStartActor* startPoint(NULL);
+      spawnProxy->GetActor(startPoint);
+      dtCore::Transform xform;
+      startPoint->GetTransform(xform);
+      
+      return xform.GetTranslation();
    }
+
+   return osg::Vec3(0.0, 0.0, 0.0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -107,6 +132,11 @@ void BoatController::SetupControlledBoat(dtOcean::OceanActor* ocean)
          mpBoat->SetCollisionMesh(collisionMesh);
       }
    }
+
+   // Move boat to its initial location
+   //dtCore::Transform boatTransform;
+   //boatTransform.SetTranslation(GetStartLocation());
+   //mpBoat->SetTransform(boatTransform);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
