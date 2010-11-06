@@ -36,11 +36,18 @@ HealthType Health::GetHealth() const
  
 
 ////////////////////////////////////////////////////////////////////////////////
-void SMK::Health::ReduceHealth(HealthType amount)
+void SMK::Health::DecrementHealth(HealthType amount)
 {  
    mAmount =- amount ;
 
    dtUtil::ClampMin(mAmount, HealthType(0));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMK::Health::IncrementHealth(HealthType amount)
+{
+   mAmount += amount;
+   dtUtil::ClampMax(mAmount, GetMax());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
