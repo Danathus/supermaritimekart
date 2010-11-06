@@ -21,7 +21,10 @@ namespace SMK
       void SetHealth(HealthType val);
 
       ///Reduce the health by this amount.  Will clamp to 0
-      void ReduceHealth(HealthType amount);
+      void DecrementHealth(HealthType amount);
+
+      ///Increase the health by this amount.  Will clamp to GetMax()
+      void IncrementHealth(HealthType amount);
 
       ///Get the max amount of health possible
       HealthType GetMax() const;
