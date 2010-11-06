@@ -7,7 +7,16 @@ For now, I'll just mention that this project is based on the [http://code.google
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+SMK's CMake needs to find:
+  * Delta3D  (using the *DELTA_ROOT* env var)
+    * dtABC
+    * dtCore
+    * dtDAL
+    * dtAudio
+    * dtUtil
+    * dtGame   
+  * SharedCode (using the *DELTA_SHARED_CODE* env var)
+    * NetCore
+    * BoatActors
+    * DeltaNetworkAdapter
+  * dtOcean (using the *DTOCEAN_ROOT* env var, or SMK/ext)
