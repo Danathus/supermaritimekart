@@ -1,0 +1,6 @@
+Super Maritime Kart Precompiled external dependencies
+Visual Studio 2008
+-----------------------------------------
+
+dtOcean r2753
+osgOcean r218 (using OSG 2.8.3)
