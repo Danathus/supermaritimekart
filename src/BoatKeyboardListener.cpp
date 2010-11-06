@@ -3,7 +3,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 BoatKeyboardListener::BoatKeyboardListener()
-   : mOutboard(NULL)
+   : mpOutboard(NULL)
 {
 }
 
@@ -15,7 +15,7 @@ BoatKeyboardListener::~BoatKeyboardListener()
 //////////////////////////////////////////////////////////////////////////
 bool BoatKeyboardListener::HandleKeyPressed(const dtCore::Keyboard* keyboard, int key)
 {
-   if (!mOutboard.valid())
+   if (!mpOutboard.valid())
    {
       return false;
    }
@@ -26,26 +26,26 @@ bool BoatKeyboardListener::HandleKeyPressed(const dtCore::Keyboard* keyboard, in
    {
    case 'w':
    case 'W':
-      mOutboard->ActivateThrust(true);
+      mpOutboard->ActivateThrust(true);
         break;
 
    case 's':
    case 'S':
-      mOutboard->ActivateThrust(false);
+      mpOutboard->ActivateThrust(false);
       break;
 
    case 'a':
    case 'A':
-      mOutboard->ActivateTurning(true);
+      mpOutboard->ActivateTurning(true);
       break;
 
    case 'd':
    case 'D':
-      mOutboard->ActivateTurning(false);
+      mpOutboard->ActivateTurning(false);
       break;
 
    case ' ':
-      mOutboard->CutEngine();
+      mpOutboard->CutEngine();
       break;
 
    default:
@@ -59,7 +59,7 @@ bool BoatKeyboardListener::HandleKeyPressed(const dtCore::Keyboard* keyboard, in
 //////////////////////////////////////////////////////////////////////////
 bool BoatKeyboardListener::HandleKeyReleased(const dtCore::Keyboard* keyboard, int key)
 {
-   if (!mOutboard.valid())
+   if (!mpOutboard.valid())
    {
       return false;
    }
@@ -72,14 +72,14 @@ bool BoatKeyboardListener::HandleKeyReleased(const dtCore::Keyboard* keyboard, i
    case 'W':
    case 's':
    case 'S':
-      mOutboard->DeactivateThrust();
+      mpOutboard->DeactivateThrust();
       break;
 
    case 'a':
    case 'A':
    case 'd':
    case 'D':
-      mOutboard->DeactivateTurning();
+      mpOutboard->DeactivateTurning();
       break;
 
    default:
@@ -99,7 +99,7 @@ bool BoatKeyboardListener::HandleKeyTyped(const dtCore::Keyboard* keyboard, int 
 //////////////////////////////////////////////////////////////////////////
 void BoatKeyboardListener::SetOutboard(Outboard* outboard)
 {
-   mOutboard = outboard;
+   mpOutboard = outboard;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

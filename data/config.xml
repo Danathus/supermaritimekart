@@ -4,4 +4,7 @@
 	<Scene Name="defaultScene"/>
 	<Camera Name="defaultCam" WindowInstance="Super Maritime Kart"/>
 	<View Name="defaultView" CameraInstance="defaultCam" SceneInstance="defaultScene"/>
+	<Properties>
+		<Property Name = "Map">islands</Property>
+	</Properties>    
 </Application>

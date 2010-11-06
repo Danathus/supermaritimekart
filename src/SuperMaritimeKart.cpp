@@ -2,9 +2,11 @@
 #include <SuperMaritimeKartMessenger.h>
 #include <BoatController.h>
 #include <CameraController.h>
+#include <FloaterController.h>
 
-#include <dtGame/gamemanager.h>
 #include <dtAudio/audiomanager.h>
+#include <dtCore/scene.h>
+#include <dtGame/gamemanager.h>
 #include <dtUtil/exception.h>
 
 #include <dtOcean/oceanactor.h>
@@ -44,16 +46,20 @@ void SuperMaritimeKart::Config()
       try
       {
          mGameManager->SetProjectContext("./data", true);
-         mGameManager->ChangeMap("JustOcean");
+         mGameManager->ChangeMap(GetConfigPropertyValue("Map", "JustOcean"));
 
          SuperMaritimeKartMessenger* appComponent = new SuperMaritimeKartMessenger(*this);
-         BoatController* boatComponent = new BoatController(*GetKeyboard());
+         BoatController* boatComponent = new BoatController(*GetWindow(), *GetKeyboard());
          CameraController* cameraComponent = new CameraController(*GetCamera(),*GetKeyboard(), *GetMouse());
+         FloaterController* floaterComponent = new FloaterController();
 
          mGameManager->AddComponent(*appComponent);
          mGameManager->AddComponent(*boatComponent);
          mGameManager->AddComponent(*cameraComponent);
+         mGameManager->AddComponent(*floaterComponent);
 
+         GetScene()->SetPhysicsStepSize(0.001);
+         GetScene()->SetGravity(0.f, 0.f, -18.f);
       }
       catch (const dtUtil::Exception& e)
       {

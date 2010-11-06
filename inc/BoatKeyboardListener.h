@@ -10,7 +10,7 @@ class BoatKeyboardListener : public dtCore::KeyboardListener
 public:
    BoatKeyboardListener();
    void SetOutboard(Outboard* outboard);
-   Outboard* GetOutboard() { return mOutboard.get(); }
+   Outboard* GetOutboard() { return mpOutboard.get(); }
 
    bool HandleKeyPressed(const dtCore::Keyboard* keyboard, int key);
    virtual bool HandleKeyReleased(const dtCore::Keyboard* keyboard, int kc );
@@ -21,6 +21,6 @@ protected:
 
 private:
 
-   dtCore::RefPtr<Outboard> mOutboard;
+   dtCore::RefPtr<Outboard> mpOutboard;
 };
 #endif // BoatKeyboardListener_h__

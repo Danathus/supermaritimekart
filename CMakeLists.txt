@@ -37,7 +37,10 @@ SET(SOURCE_FILES
     ${SOURCE_PATH}/BoatKeyboardListener.cpp
     ${SOURCE_PATH}/CameraController.cpp
     ${SOURCE_PATH}/CameraMouseListener.cpp
+    ${SOURCE_PATH}/DeltaOceanGetHeight.cpp
+    ${SOURCE_PATH}/FloaterController.cpp
     ${SOURCE_PATH}/GeometryUtils.cpp
+    ${SOURCE_PATH}/OceanWindowResize.cpp
     ${SOURCE_PATH}/main.cpp
 )
 
@@ -49,6 +52,9 @@ SET(HEADER_FILES
     ${HEADER_PATH}/BoatKeyboardListener.h
     ${HEADER_PATH}/CameraController.h
     ${HEADER_PATH}/CameraMouseListener.h
+    ${HEADER_PATH}/DeltaOceanGetHeight.h
+    ${HEADER_PATH}/FloaterController.h
+    ${HEADER_PATH}/OceanWindowResize.h
     ${HEADER_PATH}/GeometryUtils.h
 )
 
