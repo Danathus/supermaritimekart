@@ -1,5 +1,6 @@
 #include <SuperMaritimeKart.h>
 #include <SuperMaritimeKartMessenger.h>
+#include <BoatController.h>
 #include <CameraController.h>
 
 #include <dtGame/gamemanager.h>
@@ -46,9 +47,11 @@ void SuperMaritimeKart::Config()
          mGameManager->ChangeMap("JustOcean");
 
          SuperMaritimeKartMessenger* appComponent = new SuperMaritimeKartMessenger(*this);
+         BoatController* boatComponent = new BoatController(*GetKeyboard());
          CameraController* cameraComponent = new CameraController(*GetCamera(),*GetKeyboard(), *GetMouse());
 
          mGameManager->AddComponent(*appComponent);
+         mGameManager->AddComponent(*boatComponent);
          mGameManager->AddComponent(*cameraComponent);
 
       }
