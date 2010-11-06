@@ -6,10 +6,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 class BoatActor;
 class BoatKeyboardListener;
+class OceanWindowResize;
 
 namespace dtCore
 {
+   class DeltaWin;
    class Keyboard;
+}
+
+namespace dtOcean
+{
+   class OceanActor;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -17,7 +24,7 @@ namespace dtCore
 class BoatController : public dtGame::GMComponent
 {
 public:
-   BoatController(dtCore::Keyboard& keyboard);
+   BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard);
 
    virtual void ProcessMessage(const dtGame::Message& message);
 
@@ -26,10 +33,15 @@ protected:
 
 private:
    BoatActor* GetBoatToControl() const;
+   dtOcean::OceanActor* GetOcean() const;
 
-   dtCore::RefPtr<BoatActor> mBoat;
-   dtCore::RefPtr<BoatKeyboardListener> mKeyboardListener;
-   dtCore::RefPtr<dtCore::Keyboard> mKeyboardToListenTo;
+   void SetupControlledBoat(dtOcean::OceanActor* ocean);
+   void CleanupControlledBoat();
+
+   dtCore::RefPtr<BoatActor> mpBoat;
+   dtCore::RefPtr<BoatKeyboardListener> mpKeyboardListener;
+   dtCore::RefPtr<dtCore::Keyboard> mpKeyboardToListenTo;
+   dtCore::RefPtr<OceanWindowResize> mpOceanResizer;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
