@@ -54,22 +54,18 @@ bool CameraMouseListener::HandleButtonClicked(const dtCore::Mouse* mouse, dtCore
 bool CameraMouseListener::HandleMouseMoved(const dtCore::Mouse* mouse, float x, float y)
 {
    ///TODO kinda dorky - shouldn't be using the pixels coords directly
-   if (mLastMouseX == FLT_MAX)
-   {
-      mLastMouseX = x;
-   }
+   UpdateLastMousePosition(x, y);
 
-   mSideOffset += (x-mLastMouseX);
-   dtUtil::Clamp(mSideOffset, kMIN_SIDE_OFFSET, kMAX_SIDE_OFFSET);
-
-   mLastMouseX = x;
    return true;  
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 bool CameraMouseListener::HandleMouseDragged(const dtCore::Mouse* mouse, float x, float y)
 {
-   return false;  
+   ///TODO kinda dorky - shouldn't be using the pixels coords directly
+   UpdateLastMousePosition(x, y);
+
+   return true;  
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,3 +100,19 @@ void CameraMouseListener::Reset()
    mSideOffset = 0.f;
    mLastMouseX = FLT_MAX;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+void CameraMouseListener::UpdateLastMousePosition(float x, float y)
+{
+   if (mLastMouseX == FLT_MAX)
+   {
+      mLastMouseX = x;
+   }
+
+   mSideOffset += (x - mLastMouseX);
+   dtUtil::Clamp(mSideOffset, kMIN_SIDE_OFFSET, kMAX_SIDE_OFFSET);
+
+   mLastMouseX = x;
+}
+
+///////////////////////////////////////////////////////////////////////////////

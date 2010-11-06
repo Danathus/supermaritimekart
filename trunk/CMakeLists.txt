@@ -33,6 +33,8 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 SET(SOURCE_FILES
     ${SOURCE_PATH}/SuperMaritimeKart.cpp
     ${SOURCE_PATH}/SuperMaritimeKartMessenger.cpp
+    ${SOURCE_PATH}/BoatController.cpp
+    ${SOURCE_PATH}/BoatKeyboardListener.cpp
     ${SOURCE_PATH}/CameraController.cpp
     ${SOURCE_PATH}/CameraMouseListener.cpp
     ${SOURCE_PATH}/GeometryUtils.cpp
@@ -43,6 +45,8 @@ SET(SOURCE_FILES
 SET(HEADER_FILES
     ${HEADER_PATH}/SuperMaritimeKart.h
     ${HEADER_PATH}/SuperMaritimeKartMessenger.h
+    ${HEADER_PATH}/BoatController.h
+    ${HEADER_PATH}/BoatKeyboardListener.h
     ${HEADER_PATH}/CameraController.h
     ${HEADER_PATH}/CameraMouseListener.h
     ${HEADER_PATH}/GeometryUtils.h

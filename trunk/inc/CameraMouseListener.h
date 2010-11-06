@@ -30,6 +30,8 @@ protected:
    virtual ~CameraMouseListener();
 	
 private:
+   void UpdateLastMousePosition(float x, float y);
+
    int mZoomFactor;
    float mSideOffset;
    float mLastMouseX;
