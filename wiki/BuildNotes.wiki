@@ -19,4 +19,4 @@ SMK's CMake needs to find:
     * NetCore
     * BoatActors
     * DeltaNetworkAdapter
-  * dtOcean (using the *DTOCEAN_ROOT* env var, or SMK/ext)
+  * dtOcean (using the *DTOCEAN_ROOT* env var, SMK/ext, or in Program Files/dtOcean)
