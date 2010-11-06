@@ -32,7 +32,8 @@ protected:
    virtual ~BoatController();
 
 private:
-   BoatActor* GetBoatToControl() const;
+   BoatActor* CreateBoatToControl();
+   osg::Vec3 GetStartLocation() const;
    dtOcean::OceanActor* GetOcean() const;
 
    void SetupControlledBoat(dtOcean::OceanActor* ocean);
