@@ -40,6 +40,7 @@ SET(SOURCE_FILES
     ${SOURCE_PATH}/CameraMouseListener.cpp
     ${SOURCE_PATH}/DeltaOceanGetHeight.cpp
     ${SOURCE_PATH}/FloaterController.cpp
+    ${SOURCE_PATH}/Health.cpp    
     ${SOURCE_PATH}/GeometryUtils.cpp
     ${SOURCE_PATH}/OceanWindowResize.cpp
     ${SOURCE_PATH}/main.cpp
@@ -55,6 +56,7 @@ SET(HEADER_FILES
     ${HEADER_PATH}/CameraMouseListener.h
     ${HEADER_PATH}/DeltaOceanGetHeight.h
     ${HEADER_PATH}/FloaterController.h
+    ${HEADER_PATH}/Health.h
     ${HEADER_PATH}/OceanWindowResize.h
     ${HEADER_PATH}/GeometryUtils.h
 )
