@@ -13,8 +13,10 @@
 #include <dtCore/transform.h>
 #include <dtGame/messagetype.h>
 
-#include <dtOcean/actorregistry.h>
-#include <dtOcean/oceanactor.h>
+#ifdef BUILD_WITH_DTOCEAN
+# include <dtOcean/actorregistry.h>
+# include <dtOcean/oceanactor.h>
+#endif
 
 #include <osgDB/ReadFile>
 
@@ -101,6 +103,7 @@ osg::Vec3 BoatController::GetStartLocation() const
 ///////////////////////////////////////////////////////////////////////////////
 dtOcean::OceanActor* BoatController::GetOcean() const
 {
+#ifdef BUILD_WITH_DTOCEAN
    //find any OceanActors;
    dtOcean::OceanActorProxy* oceanActorProxy(NULL);
 
@@ -110,6 +113,9 @@ dtOcean::OceanActor* BoatController::GetOcean() const
 
    assert(oceanActor != NULL);
    return oceanActor;
+#else
+   return NULL;
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

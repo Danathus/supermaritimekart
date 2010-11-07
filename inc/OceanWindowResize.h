@@ -24,6 +24,8 @@ protected:
    virtual ~OceanWindowResize();
 
 private:
+#ifdef BUILD_WITH_DTOCEAN
    dtCore::RefPtr<dtOcean::OceanActor> mOcean;
+#endif
 };
 #endif // OceanWindowResize_h__

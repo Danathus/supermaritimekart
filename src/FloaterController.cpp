@@ -6,8 +6,10 @@
 
 #include <dtGame/messagetype.h>
 
-#include <dtOcean/actorregistry.h>
-#include <dtOcean/oceanactor.h>
+#ifdef BUILD_WITH_DTOCEAN
+# include <dtOcean/actorregistry.h>
+# include <dtOcean/oceanactor.h>
+#endif
 
 #include <osgDB/ReadFile>
 
@@ -77,6 +79,7 @@ std::vector<FloatingActor*> FloaterController::GetFloatingActors() const
 ///////////////////////////////////////////////////////////////////////////////
 dtOcean::OceanActor* FloaterController::GetOcean() const
 {
+#if BUILD_WITH_DTOCEAN
    //find any OceanActors;
    dtOcean::OceanActorProxy* oceanActorProxy(NULL);
 
@@ -86,6 +89,9 @@ dtOcean::OceanActor* FloaterController::GetOcean() const
 
    assert(oceanActor != NULL);
    return oceanActor;
+#else
+   return NULL;
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

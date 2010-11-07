@@ -27,6 +27,8 @@ FIND_PACKAGE(NetCore             REQUIRED)
 FIND_PACKAGE(DeltaNetworkAdapter REQUIRED)
 FIND_PACKAGE(BoatActors          REQUIRED)
 
+OPTION(BUILD_WITH_DTOCEAN "Enables building with dtOcean" ON)
+
 SET(SOURCE_PATH ${CMAKE_SOURCE_DIR}/src)
 SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 
@@ -73,19 +75,26 @@ SET(RESOURCE_FILES
 )
 
 ##################### INCLUDE DIRECTORIES ######################
-INCLUDE_DIRECTORIES(${HEADER_PATH}
+SET(DIRS_TO_INCLUDE ${HEADER_PATH}
                     ${DTABC_INCLUDE_DIRECTORIES}
                     ${DTACTORS_INCLUDE_DIRECTORIES}
                     ${DTCORE_INCLUDE_DIRECTORIES}
                     ${DTDAL_INCLUDE_DIRECTORIES}
                     ${DTUTIL_INCLUDE_DIRECTORIES}
                     ${DTGAME_INCLUDE_DIRECTORIES}
-                    ${DTOCEAN_INCLUDE_DIR}
                     ${OPENGL_INCLUDE_DIR}
                     ${BOATACTORS_INCLUDE_DIRECTORIES}
                     ${NETCORE_LIBRARIES}
                     ${DELTANETWORKADAPTER_LIBRARIES}
 )
+
+IF (BUILD_WITH_DTOCEAN)
+  SET(DIRS_TO_INCLUDE ${DIRS_TO_INCLUDE}
+                      ${DTOCEAN_INCLUDE_DIR}
+  )
+ENDIF (BUILD_WITH_DTOCEAN)
+
+INCLUDE_DIRECTORIES(${DIRS_TO_INCLUDE})
 
 ##################### EXECUTABLE BUILDING ######################
 
@@ -96,15 +105,26 @@ ADD_EXECUTABLE(${APP_NAME} ${APP_TYPE}
                ${HEADER_FILES}
 )
 
-TARGET_LINK_LIBRARIES(${APP_NAME} ${DTCORE_LIBRARIES}
-                                  ${DTABC_LIBRARIES}
-                                  ${DTACTORS_LIBRARIES}
-                                  ${DTDAL_LIBRARIES}
-                                  ${DTUTIL_LIBRARIES}
-                                  ${DTGAME_LIBRARIES}
-                                  ${DTAUDIO_LIBRARIES}
-                                  ${OPENGL_gl_LIBRARY}
-                                  ${NETCORE_LIBRARIES}
-                                  ${BOATACTORS_LIBRARIES}
-                                  ${DTOCEAN_LIBRARIES}
+SET(LIBS_TO_LINK ${DTCORE_LIBRARIES}
+                 ${DTABC_LIBRARIES}
+                 ${DTACTORS_LIBRARIES}
+                 ${DTDAL_LIBRARIES}
+                 ${DTUTIL_LIBRARIES}
+                 ${DTGAME_LIBRARIES}
+                 ${DTAUDIO_LIBRARIES}
+                 ${OPENGL_gl_LIBRARY}
+                 ${NETCORE_LIBRARIES}
+                 ${BOATACTORS_LIBRARIES}
 )
+IF (BUILD_WITH_DTOCEAN)
+  SET(LIBS_TO_LINK ${LIBS_TO_LINK}
+                   ${DTOCEAN_LIBRARIES}
+  )
+ENDIF (BUILD_WITH_DTOCEAN)
+
+TARGET_LINK_LIBRARIES(${APP_NAME} ${LIBS_TO_LINK}
+)
+
+IF (BUILD_WITH_DTOCEAN)
+  ADD_DEFINITIONS(-DBUILD_WITH_DTOCEAN)
+ENDIF (BUILD_WITH_DTOCEAN)

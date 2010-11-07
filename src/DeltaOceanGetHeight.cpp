@@ -1,8 +1,10 @@
 #include <DeltaOceanGetHeight.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-DeltaOceanGetHeight::DeltaOceanGetHeight(dtOcean::OceanActor& oceanActor):
-mOceanActor(&oceanActor)
+DeltaOceanGetHeight::DeltaOceanGetHeight(dtOcean::OceanActor& oceanActor)
+#if BUILD_WITH_DTOCEAN
+   : mOceanActor(&oceanActor)
+#endif
 {
 }
 
@@ -14,7 +16,11 @@ DeltaOceanGetHeight::~DeltaOceanGetHeight(void)
 ////////////////////////////////////////////////////////////////////////////////
 float DeltaOceanGetHeight::GetHeight(float x, float y)
 {
+#if BUILD_WITH_DTOCEAN
    return mOceanActor->GetOceanSurfaceHeightAt(x, y);
+#else
+   return 0.0f;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
