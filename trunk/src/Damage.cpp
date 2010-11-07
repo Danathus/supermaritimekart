@@ -1,64 +1,61 @@
-#include <Health.h>
-#include <dtUtil/mathdefines.h>
+#include <Damage.h>
 #include <limits>
 
 using namespace SMK;
 
 ////////////////////////////////////////////////////////////////////////////////
-SMK::Health::Health():
+Damage::Damage():
  mAmount(UCHAR_MAX)
-,mMax(UCHAR_MAX)
-{
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-Health::Health(HealthType health, HealthType maxHealth):
- mAmount(health)
-,mMax(maxHealth)
+,mDamageType(DAMAGE_IMPACT)
+,mLocation(0.f,0.f,0.f)
+,mRadius(1.f)
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void Health::SetHealth(HealthType val)
-{
-   mAmount = val;
-
-   dtUtil::Clamp(mAmount, HealthType(0), GetMax());
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-HealthType Health::GetHealth() const
+DamageAmountType Damage::GetAmount() const
 {
    return mAmount;
 }
- 
 
 ////////////////////////////////////////////////////////////////////////////////
-void Health::DecrementHealth(HealthType amount)
-{  
-   mAmount =- amount ;
-
-   dtUtil::ClampMin(mAmount, HealthType(0));
-}
-
-////////////////////////////////////////////////////////////////////////////////
-void Health::IncrementHealth(HealthType amount)
+void Damage::SetAmount(const DamageAmountType& val)
 {
-   mAmount += amount;
-   dtUtil::ClampMax(mAmount, GetMax());
+   mAmount = val;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-HealthType Health::GetMax() const
+osg::Vec3 Damage::GetLocation() const
 {
-   return mMax;
+   return mLocation;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void Health::SetMax(const HealthType& val)
+void Damage::SetLocation(const osg::Vec3& val)
 {
-   mMax = val;
+   mLocation = val;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+float Damage::GetRadius() const
+{
+   return mRadius;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void Damage::SetRadius(const float& val)
+{
+   mRadius = val;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+Damage::DamageType Damage::GetDamageType() const
+{
+   return mDamageType;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void Damage::SetDamageType(const Damage::DamageType& val)
+{
+   mDamageType = val;
+}

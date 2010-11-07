@@ -33,6 +33,7 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 ################### SOURCE FILES #####################
 SET(SOURCE_FILES
     ${SOURCE_PATH}/Armor.cpp
+    ${SOURCE_PATH}/Damage.cpp
     ${SOURCE_PATH}/SuperMaritimeKart.cpp
     ${SOURCE_PATH}/SuperMaritimeKartMessenger.cpp
     ${SOURCE_PATH}/BoatController.cpp
@@ -50,6 +51,7 @@ SET(SOURCE_FILES
 ################### HEADER FILES #####################
 SET(HEADER_FILES
     ${HEADER_PATH}/Armor.h
+    ${HEADER_PATH}/Damage.h
     ${HEADER_PATH}/SuperMaritimeKart.h
     ${HEADER_PATH}/SuperMaritimeKartMessenger.h
     ${HEADER_PATH}/BoatController.h
