@@ -3,8 +3,15 @@
 
 #include <BoatActors/IGetHeight.h>
 
-#include <dtOcean/oceanactor.h>
-#include <dtCore/refptr.h>
+# include <dtCore/refptr.h>
+#ifdef BUILD_WITH_DTOCEAN
+# include <dtOcean/oceanactor.h>
+#else
+namespace dtOcean
+{
+   class OceanActor;
+}
+#endif
 
 class DeltaOceanGetHeight : public IGetHeight
 {
@@ -17,8 +24,9 @@ protected:
    virtual ~DeltaOceanGetHeight(void);
 
 private:
+#if BUILD_WITH_DTOCEAN
    dtCore::RefPtr<dtOcean::OceanActor> mOceanActor;
-
+#endif
 };
 
 #endif // DeltaOceanGetHeight_h__

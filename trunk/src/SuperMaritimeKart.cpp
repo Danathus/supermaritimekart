@@ -9,8 +9,10 @@
 #include <dtGame/gamemanager.h>
 #include <dtUtil/exception.h>
 
-#include <dtOcean/oceanactor.h>
-#include <dtOcean/actorregistry.h>
+#ifdef BUILD_WITH_DTOCEAN
+# include <dtOcean/oceanactor.h>
+# include <dtOcean/actorregistry.h>
+#endif
 
 #include <BoatActors/FloatingActor.h>
 #include <BoatActors/ActorLibraryRegistry.h>
@@ -95,6 +97,7 @@ void SuperMaritimeKart::OnMapLoaded()
 ////////////////////////////////////////////////////////////////////////////////
 void SuperMaritimeKart::AttachOceanHeightToBoat()
 {
+#ifdef BUILD_WITH_DTOCEAN
    //find any OceanActors;
    dtOcean::OceanActorProxy* oceanActorProxy(NULL);
 
@@ -127,6 +130,7 @@ void SuperMaritimeKart::AttachOceanHeightToBoat()
 
    //   ++boatItr;
    //}
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
