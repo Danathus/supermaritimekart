@@ -14,13 +14,14 @@ namespace SMK
    public:
       enum ArmorType
       {      
-         ARMOR_IRON = 0,
-         ARMOR_STEEL,
-         ARMOR_ALUM,
-         ARMOR_TITANIUM
+         ARMOR_NONE = 0,
+         ARMOR_IRON,  ///<Heavy, easily damaged, abundant
+         ARMOR_STEEL, ///<mid-grade, general purpose
+         ARMOR_ALUM,  ///<lightweight, fairly resistant, rare
+         ARMOR_TITANIUM ///<super lightweight, very durable, very rare!
       };
 
-      Armor(ArmorType type=ARMOR_IRON);
+      Armor(ArmorType type=ARMOR_NONE);
       ~Armor();
 
       Armor::ArmorType GetArmorType() const;

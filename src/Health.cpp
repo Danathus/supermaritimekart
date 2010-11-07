@@ -26,6 +26,7 @@ void Health::SetHealth(HealthType val)
 
    dtUtil::Clamp(mAmount, HealthType(0), GetMax());
 
+   //TODO notify parent object?
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +42,7 @@ void Health::DecrementHealth(HealthType amount)
    mAmount =- amount ;
 
    dtUtil::ClampMin(mAmount, HealthType(0));
+   //TODO notify parent object?
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +50,7 @@ void Health::IncrementHealth(HealthType amount)
 {
    mAmount += amount;
    dtUtil::ClampMax(mAmount, GetMax());
+   //TODO notify parent object?
 }
 
 ////////////////////////////////////////////////////////////////////////////////
