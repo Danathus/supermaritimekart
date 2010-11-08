@@ -3,18 +3,17 @@ FIND_PATH(DTOCEAN_INCLUDE_DIR dtOcean/oceanactor.h
             include
           HINTS
             $ENV{DTOCEAN_ROOT}
-            ${CMAKE_SOURCE_DIR}/ext/
-          PATHS
             $ENV{ProgramFiles}/dtOcean/
+            ${CMAKE_SOURCE_DIR}/ext/
           DOC "The path to the folder containing dtOcean/oceanactor.h"
 )
 
 #where to find the dtOcean lib dir
 SET(DTOCEAN_LIB_SEARCH_PATH
     $ENV{DTOCEAN_ROOT}/build
+    $ENV{ProgramFiles}/dtOcean/
     ${CMAKE_SOURCE_DIR}/ext
     ${DTOCEAN_INCLUDE_DIR}/../build
-    $ENV{ProgramFiles}/dtOcean/
 )
 
 MACRO(FIND_DTOCEAN_LIBRARY LIB_VAR LIB_NAME)
