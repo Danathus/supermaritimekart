@@ -3,10 +3,16 @@
 #include <BoatController.h>
 #include <CameraController.h>
 #include <FloaterController.h>
+#include <NetConfig.h>
+#include <SMK_BeaconData.h>
+#include <GameFinder.h>
 
 #include <dtAudio/audiomanager.h>
+#include <dtCore/system.h>
 #include <dtCore/scene.h>
 #include <dtGame/gamemanager.h>
+#include <dtGame/defaultmessageprocessor.h>
+#include <dtGame/defaultnetworkpublishingcomponent.h>
 #include <dtUtil/exception.h>
 
 #ifdef BUILD_WITH_DTOCEAN
@@ -17,17 +23,27 @@
 #include <BoatActors/FloatingActor.h>
 #include <BoatActors/ActorLibraryRegistry.h>
 
+#include <NetCore/NetworkEngine.h>
+#include <DeltaNetworkAdapter/NetworkMessages.h>
+#include <DeltaNetworkAdapter/NetworkEngineComponent.h>
+
 #include <assert.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
-: Application(configFilename)
+   : Application(configFilename)
+   , mGameFinder(NULL)
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 SuperMaritimeKart::~SuperMaritimeKart()
 {
+   if (mGameFinder)
+   {
+      delete mGameFinder;
+      mGameFinder = NULL;
+   }
    dtAudio::AudioManager::Destroy();
 }
 
@@ -44,6 +60,7 @@ void SuperMaritimeKart::Config()
 
       mGameManager = new dtGame::GameManager(*GetScene());
       mGameManager->SetApplication(*this);
+      DeltaNetworkAdapter::NetworkMessageType::RegisterMessageTypes(*mGameManager);
 
       try
       {
@@ -60,6 +77,11 @@ void SuperMaritimeKart::Config()
          mGameManager->AddComponent(*cameraComponent);
          mGameManager->AddComponent(*floaterComponent);
 
+         mGameManager->AddComponent(*new dtGame::DefaultMessageProcessor(), dtGame::GameManager::ComponentPriority::HIGHEST);
+         mGameManager->AddComponent(*new dtGame::DefaultNetworkPublishingComponent());
+
+         mGameManager->AddComponent(*new NetworkEngineComponent());
+
          GetScene()->SetPhysicsStepSize(0.001);
          GetScene()->SetGravity(0.f, 0.f, -18.f);
       }
@@ -68,6 +90,32 @@ void SuperMaritimeKart::Config()
          e.LogException(dtUtil::Log::LOG_ERROR);
       }
    }
+
+   // read timeout property
+   {
+      std::string defaultValue;
+      {
+         std::stringstream strstrm;
+         strstrm << NetworkEngineComponent::GetDefaultNetworkTimeoutDuration();
+         defaultValue = strstrm.str();
+      }
+      float timeoutValue;
+      {
+         std::stringstream strstrm(GetConfigPropertyValue("NetTimeout", defaultValue));
+         strstrm >> timeoutValue;
+         printf(">>> Net timeout property read as %f\n", timeoutValue);
+      }
+      net::NetworkEngine::GetRef().GetMesh().SetTimeout(timeoutValue);
+      net::NetworkEngine::GetRef().GetNode().SetTimeout(timeoutValue);
+   }
+
+   dtCore::System::GetInstance().SetFrameRate(60.0);
+   dtCore::System::GetInstance().SetMaxTimeBetweenDraws(.1);
+   dtCore::System::GetInstance().SetUseFixedTimeStep(true);
+
+   mGameFinder = new GameFinder();
+   mGameFinder->Startup();
+   printf(">>> searching for games...\n");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,6 +128,35 @@ void SuperMaritimeKart::PreFrame(const double deltaFrameTime)
 void SuperMaritimeKart::PostFrame(const double deltaFrameTime)
 {
    dtABC::Application::PostFrame(deltaFrameTime);
+
+   if (mGameFinder->IsRunning())
+   {
+      // if we time out, stop listening and instead start hosting
+      static float timeout = 3.0f;
+      timeout -= deltaFrameTime;
+      if (timeout <= 0.0f)
+      {
+         printf(">>> game search timed out\n");
+         // stop scanning for new games to join
+         mGameFinder->Shutdown();
+         StartHosting();
+      }
+   }
+   if (mGameFinder->Update(deltaFrameTime))
+   {
+      // try to see if we can update
+      std::vector<std::string> gameList = mGameFinder->GenerateGameNameList();
+      if (gameList.size() > 0)
+      {
+         // let's get the first one
+         const GameFinder::GameDescription* selectedGame = mGameFinder->GetGame(gameList[0]);
+         assert(selectedGame);
+
+         // connect to the game
+         printf(">>> game found; joining...\n");
+         ConnectToServer(net::Address(selectedGame->mSenderAddress.GetAddress(), selectedGame->mPort));
+      }
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +168,62 @@ bool SuperMaritimeKart::KeyPressed(const dtCore::Keyboard* keyboard, int kc)
 ////////////////////////////////////////////////////////////////////////////////
 void SuperMaritimeKart::OnMapLoaded()
 {
+}
 
+////////////////////////////////////////////////////////////////////////////////
+void SuperMaritimeKart::StartHosting()
+{
+   // start hosting game
+   printf("hosting game on port %d\n", GAME_HOST_PORT);
+   net::NetworkEngine::GetRef().GetMesh().Start(GAME_HOST_PORT);
+
+   // let's connect to ourselves
+   {
+      printf("connecting to self...\n");
+      net::Address hostAddress(127,0,0,1, GAME_HOST_PORT);
+
+      // get our IP address on the network
+      hostAddress = net::Address(net::NetworkEngine::GetRef().GetAddressFromHostName(net::NetworkEngine::GetRef().GetHostName()).GetAddress(), GAME_HOST_PORT);
+
+      // begin to attempt connection
+      for (int port = GAME_PLAYER_0_PORT; !net::NetworkEngine::GetRef().GetNode().Start(port); ++port) { }
+      net::NetworkEngine::GetRef().GetNode().Connect(hostAddress);
+      // lets allow for extra big packets :P
+      net::NetworkEngine::GetRef().GetNode().SetMaxPacketSize(2048);
+      // wait until we're connected
+      while (!net::NetworkEngine::GetRef().GetNode().IsConnected())
+      {
+         net::NetworkEngine::GetRef().Update(0.001f);
+         // wait for a millisecond
+         OpenThreads::Thread::microSleep(1000);
+      }
+      printf("...connected!\n");
+   }
+
+   // ...and let's start advertising on the network
+   {
+      // put some extra info in the beacon packet
+      BeaconData* userData = new BeaconData();
+      if (userData)
+      {
+         userData->GetData().SetMapName(mGameManager->GetCurrentMap());
+      }
+
+      printf("advertising game via beacon on port %d (listen on port %d)\n", BEACON_SENDING_PORT, BEACON_LISTENER_PORT);
+      net::NetworkEngine::GetRef().StartAdvertising(net::NetworkEngine::GetRef().GetHostName(), APP_PROTOCOL_ID, BEACON_LISTENER_PORT, GAME_HOST_PORT, BEACON_SENDING_PORT, userData);
+   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SuperMaritimeKart::ConnectToServer(const net::Address& serverAddress)
+{
+   // stop scanning for new games to join
+   mGameFinder->Shutdown();
+
+   // connect to the selected game
+   net::NetworkEngine& netEngine = net::NetworkEngine::GetRef();
+   for (int port = GAME_PLAYER_0_PORT; !net::NetworkEngine::GetRef().GetNode().Start(port); ++port) { }
+   net::NetworkEngine::GetRef().GetNode().Connect(serverAddress);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

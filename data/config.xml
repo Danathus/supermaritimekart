@@ -6,5 +6,6 @@
 	<View Name="defaultView" CameraInstance="defaultCam" SceneInstance="defaultScene"/>
 	<Properties>
 		<Property Name = "Map">JustOcean</Property>
+		<Property Name="NetTimeout">45.0</Property>
 	</Properties>    
 </Application>
