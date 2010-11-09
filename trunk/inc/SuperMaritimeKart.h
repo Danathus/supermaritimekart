@@ -10,7 +10,13 @@ namespace dtGame
    class GameManager;
 }
 
+namespace net
+{
+   class Address;
+}
+
 class FloatingActor;
+class GameFinder;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -31,9 +37,12 @@ protected:
    virtual ~SuperMaritimeKart();
 
    void OnMapLoaded();
+   void StartHosting();
+   void ConnectToServer(const net::Address& serverAddress);
 
 private:
    dtCore::RefPtr<dtGame::GameManager> mGameManager;
+   GameFinder* mGameFinder;
 
    void AttachOceanHeightToBoat();
 

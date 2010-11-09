@@ -35,38 +35,43 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 ################### SOURCE FILES #####################
 SET(SOURCE_FILES
     ${SOURCE_PATH}/Armor.cpp
-    ${SOURCE_PATH}/Damage.cpp
-    ${SOURCE_PATH}/DamageAssessor.cpp
-    ${SOURCE_PATH}/SuperMaritimeKart.cpp
-    ${SOURCE_PATH}/SuperMaritimeKartMessenger.cpp
     ${SOURCE_PATH}/BoatController.cpp
     ${SOURCE_PATH}/BoatKeyboardListener.cpp
     ${SOURCE_PATH}/CameraController.cpp
     ${SOURCE_PATH}/CameraMouseListener.cpp
+    ${SOURCE_PATH}/Damage.cpp
+    ${SOURCE_PATH}/DamageAssessor.cpp
     ${SOURCE_PATH}/DeltaOceanGetHeight.cpp
     ${SOURCE_PATH}/FloaterController.cpp
-    ${SOURCE_PATH}/Health.cpp    
+    ${SOURCE_PATH}/GameFinder.cpp
     ${SOURCE_PATH}/GeometryUtils.cpp
-    ${SOURCE_PATH}/OceanWindowResize.cpp
+    ${SOURCE_PATH}/Health.cpp
     ${SOURCE_PATH}/main.cpp
+    ${SOURCE_PATH}/OceanWindowResize.cpp
+    ${SOURCE_PATH}/SMK_BeaconData.cpp
+    ${SOURCE_PATH}/SuperMaritimeKart.cpp
+    ${SOURCE_PATH}/SuperMaritimeKartMessenger.cpp
 )
 
 ################### HEADER FILES #####################
 SET(HEADER_FILES
     ${HEADER_PATH}/Armor.h
-    ${HEADER_PATH}/Damage.h
-    ${HEADER_PATH}/DamageAssessor.h
-    ${HEADER_PATH}/SuperMaritimeKart.h
-    ${HEADER_PATH}/SuperMaritimeKartMessenger.h
     ${HEADER_PATH}/BoatController.h
     ${HEADER_PATH}/BoatKeyboardListener.h
     ${HEADER_PATH}/CameraController.h
     ${HEADER_PATH}/CameraMouseListener.h
+    ${HEADER_PATH}/Damage.h
+    ${HEADER_PATH}/DamageAssessor.h
     ${HEADER_PATH}/DeltaOceanGetHeight.h
     ${HEADER_PATH}/FloaterController.h
-    ${HEADER_PATH}/Health.h 
-    ${HEADER_PATH}/OceanWindowResize.h
+    ${HEADER_PATH}/GameFinder.h
     ${HEADER_PATH}/GeometryUtils.h
+    ${HEADER_PATH}/Health.h 
+    ${HEADER_PATH}/NetConfig.h
+    ${HEADER_PATH}/OceanWindowResize.h
+    ${HEADER_PATH}/SMK_BeaconData.h
+    ${HEADER_PATH}/SuperMaritimeKart.h
+    ${HEADER_PATH}/SuperMaritimeKartMessenger.h
 )
 
 ###################### RESOURCE FILES ######################
@@ -84,8 +89,6 @@ SET(DIRS_TO_INCLUDE ${HEADER_PATH}
                     ${DTGAME_INCLUDE_DIRECTORIES}
                     ${OPENGL_INCLUDE_DIR}
                     ${BOATACTORS_INCLUDE_DIRECTORIES}
-                    ${NETCORE_LIBRARIES}
-                    ${DELTANETWORKADAPTER_LIBRARIES}
 )
 
 IF (BUILD_WITH_DTOCEAN)
@@ -114,6 +117,7 @@ SET(LIBS_TO_LINK ${DTCORE_LIBRARIES}
                  ${DTAUDIO_LIBRARIES}
                  ${OPENGL_gl_LIBRARY}
                  ${NETCORE_LIBRARIES}
+                 ${DELTANETWORKADAPTER_LIBRARIES}
                  ${BOATACTORS_LIBRARIES}
 )
 IF (BUILD_WITH_DTOCEAN)
