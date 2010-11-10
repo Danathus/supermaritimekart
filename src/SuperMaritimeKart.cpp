@@ -6,10 +6,12 @@
 #include <NetConfig.h>
 #include <SMK_BeaconData.h>
 #include <GameFinder.h>
+#include <ScenarioComponent.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/system.h>
 #include <dtCore/scene.h>
+#include <dtCore/deltawin.h>
 #include <dtGame/gamemanager.h>
 #include <dtGame/defaultmessageprocessor.h>
 #include <dtGame/defaultnetworkpublishingcomponent.h>
@@ -25,7 +27,7 @@
 
 #include <NetCore/NetworkEngine.h>
 #include <DeltaNetworkAdapter/NetworkMessages.h>
-#include <DeltaNetworkAdapter/NetworkEngineComponent.h>
+#include <SMK_NetworkComponent.h>
 
 #include <assert.h>
 
@@ -34,6 +36,10 @@ SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
    : Application(configFilename)
    , mGameFinder(NULL)
 {
+   // make sure the network engine gets started up early
+   net::NetworkEngine::GetRef();
+   // lets allow for extra big packets :P
+   net::NetworkEngine::GetRef().GetNode().SetMaxPacketSize(2048);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,12 +50,27 @@ SuperMaritimeKart::~SuperMaritimeKart()
       delete mGameFinder;
       mGameFinder = NULL;
    }
+
+   if (net::NetworkEngine::GetRef().GetNode().IsConnected())
+   {
+      printf("halting advertising of game\n");
+      net::NetworkEngine::GetRef().StopAdvertising();
+
+      printf("terminating self connection to game\n");
+      net::NetworkEngine::GetRef().GetNode().Stop();
+
+      printf("terminating hosting of game\n");
+      net::NetworkEngine::GetRef().GetMesh().Stop();
+   }
+
    dtAudio::AudioManager::Destroy();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void SuperMaritimeKart::Config()
 {
+   GetWindow()->SetWindowTitle("Super Maritime Kart");
+
    // This isn't equipped to be called a 2nd time
    if (mGameManager->GetProjectContext().empty())
    {
@@ -80,7 +101,8 @@ void SuperMaritimeKart::Config()
          mGameManager->AddComponent(*new dtGame::DefaultMessageProcessor(), dtGame::GameManager::ComponentPriority::HIGHEST);
          mGameManager->AddComponent(*new dtGame::DefaultNetworkPublishingComponent());
 
-         mGameManager->AddComponent(*new NetworkEngineComponent());
+         mGameManager->AddComponent(*new SMK_NetworkComponent());
+         mGameManager->AddComponent(*new ScenarioComponent());
 
          GetScene()->SetPhysicsStepSize(0.001);
          GetScene()->SetGravity(0.f, 0.f, -18.f);
@@ -188,8 +210,6 @@ void SuperMaritimeKart::StartHosting()
       // begin to attempt connection
       for (int port = GAME_PLAYER_0_PORT; !net::NetworkEngine::GetRef().GetNode().Start(port); ++port) { }
       net::NetworkEngine::GetRef().GetNode().Connect(hostAddress);
-      // lets allow for extra big packets :P
-      net::NetworkEngine::GetRef().GetNode().SetMaxPacketSize(2048);
       // wait until we're connected
       while (!net::NetworkEngine::GetRef().GetNode().IsConnected())
       {
