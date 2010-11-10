@@ -24,7 +24,7 @@ namespace DeltaNetworkAdapter
 class DELTANETWORKADAPTER_LIBRARY_EXPORT NetworkEngineComponent : public dtGame::GMComponent
 {
 public:
-   static const float kDefaultNetworkTimeoutDuration;
+   static float GetDefaultNetworkTimeoutDuration(); // in seconds
 
    enum DestinationType
    {
