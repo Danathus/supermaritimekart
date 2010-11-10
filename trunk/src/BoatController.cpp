@@ -12,6 +12,7 @@
 #include <dtCore/keyboard.h>
 #include <dtCore/transform.h>
 #include <dtGame/messagetype.h>
+#include <dtGame/basemessages.h>
 
 #ifdef BUILD_WITH_DTOCEAN
 # include <dtOcean/actorregistry.h>
@@ -59,6 +60,27 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
       {
          mpOceanResizer->SetOceanActor(NULL);
          CleanupControlledBoat();
+      }
+   }
+   else if (message.GetMessageType() == dtGame::MessageType::TICK_LOCAL)
+   {
+      if (mpBoat)
+      {
+         const dtGame::TickMessage& tickMsg = static_cast<const dtGame::TickMessage&>(message);
+
+         static float delay = 0.0f;
+         static const float kPeriod = 0.1f;
+         delay += tickMsg.GetDeltaSimTime();
+
+         if (delay > kPeriod)
+         {
+            // todo: uncomment when ready
+            // ...for now it just generates tons of spam :P
+            //mpBoat->GetGameActorProxy().NotifyPartialActorUpdate();
+            delay -= kPeriod;
+         }
+
+         //mpBoat->GetGameActorProxy().NotifyFullActorUpdate();
       }
    }
 

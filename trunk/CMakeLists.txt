@@ -47,8 +47,11 @@ SET(SOURCE_FILES
     ${SOURCE_PATH}/GeometryUtils.cpp
     ${SOURCE_PATH}/Health.cpp
     ${SOURCE_PATH}/main.cpp
+    ${SOURCE_PATH}/NetworkBuddy.cpp
     ${SOURCE_PATH}/OceanWindowResize.cpp
+    ${SOURCE_PATH}/ScenarioComponent.cpp
     ${SOURCE_PATH}/SMK_BeaconData.cpp
+    ${SOURCE_PATH}/SMK_NetworkComponent.cpp
     ${SOURCE_PATH}/SuperMaritimeKart.cpp
     ${SOURCE_PATH}/SuperMaritimeKartMessenger.cpp
 )
@@ -68,8 +71,11 @@ SET(HEADER_FILES
     ${HEADER_PATH}/GeometryUtils.h
     ${HEADER_PATH}/Health.h 
     ${HEADER_PATH}/NetConfig.h
+    ${HEADER_PATH}/NetworkBuddy.h
     ${HEADER_PATH}/OceanWindowResize.h
+    ${HEADER_PATH}/ScenarioComponent.h
     ${HEADER_PATH}/SMK_BeaconData.h
+    ${HEADER_PATH}/SMK_NetworkComponent.h
     ${HEADER_PATH}/SuperMaritimeKart.h
     ${HEADER_PATH}/SuperMaritimeKartMessenger.h
 )
