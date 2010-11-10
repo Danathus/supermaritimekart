@@ -61,6 +61,12 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
          CleanupControlledBoat();
       }
    }
+
+   //todo Something like this.  Should create a message, filled with properties
+   //and blast it on the network.  Probably don't want to do this *every* frame
+   //with all the properties...
+   //else if message.GetMessageType() == ON_TICK_LOCAL...
+   //mpBoat->NotifyFullActorUpdate();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
