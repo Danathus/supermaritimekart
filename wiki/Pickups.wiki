@@ -28,5 +28,8 @@ Vessel:
   * ...
 
 
-Thinking a Pickup-able is a fairly simple class with a few properties:
-[pickup Page 2.jpeg]
+A Pickup-able is a fairly simple class with a few properties:
+-Position
+-Collision volume
+-Type
+-Image (to be applied to the actual geometry sides
