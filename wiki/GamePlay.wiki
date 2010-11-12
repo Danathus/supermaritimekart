@@ -15,6 +15,8 @@ There is no timed event, all players start in the "kiddie pool" where weapons ar
 
 You play until you die, when you respawn in the kiddie pool.
 
+Around the level, players will see Pickup-able items.  These items can be Health, weapons, armor, or other boat enhancing mayhem.  When the boat collides with these items, they get added to the boat's inventory.  E.g., if the boat runs into a Machine Gun item, a machine gun geometry gets added to the boat.  Now the player can fire the MG and cause quite a ruckus.  Yes, that's right.  A ruckus.
+
 == Environment ==
   * Falling/rising tide. Can affect where the player can get to.  Can be trapped by falling tide, or crushed in a tunned by rising tide
   * Player triggered traps
