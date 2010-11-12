@@ -18,7 +18,7 @@
 
 #include <NetCore/NetworkEngine.h>
 
-#include <SharedActors/ActorLibraryMessages.h>
+//#include <SharedActors/ActorLibraryMessages.h>
 
 #include <dtCore/system.h>
 #include <dtGame/actorupdatemessage.h>

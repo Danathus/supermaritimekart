@@ -4,7 +4,7 @@ Visual Studio 2008
 
 dtOcean r2753
 osgOcean r218 (using OSG 2.8.3)
-SharedCode r1493
+SharedCode r1500
   -BoatActors
   -DeltaNetworkAdapter
   -NetCore

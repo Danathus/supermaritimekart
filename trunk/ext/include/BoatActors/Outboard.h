@@ -19,6 +19,11 @@ namespace dtDAL
    class BaseActorObject;
 }
 
+namespace dtUtil
+{
+   class RefString;
+}
+
 class IGetHeight;
 
 ///Represents an outboard motor.  Will move the supplied Physical
@@ -45,6 +50,8 @@ public:
    * Builds the property map for STAGE
    */
    void BuildPropertyMap(dtDAL::BaseActorObject* actorProxy);
+
+   void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
 
    /**
    * Activates thrust in either forward or reverse.
