@@ -26,3 +26,7 @@ Vessel:
   * health
   * turbo/nitro
   * ...
+
+
+Thinking a Pickup-able is a fairly simple class with a few properties:
+[pickup Page 2.jpeg]
