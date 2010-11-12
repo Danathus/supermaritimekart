@@ -1,6 +1,7 @@
 #ifndef BoatEffects_h__
 #define BoatEffects_h__
 
+#include <vector>
 #include <osg/Referenced>
 #include <dtCore/refptr.h>
 
@@ -27,6 +28,11 @@ namespace dtAudio
    class Sound;
 }
 
+namespace dtUtil
+{
+   class RefString;
+}
+
 ///Class used to contain all the visual/audio effects related to the boat
 class BoatEffects : public osg::Referenced
 {
@@ -39,6 +45,8 @@ public:
    * Builds the property map for STAGE
    */
    void BuildPropertyMap(dtDAL::BaseActorObject* actorProxy);
+
+   void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
 
    void Update();
 

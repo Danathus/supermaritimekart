@@ -133,6 +133,7 @@ public:
    */
    virtual void OnRemovedFromWorld();
 
+   virtual void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
 
 protected:
 
