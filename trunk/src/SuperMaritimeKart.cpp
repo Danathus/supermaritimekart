@@ -7,6 +7,7 @@
 #include <SMK_BeaconData.h>
 #include <GameFinder.h>
 #include <ScenarioComponent.h>
+#include <NetworkBuddy.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/system.h>
@@ -86,7 +87,7 @@ void SuperMaritimeKart::Config()
       try
       {
          mGameManager->SetProjectContext("./data", true);
-         mGameManager->ChangeMap(GetConfigPropertyValue("Map", "JustOcean"));
+         //mGameManager->ChangeMap(GetConfigPropertyValue("Map", "JustOcean"));
 
          SuperMaritimeKartMessenger* appComponent = new SuperMaritimeKartMessenger(*this);
          BoatController* boatComponent = new BoatController(*GetWindow(), *GetKeyboard());
@@ -190,6 +191,19 @@ bool SuperMaritimeKart::KeyPressed(const dtCore::Keyboard* keyboard, int kc)
 ////////////////////////////////////////////////////////////////////////////////
 void SuperMaritimeKart::OnMapLoaded()
 {
+   // ...and let's start advertising on the network
+   if (NetworkBuddy::GetRef().IsServer())
+   {
+      // put some extra info in the beacon packet
+      BeaconData* userData = new BeaconData();
+      if (userData)
+      {
+         userData->GetData().SetMapName(mGameManager->GetCurrentMap());
+      }
+
+      printf("advertising game via beacon on port %d (listen on port %d)\n", BEACON_SENDING_PORT, BEACON_LISTENER_PORT);
+      net::NetworkEngine::GetRef().StartAdvertising(net::NetworkEngine::GetRef().GetHostName(), APP_PROTOCOL_ID, BEACON_LISTENER_PORT, GAME_HOST_PORT, BEACON_SENDING_PORT, userData);
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -220,18 +234,7 @@ void SuperMaritimeKart::StartHosting()
       printf("...connected!\n");
    }
 
-   // ...and let's start advertising on the network
-   {
-      // put some extra info in the beacon packet
-      BeaconData* userData = new BeaconData();
-      if (userData)
-      {
-         userData->GetData().SetMapName(mGameManager->GetCurrentMap());
-      }
-
-      printf("advertising game via beacon on port %d (listen on port %d)\n", BEACON_SENDING_PORT, BEACON_LISTENER_PORT);
-      net::NetworkEngine::GetRef().StartAdvertising(net::NetworkEngine::GetRef().GetHostName(), APP_PROTOCOL_ID, BEACON_LISTENER_PORT, GAME_HOST_PORT, BEACON_SENDING_PORT, userData);
-   }
+   mGameManager->ChangeMap(GetConfigPropertyValue("Map", "JustOcean"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
