@@ -29,7 +29,10 @@ Vessel:
 
 
 A Pickup-able is a fairly simple class with a few properties:
--Position
--Collision volume
--Type
--Image (to be applied to the actual geometry sides
+  * Position
+  * Collision volume
+  * Type
+  * Image (to be applied to the actual geometry sides
+  * Mesh (to be added to the boat)
+
+When the boat collides with the Pickup-able, it's type is queried.  If the boat has a matching slot for that Pickup Type, then the Mesh is loaded and added as a child to the BoatActor's node for that Pickup Type.  If something is already in that slot, then perhaps it gets swapped out for the new Picked up item?
