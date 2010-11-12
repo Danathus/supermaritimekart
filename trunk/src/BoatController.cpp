@@ -2,8 +2,8 @@
 #include <BoatKeyboardListener.h>
 #include <DeltaOceanGetHeight.h>
 #include <OceanWindowResize.h>
+#include <SMKActorLibraryRegistry.h>
 
-#include <BoatActors/ActorLibraryRegistry.h>
 #include <BoatActors/BoatActor.h>
 
 #include <dtActors/engineactorregistry.h>
@@ -95,7 +95,7 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
 BoatActor* BoatController::CreateBoatToControl()
 {
    std::vector<dtDAL::ActorProxy*> boatPrototypes;
-   GetGameManager()->FindPrototypesByActorType(*BoatActorsLibraryRegistry::BOAT_ACTOR_TYPE, boatPrototypes);
+   GetGameManager()->FindPrototypesByActorType(*SMKActorLibraryRegistry::SMK_BOAT_ACTOR_TYPE, boatPrototypes);
    if (!boatPrototypes.empty())
    {
       dtCore::RefPtr<dtGame::GameActorProxy> boatActor;

@@ -1,2 +1,2 @@
-.\build\RelWithDebInfo\SuperMaritimeKart.exe
+.\bin\SuperMaritimeKart.exe
 pause
