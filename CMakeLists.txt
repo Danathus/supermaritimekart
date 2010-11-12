@@ -11,6 +11,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMakeModules
                       ${CMAKE_MODULE_PATH})
                       
 SET(APP_NAME SuperMaritimeKart) # USE_FUN
+SET(ACTOR_LIB_NAME SMKActors)
 
 PROJECT(${APP_NAME})
 
@@ -33,7 +34,14 @@ SET(SOURCE_PATH ${CMAKE_SOURCE_DIR}/src)
 SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 
 ################### SOURCE FILES #####################
-SET(SOURCE_FILES
+SET(ACTOR_SOURCE_FILES
+    ${SOURCE_PATH}/DOFDrawable.cpp
+    ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
+    ${SOURCE_PATH}/SMKBoatActor.cpp
+    ${SOURCE_PATH}/Weapon.cpp
+)
+    
+SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/Armor.cpp
     ${SOURCE_PATH}/BoatController.cpp
     ${SOURCE_PATH}/BoatKeyboardListener.cpp
@@ -57,7 +65,15 @@ SET(SOURCE_FILES
 )
 
 ################### HEADER FILES #####################
-SET(HEADER_FILES
+SET(ACTOR_HEADER_FILES
+    ${HEADER_PATH}/DOFDrawable.h
+    ${HEADER_PATH}/SMKActorExport.h
+    ${HEADER_PATH}/SMKActorLibraryRegistry.h
+    ${HEADER_PATH}/SMKBoatActor.h
+    ${HEADER_PATH}/Weapon.h
+)
+
+SET(APP_HEADER_FILES
     ${HEADER_PATH}/Armor.h
     ${HEADER_PATH}/BoatController.h
     ${HEADER_PATH}/BoatKeyboardListener.h
@@ -81,7 +97,7 @@ SET(HEADER_FILES
 )
 
 ###################### RESOURCE FILES ######################
-SET(RESOURCE_FILES
+SET(REAPP_SOURCE_FILES
  	${CMAKE_SOURCE_DIR}/SMK.rc
 )
 
@@ -105,13 +121,37 @@ ENDIF (BUILD_WITH_DTOCEAN)
 
 INCLUDE_DIRECTORIES(${DIRS_TO_INCLUDE})
 
+##################### ACTOR LIBRARY BUILDING ######################
+
+ADD_LIBRARY(${ACTOR_LIB_NAME} SHARED
+            ${ACTOR_SOURCE_FILES}
+            ${ACTOR_HEADER_FILES}
+)
+
+# little hack to get the .dll into /bin and .lib into /lib
+IF (MSVC)
+  SET_TARGET_PROPERTIES(${ACTOR_LIB_NAME} PROPERTIES PREFIX "../../bin/")
+  SET_TARGET_PROPERTIES(${ACTOR_LIB_NAME} PROPERTIES IMPORT_PREFIX "../../lib/")
+ENDIF (MSVC)
+
+TARGET_LINK_LIBRARIES(${ACTOR_LIB_NAME}
+                      ${DTACTORS_LIBRARIES}
+                      ${DTCORE_LIBRARIES}
+                      ${DTDAL_LIBRARIES}
+                      ${DTGAME_LIBRARIES}
+                      ${DTUTIL_LIBRARIES}
+                      ${BOATACTORS_LIBRARIES}
+)
+
+SET_TARGET_PROPERTIES(${ACTOR_LIB_NAME} PROPERTIES DEFINE_SYMBOL SMKACTOR_EXPORTS)
+
 ##################### EXECUTABLE BUILDING ######################
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 
 ADD_EXECUTABLE(${APP_NAME} ${APP_TYPE}
-               ${SOURCE_FILES}
-               ${HEADER_FILES}
+               ${APP_SOURCE_FILES}
+               ${APP_HEADER_FILES}
 )
 
 SET(LIBS_TO_LINK ${DTCORE_LIBRARIES}
@@ -125,6 +165,7 @@ SET(LIBS_TO_LINK ${DTCORE_LIBRARIES}
                  ${NETCORE_LIBRARIES}
                  ${DELTANETWORKADAPTER_LIBRARIES}
                  ${BOATACTORS_LIBRARIES}
+				 ${ACTOR_LIB_NAME}
 )
 IF (BUILD_WITH_DTOCEAN)
   SET(LIBS_TO_LINK ${LIBS_TO_LINK}
@@ -138,3 +179,9 @@ TARGET_LINK_LIBRARIES(${APP_NAME} ${LIBS_TO_LINK}
 IF (BUILD_WITH_DTOCEAN)
   ADD_DEFINITIONS(-DBUILD_WITH_DTOCEAN)
 ENDIF (BUILD_WITH_DTOCEAN)
+
+# little hack to get the .dll into /bin and .lib into /lib
+IF (MSVC)
+  SET_TARGET_PROPERTIES(${APP_NAME} PROPERTIES PREFIX "../../bin/")
+  SET_TARGET_PROPERTIES(${APP_NAME} PROPERTIES IMPORT_PREFIX "../../lib/")
+ENDIF (MSVC)

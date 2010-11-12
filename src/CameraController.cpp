@@ -1,14 +1,15 @@
 #include <CameraController.h>
 #include <CameraMouseListener.h>
+#include <SMKActorLibraryRegistry.h>
+
+#include <BoatActors/BoatActor.h>
+
+#include <dtCore/camera.h>
+#include <dtCore/orbitmotionmodel.h>
 #include <dtCore/transform.h>
 #include <dtGame/basemessages.h>
 #include <dtGame/messagetype.h>
-#include <dtCore/camera.h>
-#include <dtCore/orbitmotionmodel.h>
 #include <dtUtil/matrixutil.h>
-
-#include <BoatActors/BoatActor.h>
-#include <BoatActors/ActorLibraryRegistry.h>
 
 #include <iostream>
 #include <cassert>
@@ -65,7 +66,7 @@ void CameraController::ProcessMessage(const dtGame::Message& message)
 BoatActor* CameraController::GetBoatToControl() const
 {
    dtDAL::ActorProxy* boatActor;
-   GetGameManager()->FindActorByType(*BoatActorsLibraryRegistry::BOAT_ACTOR_TYPE, boatActor);
+   GetGameManager()->FindActorByType(*SMKActorLibraryRegistry::SMK_BOAT_ACTOR_TYPE, boatActor);
    if (boatActor)
    {
       return dynamic_cast<BoatActor*>(boatActor->GetActor());
