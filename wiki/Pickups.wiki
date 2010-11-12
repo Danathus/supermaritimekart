@@ -27,12 +27,17 @@ Vessel:
   * turbo/nitro
   * ...
 
-
-A Pickup-able is a fairly simple class with a few properties:
+==Pickupable Item==
+A Pickupable is a fairly simple class with a few properties:
   * Position
   * Collision volume
-  * Type
-  * Image (to be applied to the actual geometry sides
-  * Mesh (to be added to the boat)
+  * Type (string?)
+  * Image (to be applied to the actual geometry sides)
 
-When the boat collides with the Pickup-able, it's type is queried.  If the boat has a matching slot for that Pickup Type, then the Mesh is loaded and added as a child to the BoatActor's node for that Pickup Type.  If something is already in that slot, then perhaps it gets swapped out for the new Picked up item?
+When the boat collides (using a custom collision detection) with the Pickup-able, it's type is queried.  If the boat has a matching slot for that Pickup Type, then the WeaponFactory is used to create the actual, concrete weapon.  The returned weapon's mesh node can then be added to the corresponding place on the boat mesh.
+
+==Weapon Factory==
+A singleton (?) that knows how to create all the individual concrete weapons (maybe through a registration process).  When supplied with the weapon type (string?), then it will instantiate the actual weapon class and return it.
+
+==Weapon==
+Each weapon derives from a base class and it configured via a weapon-specific config file.  The ascii config file will define the characteristics of the weapon.  At a minimum, the mesh, the damage amount, and the type (bow turret, rear dropper, etc).
