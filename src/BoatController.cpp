@@ -25,10 +25,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard)
-: dtGame::GMComponent("BoatController")
-, mpKeyboardListener(new BoatKeyboardListener())
-, mpKeyboardToListenTo(&keyboard)
-, mpOceanResizer(new OceanWindowResize())
+   : dtGame::GMComponent("BoatController")
+   , mpKeyboardListener(new BoatKeyboardListener())
+   , mpKeyboardToListenTo(&keyboard)
+   , mpOceanResizer(new OceanWindowResize())
 {
    win.AddResizeCallback(*mpOceanResizer);
 }
@@ -74,10 +74,9 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
 
          if (delay > kPeriod)
          {
-            // todo: uncomment when ready
-            // ...for now it just generates tons of spam :P
-            //mpBoat->GetGameActorProxy().NotifyPartialActorUpdate();
+            mpBoat->GetGameActorProxy().NotifyPartialActorUpdate();
             delay -= kPeriod;
+            mpBoat->EnableDynamics(true);
          }
 
          //mpBoat->GetGameActorProxy().NotifyFullActorUpdate();
@@ -155,7 +154,7 @@ void BoatController::SetupControlledBoat(dtOcean::OceanActor* ocean)
 
    // Setup Boat to float
    mpBoat->SetGetHeight(new DeltaOceanGetHeight(*ocean));
-   mpBoat->EnableDynamics(true);
+   mpBoat->EnableDynamics(false);
 
    const std::string altCollisionMeshFilename = mpBoat->GetAlternateCollisionMesh();
    if (!altCollisionMeshFilename.empty())
