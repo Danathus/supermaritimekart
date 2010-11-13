@@ -22,8 +22,8 @@ extern "C" SMK_ACTOR_EXPORT void DestroyPluginRegistry(dtDAL::ActorPluginRegistr
 }
 
 //////////////////////////////////////////////////////////////////////////
-SMKActorLibraryRegistry::SMKActorLibraryRegistry() 
-: dtDAL::ActorPluginRegistry("Actors used across Delta3D based projects.")
+SMKActorLibraryRegistry::SMKActorLibraryRegistry()
+   : dtDAL::ActorPluginRegistry("Actors used across Delta3D based projects.")
 {
 }
 
