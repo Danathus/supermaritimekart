@@ -135,6 +135,8 @@ public:
 
    virtual void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
 
+   void RemoveProperty(const std::string& nameToRemove);
+
 protected:
 
    // Destructor
