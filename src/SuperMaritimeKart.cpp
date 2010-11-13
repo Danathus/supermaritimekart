@@ -82,7 +82,9 @@ void SuperMaritimeKart::Config()
 
       mGameManager = new dtGame::GameManager(*GetScene());
       mGameManager->SetApplication(*this);
-      DeltaNetworkAdapter::NetworkMessageType::RegisterMessageTypes(*mGameManager);
+      
+      //don't need to do this anymore; it happens automatically.
+      //DeltaNetworkAdapter::NetworkMessageType::RegisterMessageTypes(*mGameManager);
 
       try
       {
