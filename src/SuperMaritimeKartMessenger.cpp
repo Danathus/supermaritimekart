@@ -11,8 +11,8 @@ using namespace dtABC;
 
 ////////////////////////////////////////////////////////////////////////////////
 SuperMaritimeKartMessenger::SuperMaritimeKartMessenger(SuperMaritimeKart& application)
-: dtGame::GMComponent("SuperMaritimeKartComponent")
-, mApplication(&application)
+   : dtGame::GMComponent("SuperMaritimeKartComponent")
+   , mApplication(&application)
 {
 }
 
@@ -31,4 +31,3 @@ void SuperMaritimeKartMessenger::ProcessMessage(const dtGame::Message& message)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-

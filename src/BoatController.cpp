@@ -74,9 +74,13 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
 
          if (delay > kPeriod)
          {
-            mpBoat->GetGameActorProxy().NotifyPartialActorUpdate();
+            //mpBoat->GetGameActorProxy().NotifyPartialActorUpdate();
+            mpBoat->GetGameActorProxy().NotifyFullActorUpdate();
             delay -= kPeriod;
-            mpBoat->EnableDynamics(true);
+            if (!mpBoat->DynamicsEnabled())
+            {
+               mpBoat->EnableDynamics(true);
+            }
          }
 
          //mpBoat->GetGameActorProxy().NotifyFullActorUpdate();
@@ -97,8 +101,9 @@ BoatActor* BoatController::CreateBoatToControl()
    GetGameManager()->FindPrototypesByActorType(*SMKActorLibraryRegistry::SMK_BOAT_ACTOR_TYPE, boatPrototypes);
    if (!boatPrototypes.empty())
    {
-      dtCore::RefPtr<dtGame::GameActorProxy> boatActor;
+      dtCore::RefPtr<BoatActorProxy> boatActor;
       GetGameManager()->CreateActorFromPrototype(boatPrototypes[0]->GetActor()->GetUniqueId(), boatActor);
+      boatActor->RemoveProperty("Enable Dynamics"); // "ODE Enable Dynamics"
       if (boatActor.valid())
       {
          GetGameManager()->AddActor(*boatActor, false, true);
