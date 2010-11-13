@@ -40,6 +40,7 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 ################### SOURCE FILES #####################
 SET(ACTOR_SOURCE_FILES
     ${SOURCE_PATH}/DOFDrawable.cpp
+    ${SOURCE_PATH}/PickUpItemHandle.cpp
     ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
     ${SOURCE_PATH}/SMKBoatActor.cpp
     ${SOURCE_PATH}/Weapon.cpp
@@ -71,6 +72,7 @@ SET(APP_SOURCE_FILES
 ################### HEADER FILES #####################
 SET(ACTOR_HEADER_FILES
     ${HEADER_PATH}/DOFDrawable.h
+    ${HEADER_PATH}/PickUpItemHandle.h
     ${HEADER_PATH}/SMKActorExport.h
     ${HEADER_PATH}/SMKActorLibraryRegistry.h
     ${HEADER_PATH}/SMKBoatActor.h
