@@ -14,6 +14,7 @@ class SMK_ACTOR_EXPORT SMKActorLibraryRegistry : public dtDAL::ActorPluginRegist
 {
 public:
    static dtCore::RefPtr<dtDAL::ActorType> SMK_BOAT_ACTOR_TYPE;
+   static dtCore::RefPtr<dtDAL::ActorType> SMK_PICKUP_ACTOR_TYPE;
 
    /// Constructor
    SMKActorLibraryRegistry();

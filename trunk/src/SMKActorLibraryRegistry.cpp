@@ -4,10 +4,12 @@
 #include <dtDAL/actortype.h>
 
 #include <SMKBoatActor.h>
+#include <PickUpItemHandle.h>
 
 using dtCore::RefPtr;
 
 RefPtr<dtDAL::ActorType> SMKActorLibraryRegistry::SMK_BOAT_ACTOR_TYPE(new dtDAL::ActorType("SMKBoatActor", "SuperMaritimeKart"));
+RefPtr<dtDAL::ActorType> SMKActorLibraryRegistry::SMK_PICKUP_ACTOR_TYPE(new dtDAL::ActorType("SMKPickUp", "SuperMaritimeKart"));
 
 //////////////////////////////////////////////////////////////////////////
 extern "C" SMK_ACTOR_EXPORT dtDAL::ActorPluginRegistry* CreatePluginRegistry()
@@ -31,6 +33,7 @@ SMKActorLibraryRegistry::SMKActorLibraryRegistry()
 void SMKActorLibraryRegistry::RegisterActorTypes()
 {
    mActorFactory->RegisterType<SMKBoatActorProxy>(SMK_BOAT_ACTOR_TYPE.get());
+   mActorFactory->RegisterType<SMK::PickUpItemBaseProxy>(SMK_PICKUP_ACTOR_TYPE.get());
 }
 
 //////////////////////////////////////////////////////////////////////////
