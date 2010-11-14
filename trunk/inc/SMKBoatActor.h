@@ -25,6 +25,12 @@ public:
    Weapon* GetFrontWeapon();
    const Weapon* GetFrontWeapon() const;
 
+   /**
+   * Get the back weapon.
+   */
+   Weapon* GetBackWeapon();
+   const Weapon* GetBackWeapon() const;
+
    /** 
    * Inherited from FloatingActor.  Called when this actor is about to be nuked.
    */
@@ -44,6 +50,7 @@ protected:
 
 private:
    dtCore::RefPtr<Weapon> mpFrontWeapon;
+   dtCore::RefPtr<Weapon> mpBackWeapon;
 };
 
 class SMKBoatActorProxy : public BoatActorProxy
