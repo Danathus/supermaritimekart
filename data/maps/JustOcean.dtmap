@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <map xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="delta3dMap" xsi:schemaLocation="delta3dMap map.xsd">
     <header>
         <name>JustOcean</name>
@@ -8,7 +7,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-22T19:23:23-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-11T18:20:49-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-13T17:46:47-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -747,12 +746,28 @@
                 <boolean>false</boolean>
             </property>
             <property>
-                <name>WeaponPosition</name>
+                <name>Front WeaponPosition</name>
                 <vec3>
                     <value1>0.000000</value1>
-                    <value2>0.000000</value2>
-                    <value3>0.000000</value3>
+                    <value2>-1.000000</value2>
+                    <value3>3.000000</value3>
                 </vec3>
+            </property>
+            <property>
+                <name>Front WeaponDefaultWeapon</name>
+                <string>Weapon</string>
+            </property>
+            <property>
+                <name>Back WeaponPosition</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>-5.000000</value2>
+                    <value3>0.500000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Back WeaponDefaultWeapon</name>
+                <string>Weapon</string>
             </property>
             <property>
                 <name>CurrentShader</name>

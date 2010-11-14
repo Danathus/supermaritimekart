@@ -5,11 +5,18 @@
 #include <SMKActorExport.h>
 #include <osg/Referenced>
 
+#include <WeaponActor.h>
+
 #include <dtCore/refptr.h>
 
 #include <osg/Vec3>
 
 #include <vector>
+
+namespace dtCore
+{
+   class DeltaDrawable;
+}
 
 namespace dtDAL
 {
@@ -34,17 +41,33 @@ public:
 
    void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
 
-   ///The relative position of where the thrust comes from
+   /**
+   * Initialize the weapon.
+   */
+   virtual void Initialize(dtDAL::BaseActorObject* actorProxy);
+
+   void SetWeapon(const std::string& weaponClass, dtDAL::BaseActorObject* actorProxy);
+
+   ///The relative position of the weapon is placed
    osg::Vec3 GetWeaponPosition() const;
    void SetWeaponPosition(const osg::Vec3& val);
+
+   ///The default weapon for the boat actor
+   std::string GetDefaultWeapon() const;
+   void SetDefaultWeapon(const std::string& val);
 
 protected:
    virtual ~Weapon();
 
 private:
+   virtual WeaponActor* CreateWeaponActor(const std::string& weaponClass);
+   virtual void AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
+   void DetachWeaponFromBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
 
-   std::string mName;
-   osg::Vec3   mPosition;
+   std::string                 mName;
+   osg::Vec3                   mPosition;
+   std::string                 mDefaultWeaponClass;
+   dtCore::RefPtr<WeaponActor> mpWeaponActor;
 };
 #endif // Weapon_h__
 

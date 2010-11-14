@@ -8,6 +8,7 @@
 #include <GameFinder.h>
 #include <ScenarioComponent.h>
 #include <NetworkBuddy.h>
+#include <WeaponFactory.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/system.h>
@@ -37,6 +38,7 @@ SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
    : Application(configFilename)
    , mGameFinder(NULL)
 {
+   WeaponFactory::GetInstance().RegisterInventoryItems();
    // make sure the network engine gets started up early
    net::NetworkEngine::GetRef();
    // lets allow for extra big packets :P

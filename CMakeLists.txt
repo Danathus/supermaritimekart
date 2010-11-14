@@ -44,6 +44,8 @@ SET(ACTOR_SOURCE_FILES
     ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
     ${SOURCE_PATH}/SMKBoatActor.cpp
     ${SOURCE_PATH}/Weapon.cpp
+    ${SOURCE_PATH}/WeaponActor.cpp
+    ${SOURCE_PATH}/WeaponFactory.cpp
 )
     
 SET(APP_SOURCE_FILES
@@ -77,6 +79,8 @@ SET(ACTOR_HEADER_FILES
     ${HEADER_PATH}/SMKActorLibraryRegistry.h
     ${HEADER_PATH}/SMKBoatActor.h
     ${HEADER_PATH}/Weapon.h
+    ${HEADER_PATH}/WeaponActor.h
+    ${HEADER_PATH}/WeaponFactory.h
 )
 
 SET(APP_HEADER_FILES

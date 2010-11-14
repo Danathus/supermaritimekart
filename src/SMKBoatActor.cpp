@@ -8,6 +8,7 @@
 SMKBoatActor::SMKBoatActor(SMKBoatActorProxy& proxy)
 : BoatActor(proxy)
 , mpFrontWeapon(new Weapon("Front Weapon"))
+, mpBackWeapon(new Weapon("Back Weapon"))
 {
    SetName("SMKBoat");
 }
@@ -16,6 +17,7 @@ SMKBoatActor::SMKBoatActor(SMKBoatActorProxy& proxy)
 SMKBoatActor::~SMKBoatActor()
 {
    mpFrontWeapon = NULL;
+   mpBackWeapon = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,18 +33,41 @@ const Weapon* SMKBoatActor::GetFrontWeapon() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+Weapon* SMKBoatActor::GetBackWeapon()
+{
+   return mpBackWeapon.get();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+const Weapon* SMKBoatActor::GetBackWeapon() const
+{
+   return mpBackWeapon.get();
+}
+
+////////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::OnRemovedFromWorld()
 {
    //clear out our references so instances will be destroyed.
    BoatActor::OnRemovedFromWorld();
 
    mpFrontWeapon = NULL;
+   mpBackWeapon = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::Initialize()
 {
    BoatActor::Initialize();
+
+   if (mpFrontWeapon)
+   {
+      mpFrontWeapon->Initialize(&GetGameActorProxy());
+   }
+
+   if (mpBackWeapon)
+   {
+      mpBackWeapon->Initialize(&GetGameActorProxy());
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -76,6 +101,11 @@ void SMKBoatActorProxy::BuildPropertyMap()
    if (actor->GetFrontWeapon())
    {
       actor->GetFrontWeapon()->BuildPropertyMap(this);
+   }
+
+   if (actor->GetBackWeapon())
+   {
+      actor->GetBackWeapon()->BuildPropertyMap(this);
    }
 }
 
@@ -115,6 +145,11 @@ void SMKBoatActorProxy::GetPartialUpdateProperties(std::vector<dtUtil::RefString
    if (actor->GetFrontWeapon())
    {
       actor->GetFrontWeapon()->GetPartialUpdateProperties(propNamesToFill);
+   }
+
+   if (actor->GetBackWeapon())
+   {
+      actor->GetBackWeapon()->GetPartialUpdateProperties(propNamesToFill);
    }
 }
 
