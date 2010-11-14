@@ -1,5 +1,6 @@
 #include <PickUpItemHandle.h>
 #include <dtDAL/propertymacros.h> //for dtDAL::PropertyRegHelper
+#include <dtCore/scene.h>
 #include <osg/Geometry>
 #include <osg/ShapeDrawable>
 #include <osg/Geode>
@@ -11,8 +12,8 @@ DT_IMPLEMENT_ACCESSOR(PickUpItemBaseProxy, std::string, Type);
 DT_IMPLEMENT_ACCESSOR(PickUpItemBaseProxy, dtDAL::ResourceDescriptor, IconImage);
 
 ////////////////////////////////////////////////////////////////////////////////
-PickUpItemBaseProxy::PickUpItemBaseProxy():
-dtGame::GameActorProxy()
+PickUpItemBaseProxy::PickUpItemBaseProxy()
+: FloatingActorProxy()
 {
    SetClassName("PickUpItemBase");
 }
@@ -51,8 +52,8 @@ void PickUpItemBaseProxy::BuildPropertyMap()
 
 //////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-PickUpItemHandle::PickUpItemHandle(dtGame::GameActorProxy& proxy):
-dtGame::GameActor(proxy)
+PickUpItemHandle::PickUpItemHandle(FloatingActorProxy& proxy)
+: FloatingActor(proxy)
 {
    SetName("pick up item");   
    osg::Node* root = GetOSGNode();
@@ -70,6 +71,17 @@ dtGame::GameActor(proxy)
 PickUpItemHandle::~PickUpItemHandle()
 {
 
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void PickUpItemHandle::TickLocal(const dtGame::Message& msg)
+{
+   FloatingActor::TickLocal(msg);
+   //if (!mIsInitialized)
+   //{
+   //   Initialize(1.0f, 6.0f, 6.0f, 6.0f);
+   //   mIsInitialized = true;
+   //}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,3 +106,12 @@ osg::ref_ptr<osg::Node> PickUpItemHandle::CreateGeometry()
 
    return geode;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+void PickUpItemHandle::Initialize()
+{
+   SetupBuoyancy(0.1f, 10.0f, 10.0f, 100.0f);
+
+   AddSender(GetSceneParent());
+}
+

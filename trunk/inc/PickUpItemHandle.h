@@ -2,8 +2,7 @@
 #define PICKUPITEMBASE_h__
 
 #include <SMKActorExport.h>
-#include <dtGame/gameactorproxy.h>
-#include <dtGame/gameactor.h>
+#include <BoatActors/FloatingActor.h>
 #include <dtUtil/getsetmacros.h>
 #include <dtDAL/resourcedescriptor.h>
 
@@ -15,18 +14,23 @@ namespace SMK
      * can be queried.  If PickUp is useful, then the concrete PickUp can be 
      * instantiated with the PickUpFactory.
      */
-   class SMK_ACTOR_EXPORT PickUpItemHandle : public dtGame::GameActor
+   class SMK_ACTOR_EXPORT PickUpItemHandle : public FloatingActor
    {
    public:
-      PickUpItemHandle(dtGame::GameActorProxy& proxy);
+      PickUpItemHandle(FloatingActorProxy& proxy);
+
+      virtual void TickLocal(const dtGame::Message& msg);
+
    protected:
       virtual ~PickUpItemHandle();
    private:
       osg::ref_ptr<osg::Node> CreateGeometry();
+
+      virtual void Initialize();
    };
 
    //////////////////////////////////////////////////////////////////////////
-   class SMK_ACTOR_EXPORT PickUpItemBaseProxy : public dtGame::GameActorProxy
+   class SMK_ACTOR_EXPORT PickUpItemBaseProxy : public FloatingActorProxy
    {
    public:
       PickUpItemBaseProxy();
