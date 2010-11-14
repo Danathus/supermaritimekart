@@ -37,16 +37,20 @@ public:
    /**
    * Builds the property map for STAGE
    */
-   void BuildPropertyMap(dtDAL::BaseActorObject* actorProxy);
+   virtual void BuildPropertyMap(dtDAL::BaseActorObject* actorProxy);
 
-   void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
+   virtual void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
 
    /**
    * Initialize the weapon.
    */
    virtual void Initialize(dtDAL::BaseActorObject* actorProxy);
 
+   virtual void StartWeaponFire() {}
+   virtual void StopWeaponFire() {}
+
    void SetWeapon(const std::string& weaponClass, dtDAL::BaseActorObject* actorProxy);
+   WeaponActor* GetWeaponActor() { return mpWeaponActor; }
 
    ///The relative position of the weapon is placed
    osg::Vec3 GetWeaponPosition() const;
@@ -58,11 +62,9 @@ public:
 
 protected:
    virtual ~Weapon();
-
-private:
    virtual WeaponActor* CreateWeaponActor(const std::string& weaponClass);
    virtual void AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
-   void DetachWeaponFromBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
+   virtual void DetachWeaponFromBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
 
    std::string                 mName;
    osg::Vec3                   mPosition;

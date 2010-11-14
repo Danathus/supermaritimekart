@@ -3,21 +3,19 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <SMKActorExport.h>
-#include <dtCore/deltadrawable.h>
+#include <dtCore/transformable.h>
 
+#include <osg/Geode>
 #include <osgSim/DOFTransform>
 
 ////////////////////////////////////////////////////////////////////////////////
-class DOFDrawable : public dtCore::DeltaDrawable
+class DOFDrawable : public dtCore::Transformable
 {
 public:
    DOFDrawable(const std::string& name = "DOF Drawable");
 
    virtual osg::Node* GetOSGNode();
    virtual const osg::Node* GetOSGNode() const;
-
-   virtual bool AddChild(DeltaDrawable* child);
-   virtual void RemoveChild(DeltaDrawable* child);
 
    // Rotation functions
    void SetMinRotation(const osg::Vec3& hpr) { mpDOFNode->setMinHPR(hpr);     }
@@ -69,6 +67,7 @@ protected:
 
 private:
    dtCore::RefPtr<osgSim::DOFTransform> mpDOFNode;
+   dtCore::RefPtr<osg::Geode> mpGeode;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

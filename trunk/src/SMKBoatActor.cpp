@@ -1,5 +1,6 @@
 #include <SMKBoatActor.h>
 
+#include <TurretWeapon.h>
 #include <Weapon.h>
 
 //////////////////////////////////////////////////////////
@@ -7,7 +8,7 @@
 //////////////////////////////////////////////////////////
 SMKBoatActor::SMKBoatActor(SMKBoatActorProxy& proxy)
 : BoatActor(proxy)
-, mpFrontWeapon(new Weapon("Front Weapon"))
+, mpFrontWeapon(new TurretWeapon("Front Weapon"))
 , mpBackWeapon(new Weapon("Back Weapon"))
 {
    SetName("SMKBoat");
@@ -55,10 +56,8 @@ void SMKBoatActor::OnRemovedFromWorld()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::Initialize()
+void SMKBoatActor::SetupDefaultWeapon()
 {
-   BoatActor::Initialize();
-
    if (mpFrontWeapon)
    {
       mpFrontWeapon->Initialize(&GetGameActorProxy());
@@ -68,6 +67,12 @@ void SMKBoatActor::Initialize()
    {
       mpBackWeapon->Initialize(&GetGameActorProxy());
    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::Initialize()
+{
+   BoatActor::Initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -94,7 +94,7 @@ void SuperMaritimeKart::Config()
          //mGameManager->ChangeMap(GetConfigPropertyValue("Map", "JustOcean"));
 
          SuperMaritimeKartMessenger* appComponent = new SuperMaritimeKartMessenger(*this);
-         BoatController* boatComponent = new BoatController(*GetWindow(), *GetKeyboard());
+         BoatController* boatComponent = new BoatController(*GetWindow(), *GetKeyboard(), *GetMouse());
          CameraController* cameraComponent = new CameraController(*GetCamera(),*GetKeyboard(), *GetMouse());
          FloaterController* floaterComponent = new FloaterController();
 
