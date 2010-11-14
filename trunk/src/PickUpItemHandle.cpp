@@ -1,9 +1,13 @@
 #include <PickUpItemHandle.h>
+
 #include <dtDAL/propertymacros.h> //for dtDAL::PropertyRegHelper
 #include <dtCore/scene.h>
+
 #include <osg/Geometry>
 #include <osg/ShapeDrawable>
 #include <osg/Geode>
+
+#include <ode/collision.h>
 
 using namespace SMK;
 
@@ -77,13 +81,20 @@ PickUpItemHandle::~PickUpItemHandle()
 void PickUpItemHandle::TickLocal(const dtGame::Message& msg)
 {
    FloatingActor::TickLocal(msg);
-   //if (!mIsInitialized)
-   //{
-   //   Initialize(1.0f, 6.0f, 6.0f, 6.0f);
-   //   mIsInitialized = true;
-   //}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+bool PickUpItemHandle::FilterContact(dContact* contact, Transformable* collider)
+{
+   // Do not send events in STAGE.
+   if (!GetGameActorProxy().IsInSTAGE())
+   {
+      osg::Vec3 position(contact->geom.pos[0], contact->geom.pos[1], contact->geom.pos[2]);
+      osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
+   }
+
+   return false;
+}
 ////////////////////////////////////////////////////////////////////////////////
 osg::ref_ptr<osg::Node> PickUpItemHandle::CreateGeometry()
 {
