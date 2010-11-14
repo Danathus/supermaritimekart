@@ -8,6 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 class SMKBoatActorProxy;
+class TurretWeapon;
 class Weapon;
 
 class SMK_ACTOR_EXPORT SMKBoatActor : public BoatActor
@@ -36,6 +37,8 @@ public:
    */
    virtual void OnRemovedFromWorld();
 
+   void SetupDefaultWeapon();
+
 protected:
 
    /**
@@ -49,7 +52,7 @@ protected:
    virtual void Initialize();
 
 private:
-   dtCore::RefPtr<Weapon> mpFrontWeapon;
+   dtCore::RefPtr<TurretWeapon> mpFrontWeapon;
    dtCore::RefPtr<Weapon> mpBackWeapon;
 };
 

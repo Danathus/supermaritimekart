@@ -4,14 +4,16 @@
 #include <dtGame/gmcomponent.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-class BoatActor;
 class BoatKeyboardListener;
 class OceanWindowResize;
+class SMKBoatActor;
+class WeaponMouseListener;
 
 namespace dtCore
 {
    class DeltaWin;
    class Keyboard;
+   class Mouse;
 }
 
 namespace dtOcean
@@ -24,7 +26,7 @@ namespace dtOcean
 class BoatController : public dtGame::GMComponent
 {
 public:
-   BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard);
+   BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard, dtCore::Mouse& mouse);
 
    virtual void ProcessMessage(const dtGame::Message& message);
 
@@ -32,15 +34,18 @@ protected:
    virtual ~BoatController();
 
 private:
-   BoatActor* CreateBoatToControl();
+   SMKBoatActor* CreateBoatToControl();
    osg::Vec3 GetStartLocation() const;
    dtOcean::OceanActor* GetOcean() const;
 
    void SetupControlledBoat(dtOcean::OceanActor* ocean);
    void CleanupControlledBoat();
 
-   dtCore::RefPtr<BoatActor> mpBoat;
+   dtCore::RefPtr<SMKBoatActor> mpBoat;
    dtCore::RefPtr<BoatKeyboardListener> mpKeyboardListener;
+   dtCore::RefPtr<WeaponMouseListener> mpPrimaryMouseListener;
+   dtCore::RefPtr<WeaponMouseListener> mpSecondaryMouseListener;
+   dtCore::RefPtr<dtCore::Mouse> mpMouseToListenTo;
    dtCore::RefPtr<dtCore::Keyboard> mpKeyboardToListenTo;
    dtCore::RefPtr<OceanWindowResize> mpOceanResizer;
 };

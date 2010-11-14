@@ -43,6 +43,7 @@ SET(ACTOR_SOURCE_FILES
     ${SOURCE_PATH}/PickUpItemHandle.cpp
     ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
     ${SOURCE_PATH}/SMKBoatActor.cpp
+    ${SOURCE_PATH}/TurretWeapon.cpp
     ${SOURCE_PATH}/Weapon.cpp
     ${SOURCE_PATH}/WeaponActor.cpp
     ${SOURCE_PATH}/WeaponFactory.cpp
@@ -69,6 +70,7 @@ SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/SMK_NetworkComponent.cpp
     ${SOURCE_PATH}/SuperMaritimeKart.cpp
     ${SOURCE_PATH}/SuperMaritimeKartMessenger.cpp
+    ${SOURCE_PATH}/WeaponMouseListener.cpp
 )
 
 ################### HEADER FILES #####################
@@ -78,6 +80,7 @@ SET(ACTOR_HEADER_FILES
     ${HEADER_PATH}/SMKActorExport.h
     ${HEADER_PATH}/SMKActorLibraryRegistry.h
     ${HEADER_PATH}/SMKBoatActor.h
+    ${HEADER_PATH}/TurretWeapon.h
     ${HEADER_PATH}/Weapon.h
     ${HEADER_PATH}/WeaponActor.h
     ${HEADER_PATH}/WeaponFactory.h
@@ -104,6 +107,7 @@ SET(APP_HEADER_FILES
     ${HEADER_PATH}/SMK_NetworkComponent.h
     ${HEADER_PATH}/SuperMaritimeKart.h
     ${HEADER_PATH}/SuperMaritimeKartMessenger.h
+    ${HEADER_PATH}/WeaponMouseListener.h
 )
 
 ###################### RESOURCE FILES ######################

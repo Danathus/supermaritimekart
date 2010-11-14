@@ -2,42 +2,31 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 DOFDrawable::DOFDrawable(const std::string& name /*= "DOF Drawable"*/)
-: DeltaDrawable(name)
+: dtCore::Transformable(name)
 , mpDOFNode(new osgSim::DOFTransform())
+, mpGeode(new osg::Geode())
 {
    mpDOFNode->setName(name);
+   mpDOFNode->addChild(mpGeode);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 DOFDrawable::~DOFDrawable()
 {
    mpDOFNode = NULL;
+   mpGeode = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 osg::Node* DOFDrawable::GetOSGNode()
 {
-   return mpDOFNode.get();
+   return mpGeode.get();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 const osg::Node* DOFDrawable::GetOSGNode() const
 {
-   return mpDOFNode.get();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-bool DOFDrawable::AddChild(DeltaDrawable* child)
-{
-   bool added = dtCore::DeltaDrawable::AddChild(child);
-   return mpDOFNode->addChild(child->GetOSGNode()) && added;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-void DOFDrawable::RemoveChild(DeltaDrawable* child)
-{
-   mpDOFNode->removeChild(child->GetOSGNode());
-   dtCore::DeltaDrawable::RemoveChild(child);
+   return mpGeode.get();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

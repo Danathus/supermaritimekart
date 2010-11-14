@@ -8,7 +8,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-22T19:23:23-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-13T18:28:34-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-14T12:58:36-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -866,6 +866,14 @@
             <property>
                 <name>Front WeaponDefaultWeapon</name>
                 <string>Weapon</string>
+            </property>
+            <property>
+                <name>Front WeaponMaxHorizontalAngle</name>
+                <float>45</float>
+            </property>
+            <property>
+                <name>Front WeaponMaxVerticalAngle</name>
+                <float>15</float>
             </property>
             <property>
                 <name>Back WeaponPosition</name>

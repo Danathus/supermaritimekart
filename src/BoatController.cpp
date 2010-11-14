@@ -3,13 +3,15 @@
 #include <DeltaOceanGetHeight.h>
 #include <OceanWindowResize.h>
 #include <SMKActorLibraryRegistry.h>
-
-#include <BoatActors/BoatActor.h>
+#include <SMKBoatActor.h>
+#include <Weapon.h>
+#include <WeaponMouseListener.h>
 
 #include <dtActors/engineactorregistry.h>
 #include <dtActors/playerstartactorproxy.h>
 #include <dtCore/deltawin.h>
 #include <dtCore/keyboard.h>
+#include <dtCore/mouse.h>
 #include <dtCore/transform.h>
 #include <dtGame/messagetype.h>
 #include <dtGame/basemessages.h>
@@ -24,10 +26,13 @@
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////
-BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard)
+BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard, dtCore::Mouse& mouse)
    : dtGame::GMComponent("BoatController")
    , mpKeyboardListener(new BoatKeyboardListener())
+   , mpPrimaryMouseListener(new WeaponMouseListener())
+   , mpSecondaryMouseListener(new WeaponMouseListener())
    , mpKeyboardToListenTo(&keyboard)
+   , mpMouseToListenTo(&mouse)
    , mpOceanResizer(new OceanWindowResize())
 {
    win.AddResizeCallback(*mpOceanResizer);
@@ -37,6 +42,11 @@ BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard
 BoatController::~BoatController()
 {
    mpKeyboardListener->SetOutboard(NULL);
+   mpMouseToListenTo->RemoveMouseListener(mpPrimaryMouseListener.get());
+   mpMouseToListenTo->RemoveMouseListener(mpSecondaryMouseListener.get());
+   mpMouseToListenTo = NULL;
+   mpPrimaryMouseListener = NULL;
+   mpSecondaryMouseListener = NULL;
    mpKeyboardToListenTo->RemoveKeyboardListener(mpKeyboardListener.get());
 }
 
@@ -95,19 +105,19 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-BoatActor* BoatController::CreateBoatToControl()
+SMKBoatActor* BoatController::CreateBoatToControl()
 {
    std::vector<dtDAL::ActorProxy*> boatPrototypes;
    GetGameManager()->FindPrototypesByActorType(*SMKActorLibraryRegistry::SMK_BOAT_ACTOR_TYPE, boatPrototypes);
    if (!boatPrototypes.empty())
    {
-      dtCore::RefPtr<BoatActorProxy> boatActor;
+      dtCore::RefPtr<SMKBoatActorProxy> boatActor;
       GetGameManager()->CreateActorFromPrototype(boatPrototypes[0]->GetActor()->GetUniqueId(), boatActor);
       boatActor->RemoveProperty("Enable Dynamics"); // "ODE Enable Dynamics"
       if (boatActor.valid())
       {
          GetGameManager()->AddActor(*boatActor, false, true);
-         return dynamic_cast<BoatActor*>(boatActor->GetActor());
+         return dynamic_cast<SMKBoatActor*>(boatActor->GetActor());
       }
    }
 
@@ -153,9 +163,17 @@ dtOcean::OceanActor* BoatController::GetOcean() const
 ///////////////////////////////////////////////////////////////////////////////
 void BoatController::SetupControlledBoat(dtOcean::OceanActor* ocean)
 {
+   mpBoat->SetupDefaultWeapon();
+
    // Setup BoatKeyboardListener
    mpKeyboardListener->SetOutboard(mpBoat->GetOutBoard());
    mpKeyboardToListenTo->AddKeyboardListener(mpKeyboardListener.get());
+
+   // Setup WeaponMouseListener
+   mpPrimaryMouseListener->SetWeapon(mpBoat->GetFrontWeapon());
+   mpSecondaryMouseListener->SetWeapon(mpBoat->GetBackWeapon());
+   mpMouseToListenTo->AddMouseListener(mpPrimaryMouseListener.get());
+   mpMouseToListenTo->AddMouseListener(mpSecondaryMouseListener.get());
 
    // Setup Boat to float
    mpBoat->SetGetHeight(new DeltaOceanGetHeight(*ocean));
@@ -182,6 +200,8 @@ void BoatController::CleanupControlledBoat()
 {
    mpKeyboardListener->SetOutboard(NULL);
    mpKeyboardToListenTo->RemoveKeyboardListener(mpKeyboardListener.get());
+   mpMouseToListenTo->RemoveMouseListener(mpPrimaryMouseListener.get());
+   mpMouseToListenTo->RemoveMouseListener(mpSecondaryMouseListener.get());
 
    mpBoat->SetGetHeight(NULL);
    mpBoat->EnableDynamics(false);
