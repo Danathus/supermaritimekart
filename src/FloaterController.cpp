@@ -1,5 +1,7 @@
 #include <FloaterController.h>
 #include <DeltaOceanGetHeight.h>
+#include <PickUpItemHandle.h>
+#include <SMKActorLibraryRegistry.h>
 
 #include <BoatActors/ActorLibraryRegistry.h>
 #include <BoatActors/FloatingActor.h>
@@ -63,11 +65,20 @@ std::vector<FloatingActor*> FloaterController::GetFloatingActors() const
 {
    //find any FloatingActors
    std::vector<dtDAL::ActorProxy*> floatingActorProxies;
+   std::vector<dtDAL::ActorProxy*> pickupActorProxies;
    GetGameManager()->FindActorsByType(*BoatActorsLibraryRegistry::FLOATING_ACTOR_TYPE, floatingActorProxies);
+   GetGameManager()->FindActorsByType(*SMKActorLibraryRegistry::SMK_PICKUP_ACTOR_TYPE, pickupActorProxies);
 
    std::vector<FloatingActor*> floatingActors;
    std::vector<dtDAL::ActorProxy*>::iterator floatItr = floatingActorProxies.begin();
    while (floatItr != floatingActorProxies.end())
+   {
+      floatingActors.push_back(static_cast<FloatingActor*>((*floatItr)->GetActor()));
+      ++floatItr;
+   }
+
+   floatItr = pickupActorProxies.begin();
+   while (floatItr != pickupActorProxies.end())
    {
       floatingActors.push_back(static_cast<FloatingActor*>((*floatItr)->GetActor()));
       ++floatItr;
