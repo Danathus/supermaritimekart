@@ -21,6 +21,8 @@ public:
    */
    SMKBoatActor(SMKBoatActorProxy& proxy);
 
+   virtual void TickLocal(const dtGame::Message& msg);
+
    /**
    * Get the front weapon.
    */

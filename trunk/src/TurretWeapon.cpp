@@ -3,8 +3,6 @@
 #include <dtDAL/actorproxy.h>
 #include <dtDAL/floatactorproperty.h>
 
-#include <iostream>
-
 //////////////////////////////////////////////////////////////////////////
 TurretWeapon::TurretWeapon(const std::string& name /*= "TurretWeapon"*/)
 : Weapon(name)
@@ -48,18 +46,6 @@ void TurretWeapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 void TurretWeapon::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
 {
    Weapon::GetPartialUpdateProperties(propNamesToFill);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void TurretWeapon::StartWeaponFire()
-{
-   std::cout << "Firing turret" << std::endl;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void TurretWeapon::StopWeaponFire()
-{
-   std::cout << "Stopping turret fire" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

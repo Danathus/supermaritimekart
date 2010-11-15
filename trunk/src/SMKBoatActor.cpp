@@ -3,6 +3,8 @@
 #include <TurretWeapon.h>
 #include <Weapon.h>
 
+#include <dtGame/basemessages.h>
+
 //////////////////////////////////////////////////////////
 // Actor code
 //////////////////////////////////////////////////////////
@@ -19,6 +21,25 @@ SMKBoatActor::~SMKBoatActor()
 {
    mpFrontWeapon = NULL;
    mpBackWeapon = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::TickLocal(const dtGame::Message& msg)
+{
+   BoatActor::TickLocal(msg);
+
+   const dtGame::TickMessage& tickMessage = static_cast<const dtGame::TickMessage&>(msg);
+   float dt = tickMessage.GetDeltaSimTime();
+
+   if (mpFrontWeapon)
+   {
+      mpFrontWeapon->Update(dt);
+   }
+
+   if (mpBackWeapon)
+   {
+      mpBackWeapon->Update(dt);
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
