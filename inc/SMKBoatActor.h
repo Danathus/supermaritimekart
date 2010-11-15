@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include <SMKActorExport.h>
 #include <BoatActors/BoatActor.h>
+#include <Health.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -59,6 +60,7 @@ protected:
 private:
    dtCore::RefPtr<TurretWeapon> mpFrontWeapon;
    dtCore::RefPtr<Weapon> mpBackWeapon;
+   SMK::Health mHealth;  ///<The current health of this boat
 };
 
 class SMKBoatActorProxy : public BoatActorProxy
