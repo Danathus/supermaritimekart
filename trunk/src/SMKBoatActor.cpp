@@ -1,9 +1,15 @@
 #include <SMKBoatActor.h>
-
+#include <PickUpItemHandle.h>
 #include <TurretWeapon.h>
 #include <Weapon.h>
 
 #include <dtGame/basemessages.h>
+#include <dtGame/gamemanager.h>
+#include <dtAudio/audiomanager.h>
+
+#include <ode/contact.h>
+
+using namespace SMK;
 
 //////////////////////////////////////////////////////////
 // Actor code
@@ -67,10 +73,45 @@ const Weapon* SMKBoatActor::GetBackWeapon() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::OnCollision(const std::string& type, const osg::Vec3& pos, const osg::Vec3& normal)
+bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
 {
+   // Do not send events in STAGE.
+   if (!GetGameActorProxy().IsInSTAGE())
+   {
+      PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
 
+      if (pickup)
+      {
+         dtGame::GameActorProxy& boatProxy = GetGameActorProxy();
+
+         osg::Vec3 position(contact->geom.pos[0], contact->geom.pos[1], contact->geom.pos[2]);
+         osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);         
+
+         // Remove the pickup actor
+         boatProxy.GetGameManager()->DeleteActor(pickup->GetGameActorProxy());
+
+         // TEMP
+         // This should happen when the item is acquired
+         {
+            mPickupAcquireSound->Play();
+         }         
+      }
+   }
+
+   return false;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::OnEnteredWorld()
+{
+   BoatActor::OnEnteredWorld();
+
+   mPickupAcquireSound = dtAudio::AudioManager::GetInstance().NewSound();
+   mPickupAcquireSound->LoadFile("sounds/pop.wav");
+   mPickupAcquireSound->SetGain(1.0f);
+   mPickupAcquireSound->SetListenerRelative(false);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::OnRemovedFromWorld()

@@ -12,6 +12,8 @@ class SMKBoatActorProxy;
 class TurretWeapon;
 class Weapon;
 
+namespace dtAudio { class Sound; }
+
 class SMK_ACTOR_EXPORT SMKBoatActor : public BoatActor
 {
 public:  
@@ -36,9 +38,16 @@ public:
    const Weapon* GetBackWeapon() const;
 
    /**
-   * Currently called when colliding with pickups.
+   * Callback from Scene when a contact occurs. This normally is used to 
+   * filter out Transformables that you do not want to perform expensive
+   * physics calculations on, but here we use it to fire our Trigger.
    */
-   void OnCollision(const std::string& type, const osg::Vec3& pos, const osg::Vec3& normal);
+   virtual bool FilterContact(dContact* contact, Transformable* collider);
+
+   /**
+   * Called when an actor is first placed in the "world"
+   */
+   virtual void OnEnteredWorld();
 
    /** 
    * Inherited from FloatingActor.  Called when this actor is about to be nuked.
@@ -63,6 +72,7 @@ private:
    dtCore::RefPtr<TurretWeapon> mpFrontWeapon;
    dtCore::RefPtr<Weapon> mpBackWeapon;
    SMK::Health mHealth;  ///<The current health of this boat
+   dtCore::RefPtr<dtAudio::Sound> mPickupAcquireSound;
 };
 
 class SMKBoatActorProxy : public BoatActorProxy
