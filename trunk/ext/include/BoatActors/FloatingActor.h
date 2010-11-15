@@ -86,13 +86,6 @@ public:
    */
    virtual void OnRemovedFromWorld();
 
-private:
-
-   /**
-   * Setup the Buoyancy of the floating actor.
-   */
-   void SetupBuoyancy();
-
 protected:
 
    /**
@@ -104,6 +97,11 @@ protected:
    * Initialize the actor.
    */
    virtual void Initialize();
+
+   /**
+   * Setup the Buoyancy of the floating actor.
+   */
+   virtual void SetupBuoyancy(float totalMass, float lx, float ly, float lz);
 
    /**
    * Callback called when the actor enters the world.
