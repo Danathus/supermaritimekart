@@ -41,6 +41,7 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 SET(ACTOR_SOURCE_FILES
     ${SOURCE_PATH}/DOFDrawable.cpp
     ${SOURCE_PATH}/Health.cpp
+    ${SOURCE_PATH}/MachineGunActor.cpp
     ${SOURCE_PATH}/PickUpItemHandle.cpp
     ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
     ${SOURCE_PATH}/SMKBoatActor.cpp
@@ -77,6 +78,7 @@ SET(APP_SOURCE_FILES
 SET(ACTOR_HEADER_FILES
     ${HEADER_PATH}/DOFDrawable.h
     ${HEADER_PATH}/Health.h 
+    ${HEADER_PATH}/MachineGunActor.h
     ${HEADER_PATH}/PickUpItemHandle.h
     ${HEADER_PATH}/SMKActorExport.h
     ${HEADER_PATH}/SMKActorLibraryRegistry.h
