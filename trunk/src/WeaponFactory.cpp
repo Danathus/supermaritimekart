@@ -1,5 +1,5 @@
 #include <WeaponFactory.h>
-#include <WeaponActor.h>
+#include <MachineGunActor.h>
 
 #include <cassert>
 
@@ -54,7 +54,7 @@ void WeaponFactory::RegisterInventoryItems()
 
    bool success = true;
 
-   success &= weaponFactory.RegisterType<WeaponActor>(WeaponActor::WEAPON_ACTOR_TYPE);
+   success &= weaponFactory.RegisterType<MachineGunActor>(MachineGunActor::MACHINE_GUN_ACTOR_TYPE);
 
    // sanity check
    assert(success);
