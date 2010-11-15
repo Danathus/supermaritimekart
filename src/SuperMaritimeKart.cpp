@@ -14,6 +14,7 @@
 #include <dtCore/system.h>
 #include <dtCore/scene.h>
 #include <dtCore/deltawin.h>
+#include <dtCore/shadermanager.h>
 #include <dtGame/gamemanager.h>
 #include <dtGame/defaultmessageprocessor.h>
 #include <dtGame/defaultnetworkpublishingcomponent.h>
@@ -92,6 +93,16 @@ void SuperMaritimeKart::Config()
       {
          mGameManager->SetProjectContext("./data", true);
          //mGameManager->ChangeMap(GetConfigPropertyValue("Map", "JustOcean"));
+
+         try
+         {
+            // Load in our shader definitions
+            dtCore::ShaderManager::GetInstance().LoadShaderDefinitions("shaders/ShaderDefinitions.xml");
+         }
+         catch (dtUtil::Exception& e)
+         {
+            LOG_ERROR(e.ToString());
+         }
 
          SuperMaritimeKartMessenger* appComponent = new SuperMaritimeKartMessenger(*this);
          BoatController* boatComponent = new BoatController(*GetWindow(), *GetKeyboard(), *GetMouse());

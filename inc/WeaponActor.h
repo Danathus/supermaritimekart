@@ -6,7 +6,6 @@
 
 #include <dtAudio/sound.h>
 #include <dtCore/object.h>
-#include <dtCore/particlesystem.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 class SMK_ACTOR_EXPORT WeaponActor : public dtCore::Object
@@ -14,7 +13,7 @@ class SMK_ACTOR_EXPORT WeaponActor : public dtCore::Object
 public:
    const static std::string WEAPON_ACTOR_TYPE;
 
-   WeaponActor(const std::string& filename = "../examples/data/models/physics_happy_sphere.ive");
+   WeaponActor(const std::string& filename = "");
 
    void Update(float deltaTime);
 
@@ -25,17 +24,14 @@ protected:
    virtual ~WeaponActor();
    virtual void SetIsFiring(bool isFiring);
    virtual void FireWeapon();
+   dtAudio::Sound* LoadSound(const std::string& file);
 
    float mFiringRate;
-   dtCore::RefPtr<dtCore::ParticleSystem> mpStartFiringParticles;
    dtCore::RefPtr<dtAudio::Sound> mpStartFiringSound;
    dtCore::RefPtr<dtAudio::Sound> mpFireSound;
    dtCore::RefPtr<dtAudio::Sound> mpStopFiringSound;
 
 private:
-   dtAudio::Sound* LoadSound(const std::string& file);
-   dtCore::ParticleSystem* LoadParticleSystem(const std::string& file);
-
    bool mIsFiring;
    float mFiringCounter;
 };

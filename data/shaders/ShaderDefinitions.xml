@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<shaderlist>
+
+   <shadergroup name="BulletTrailGroup">
+      <shader name="BulletTrailShader" default="yes">
+         <source type="Vertex">shaders/BulletTrail.vert</source>
+         <source type="Fragment">shaders/BulletTrail.frag</source>
+      
+         <parameter name="diffuseTexture">
+            <texture2D textureUnit="0">
+               <source type="Auto"/>
+            </texture2D>
+         </parameter>
+      
+       <parameter name="time">
+         <oscillator cycletimemin="1.0" cycletimemax="1.0" rangemin="1.0"
+         rangemax="1.0" oscillation="Up" cyclecount="1" trigger="manual"/>
+       </parameter>
+      
+      </shader>
+   </shadergroup>
+
+</shaderlist>

@@ -3,8 +3,6 @@
 #include <dtAudio/audiomanager.h>
 #include <dtUtil/log.h>
 
-#include <iostream>
-
 ////////////////////////////////////////////////////////////////////////////////
 const std::string WeaponActor::WEAPON_ACTOR_TYPE = "Weapon";
 
@@ -13,6 +11,9 @@ WeaponActor::WeaponActor(const std::string& filename /*= ""*/)
    : dtCore::Object(WEAPON_ACTOR_TYPE)
    , mIsFiring(false)
    , mFiringRate(1.0f)
+   , mpStartFiringSound(NULL)
+   , mpFireSound(NULL)
+   , mpStopFiringSound(NULL)
 {
    // Load our mesh
    if (!filename.empty())
@@ -22,11 +23,6 @@ WeaponActor::WeaponActor(const std::string& filename /*= ""*/)
          LOG_ERROR("Unable to load mesh: " + filename);
       }
    }
-
-   // Load any sounds we have
-   //mpStartFiringSound = LoadSound(start);
-   //mpFireSound = LoadSound(fire);
-   //mpStopFiringSound = LoadSound(end);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -106,8 +102,6 @@ void WeaponActor::FireWeapon()
    {
       mpFireSound->Play();
    }
-
-   std::cout << "Weapon fired" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -117,27 +111,12 @@ dtAudio::Sound* WeaponActor::LoadSound(const std::string& file)
    {
       dtAudio::Sound* sound = dtAudio::AudioManager::GetInstance().NewSound();
       sound->LoadFile(file.c_str());
-      sound->SetGain(1.0f);
-      sound->SetPitch(1.0f);
       // we want this sound to follow the listener, so it is not attenuated
       sound->SetListenerRelative(true);
 
       return sound;
    }
 
-   return NULL;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-dtCore::ParticleSystem* WeaponActor::LoadParticleSystem(const std::string& file)
-{
-   if (!file.empty())
-   {
-      dtCore::ParticleSystem* particleSystem = new dtCore::ParticleSystem();
-      particleSystem->LoadFile(file);
-      particleSystem->SetEnabled(GetActive());
-      AddChild(particleSystem);
-   }
    return NULL;
 }
 
