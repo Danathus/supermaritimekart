@@ -1,11 +1,13 @@
 #ifndef HEALTH_h__
 #define HEALTH_h__
 
+#include <SMKActorExport.h>
+
 namespace SMK
 {
    typedef unsigned char HealthType;
 
-   class Health
+   class SMK_ACTOR_EXPORT Health
    {
    public:
 

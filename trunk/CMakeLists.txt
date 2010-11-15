@@ -40,6 +40,7 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 ################### SOURCE FILES #####################
 SET(ACTOR_SOURCE_FILES
     ${SOURCE_PATH}/DOFDrawable.cpp
+    ${SOURCE_PATH}/Health.cpp
     ${SOURCE_PATH}/PickUpItemHandle.cpp
     ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
     ${SOURCE_PATH}/SMKBoatActor.cpp
@@ -61,7 +62,6 @@ SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/FloaterController.cpp
     ${SOURCE_PATH}/GameFinder.cpp
     ${SOURCE_PATH}/GeometryUtils.cpp
-    ${SOURCE_PATH}/Health.cpp
     ${SOURCE_PATH}/main.cpp
     ${SOURCE_PATH}/NetworkBuddy.cpp
     ${SOURCE_PATH}/OceanWindowResize.cpp
@@ -76,6 +76,7 @@ SET(APP_SOURCE_FILES
 ################### HEADER FILES #####################
 SET(ACTOR_HEADER_FILES
     ${HEADER_PATH}/DOFDrawable.h
+    ${HEADER_PATH}/Health.h 
     ${HEADER_PATH}/PickUpItemHandle.h
     ${HEADER_PATH}/SMKActorExport.h
     ${HEADER_PATH}/SMKActorLibraryRegistry.h
@@ -98,7 +99,6 @@ SET(APP_HEADER_FILES
     ${HEADER_PATH}/FloaterController.h
     ${HEADER_PATH}/GameFinder.h
     ${HEADER_PATH}/GeometryUtils.h
-    ${HEADER_PATH}/Health.h 
     ${HEADER_PATH}/NetConfig.h
     ${HEADER_PATH}/NetworkBuddy.h
     ${HEADER_PATH}/OceanWindowResize.h
