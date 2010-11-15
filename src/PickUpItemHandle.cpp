@@ -1,7 +1,10 @@
 #include <PickUpItemHandle.h>
+#include <SMKBoatActor.h>
 
+#include <dtDAL/actortype.h>
 #include <dtDAL/propertymacros.h> //for dtDAL::PropertyRegHelper
 #include <dtCore/scene.h>
+#include <dtGame/gamemanager.h>
 
 #include <osg/Geometry>
 #include <osg/ShapeDrawable>
@@ -89,8 +92,21 @@ bool PickUpItemHandle::FilterContact(dContact* contact, Transformable* collider)
    // Do not send events in STAGE.
    if (!GetGameActorProxy().IsInSTAGE())
    {
-      osg::Vec3 position(contact->geom.pos[0], contact->geom.pos[1], contact->geom.pos[2]);
-      osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
+      SMKBoatActor* boat = dynamic_cast<SMKBoatActor*>(collider);
+
+      if (boat)
+      {
+         SMKBoatActorProxy& boatProxy = (SMKBoatActorProxy&)boat->GetGameActorProxy();
+
+         osg::Vec3 position(contact->geom.pos[0], contact->geom.pos[1], contact->geom.pos[2]);
+         osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
+
+         // Alert the boat that it has collided with this pickup
+         boat->OnCollision(boatProxy.GetActorType().GetName(), position, normal);
+
+         // Remove the pickup actor
+         boatProxy.GetGameManager()->DeleteActor(GetGameActorProxy());
+      }
    }
 
    return false;

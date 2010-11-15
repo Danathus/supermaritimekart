@@ -46,6 +46,12 @@ const Weapon* SMKBoatActor::GetBackWeapon() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::OnCollision(const std::string& type, const osg::Vec3& pos, const osg::Vec3& normal)
+{
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::OnRemovedFromWorld()
 {
    //clear out our references so instances will be destroyed.
