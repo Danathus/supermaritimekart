@@ -32,6 +32,11 @@ public:
    Weapon* GetBackWeapon();
    const Weapon* GetBackWeapon() const;
 
+   /**
+   * Currently called when colliding with pickups.
+   */
+   void OnCollision(const std::string& type, const osg::Vec3& pos, const osg::Vec3& normal);
+
    /** 
    * Inherited from FloatingActor.  Called when this actor is about to be nuked.
    */
