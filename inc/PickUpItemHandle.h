@@ -21,13 +21,6 @@ namespace SMK
 
       virtual void TickLocal(const dtGame::Message& msg);
 
-      /**
-      * Callback from Scene when a contact occurs. This normally is used to 
-      * filter out Transformables that you do not want to perform expensive
-      * physics calculations on, but here we use it to fire our Trigger.
-      */
-      virtual bool FilterContact(dContact* contact, Transformable* collider);
-
    protected:
       virtual ~PickUpItemHandle();
    private:
