@@ -21,9 +21,9 @@ PROJECT(${APP_NAME})
 
 FIND_PACKAGE(dtABC               REQUIRED)
 FIND_PACKAGE(dtActors            REQUIRED)
+FIND_PACKAGE(dtAudio             REQUIRED)
 FIND_PACKAGE(dtCore              REQUIRED)
 FIND_PACKAGE(dtDAL               REQUIRED)
-FIND_PACKAGE(dtAudio             REQUIRED)
 FIND_PACKAGE(dtUtil              REQUIRED)
 FIND_PACKAGE(dtGame              REQUIRED)
 FIND_PACKAGE(OpenGL              REQUIRED)
@@ -119,6 +119,7 @@ SET(REAPP_SOURCE_FILES
 SET(DIRS_TO_INCLUDE ${HEADER_PATH}
                     ${DTABC_INCLUDE_DIRECTORIES}
                     ${DTACTORS_INCLUDE_DIRECTORIES}
+                    ${DTAUDIO_INCLUDE_DIRECTORIES}
                     ${DTCORE_INCLUDE_DIRECTORIES}
                     ${DTDAL_INCLUDE_DIRECTORIES}
                     ${DTUTIL_INCLUDE_DIRECTORIES}
@@ -150,6 +151,7 @@ ENDIF (MSVC)
 
 TARGET_LINK_LIBRARIES(${ACTOR_LIB_NAME}
                       ${DTACTORS_LIBRARIES}
+                      ${DTAUDIO_LIBRARIES}
                       ${DTCORE_LIBRARIES}
                       ${DTDAL_LIBRARIES}
                       ${DTGAME_LIBRARIES}

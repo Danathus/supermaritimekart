@@ -18,9 +18,6 @@ public:
 
    virtual void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
 
-   virtual void StartWeaponFire();
-   virtual void StopWeaponFire();
-
    ///The max angle the weapon can rotate left or right to
    float GetHorizontalMaxAngle() const;
    void SetHorizontalMaxAngle(const float val);

@@ -34,6 +34,8 @@ class SMK_ACTOR_EXPORT Weapon : public osg::Referenced
 public:
    Weapon(const std::string& name = "Weapon");
 
+   virtual void Update(float deltaTime);
+
    /**
    * Builds the property map for STAGE
    */
@@ -46,8 +48,8 @@ public:
    */
    virtual void Initialize(dtDAL::BaseActorObject* actorProxy);
 
-   virtual void StartWeaponFire() {}
-   virtual void StopWeaponFire() {}
+   void StartWeaponFire();
+   void StopWeaponFire();
 
    void SetWeapon(const std::string& weaponClass, dtDAL::BaseActorObject* actorProxy);
    WeaponActor* GetWeaponActor() { return mpWeaponActor; }

@@ -19,6 +19,15 @@ Weapon::~Weapon()
 {
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void Weapon::Update(float deltaTime)
+{
+   if (mpWeaponActor.valid())
+   {
+      mpWeaponActor->Update(deltaTime);
+   }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 void Weapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 {
@@ -51,7 +60,28 @@ void Weapon::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propName
 ///////////////////////////////////////////////////////////////////////////////
 void Weapon::Initialize(dtDAL::BaseActorObject* actorProxy)
 {
-   SetWeapon(mDefaultWeaponClass, actorProxy);
+   if (!mDefaultWeaponClass.empty())
+   {
+      SetWeapon(mDefaultWeaponClass, actorProxy);
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Weapon::StartWeaponFire()
+{
+   if (mpWeaponActor.valid())
+   {
+      mpWeaponActor->StartWeaponFiring();
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Weapon::StopWeaponFire()
+{
+   if (mpWeaponActor.valid())
+   {
+      mpWeaponActor->StopWeaponFiring();
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
