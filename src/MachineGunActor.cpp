@@ -18,7 +18,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 const std::string MachineGunActor::MACHINE_GUN_ACTOR_TYPE = "MachineGun";
-const float BULLET_TRAIL_HEIGHT = 1.0f;
+const float BULLET_TRAIL_HEIGHT = 0.5f;
 
 //////////////////////////////////////////////////////////////////////////
 MachineGunActor::MachineGunActor(const std::string& filename /*= ""*/)

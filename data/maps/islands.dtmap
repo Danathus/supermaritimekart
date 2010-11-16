@@ -7,7 +7,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-19T17:53:50-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-11T18:19:09-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-16T12:57:44-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -2076,7 +2076,7 @@
             </property>
         </actor>
         <actor>
-            <type>Shared.BoatActor</type>
+            <type>SuperMaritimeKart.SMKBoatActor</type>
             <id>61737322-7b73-4936-9b6b-a05a1599c17f</id>
             <name>Boat</name>
             <property>
@@ -2407,6 +2407,38 @@
             <property>
                 <name>UsePositionalSounds</name>
                 <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Front WeaponPosition</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>-1.000000</value2>
+                    <value3>3.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Front WeaponDefaultWeapon</name>
+                <string>MachineGun</string>
+            </property>
+            <property>
+                <name>Front WeaponMaxHorizontalAngle</name>
+                <float>30</float>
+            </property>
+            <property>
+                <name>Front WeaponMaxVerticalAngle</name>
+                <float>15</float>
+            </property>
+            <property>
+                <name>Back WeaponPosition</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>-5.000000</value2>
+                    <value3>0.500000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Back WeaponDefaultWeapon</name>
+                <string></string>
             </property>
             <property>
                 <name>CurrentShader</name>
