@@ -54,6 +54,9 @@ public:
    */
    virtual void OnRemovedFromWorld();
 
+   virtual void ProcessMessage(const dtGame::Message& message);
+
+
    void SetupDefaultWeapon();
 
 protected:
