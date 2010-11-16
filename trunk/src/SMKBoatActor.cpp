@@ -85,7 +85,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          dtGame::GameActorProxy& boatProxy = GetGameActorProxy();
 
          osg::Vec3 position(contact->geom.pos[0], contact->geom.pos[1], contact->geom.pos[2]);
-         osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);         
+         osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
 
          // Remove the pickup actor
          boatProxy.GetGameManager()->DeleteActor(pickup->GetGameActorProxy());
@@ -98,7 +98,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
 
          //TODO Send request to server indicating our interest in acquiring "pickup"
          //pickup->GetType();
-         
+
       }
    }
 
@@ -113,7 +113,7 @@ void SMKBoatActor::OnEnteredWorld()
    mPickupAcquireSound = dtAudio::AudioManager::GetInstance().NewSound();
    mPickupAcquireSound->LoadFile("sounds/pop.wav");
    mPickupAcquireSound->SetGain(1.0f);
-   mPickupAcquireSound->SetListenerRelative(false);
+   mPickupAcquireSound->SetListenerRelative(true);
 }
 
 
@@ -158,7 +158,7 @@ void SMKBoatActor::ProcessMessage(const dtGame::Message& message)
 //////////////////////////////////////////////////////////
 // Proxy code
 //////////////////////////////////////////////////////////
-SMKBoatActorProxy::SMKBoatActorProxy() 
+SMKBoatActorProxy::SMKBoatActorProxy()
 {
    SetClassName("SMKBoatActor");
 }
