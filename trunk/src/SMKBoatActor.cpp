@@ -98,7 +98,10 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
 
          //TODO Send request to server indicating our interest in acquiring "pickup"
          //pickup->GetType();
-
+      }
+      else
+      {
+         return BoatActor::FilterContact(contact, collider);
       }
    }
 
