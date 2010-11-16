@@ -4,11 +4,13 @@
 #include <dtDAL/actortype.h>
 #include <dtDAL/propertymacros.h> //for dtDAL::PropertyRegHelper
 #include <dtCore/scene.h>
+#include <dtDAL/project.h>//for loading resources
 
+#include <osgDB/ReadFile>
+#include <osg/Texture2D>
 #include <osg/Geometry>
 #include <osg/ShapeDrawable>
 #include <osg/Geode>
-
 using namespace SMK;
 
 
@@ -56,7 +58,7 @@ void PickUpItemBaseProxy::BuildPropertyMap()
 ////////////////////////////////////////////////////////////////////////////////
 
 DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, std::string, Type);
-DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, dtDAL::ResourceDescriptor, IconImage);
+DT_IMPLEMENT_ACCESSOR_GETTER(PickUpItemHandle, dtDAL::ResourceDescriptor, IconImage);
 
 PickUpItemHandle::PickUpItemHandle(FloatingActorProxy& proxy)
 : FloatingActor(proxy)
@@ -85,6 +87,32 @@ void PickUpItemHandle::TickLocal(const dtGame::Message& msg)
    FloatingActor::TickLocal(msg);
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+void PickUpItemHandle::SetIconImage(dtUtil::TypeTraits<dtDAL::ResourceDescriptor>::param_type value)
+{
+   mIconImage = value;
+
+   if (mIconImage.IsEmpty())
+   {
+      GetOSGNode()->getOrCreateStateSet()->removeTextureMode(0, osg::StateAttribute::ON);
+      return;
+   }
+
+   const std::string textureFile = dtDAL::Project::GetInstance().GetResourcePath(mIconImage);
+
+   if (!textureFile.empty())
+   {
+      osg::Image* image = osgDB::readImageFile(textureFile);
+      if (image)
+      {
+         osg::Texture2D* texture = new osg::Texture2D(image);
+         GetOSGNode()->getOrCreateStateSet()->setTextureAttributeAndModes(0, texture, osg::StateAttribute::ON);
+      }
+   }
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 osg::ref_ptr<osg::Node> PickUpItemHandle::CreateGeometry()
 {
@@ -100,7 +128,7 @@ osg::ref_ptr<osg::Node> PickUpItemHandle::CreateGeometry()
 
    osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box, hints);
    
-   //TODO apply the texture; "IconImage" in the parent proxy
+   
 
    shape->setColor(color);
    geode->addDrawable(shape);

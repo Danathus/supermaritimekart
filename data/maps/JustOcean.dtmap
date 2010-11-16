@@ -8,7 +8,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-22T19:23:23-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-14T20:58:08-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-15T18:13:02-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -33,9 +33,9 @@
     <actors>
         <environmentActor>62cdc01f-f77b-459b-a44c-9228160a0f13</environmentActor>
         <actor>
-            <type>SuperMaritimeKart.SMKPickUp</type>
-            <id>1c750c05-04b1-4039-a573-be0009e16add</id>
-            <name>pick up item_01</name>
+            <type>dtcore.Player Start</type>
+            <id>3de4ca1b-228c-49d7-97b2-93d3afb04b62</id>
+            <name>PlayerStart</name>
             <property>
                 <name>Description</name>
                 <string></string>
@@ -55,9 +55,74 @@
             <property>
                 <name>Translation</name>
                 <vec3>
-                    <value1>0.763336</value1>
-                    <value2>24.662371</value2>
-                    <value3>2.775364</value3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Normal Rescaling</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Show Collision Geometry</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Collision Type</name>
+                <enumerated>NONE</enumerated>
+            </property>
+            <property>
+                <name>Collision Radius</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Length</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Box</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Enable Collision</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Render Proxy Node</name>
+                <boolean>false</boolean>
+            </property>
+        </actor>
+        <actor>
+            <type>SuperMaritimeKart.SMKPickUp</type>
+            <id>522ebb97-6058-4fc5-9457-9e63bc805de8</id>
+            <name>healthPickup1</name>
+            <property>
+                <name>Description</name>
+                <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Rotation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Translation</name>
+                <vec3>
+                    <value1>17.808332</value1>
+                    <value2>22.340881</value2>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
@@ -126,84 +191,19 @@
             </property>
             <property>
                 <name>Type</name>
-                <string>Nitro</string>
+                <string>health</string>
             </property>
             <property>
                 <name>IconImage</name>
                 <resourceType>Textures</resourceType>
-                <resourceDisplayName></resourceDisplayName>
-                <resource></resource>
+                <resourceDisplayName>Textures::health_pickup.png</resourceDisplayName>
+                <resource>Textures::health_pickup.png</resource>
             </property>
             <property>
                 <name>CurrentShader</name>
                 <resourceType>Shaders</resourceType>
                 <resourceDisplayName></resourceDisplayName>
                 <resource></resource>
-            </property>
-        </actor>
-        <actor>
-            <type>dtcore.Player Start</type>
-            <id>3de4ca1b-228c-49d7-97b2-93d3afb04b62</id>
-            <name>PlayerStart</name>
-            <property>
-                <name>Description</name>
-                <string></string>
-            </property>
-            <property>
-                <name>IsActive</name>
-                <boolean>true</boolean>
-            </property>
-            <property>
-                <name>Rotation</name>
-                <vec3>
-                    <value1>0.000000</value1>
-                    <value2>0.000000</value2>
-                    <value3>0.000000</value3>
-                </vec3>
-            </property>
-            <property>
-                <name>Translation</name>
-                <vec3>
-                    <value1>0.000000</value1>
-                    <value2>0.000000</value2>
-                    <value3>0.000000</value3>
-                </vec3>
-            </property>
-            <property>
-                <name>Normal Rescaling</name>
-                <boolean>true</boolean>
-            </property>
-            <property>
-                <name>Show Collision Geometry</name>
-                <boolean>false</boolean>
-            </property>
-            <property>
-                <name>Collision Type</name>
-                <enumerated>NONE</enumerated>
-            </property>
-            <property>
-                <name>Collision Radius</name>
-                <float>0</float>
-            </property>
-            <property>
-                <name>Collision Length</name>
-                <float>0</float>
-            </property>
-            <property>
-                <name>Collision Box</name>
-                <vec3>
-                    <value1>0.000000</value1>
-                    <value2>0.000000</value2>
-                    <value3>0.000000</value3>
-                </vec3>
-            </property>
-            <property>
-                <name>Enable Collision</name>
-                <boolean>false</boolean>
-            </property>
-            <property>
-                <name>Render Proxy Node</name>
-                <boolean>false</boolean>
             </property>
         </actor>
         <actor>
