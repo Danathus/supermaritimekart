@@ -94,7 +94,11 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          // This should happen when the item is acquired
          {
             mPickupAcquireSound->Play();
-         }         
+         }
+
+         //TODO Send request to server indicating our interest in acquiring "pickup"
+         //pickup->GetType();
+         
       }
    }
 
@@ -141,6 +145,12 @@ void SMKBoatActor::SetupDefaultWeapon()
 void SMKBoatActor::Initialize()
 {
    BoatActor::Initialize();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::ProcessMessage(const dtGame::Message& message)
+{
+   BoatActor::ProcessMessage(message);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

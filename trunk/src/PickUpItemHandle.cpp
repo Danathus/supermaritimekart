@@ -12,9 +12,6 @@
 using namespace SMK;
 
 
-DT_IMPLEMENT_ACCESSOR(PickUpItemBaseProxy, std::string, Type);
-DT_IMPLEMENT_ACCESSOR(PickUpItemBaseProxy, dtDAL::ResourceDescriptor, IconImage);
-
 ////////////////////////////////////////////////////////////////////////////////
 PickUpItemBaseProxy::PickUpItemBaseProxy()
 : FloatingActorProxy()
@@ -44,9 +41,10 @@ void PickUpItemBaseProxy::BuildPropertyMap()
    this->SetCollisionBoxDims(osg::Vec3(1.f, 1.f, 1.f));
    this->SetCollisionType(dtCore::Transformable::CollisionGeomType::CUBE);
    
-   //wtf is this?
-   typedef dtDAL::PropertyRegHelper<dtDAL::PropertyContainer&, PickUpItemBaseProxy> RegHelperType;
-   RegHelperType regHelper(*this, this, "PickUp Properties");
+   //Properties reside in the Proxy, but the get/set functors reside on the actor itself
+   typedef dtDAL::PropertyRegHelper<dtDAL::PropertyContainer&, PickUpItemHandle> RegHelperType;
+   PickUpItemHandle* actor = static_cast<PickUpItemHandle*>(GetActor());
+   RegHelperType regHelper(*this, actor, "PickUp Properties");
 
    //add in additional properties
    DT_REGISTER_PROPERTY(Type, "Defines the type of PickUp; matches what's registered in the PickUp Factor", RegHelperType, regHelper);
@@ -56,6 +54,10 @@ void PickUpItemBaseProxy::BuildPropertyMap()
 
 //////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, std::string, Type);
+DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, dtDAL::ResourceDescriptor, IconImage);
+
 PickUpItemHandle::PickUpItemHandle(FloatingActorProxy& proxy)
 : FloatingActor(proxy)
 {

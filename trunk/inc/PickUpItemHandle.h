@@ -20,6 +20,10 @@ namespace SMK
       PickUpItemHandle(FloatingActorProxy& proxy);
 
       virtual void TickLocal(const dtGame::Message& msg);
+      
+      //Accessors
+      DT_DECLARE_ACCESSOR(std::string, Type); ///<The pickup type ("MachineGun", "Health", etc)
+      DT_DECLARE_ACCESSOR(dtDAL::ResourceDescriptor, IconImage); ///<The texture used for the rendered PickUp geometry
 
    protected:
       virtual ~PickUpItemHandle();
@@ -36,8 +40,6 @@ namespace SMK
       PickUpItemBaseProxy();
       virtual ~PickUpItemBaseProxy();
       virtual void BuildPropertyMap();
-      DT_DECLARE_ACCESSOR(std::string, Type); ///<The pickup type ("MachineGun", "Health", etc)
-      DT_DECLARE_ACCESSOR(dtDAL::ResourceDescriptor, IconImage); ///<The texture used for the rendered PickUp geometry
       
       //TODO category (bow turret, rear dropper, etc)
 
