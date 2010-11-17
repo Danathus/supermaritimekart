@@ -5,6 +5,8 @@
 
 #include <dtGame/basemessages.h>
 #include <dtGame/gamemanager.h>
+#include <dtGame/deadreckoninghelper.h>
+#include <dtGame/drpublishingactcomp.h>
 #include <dtAudio/audiomanager.h>
 
 #include <ode/contact.h>
@@ -15,9 +17,10 @@ using namespace SMK;
 // Actor code
 //////////////////////////////////////////////////////////
 SMKBoatActor::SMKBoatActor(SMKBoatActorProxy& proxy)
-: BoatActor(proxy)
-, mpFrontWeapon(new TurretWeapon("Front Weapon"))
-, mpBackWeapon(new Weapon("Back Weapon"))
+   : BoatActor(proxy)
+   , mpFrontWeapon(new TurretWeapon("Front Weapon"))
+   , mpBackWeapon(new Weapon("Back Weapon"))
+   , mDeadReckoningHelper(new dtGame::DeadReckoningHelper)
 {
    SetName("SMKBoat");
 }
@@ -128,6 +131,43 @@ void SMKBoatActor::OnRemovedFromWorld()
 
    mpFrontWeapon = NULL;
    mpBackWeapon = NULL;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::BuildActorComponents()
+{
+   BoatActor::BuildActorComponents();
+
+   // DEAD RECKONING - ACT COMPONENT
+   if (!HasComponent(dtGame::DeadReckoningHelper::TYPE)) // not added by a subclass
+   {
+      mDeadReckoningHelper = new dtGame::DeadReckoningHelper();
+
+      // Flying was replaced with GroundClampType, and the default is already 'KeepAbove'
+      //////mDeadReckoningHelper->SetFlying(false); // Causes ground clamping by default
+      //mDeadReckoningHelper->SetGroundClampType(dtGame::GroundClampTypeEnum::KEEP_ABOVE);
+
+      // attempt to fix the z-fighting on treads and wheels that are
+      // very close to the ground. We move the vehicle up about 3-4 inches...
+      mDeadReckoningHelper->SetGroundOffset(0.09);
+
+      AddComponent(*mDeadReckoningHelper);
+   }
+   else
+   {
+      GetComponent(mDeadReckoningHelper);
+   }
+
+   // DEAD RECKONING - PUBLISHING ACTOR COMPONENT
+   if (!HasComponent(dtGame::DRPublishingActComp::TYPE)) // not added by a subclass
+   {
+      mDRPublishingActComp = new dtGame::DRPublishingActComp();
+      AddComponent(*mDRPublishingActComp);  // Add AFTER the DRhelper.
+   }
+   else
+   {
+      GetComponent(mDRPublishingActComp);
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

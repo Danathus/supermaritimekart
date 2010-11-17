@@ -15,6 +15,7 @@
 #include <dtCore/transform.h>
 #include <dtGame/messagetype.h>
 #include <dtGame/basemessages.h>
+#include <dtGame/deadreckoningcomponent.h>
 
 #ifdef BUILD_WITH_DTOCEAN
 # include <dtOcean/actorregistry.h>
@@ -85,7 +86,7 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
          if (delay > kPeriod)
          {
             //mpBoat->GetGameActorProxy().NotifyPartialActorUpdate();
-            mpBoat->GetGameActorProxy().NotifyFullActorUpdate();
+            mpBoat->GetGameActorProxy().NotifyFullActorUpdate(); // no longer do this ourselves
             delay -= kPeriod;
             if (!mpBoat->DynamicsEnabled())
             {
@@ -193,6 +194,10 @@ void BoatController::SetupControlledBoat(dtOcean::OceanActor* ocean)
    //dtCore::Transform boatTransform;
    //boatTransform.SetTranslation(GetStartLocation());
    //mpBoat->SetTransform(boatTransform);
+
+   // Setup Boat to be Dead Reckoned
+   assert(mDeadReckoningComponent.valid());
+   mDeadReckoningComponent->RegisterActor(mpBoat->GetGameActorProxy(), *mpBoat->GetDeadReckoningHelper());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
