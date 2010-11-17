@@ -18,6 +18,7 @@
 #include <dtGame/gamemanager.h>
 #include <dtGame/defaultmessageprocessor.h>
 #include <dtGame/defaultnetworkpublishingcomponent.h>
+#include <dtGame/deadreckoningcomponent.h>
 #include <dtUtil/exception.h>
 
 #ifdef BUILD_WITH_DTOCEAN
@@ -43,7 +44,7 @@ SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
    // make sure the network engine gets started up early
    net::NetworkEngine::GetRef();
    // lets allow for extra big packets :P
-   net::NetworkEngine::GetRef().GetNode().SetMaxPacketSize(2048);
+   net::NetworkEngine::GetRef().GetNode().SetMaxPacketSize(3 * 1024); // formerly 2048
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -116,6 +117,10 @@ void SuperMaritimeKart::Config()
 
          mGameManager->AddComponent(*new dtGame::DefaultMessageProcessor(), dtGame::GameManager::ComponentPriority::HIGHEST);
          mGameManager->AddComponent(*new dtGame::DefaultNetworkPublishingComponent());
+
+         dtGame::DeadReckoningComponent* deadReckoningComponent = new dtGame::DeadReckoningComponent();
+         mGameManager->AddComponent(*deadReckoningComponent);
+         boatComponent->SetDeadReckoningComponent(deadReckoningComponent);
 
          mGameManager->AddComponent(*new SMK_NetworkComponent());
          mGameManager->AddComponent(*new ScenarioComponent());

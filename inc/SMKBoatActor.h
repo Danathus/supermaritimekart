@@ -14,6 +14,12 @@ class Weapon;
 
 namespace dtAudio { class Sound; }
 
+namespace dtGame
+{
+   class DeadReckoningHelper;
+   class DRPublishingActComp;
+}
+
 class SMK_ACTOR_EXPORT SMKBoatActor : public BoatActor
 {
 public:  
@@ -54,10 +60,15 @@ public:
    */
    virtual void OnRemovedFromWorld();
 
+   virtual void BuildActorComponents();
+
    virtual void ProcessMessage(const dtGame::Message& message);
 
 
    void SetupDefaultWeapon();
+
+   dtGame::DeadReckoningHelper *GetDeadReckoningHelper() { return mDeadReckoningHelper; }
+   const dtGame::DeadReckoningHelper *GetDeadReckoningHelper() const { return mDeadReckoningHelper; }
 
 protected:
 
@@ -76,6 +87,9 @@ private:
    dtCore::RefPtr<Weapon> mpBackWeapon;
    SMK::Health mHealth;  ///<The current health of this boat
    dtCore::RefPtr<dtAudio::Sound> mPickupAcquireSound;
+
+   dtCore::RefPtr<dtGame::DeadReckoningHelper> mDeadReckoningHelper;
+   dtCore::RefPtr<dtGame::DRPublishingActComp> mDRPublishingActComp;
 };
 
 class SMKBoatActorProxy : public BoatActorProxy

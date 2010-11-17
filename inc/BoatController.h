@@ -16,6 +16,11 @@ namespace dtCore
    class Mouse;
 }
 
+namespace dtGame
+{
+   class DeadReckoningComponent;
+}
+
 namespace dtOcean
 {
    class OceanActor;
@@ -27,6 +32,8 @@ class BoatController : public dtGame::GMComponent
 {
 public:
    BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard, dtCore::Mouse& mouse);
+
+   void SetDeadReckoningComponent(dtGame::DeadReckoningComponent* component) { mDeadReckoningComponent = component; }
 
    virtual void ProcessMessage(const dtGame::Message& message);
 
@@ -48,6 +55,7 @@ private:
    dtCore::RefPtr<dtCore::Mouse> mpMouseToListenTo;
    dtCore::RefPtr<dtCore::Keyboard> mpKeyboardToListenTo;
    dtCore::RefPtr<OceanWindowResize> mpOceanResizer;
+   dtCore::RefPtr<dtGame::DeadReckoningComponent> mDeadReckoningComponent;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
