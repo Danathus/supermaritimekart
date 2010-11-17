@@ -7,7 +7,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-21T09:21:17-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-16T12:57:56-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-17T14:10:39-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -4152,7 +4152,7 @@
             </property>
             <property>
                 <name>Collision Type</name>
-                <enumerated>NONE</enumerated>
+                <enumerated>CUBE</enumerated>
             </property>
             <property>
                 <name>Collision Radius</name>
@@ -4165,14 +4165,14 @@
             <property>
                 <name>Collision Box</name>
                 <vec3>
-                    <value1>1.800000</value1>
-                    <value2>6.000000</value2>
-                    <value3>0.500000</value3>
+                    <value1>2.500000</value1>
+                    <value2>8.000000</value2>
+                    <value3>3.000000</value3>
                 </vec3>
             </property>
             <property>
                 <name>Enable Collision</name>
-                <boolean>false</boolean>
+                <boolean>true</boolean>
             </property>
             <property>
                 <name>Render Proxy Node</name>
@@ -4484,6 +4484,66 @@
                 <resourceType>Shaders</resourceType>
                 <resourceDisplayName></resourceDisplayName>
                 <resource></resource>
+            </property>
+            <property>
+                <name>Last Known Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Last Known Rotation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Velocity Vector</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Acceleration Vector</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Angular Velocity Vector</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Dead Reckoning Algorithm</name>
+                <enumerated>Static</enumerated>
+            </property>
+            <property>
+                <name>GroundClampType</name>
+                <enumerated>KeepAbove</enumerated>
+            </property>
+            <property>
+                <name>Ground Offset</name>
+                <float>0.090000004</float>
+            </property>
+            <property>
+                <name>VelocityAveragingFrameCount</name>
+                <integer>1</integer>
+            </property>
+            <property>
+                <name>DesiredNumUpdatesPerSec</name>
+                <float>5</float>
             </property>
         </actor>
     </actors>
