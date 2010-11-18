@@ -8,10 +8,25 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+namespace dtDAL
+{
+   class BaseActorObject;
+}
+
 class SMK_NetworkComponent : public NetworkEngineComponent
 {
 public:
    SMK_NetworkComponent();
+
+   /** Add the supplied proxy to the list of actors which need to be 
+     * sent to new clients who connect.  Used to blast the game state as well
+     * as locally created prototype actors.
+     */
+   void AddToNewClientPublishList(dtDAL::BaseActorObject& actorProxy);
+   
+   /** Empty out the list of Actors which get sent to newly connecting clients
+   */
+   void ClearNewClientPublishList();
 
 protected:
    ~SMK_NetworkComponent();
@@ -24,7 +39,14 @@ protected:
    // from NetworkEngineComponent
    void QueueMessage(net::NodeID nodeID, const dtGame::Message* message);
 
+
 private:
+
+   typedef std::vector<dtCore::RefPtr<dtDAL::BaseActorObject> > ProxyContainer;
+   ProxyContainer mProxiesToSendToNewClients;
+
+   void SendGameDataToClient(const dtGame::MachineInfo* machineInfo);
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -6,6 +6,7 @@
 //#include <CCTS_ActorLibrary/IdentityAssignmentManager.h>
 
 #include <dtGame/basemessages.h>
+#include <dtGame/actorupdatemessage.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -58,6 +59,9 @@ void SMK_NetworkComponent::ProcessMessage(const dtGame::Message& message)
          mapMessage->SetSource(GetGameManager()->GetMachineInfo());
          mapMessage->SetDestination(NetworkBuddy::GetRef().GetMachineInfo(machineInfoMessage.GetUniqueId()));
          SendNetworkMessage(*mapMessage);
+
+         //now send all pertinent game data to the newly connected client
+         SendGameDataToClient(NetworkBuddy::GetRef().GetMachineInfo(machineInfoMessage.GetUniqueId()));
       }
    }
    else if (message.GetMessageType() == dtGame::MessageType::COMMAND_LOAD_MAP)
@@ -92,6 +96,47 @@ void SMK_NetworkComponent::QueueMessage(net::NodeID nodeID, const dtGame::Messag
 #endif
 
    NetworkEngineComponent::QueueMessage(nodeID, message);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMK_NetworkComponent::AddToNewClientPublishList(dtDAL::BaseActorObject& actorProxy)
+{
+   mProxiesToSendToNewClients.push_back(&actorProxy);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMK_NetworkComponent::ClearNewClientPublishList()
+{
+   mProxiesToSendToNewClients.clear();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMK_NetworkComponent::SendGameDataToClient(const dtGame::MachineInfo* machineInfo)
+{
+   ProxyContainer::const_iterator proxyItr = mProxiesToSendToNewClients.begin();
+   while (proxyItr != mProxiesToSendToNewClients.end())
+   {
+      if ((*proxyItr)->IsGameActorProxy())
+      {
+         dtGame::GameActorProxy* gap = static_cast<dtGame::GameActorProxy*>((*proxyItr).get());
+         gap->NotifyFullActorUpdate();
+
+         //dtCore::RefPtr<dtGame::ActorUpdateMessage> msg;
+         //GetGameManager()->GetMessageFactory().CreateMessage(dtGame::MessageType::INFO_ACTOR_UPDATED, msg);
+         //msg->SetSource(GetGameManager()->GetMachineInfo());
+
+         ////send it to machineInfo client
+         //msg->SetDestination(machineInfo);
+
+         ////create a full actor update message about this proxy
+         //gap->PopulateActorUpdate(*msg);
+
+         ////fire it off
+         //SendNetworkMessage(*msg);
+      }
+
+      ++proxyItr;
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
