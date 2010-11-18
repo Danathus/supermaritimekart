@@ -7,6 +7,7 @@
 #include <dtGame/gamemanager.h>
 #include <dtGame/deadreckoninghelper.h>
 #include <dtGame/drpublishingactcomp.h>
+#include <dtGame/messagetype.h>
 #include <dtAudio/audiomanager.h>
 
 #include <ode/contact.h>
@@ -120,6 +121,60 @@ void SMKBoatActor::OnEnteredWorld()
    mPickupAcquireSound->LoadFile("sounds/pop.wav");
    mPickupAcquireSound->SetGain(1.0f);
    mPickupAcquireSound->SetListenerRelative(true);
+
+   GetOSGNode()->setName(GetName());
+
+   if (!IsRemote())
+   {
+      dtCore::Transform xform;
+      GetTransform(xform);
+      osg::Vec3 pos;
+      xform.GetTranslation(pos);
+      GetDeadReckoningHelper()->SetLastKnownTranslation(pos);
+      osg::Vec3 rot;
+      xform.GetRotation(rot);
+      GetDeadReckoningHelper()->SetLastKnownRotation(rot);
+   }
+
+   //////////////////////////////
+   // DR CONFIGURATION OPTIONS
+   dtUtil::ConfigProperties& configParams = GetGameActorProxy().GetGameManager()->GetConfiguration();
+
+   // Use Cubic Splines (vs the older Linear Blend) - If not specified, don't override default
+   std::string useCubicSplines = "true"; //configParams.GetConfigPropertyValue("SimCore.DR.UseCubicSpline", "");
+   if (useCubicSplines == "true" || useCubicSplines == "TRUE" || useCubicSplines == "1")
+   {
+      GetDeadReckoningHelper()->SetUseCubicSplineTransBlend(true);
+   }
+   else if (useCubicSplines == "false" || useCubicSplines == "FALSE" || useCubicSplines == "0")
+   {
+      GetDeadReckoningHelper()->SetUseCubicSplineTransBlend(false);
+   }
+
+   // Always Use Max Smoothing Time (as opposed to averaged update rate)
+   // Some systems publish regularly, and some don't. If a system doesn't
+   // publish updates like clockwork, then we use the average publish rate to blend. 
+   std::string useFixedTimeBlends = ""; //configParams.GetConfigPropertyValue("SimCore.DR.UseFixedTimeBlends", "");
+   if (useFixedTimeBlends == "true" || useFixedTimeBlends == "TRUE" || useFixedTimeBlends == "1")
+   {
+      GetDeadReckoningHelper()->SetUseFixedSmoothingTime(true);
+   }
+   else if (useFixedTimeBlends == "false" || useFixedTimeBlends == "FALSE" || useFixedTimeBlends == "0")
+   {
+      GetDeadReckoningHelper()->SetUseFixedSmoothingTime(false);
+   }
+
+   // The MaxTransSmoothingTime is usually set, but there are very obscure cases where it might
+   // not have been set or not published for some reason. In that case, we need a non-zero value.
+   // In practice, a vehicle that publishes will typically set these directly (for example, see 
+   // BasePhysicsVehicleActor.SetMaxUpdateSendRate()). 
+   // Previously, it set the smoothing time to 0.0 so that local actors would not smooth
+   // their DR pos & rot to potentially make a cleaner comparison with less publishes.
+   // Turning local smoothing on allows better vis & debugging of DR values (ex the DRGhostActor).
+   if (GetDeadReckoningHelper()->GetMaxTranslationSmoothingTime() == 0.0f)
+      GetDeadReckoningHelper()->SetMaxTranslationSmoothingTime(0.5f);
+   if (GetDeadReckoningHelper()->GetMaxRotationSmoothingTime() == 0.0f)
+      GetDeadReckoningHelper()->SetMaxRotationSmoothingTime(0.5f);
 }
 
 
@@ -168,6 +223,9 @@ void SMKBoatActor::BuildActorComponents()
    {
       GetComponent(mDRPublishingActComp);
    }
+
+   //mDeadReckoningHelper->SetDeadReckoningAlgorithm(DeadReckoningAlgorithm::NONE);
+   mDeadReckoningHelper->SetDeadReckoningAlgorithm(dtGame::DeadReckoningAlgorithm::VELOCITY_AND_ACCELERATION);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -181,6 +239,15 @@ void SMKBoatActor::SetupDefaultWeapon()
    if (mpBackWeapon)
    {
       mpBackWeapon->Initialize(&GetGameActorProxy());
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::CauseFullUpdate()
+{
+   if (!IsRemote() && GetDRPublishingActComp() != NULL && GetGameActorProxy().IsInGM())
+   {
+      GetDRPublishingActComp()->ForceFullUpdateAtNextOpportunity();
    }
 }
 
@@ -249,6 +316,17 @@ void SMKBoatActorProxy::CreateActor()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActorProxy::OnEnteredWorld()
+{
+   BoatActorProxy::OnEnteredWorld();
+
+   if (!IsRemote())
+   {
+      RegisterForMessages(dtGame::MessageType::TICK_LOCAL, dtGame::GameActorProxy::TICK_LOCAL_INVOKABLE);
+   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 void SMKBoatActorProxy::OnRemovedFromWorld()
 {
    //tell our BoatActor it's time to go
@@ -268,6 +346,9 @@ void SMKBoatActorProxy::GetPartialUpdateProperties(std::vector<dtUtil::RefString
       return;
    }
 
+   // Add the properties for dead reckoning such as last known translation, etc...
+   actor->GetDeadReckoningHelper()->GetPartialUpdateProperties(propNamesToFill);
+
    if (actor->GetFrontWeapon())
    {
       actor->GetFrontWeapon()->GetPartialUpdateProperties(propNamesToFill);
@@ -277,6 +358,34 @@ void SMKBoatActorProxy::GetPartialUpdateProperties(std::vector<dtUtil::RefString
    {
       actor->GetBackWeapon()->GetPartialUpdateProperties(propNamesToFill);
    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SMKBoatActorProxy::NotifyFullActorUpdate()
+{
+   // Remove the rot and trans from the full actor update.
+   // If we send pos & rot out in an update, then that sometimes causes problems
+   // on remote items. Network components usually pick up their data on tick local, which
+   // sends a message to the DefaultmessageProcessorComponent. However, before that message
+   // gets processed, the tick-remote gets picked up by the DeadReckoningComponent. Causes jumpiness.
+   std::vector<dtDAL::ActorProperty* > allProperties;
+   GetPropertyList(allProperties);
+
+   std::vector<dtUtil::RefString> finalPropNameList;
+   finalPropNameList.reserve(allProperties.size());
+
+   for (size_t i = 0; i < allProperties.size(); ++i)
+   {
+      if (allProperties[i]->GetName() != dtDAL::TransformableActorProxy::PROPERTY_ROTATION &&
+          allProperties[i]->GetName() != dtDAL::TransformableActorProxy::PROPERTY_TRANSLATION)
+      {
+         finalPropNameList.push_back(allProperties[i]->GetName());
+      }
+   }
+
+   // Even though we are using the partialactorupdate method - it should be treated as a full
+   NotifyPartialActorUpdate(finalPropNameList, false);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
