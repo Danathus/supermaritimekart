@@ -53,6 +53,7 @@ private:
    typedef std::vector<dtCore::RefPtr<dtDAL::BaseActorObject> > ProxyContainer;
    ProxyContainer mInstantiatedPrototypes;
    dtCore::RefPtr<SMK_NetworkComponent> mNetworkComponent;
+   dtCore::RefPtr<SuperMaritimeKartMessenger> mAppComponent;
 
    void AttachOceanHeightToBoat();
 

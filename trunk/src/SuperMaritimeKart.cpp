@@ -74,7 +74,11 @@ SuperMaritimeKart::~SuperMaritimeKart()
    {
       mNetworkComponent->ClearNewClientPublishList();
       mGameManager->RemoveComponent(*mNetworkComponent);
-   }   
+   }
+  
+   mGameManager->RemoveComponent(*mAppComponent);
+
+   mGameManager->Shutdown();
 
    dtAudio::AudioManager::Destroy();
 }
@@ -115,12 +119,12 @@ void SuperMaritimeKart::Config()
             LOG_ERROR(e.ToString());
          }
 
-         SuperMaritimeKartMessenger* appComponent = new SuperMaritimeKartMessenger(*this);
+         mAppComponent = new SuperMaritimeKartMessenger(*this);
          BoatController* boatComponent = new BoatController(*GetWindow(), *GetKeyboard(), *GetMouse());
          CameraController* cameraComponent = new CameraController(*GetCamera(),*GetKeyboard(), *GetMouse());
          FloaterController* floaterComponent = new FloaterController();
 
-         mGameManager->AddComponent(*appComponent);
+         mGameManager->AddComponent(*mAppComponent);
          mGameManager->AddComponent(*boatComponent);
          mGameManager->AddComponent(*cameraComponent);
          mGameManager->AddComponent(*floaterComponent);
