@@ -57,6 +57,7 @@ SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/BoatKeyboardListener.cpp
     ${SOURCE_PATH}/CameraController.cpp
     ${SOURCE_PATH}/CameraMouseListener.cpp
+    ${SOURCE_PATH}/CollisionCallback.cpp
     ${SOURCE_PATH}/Damage.cpp
     ${SOURCE_PATH}/DamageAssessor.cpp
     ${SOURCE_PATH}/DeltaOceanGetHeight.cpp
@@ -95,6 +96,7 @@ SET(APP_HEADER_FILES
     ${HEADER_PATH}/BoatKeyboardListener.h
     ${HEADER_PATH}/CameraController.h
     ${HEADER_PATH}/CameraMouseListener.h
+    ${HEADER_PATH}/CollisionCallback.h
     ${HEADER_PATH}/Damage.h
     ${HEADER_PATH}/DamageAssessor.h
     ${HEADER_PATH}/DeltaOceanGetHeight.h
