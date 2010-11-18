@@ -33,6 +33,7 @@
 #include <DeltaNetworkAdapter/NetworkMessages.h>
 #include <SMK_NetworkComponent.h>
 #include <CollisionCallback.h>
+#include <SMKActorLibraryRegistry.h>
 #include <assert.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -225,6 +226,9 @@ void SuperMaritimeKart::OnMapLoaded()
 
       printf("advertising game via beacon on port %d (listen on port %d)\n", BEACON_SENDING_PORT, BEACON_LISTENER_PORT);
       net::NetworkEngine::GetRef().StartAdvertising(net::NetworkEngine::GetRef().GetHostName(), APP_PROTOCOL_ID, BEACON_LISTENER_PORT, GAME_HOST_PORT, BEACON_SENDING_PORT, userData);
+
+      //now instantiate all prototype PickUps defined in the map
+      CreatePickUpItemHandleActors();
    }
 }
 
@@ -340,8 +344,37 @@ void SuperMaritimeKart::GetFloatingActors(std::vector<FloatingActor*>& floatingA
    }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+void SuperMaritimeKart::CreatePickUpItemHandleActors()
+{
+   if (NetworkBuddy::GetRef().IsServer() == false) { return;}
 
+   //Assuming we're the server, lets create the PickUpItems defined in the map
+   const dtGame::GameManager::NameVector& mapNames = mGameManager->GetCurrentMapSet();
+   if (mapNames.empty()) {return;} //no maps loaded?
+   
+   std::vector<dtDAL::BaseActorObject*> pickups;
+   mGameManager->FindPrototypesByActorType(*SMKActorLibraryRegistry::SMK_PICKUP_ACTOR_TYPE, pickups);
 
+   std::vector<dtDAL::BaseActorObject*>::iterator itr = pickups.begin();
+   while (itr != pickups.end())
+   {
+      dtCore::RefPtr<dtDAL::BaseActorObject> pickup = mGameManager->CreateActorFromPrototype((*itr)->GetId());
+      dtGame::GameActorProxy* proxy = dynamic_cast<dtGame::GameActorProxy*>(pickup.get());
+      if (proxy)
+      {
+         try
+         {
+            mGameManager->AddActor(*proxy, false, true);
+         }
+         catch (const dtUtil::Exception& e)
+         {
+            LOG_ERROR("Problem adding the PickupItemActor prototype to the GM. " + e.ToString());
+         }         
+      }
+      ++itr;
+   }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

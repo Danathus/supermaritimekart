@@ -47,6 +47,7 @@ private:
    void AttachOceanHeightToBoat();
 
    void GetFloatingActors(std::vector<FloatingActor*>& floatingActors);
+   void CreatePickUpItemHandleActors(); //instantiates all PickupItemHandle prototypes in the currently loaded map
 };
 
 ////////////////////////////////////////////////////////////////////////////////
