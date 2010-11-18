@@ -67,8 +67,12 @@ public:
 
    void SetupDefaultWeapon();
 
-   dtGame::DeadReckoningHelper *GetDeadReckoningHelper() { return mDeadReckoningHelper; }
-   const dtGame::DeadReckoningHelper *GetDeadReckoningHelper() const { return mDeadReckoningHelper; }
+   dtGame::DeadReckoningHelper* GetDeadReckoningHelper() { return mDeadReckoningHelper; }
+   const dtGame::DeadReckoningHelper* GetDeadReckoningHelper() const { return mDeadReckoningHelper; }
+   dtGame::DRPublishingActComp* GetDRPublishingActComp() { return mDRPublishingActComp; }
+   const dtGame::DRPublishingActComp* GetDRPublishingActComp() const { return mDRPublishingActComp; }
+
+   void CauseFullUpdate();
 
 protected:
 
@@ -116,6 +120,8 @@ public:
    */
    virtual void CreateActor();
 
+   virtual void OnEnteredWorld();
+
    /** 
    * Called when this ActorProxy is being removed from the world.  Time to clean
    * up our junk.
@@ -123,6 +129,8 @@ public:
    virtual void OnRemovedFromWorld();
 
    virtual void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
+
+   virtual void NotifyFullActorUpdate();
 
 protected:
 
