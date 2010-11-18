@@ -69,6 +69,13 @@ SuperMaritimeKart::~SuperMaritimeKart()
       net::NetworkEngine::GetRef().GetMesh().Stop();
    }
 
+   mInstantiatedPrototypes.clear();
+   if (mNetworkComponent)
+   {
+      mNetworkComponent->ClearNewClientPublishList();
+      mGameManager->RemoveComponent(*mNetworkComponent);
+   }   
+
    dtAudio::AudioManager::Destroy();
 }
 
@@ -125,7 +132,8 @@ void SuperMaritimeKart::Config()
          mGameManager->AddComponent(*deadReckoningComponent);
          boatComponent->SetDeadReckoningComponent(deadReckoningComponent);
 
-         mGameManager->AddComponent(*new SMK_NetworkComponent());
+         mNetworkComponent = new SMK_NetworkComponent();
+         mGameManager->AddComponent(*mNetworkComponent);
          mGameManager->AddComponent(*new ScenarioComponent());
 
          GetScene()->SetPhysicsStepSize(0.001);
@@ -214,6 +222,13 @@ bool SuperMaritimeKart::KeyPressed(const dtCore::Keyboard* keyboard, int kc)
 ////////////////////////////////////////////////////////////////////////////////
 void SuperMaritimeKart::OnMapLoaded()
 {
+   //wipe out our container of any previous instantiated Prototypes
+   mInstantiatedPrototypes.clear();
+   if (mNetworkComponent)
+   {
+      mNetworkComponent->ClearNewClientPublishList();
+   }
+
    // ...and let's start advertising on the network
    if (NetworkBuddy::GetRef().IsServer())
    {
@@ -366,6 +381,8 @@ void SuperMaritimeKart::CreatePickUpItemHandleActors()
          try
          {
             mGameManager->AddActor(*proxy, false, true);
+            mInstantiatedPrototypes.push_back(proxy);
+            mNetworkComponent->AddToNewClientPublishList(*proxy);
          }
          catch (const dtUtil::Exception& e)
          {
@@ -374,6 +391,19 @@ void SuperMaritimeKart::CreatePickUpItemHandleActors()
       }
       ++itr;
    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SuperMaritimeKart::OnMapUnloaded()
+{
+   //wipe out our container of any previous instantiated Prototypes
+   mInstantiatedPrototypes.clear();   
+
+   if (mNetworkComponent)
+   {
+      mNetworkComponent->ClearNewClientPublishList();
+   }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

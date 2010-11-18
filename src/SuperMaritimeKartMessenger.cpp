@@ -28,6 +28,11 @@ void SuperMaritimeKartMessenger::ProcessMessage(const dtGame::Message& message)
    {
       mApplication->OnMapLoaded();
    }
+   else if (message.GetMessageType() == dtGame::MessageType::INFO_MAP_UNLOADED)
+   {
+      mApplication->OnMapUnloaded();
+   }
+   
 }
 
 ////////////////////////////////////////////////////////////////////////////////

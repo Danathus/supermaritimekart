@@ -9,6 +9,10 @@ namespace dtGame
 {
    class GameManager;
 }
+namespace dtDAL
+{
+   class BaseActorObject;
+}
 
 namespace net
 {
@@ -17,6 +21,7 @@ namespace net
 
 class FloatingActor;
 class GameFinder;
+class SMK_NetworkComponent;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -37,12 +42,17 @@ protected:
    virtual ~SuperMaritimeKart();
 
    void OnMapLoaded();
+   void OnMapUnloaded();
+
    void StartHosting();
    void ConnectToServer(const net::Address& serverAddress);
 
 private:
    dtCore::RefPtr<dtGame::GameManager> mGameManager;
    GameFinder* mGameFinder;
+   typedef std::vector<dtCore::RefPtr<dtDAL::BaseActorObject> > ProxyContainer;
+   ProxyContainer mInstantiatedPrototypes;
+   dtCore::RefPtr<SMK_NetworkComponent> mNetworkComponent;
 
    void AttachOceanHeightToBoat();
 
