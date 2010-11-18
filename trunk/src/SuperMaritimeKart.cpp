@@ -32,7 +32,7 @@
 #include <NetCore/NetworkEngine.h>
 #include <DeltaNetworkAdapter/NetworkMessages.h>
 #include <SMK_NetworkComponent.h>
-
+#include <CollisionCallback.h>
 #include <assert.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +83,8 @@ void SuperMaritimeKart::Config()
 
       dtAudio::AudioManager::Instantiate();
       GetCamera()->AddChild(dtAudio::AudioManager::GetListener());
+
+      GetScene()->SetUserCollisionCallback(nearCallback, GetScene()->GetPhysicsController());
 
       mGameManager = new dtGame::GameManager(*GetScene());
       mGameManager->SetApplication(*this);
