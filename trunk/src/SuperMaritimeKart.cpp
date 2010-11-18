@@ -210,6 +210,12 @@ void SuperMaritimeKart::PostFrame(const double deltaFrameTime)
          const GameFinder::GameDescription* selectedGame = mGameFinder->GetGame(gameList[0]);
          assert(selectedGame);
 
+         //quick hack to limit connecting to only one specific IP
+         //if (selectedGame->mSenderAddress.GetAddress() != DOTTED_QUAD_TO_INT(172,20,81,230))
+         //{
+         //   return;
+         //}
+
          // connect to the game
          printf(">>> game found; joining...\n");
          ConnectToServer(net::Address(selectedGame->mSenderAddress.GetAddress(), selectedGame->mPort));
@@ -378,7 +384,7 @@ void SuperMaritimeKart::CreatePickUpItemHandleActors()
    std::vector<dtDAL::BaseActorObject*>::iterator itr = pickups.begin();
    while (itr != pickups.end())
    {
-      dtCore::RefPtr<dtDAL::BaseActorObject> pickup = mGameManager->CreateActorFromPrototype((*itr)->GetId());
+      dtCore::RefPtr<dtDAL::BaseActorObject> pickup = mGameManager->CreateActorFromPrototype((*itr)->GetActor()->GetUniqueId());
       dtGame::GameActorProxy* proxy = dynamic_cast<dtGame::GameActorProxy*>(pickup.get());
       if (proxy)
       {
