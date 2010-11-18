@@ -7,7 +7,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-19T17:53:50-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-17T14:10:26-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-17T18:12:57-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -4009,6 +4009,77 @@
                 <resourceType>Shaders</resourceType>
                 <resourceDisplayName></resourceDisplayName>
                 <resource></resource>
+            </property>
+        </actor>
+        <actor>
+            <type>dtActors.Prefab</type>
+            <id>ad55f5a2-1cf3-4019-b8d2-28fa87d7b638</id>
+            <name>PrefabActor_01</name>
+            <property>
+                <name>Description</name>
+                <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Rotation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>-0.000000</value2>
+                    <value3>-0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Translation</name>
+                <vec3>
+                    <value1>-143.930161</value1>
+                    <value2>-168.370651</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Normal Rescaling</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Show Collision Geometry</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Collision Type</name>
+                <enumerated>NONE</enumerated>
+            </property>
+            <property>
+                <name>Collision Radius</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Length</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Box</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Enable Collision</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Render Proxy Node</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>PrefabResource</name>
+                <resourceType>Prefabs</resourceType>
+                <resourceDisplayName>Prefabs::General::HealthPickup.dtprefab</resourceDisplayName>
+                <resource>Prefabs::General::HealthPickup.dtprefab</resource>
             </property>
         </actor>
         <actor>

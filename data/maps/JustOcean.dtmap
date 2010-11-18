@@ -8,7 +8,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-22T19:23:23-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-15T18:13:02-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-17T18:07:53-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -179,7 +179,7 @@
             </property>
             <property>
                 <name>Initial Ownership</name>
-                <enumerated>Server Local</enumerated>
+                <enumerated>PROTOTYPE</enumerated>
             </property>
             <property>
                 <name>Local Actor Update Policy</name>
@@ -209,7 +209,7 @@
         <actor>
             <type>SuperMaritimeKart.SMKPickUp</type>
             <id>5341ab1e-392d-4c38-b529-77fa09d884f7</id>
-            <name>pick up item_03</name>
+            <name>bubbleShieldPickup1</name>
             <property>
                 <name>Description</name>
                 <string></string>
@@ -288,7 +288,7 @@
             </property>
             <property>
                 <name>Initial Ownership</name>
-                <enumerated>Server Local</enumerated>
+                <enumerated>PROTOTYPE</enumerated>
             </property>
             <property>
                 <name>Local Actor Update Policy</name>
@@ -634,7 +634,7 @@
         <actor>
             <type>SuperMaritimeKart.SMKPickUp</type>
             <id>cfd91b3c-1666-4aff-aa0b-54eeed64f308</id>
-            <name>pick up item_02</name>
+            <name>nitroPickup1</name>
             <property>
                 <name>Description</name>
                 <string></string>
@@ -713,7 +713,7 @@
             </property>
             <property>
                 <name>Initial Ownership</name>
-                <enumerated>Server Local</enumerated>
+                <enumerated>PROTOTYPE</enumerated>
             </property>
             <property>
                 <name>Local Actor Update Policy</name>
@@ -1110,6 +1110,66 @@
                 <resourceType>Shaders</resourceType>
                 <resourceDisplayName></resourceDisplayName>
                 <resource></resource>
+            </property>
+            <property>
+                <name>Last Known Translation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Last Known Rotation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Velocity Vector</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Acceleration Vector</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Angular Velocity Vector</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Dead Reckoning Algorithm</name>
+                <enumerated>Static</enumerated>
+            </property>
+            <property>
+                <name>GroundClampType</name>
+                <enumerated>KeepAbove</enumerated>
+            </property>
+            <property>
+                <name>Ground Offset</name>
+                <float>0.090000004</float>
+            </property>
+            <property>
+                <name>VelocityAveragingFrameCount</name>
+                <integer>1</integer>
+            </property>
+            <property>
+                <name>DesiredNumUpdatesPerSec</name>
+                <float>5</float>
             </property>
         </actor>
     </actors>
