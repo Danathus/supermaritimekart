@@ -2,6 +2,7 @@
 #define SUPERMARITIMEKART_COMPONENT_H
 
 #include <dtGame/gmcomponent.h>
+#include <dtCore/observerptr.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -14,11 +15,13 @@ public:
 
    virtual void ProcessMessage(const dtGame::Message& message);
 
+   virtual void OnRemovedFromGM();
+
 protected:
    virtual ~SuperMaritimeKartMessenger();
 
 private:
-   dtCore::RefPtr<SuperMaritimeKart> mApplication;
+   dtCore::ObserverPtr<SuperMaritimeKart> mApplication;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

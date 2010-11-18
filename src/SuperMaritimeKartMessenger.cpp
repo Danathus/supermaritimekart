@@ -26,13 +26,25 @@ void SuperMaritimeKartMessenger::ProcessMessage(const dtGame::Message& message)
 {
    if(message.GetMessageType() == dtGame::MessageType::INFO_MAP_LOADED)
    {
-      mApplication->OnMapLoaded();
+      if (mApplication.valid())
+      {
+         mApplication->OnMapLoaded();
+      }
+      
    }
    else if (message.GetMessageType() == dtGame::MessageType::INFO_MAP_UNLOADED)
    {
-      mApplication->OnMapUnloaded();
-   }
-   
+      if (mApplication.valid())
+      {
+         mApplication->OnMapUnloaded();
+      }      
+   }  
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SuperMaritimeKartMessenger::OnRemovedFromGM()
+{
+   mApplication = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
