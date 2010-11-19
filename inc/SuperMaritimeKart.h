@@ -2,6 +2,7 @@
 #define SUPERMARITIMEKART_H
 
 #include <dtABC/application.h>
+#include <NetCore/Address.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -14,10 +15,7 @@ namespace dtDAL
    class BaseActorObject;
 }
 
-namespace net
-{
-   class Address;
-}
+
 
 class FloatingActor;
 class GameFinder;
@@ -54,6 +52,9 @@ private:
    ProxyContainer mInstantiatedPrototypes;
    dtCore::RefPtr<SMK_NetworkComponent> mNetworkComponent;
    dtCore::RefPtr<SuperMaritimeKartMessenger> mAppComponent;
+
+   bool mTryingToBeServer; ///<Are we attempting to be the server?
+   net::Address mAddressToConnectTo; ///<The address the client is trying to connect to
 
    void AttachOceanHeightToBoat();
 
