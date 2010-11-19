@@ -9,6 +9,7 @@
 #include <ScenarioComponent.h>
 #include <NetworkBuddy.h>
 #include <WeaponFactory.h>
+#include <messages/NetworkMessages.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/system.h>
@@ -255,6 +256,17 @@ void SuperMaritimeKart::OnMapLoaded()
       //now instantiate all prototype PickUps defined in the map
       CreatePickUpItemHandleActors();
    }
+   else //we're a client
+   {
+      //Tell the server we finished loading our maps.  Now we can receive msgs
+      //about actors!
+      LOG_DEBUG("sending map loaded message to server");
+      
+      dtCore::RefPtr<dtGame::Message> msg;
+      mGameManager->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::INFO_CLIENT_MAP_LOADED, msg);
+      mGameManager->SendNetworkMessage(*msg);
+   }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
