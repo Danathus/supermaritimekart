@@ -1,6 +1,6 @@
 #include <GameFinder.h>
 
-#include <NetConfig.h>
+#include <network/NetConfig.h>
 #include <SMK_BeaconData.h>
 
 #include <vector>

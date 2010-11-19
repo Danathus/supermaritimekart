@@ -1,7 +1,7 @@
 #ifndef PICKUPITEMBASE_h__
 #define PICKUPITEMBASE_h__
 
-#include <SMKActorExport.h>
+#include <actors/SMKActorExport.h>
 #include <dtGame/gameactorproxy.h>
 #include <dtGame/gameactor.h>
 #include <dtUtil/getsetmacros.h>

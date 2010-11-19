@@ -2,10 +2,10 @@
 #define Weapon_h__
 
 ////////////////////////////////////////////////////////////////////////////////
-#include <SMKActorExport.h>
+#include <actors/SMKActorExport.h>
 #include <osg/Referenced>
 
-#include <WeaponActor.h>
+#include <actors/WeaponActor.h>
 
 #include <dtCore/refptr.h>
 
@@ -16,11 +16,6 @@
 namespace dtCore
 {
    class DeltaDrawable;
-}
-
-namespace dtDAL
-{
-   class BaseActorObject;
 }
 
 namespace dtUtil
@@ -46,12 +41,12 @@ public:
    /**
    * Initialize the weapon.
    */
-   virtual void Initialize(dtDAL::BaseActorObject* actorProxy);
+   virtual void Initialize(SMKBoatActorProxy* actorProxy);
 
    void StartWeaponFire();
    void StopWeaponFire();
 
-   void SetWeapon(const std::string& weaponClass, dtDAL::BaseActorObject* actorProxy);
+   void SetWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy);
    WeaponActor* GetWeaponActor() { return mpWeaponActor; }
 
    ///The relative position of the weapon is placed
@@ -64,7 +59,7 @@ public:
 
 protected:
    virtual ~Weapon();
-   virtual WeaponActor* CreateWeaponActor(const std::string& weaponClass);
+   virtual WeaponActor* CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy);
    virtual void AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
    virtual void DetachWeaponFromBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
 

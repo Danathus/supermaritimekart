@@ -11,7 +11,6 @@ SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMakeModules
                       ${CMAKE_MODULE_PATH})
                       
 SET(APP_NAME SuperMaritimeKart) # USE_FUN
-SET(ACTOR_LIB_NAME SMKActors)
 
 IF (WIN32)
    SET(CMAKE_DEBUG_POSTFIX "d")
@@ -38,19 +37,6 @@ SET(SOURCE_PATH ${CMAKE_SOURCE_DIR}/src)
 SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 
 ################### SOURCE FILES #####################
-SET(ACTOR_SOURCE_FILES
-    ${SOURCE_PATH}/DOFDrawable.cpp
-    ${SOURCE_PATH}/Health.cpp
-    ${SOURCE_PATH}/MachineGunActor.cpp
-    ${SOURCE_PATH}/PickUpItemHandle.cpp
-    ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
-    ${SOURCE_PATH}/SMKBoatActor.cpp
-    ${SOURCE_PATH}/TurretWeapon.cpp
-    ${SOURCE_PATH}/Weapon.cpp
-    ${SOURCE_PATH}/WeaponActor.cpp
-    ${SOURCE_PATH}/WeaponFactory.cpp
-)
-    
 SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/Armor.cpp
     ${SOURCE_PATH}/BoatController.cpp
@@ -65,7 +51,6 @@ SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/GameFinder.cpp
     ${SOURCE_PATH}/GeometryUtils.cpp
     ${SOURCE_PATH}/main.cpp
-    ${SOURCE_PATH}/NetworkBuddy.cpp
     ${SOURCE_PATH}/OceanWindowResize.cpp
     ${SOURCE_PATH}/ScenarioComponent.cpp
     ${SOURCE_PATH}/SMK_BeaconData.cpp
@@ -77,17 +62,6 @@ SET(APP_SOURCE_FILES
 
 ################### HEADER FILES #####################
 SET(ACTOR_HEADER_FILES
-    ${HEADER_PATH}/DOFDrawable.h
-    ${HEADER_PATH}/Health.h 
-    ${HEADER_PATH}/MachineGunActor.h
-    ${HEADER_PATH}/PickUpItemHandle.h
-    ${HEADER_PATH}/SMKActorExport.h
-    ${HEADER_PATH}/SMKActorLibraryRegistry.h
-    ${HEADER_PATH}/SMKBoatActor.h
-    ${HEADER_PATH}/TurretWeapon.h
-    ${HEADER_PATH}/Weapon.h
-    ${HEADER_PATH}/WeaponActor.h
-    ${HEADER_PATH}/WeaponFactory.h
 )
 
 SET(APP_HEADER_FILES
@@ -103,8 +77,6 @@ SET(APP_HEADER_FILES
     ${HEADER_PATH}/FloaterController.h
     ${HEADER_PATH}/GameFinder.h
     ${HEADER_PATH}/GeometryUtils.h
-    ${HEADER_PATH}/NetConfig.h
-    ${HEADER_PATH}/NetworkBuddy.h
     ${HEADER_PATH}/OceanWindowResize.h
     ${HEADER_PATH}/ScenarioComponent.h
     ${HEADER_PATH}/SMK_BeaconData.h
@@ -140,33 +112,6 @@ ENDIF (BUILD_WITH_DTOCEAN)
 
 INCLUDE_DIRECTORIES(${DIRS_TO_INCLUDE})
 
-##################### ACTOR LIBRARY BUILDING ######################
-
-ADD_LIBRARY(${ACTOR_LIB_NAME} SHARED
-            ${ACTOR_SOURCE_FILES}
-            ${ACTOR_HEADER_FILES}
-)
-
-# little hack to get the .dll into /bin and .lib into /lib
-IF (MSVC)
-  SET_TARGET_PROPERTIES(${ACTOR_LIB_NAME} PROPERTIES PREFIX "../../bin/")
-  SET_TARGET_PROPERTIES(${ACTOR_LIB_NAME} PROPERTIES IMPORT_PREFIX "../../lib/")
-ENDIF (MSVC)
-
-TARGET_LINK_LIBRARIES(${ACTOR_LIB_NAME}
-                      ${DTACTORS_LIBRARIES}
-                      ${DTAUDIO_LIBRARIES}
-                      ${DTCORE_LIBRARIES}
-                      ${DTDAL_LIBRARIES}
-                      ${DTGAME_LIBRARIES}
-                      ${DTUTIL_LIBRARIES}
-                      ${BOATACTORS_LIBRARIES}
-)
-
-SET_TARGET_PROPERTIES(${ACTOR_LIB_NAME} PROPERTIES DEFINE_SYMBOL SMKACTOR_EXPORTS)
-
-SET_TARGET_PROPERTIES(${ACTOR_LIB_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
-
 ##################### EXECUTABLE BUILDING ######################
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
@@ -176,19 +121,18 @@ ADD_EXECUTABLE(${APP_NAME} ${APP_TYPE}
                ${APP_HEADER_FILES}
 )
 
-SET(LIBS_TO_LINK ${DTCORE_LIBRARIES}
-                 ${DTABC_LIBRARIES}
+SET(LIBS_TO_LINK ${DTABC_LIBRARIES}
                  ${DTACTORS_LIBRARIES}
-                 ${DTDAL_LIBRARIES}
-                 ${DTUTIL_LIBRARIES}
-                 ${DTGAME_LIBRARIES}
                  ${DTAUDIO_LIBRARIES}
+                 ${DTCORE_LIBRARIES}
+                 ${DTDAL_LIBRARIES}
+                 ${DTGAME_LIBRARIES}
+                 ${DTUTIL_LIBRARIES}
                  ${OPENGL_gl_LIBRARY}
-                 ${NETCORE_LIBRARIES}
-                 ${DELTANETWORKADAPTER_LIBRARIES}
                  ${BOATACTORS_LIBRARIES}
-                 ${ACTOR_LIB_NAME}
+				 SMKActors
                  SMKMessages
+				 SMKNetwork
 )
 IF (BUILD_WITH_DTOCEAN)
   SET(LIBS_TO_LINK ${LIBS_TO_LINK}
@@ -211,4 +155,6 @@ ENDIF (MSVC)
 
 SET_TARGET_PROPERTIES(${APP_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
 
+ADD_SUBDIRECTORY(src/actors)
 ADD_SUBDIRECTORY(src/messages)
+ADD_SUBDIRECTORY(src/network)

@@ -2,7 +2,7 @@
 #define DOFDrawable_h__
 
 ////////////////////////////////////////////////////////////////////////////////
-#include <SMKActorExport.h>
+#include <actors/SMKActorExport.h>
 #include <dtCore/transformable.h>
 
 #include <osg/Geode>

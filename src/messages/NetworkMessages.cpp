@@ -2,6 +2,7 @@
  
 using namespace SMK;
 
+///////////////////////////////////////////////////////////////////////////////
 DT_IMPLEMENT_MESSAGE_TYPE_CLASS(SMKNetworkMessages)
 
 #define QUOTEME(x) #x
@@ -15,4 +16,7 @@ DT_IMPLEMENT_MESSAGE_TYPE_CLASS(SMKNetworkMessages)
    );
 
 // Network messages
-DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, INFO,     CLIENT_MAP_LOADED,                 "Sent when client is finished loading it's map",  dtGame::Message);
+DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, INFO,   CLIENT_MAP_LOADED, "Sent when client is finished loading it's map",  dtGame::Message);
+DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, ACTION, WEAPON_FIRED,      "Sent when a player fires their weapon",  dtGame::Message);
+
+///////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
 #include <CameraController.h>
 #include <CameraMouseListener.h>
-#include <SMKActorLibraryRegistry.h>
+#include <actors/SMKActorLibraryRegistry.h>
 
 #include <BoatActors/BoatActor.h>
 

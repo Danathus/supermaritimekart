@@ -3,17 +3,18 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <dtCore/refptr.h>
-
-#include <dtGame/gamemanager.h>
-#include <dtGame/messagefactory.h>
-
-#include <NetConfig.h>
+#include <network/SMKNetworkExport.h>
+#include <network/NetConfig.h>
 
 #include <DeltaNetworkAdapter/MachineInfoList.h>
 #include <DeltaNetworkAdapter/TransmissionProtocol.h>
 
 #include <NetCore/NodeID.h>
+
+#include <dtCore/refptr.h>
+
+#include <dtGame/gamemanager.h>
+#include <dtGame/messagefactory.h>
 
 #include <queue>
 
@@ -34,7 +35,7 @@ class NetworkEngineComponent;
 //{
    //class RoleActor;
 
-   class NetworkBuddy
+   class SMK_NETWORK_EXPORT NetworkBuddy
    {
    public:
       static NetworkBuddy& GetRef();

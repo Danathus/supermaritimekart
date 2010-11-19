@@ -1,7 +1,7 @@
 #ifndef ARMOR_h__
 #define ARMOR_h__
 
-#include <Health.h>
+#include <actors/Health.h>
 
 namespace SMK
 {

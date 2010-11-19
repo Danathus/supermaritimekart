@@ -1,7 +1,7 @@
 #ifndef HEALTH_h__
 #define HEALTH_h__
 
-#include <SMKActorExport.h>
+#include <actors/SMKActorExport.h>
 
 namespace SMK
 {

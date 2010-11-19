@@ -1,7 +1,7 @@
 #include <WeaponMouseListener.h>
-#include <TurretWeapon.h>
-#include <Weapon.h>
-#include <WeaponActor.h>
+#include <actors/TurretWeapon.h>
+#include <actors/Weapon.h>
+#include <actors/WeaponActor.h>
 
 #include <dtCore/transform.h>
 #include <dtUtil/mathdefines.h>
@@ -63,7 +63,7 @@ bool WeaponMouseListener::HandleButtonClicked(const dtCore::Mouse* mouse, dtCore
 ////////////////////////////////////////////////////////////////////////////////
 bool WeaponMouseListener::HandleMouseMoved(const dtCore::Mouse* mouse, float x, float y)
 {
-   UpdateLastMousePosition(x, y);
+   //UpdateLastMousePosition(x, y);
 
    return false;
 }
@@ -71,7 +71,7 @@ bool WeaponMouseListener::HandleMouseMoved(const dtCore::Mouse* mouse, float x, 
 ////////////////////////////////////////////////////////////////////////////////
 bool WeaponMouseListener::HandleMouseDragged(const dtCore::Mouse* mouse, float x, float y)
 {
-   UpdateLastMousePosition(x, y);
+   //UpdateLastMousePosition(x, y);
 
    return false;  
 }

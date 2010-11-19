@@ -1,5 +1,5 @@
-#include <PickUpItemHandle.h>
-#include <SMKBoatActor.h>
+#include <actors/PickUpItemHandle.h>
+#include <actors/SMKBoatActor.h>
 
 #include <dtDAL/actortype.h>
 #include <dtDAL/propertymacros.h> //for dtDAL::PropertyRegHelper

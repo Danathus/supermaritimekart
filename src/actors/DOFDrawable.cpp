@@ -1,4 +1,4 @@
-#include <DOFDrawable.h>
+#include <actors/DOFDrawable.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 DOFDrawable::DOFDrawable(const std::string& name /*= "DOF Drawable"*/)

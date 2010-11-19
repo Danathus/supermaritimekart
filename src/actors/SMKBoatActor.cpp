@@ -1,18 +1,23 @@
-#include <SMKBoatActor.h>
-#include <PickUpItemHandle.h>
-#include <TurretWeapon.h>
-#include <Weapon.h>
+#include <actors/SMKBoatActor.h>
+#include <actors/PickUpItemHandle.h>
+#include <actors/TurretWeapon.h>
+#include <actors/Weapon.h>
+#include <messages/NetworkMessages.h>
 
 #include <dtGame/basemessages.h>
 #include <dtGame/gamemanager.h>
 #include <dtGame/deadreckoninghelper.h>
 #include <dtGame/drpublishingactcomp.h>
+#include <dtGame/invokable.h>
 #include <dtGame/messagetype.h>
 #include <dtAudio/audiomanager.h>
 
 #include <ode/contact.h>
 
 using namespace SMK;
+
+//////////////////////////////////////////////////////////
+static const std::string WEAPON_FIRED = "WeaponFired";
 
 //////////////////////////////////////////////////////////
 // Actor code
@@ -175,6 +180,8 @@ void SMKBoatActor::OnEnteredWorld()
       GetDeadReckoningHelper()->SetMaxTranslationSmoothingTime(0.5f);
    if (GetDeadReckoningHelper()->GetMaxRotationSmoothingTime() == 0.0f)
       GetDeadReckoningHelper()->SetMaxRotationSmoothingTime(0.5f);
+
+   SetupDefaultWeapon();
 }
 
 
@@ -204,7 +211,7 @@ void SMKBoatActor::BuildActorComponents()
 
       // attempt to fix the z-fighting on treads and wheels that are
       // very close to the ground. We move the vehicle up about 3-4 inches...
-      mDeadReckoningHelper->SetGroundOffset(0.09);
+      mDeadReckoningHelper->SetGroundOffset(0.09f);
 
       AddComponent(*mDeadReckoningHelper);
    }
@@ -231,15 +238,25 @@ void SMKBoatActor::BuildActorComponents()
 ///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::SetupDefaultWeapon()
 {
-   if (mpFrontWeapon)
+   SMKBoatActorProxy* proxy = dynamic_cast<SMKBoatActorProxy*>(&GetGameActorProxy());
+   if (proxy != NULL)
    {
-      mpFrontWeapon->Initialize(&GetGameActorProxy());
-   }
+      if (mpFrontWeapon)
+      {
+         mpFrontWeapon->Initialize(proxy);
+      }
 
-   if (mpBackWeapon)
-   {
-      mpBackWeapon->Initialize(&GetGameActorProxy());
+      if (mpBackWeapon)
+      {
+         mpBackWeapon->Initialize(proxy);
+      }
    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::FireWeapon(const dtGame::Message& weaponFiredMessage)
+{
+   mpFrontWeapon->GetWeaponActor()->FireWeapon();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -255,6 +272,14 @@ void SMKBoatActor::CauseFullUpdate()
 void SMKBoatActor::Initialize()
 {
    BoatActor::Initialize();
+
+   if (IsRemote())
+   {
+      GetGameActorProxy().AddInvokable(*new dtGame::Invokable(WEAPON_FIRED,
+         dtUtil::MakeFunctor(&SMKBoatActor::FireWeapon, this)));
+
+      GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_WEAPON_FIRED, WEAPON_FIRED);
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

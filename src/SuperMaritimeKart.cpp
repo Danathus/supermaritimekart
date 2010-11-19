@@ -3,13 +3,14 @@
 #include <BoatController.h>
 #include <CameraController.h>
 #include <FloaterController.h>
-#include <NetConfig.h>
 #include <SMK_BeaconData.h>
 #include <GameFinder.h>
 #include <ScenarioComponent.h>
-#include <NetworkBuddy.h>
-#include <WeaponFactory.h>
+#include <actors/SMKActorLibraryRegistry.h>
+#include <actors/WeaponFactory.h>
 #include <messages/NetworkMessages.h>
+#include <network/NetConfig.h>
+#include <network/NetworkBuddy.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/system.h>
@@ -34,7 +35,6 @@
 #include <DeltaNetworkAdapter/NetworkMessages.h>
 #include <SMK_NetworkComponent.h>
 #include <CollisionCallback.h>
-#include <SMKActorLibraryRegistry.h>
 #include <assert.h>
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
-#include <WeaponFactory.h>
-#include <MachineGunActor.h>
+#include <actors/WeaponFactory.h>
+#include <actors/MachineGunActor.h>
 
 #include <cassert>
 

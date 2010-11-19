@@ -5,7 +5,7 @@
 //#include <CCTS_ActorLibrary/EnterableActor.h>
 //#include <CCTS_ActorLibrary/EnterableActorProxy.h>
 //#include <CCTS_ActorLibrary/IdentityAssignmentManager.h>
-#include <NetworkBuddy.h>
+#include <network/NetworkBuddy.h>
 //#include <CCTS_ActorLibrary/PickupableActor.h>
 //#include <CCTS_ActorLibrary/PickupableActorProxy.h>
 //#include <CCTS_ActorLibrary/RoleActor.h>

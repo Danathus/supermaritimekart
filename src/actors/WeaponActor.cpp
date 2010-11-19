@@ -1,4 +1,6 @@
-#include <WeaponActor.h>
+#include <actors/WeaponActor.h>
+#include <messages/NetworkMessages.h>
+#include <network/NetworkBuddy.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtUtil/log.h>
@@ -73,6 +75,23 @@ void WeaponActor::StartWeaponFiring()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void WeaponActor::FireWeapon()
+{
+   // Play weapon fire sounds and effects
+   if (mpFireSound.valid())
+   {
+      mpFireSound->Play();
+   }
+
+   if (mpSMKBoatActorProxy.valid() && !mpSMKBoatActorProxy->GetGameActor().IsRemote())
+   {
+      dtCore::RefPtr<dtGame::Message> testMessage;
+      mpSMKBoatActorProxy->GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_WEAPON_FIRED, testMessage);
+      mpSMKBoatActorProxy->GetGameManager()->SendNetworkMessage(*testMessage);
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void WeaponActor::StopWeaponFiring()
 {
    // Play weapon stop sounds and effects
@@ -91,16 +110,6 @@ void WeaponActor::SetIsFiring(bool isFiring)
    if (mFiringRate != 0)
    {
       mFiringCounter = (1.0f / mFiringRate);
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void WeaponActor::FireWeapon()
-{
-   // Play weapon fire sounds and effects
-   if (mpFireSound.valid())
-   {
-      mpFireSound->Play();
    }
 }
 
