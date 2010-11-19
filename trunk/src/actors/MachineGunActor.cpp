@@ -1,4 +1,4 @@
-#include <MachineGunActor.h>
+#include <actors/MachineGunActor.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/shadermanager.h>

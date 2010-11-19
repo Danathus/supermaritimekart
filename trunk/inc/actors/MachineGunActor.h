@@ -2,8 +2,8 @@
 #define MachineGunActor_h__
 
 ////////////////////////////////////////////////////////////////////////////////
-#include <SMKActorExport.h>
-#include <WeaponActor.h>
+#include <actors/SMKActorExport.h>
+#include <actors/WeaponActor.h>
 
 namespace dtCore
 {
@@ -26,11 +26,10 @@ public:
 
    MachineGunActor(const std::string& filename = "../examples/data/models/physics_happy_sphere.ive");
 
-   void Update(float deltaTime);
+   virtual void FireWeapon();
 
 protected:
    virtual ~MachineGunActor();
-   virtual void FireWeapon();
 
 private:
    void CreateBulletTrail();

@@ -1,11 +1,11 @@
-#include <Weapon.h>
-#include <WeaponFactory.h>
+#include <actors/Weapon.h>
+#include <actors/WeaponFactory.h>
 
 #include <dtCore/deltadrawable.h>
 #include <dtCore/transform.h>
-#include <dtDAL/actorproxy.h>
 #include <dtDAL/stringactorproperty.h>
 #include <dtDAL/vectoractorproperties.h>
+#include <dtGame/gameactorproxy.h>
 
 //////////////////////////////////////////////////////////////////////////
 Weapon::Weapon(const std::string& name /*= "Weapon"*/)
@@ -58,7 +58,7 @@ void Weapon::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propName
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::Initialize(dtDAL::BaseActorObject* actorProxy)
+void Weapon::Initialize(SMKBoatActorProxy* actorProxy)
 {
    if (!mDefaultWeaponClass.empty())
    {
@@ -85,7 +85,7 @@ void Weapon::StopWeaponFire()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::SetWeapon(const std::string& weaponClass, dtDAL::BaseActorObject* actorProxy)
+void Weapon::SetWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
 {
    if (mpWeaponActor != NULL)
    {
@@ -93,7 +93,7 @@ void Weapon::SetWeapon(const std::string& weaponClass, dtDAL::BaseActorObject* a
    }
 
    // Create default weapon actor
-   mpWeaponActor = CreateWeaponActor(weaponClass);
+   mpWeaponActor = CreateWeaponActor(weaponClass, actorProxy);
 
    if (mpWeaponActor != NULL)
    {
@@ -127,10 +127,12 @@ void Weapon::SetDefaultWeapon(const std::string& val)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-WeaponActor* Weapon::CreateWeaponActor(const std::string& weaponClass)
+WeaponActor* Weapon::CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
 {
    //use the Item Factory to create the InventoryItem
    WeaponActor* weapon = WeaponFactory::GetInstance().Create(weaponClass);
+   weapon->SetSMKBoatActorProxy(actorProxy);
+
    //Add the item to the RoleActor
    if (weapon == NULL)
    {

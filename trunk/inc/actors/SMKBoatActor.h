@@ -2,9 +2,10 @@
 #define SMKBoatActor_h__
 
 ////////////////////////////////////////////////////////////////////////////////
-#include <SMKActorExport.h>
+#include <actors/SMKActorExport.h>
+#include <actors/Health.h>
+
 #include <BoatActors/BoatActor.h>
-#include <Health.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -64,9 +65,6 @@ public:
 
    virtual void ProcessMessage(const dtGame::Message& message);
 
-
-   void SetupDefaultWeapon();
-
    dtGame::DeadReckoningHelper* GetDeadReckoningHelper() { return mDeadReckoningHelper; }
    const dtGame::DeadReckoningHelper* GetDeadReckoningHelper() const { return mDeadReckoningHelper; }
    dtGame::DRPublishingActComp* GetDRPublishingActComp() { return mDRPublishingActComp; }
@@ -87,6 +85,10 @@ protected:
    virtual void Initialize();
 
 private:
+   void SetupDefaultWeapon();
+
+   void FireWeapon(const dtGame::Message& weaponFiredMessage);
+
    dtCore::RefPtr<TurretWeapon> mpFrontWeapon;
    dtCore::RefPtr<Weapon> mpBackWeapon;
    SMK::Health mHealth;  ///<The current health of this boat

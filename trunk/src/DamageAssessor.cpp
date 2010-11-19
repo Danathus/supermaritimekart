@@ -1,7 +1,7 @@
 #include <DamageAssessor.h>
 #include <Damage.h>
-#include <Health.h>
 #include <Armor.h>
+#include <actors/Health.h>
 #include <dtCore/transformable.h>
 #include <dtCore/transform.h>
 #include <osg/BoundingSphere>

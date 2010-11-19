@@ -1,4 +1,4 @@
-#include <TurretWeapon.h>
+#include <actors/TurretWeapon.h>
 
 #include <dtDAL/actorproxy.h>
 #include <dtDAL/floatactorproperty.h>

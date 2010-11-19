@@ -3,7 +3,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <SMKActorExport.h>
+#include <actors/SMKActorExport.h>
 //#include <CCTS_ActorLibrary/InventoryItem.h>
 #include <dtCore/refptr.h>
 #include <dtUtil/objectfactory.h>

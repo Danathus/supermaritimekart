@@ -2,10 +2,10 @@
 #include <BoatKeyboardListener.h>
 #include <DeltaOceanGetHeight.h>
 #include <OceanWindowResize.h>
-#include <SMKActorLibraryRegistry.h>
-#include <SMKBoatActor.h>
-#include <Weapon.h>
 #include <WeaponMouseListener.h>
+#include <actors/SMKActorLibraryRegistry.h>
+#include <actors/SMKBoatActor.h>
+#include <actors/Weapon.h>
 
 #include <dtActors/engineactorregistry.h>
 #include <dtActors/playerstartactorproxy.h>
@@ -164,8 +164,6 @@ dtOcean::OceanActor* BoatController::GetOcean() const
 ///////////////////////////////////////////////////////////////////////////////
 void BoatController::SetupControlledBoat(dtOcean::OceanActor* ocean)
 {
-   mpBoat->SetupDefaultWeapon();
-
    // Setup BoatKeyboardListener
    mpKeyboardListener->SetOutboard(mpBoat->GetOutBoard());
    mpKeyboardToListenTo->AddKeyboardListener(mpKeyboardListener.get());

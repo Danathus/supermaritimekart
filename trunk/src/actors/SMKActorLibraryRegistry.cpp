@@ -1,10 +1,10 @@
-#include <SMKActorLibraryRegistry.h>
+#include <actors/SMKActorLibraryRegistry.h>
+
+#include <actors/SMKBoatActor.h>
+#include <actors/PickUpItemHandle.h>
 
 #include <dtDAL/actorpluginregistry.h>
 #include <dtDAL/actortype.h>
-
-#include <SMKBoatActor.h>
-#include <PickUpItemHandle.h>
 
 using dtCore::RefPtr;
 

@@ -1,11 +1,4 @@
-#include <NetworkBuddy.h>
-
-#include <cassert>
-
-#include <dtCore/system.h>
-#include <dtCore/timer.h>
-#include <dtGame/basemessages.h>
-#include <dtUtil/log.h>
+#include <network/NetworkBuddy.h>
 
 #include <DeltaNetworkAdapter/NetworkMessages.h>
 #include <DeltaNetworkAdapter/NetworkMessage.h>
@@ -17,6 +10,13 @@
 //#include <CCTS_ActorLibrary/IdentityAssignmentManager.h>
 //#include <CCTS_ActorLibrary/RoleActor.h>
 #include <DeltaNetworkAdapter/NetworkEngineComponent.h>
+
+#include <dtCore/system.h>
+#include <dtCore/timer.h>
+#include <dtGame/basemessages.h>
+#include <dtUtil/log.h>
+
+#include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////
 

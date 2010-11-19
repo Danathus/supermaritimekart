@@ -1,8 +1,8 @@
 #include <SMK_NetworkComponent.h>
+#include <network/NetworkBuddy.h>
 
 #include <DeltaNetworkAdapter/NetworkMessages.h>
 #include <DeltaNetworkAdapter/machineinfomessage.h>
-#include <NetworkBuddy.h>
 #include <messages/NetworkMessages.h>
 //#include <CCTS_ActorLibrary/IdentityAssignmentManager.h>
 
