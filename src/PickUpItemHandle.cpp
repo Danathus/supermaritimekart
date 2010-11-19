@@ -3,7 +3,6 @@
 
 #include <dtDAL/actortype.h>
 #include <dtDAL/propertymacros.h> //for dtDAL::PropertyRegHelper
-#include <dtCore/scene.h>
 #include <dtDAL/project.h>//for loading resources
 
 #include <osgDB/ReadFile>
@@ -15,8 +14,8 @@ using namespace SMK;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-PickUpItemBaseProxy::PickUpItemBaseProxy()
-: FloatingActorProxy()
+PickUpItemBaseProxy::PickUpItemBaseProxy():
+dtGame::GameActorProxy()
 {
    SetClassName("PickUpItemBase");
 }
@@ -53,15 +52,14 @@ void PickUpItemBaseProxy::BuildPropertyMap()
    DT_REGISTER_RESOURCE_PROPERTY(dtDAL::DataType::TEXTURE, IconImage, "Icon Image", "Used on the rendered geometry", RegHelperType, regHelper);
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, std::string, Type);
 DT_IMPLEMENT_ACCESSOR_GETTER(PickUpItemHandle, dtDAL::ResourceDescriptor, IconImage);
 
-PickUpItemHandle::PickUpItemHandle(FloatingActorProxy& proxy)
-: FloatingActor(proxy)
+PickUpItemHandle::PickUpItemHandle(dtGame::GameActorProxy& proxy):
+dtGame::GameActor(proxy)
 {
    SetName("pick up item");   
    osg::Node* root = GetOSGNode();
@@ -82,12 +80,6 @@ PickUpItemHandle::~PickUpItemHandle()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void PickUpItemHandle::TickLocal(const dtGame::Message& msg)
-{
-   FloatingActor::TickLocal(msg);
-}
-
-
 //////////////////////////////////////////////////////////////////////////
 void PickUpItemHandle::SetIconImage(dtUtil::TypeTraits<dtDAL::ResourceDescriptor>::param_type value)
 {
@@ -135,12 +127,3 @@ osg::ref_ptr<osg::Node> PickUpItemHandle::CreateGeometry()
 
    return geode;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-void PickUpItemHandle::Initialize()
-{
-   SetupBuoyancy(0.1f, 10.0f, 10.0f, 100.0f);
-
-   AddSender(GetSceneParent());
-}
-
