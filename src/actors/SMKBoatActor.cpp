@@ -256,7 +256,11 @@ void SMKBoatActor::SetupDefaultWeapon()
 ///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::FireWeapon(const dtGame::Message& weaponFiredMessage)
 {
-   mpFrontWeapon->GetWeaponActor()->FireWeapon();
+   // Only fire our weapon is this message was from our unique ID
+   if (weaponFiredMessage.GetAboutActorId() == GetUniqueId())
+   {
+      mpFrontWeapon->GetWeaponActor()->FireWeapon();
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

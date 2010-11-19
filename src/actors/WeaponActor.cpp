@@ -87,6 +87,7 @@ void WeaponActor::FireWeapon()
    {
       dtCore::RefPtr<dtGame::Message> testMessage;
       mpSMKBoatActorProxy->GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_WEAPON_FIRED, testMessage);
+      testMessage->SetAboutActorId(mpSMKBoatActorProxy->GetGameActor().GetUniqueId());
       mpSMKBoatActorProxy->GetGameManager()->SendNetworkMessage(*testMessage);
    }
 }
