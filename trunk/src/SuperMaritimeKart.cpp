@@ -41,6 +41,7 @@
 SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
    : Application(configFilename)
    , mGameFinder(NULL)
+   , mTryingToBeServer(false)
 {
    WeaponFactory::GetInstance().RegisterInventoryItems();
    // make sure the network engine gets started up early
@@ -102,13 +103,9 @@ void SuperMaritimeKart::Config()
       mGameManager = new dtGame::GameManager(*GetScene());
       mGameManager->SetApplication(*this);
       
-      //don't need to do this anymore; it happens automatically.
-      //DeltaNetworkAdapter::NetworkMessageType::RegisterMessageTypes(*mGameManager);
-
       try
       {
          mGameManager->SetProjectContext("./data", true);
-         //mGameManager->ChangeMap(GetConfigPropertyValue("Map", "JustOcean"));
 
          try
          {
@@ -198,7 +195,11 @@ void SuperMaritimeKart::PostFrame(const double deltaFrameTime)
          printf(">>> game search timed out\n");
          // stop scanning for new games to join
          mGameFinder->Shutdown();
-         StartHosting();
+         mTryingToBeServer = true;
+
+         //Load our map
+         //TODO get this map name from somewhere else
+         mGameManager->ChangeMap(GetConfigPropertyValue("Map", "JustOcean"));
       }
    }
    if (mGameFinder->Update(deltaFrameTime))
@@ -217,9 +218,17 @@ void SuperMaritimeKart::PostFrame(const double deltaFrameTime)
          //   return;
          //}
 
+         //start loading the map, given by the game finder
+         mGameManager->ChangeMap(selectedGame->mMapName);
+
          // connect to the game
          printf(">>> game found; joining...\n");
-         ConnectToServer(net::Address(selectedGame->mSenderAddress.GetAddress(), selectedGame->mPort));
+         
+         //save this address for later use
+         mAddressToConnectTo = net::Address(selectedGame->mSenderAddress.GetAddress(), selectedGame->mPort);
+
+         // stop scanning for new games to join
+         mGameFinder->Shutdown();
       }
    }
 }
@@ -233,6 +242,11 @@ bool SuperMaritimeKart::KeyPressed(const dtCore::Keyboard* keyboard, int kc)
 ////////////////////////////////////////////////////////////////////////////////
 void SuperMaritimeKart::OnMapLoaded()
 {
+   if (mTryingToBeServer)//we're the server
+   {
+      StartHosting();
+   }
+ 
    //wipe out our container of any previous instantiated Prototypes
    mInstantiatedPrototypes.clear();
    if (mNetworkComponent)
@@ -258,6 +272,9 @@ void SuperMaritimeKart::OnMapLoaded()
    }
    else //we're a client
    {
+      //connect to server
+      ConnectToServer(mAddressToConnectTo);
+
       //Tell the server we finished loading our maps.  Now we can receive msgs
       //about actors!
       LOG_DEBUG("sending map loaded message to server");
@@ -296,20 +313,24 @@ void SuperMaritimeKart::StartHosting()
       }
       printf("...connected!\n");
    }
-
-   mGameManager->ChangeMap(GetConfigPropertyValue("Map", "JustOcean"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void SuperMaritimeKart::ConnectToServer(const net::Address& serverAddress)
 {
-   // stop scanning for new games to join
-   mGameFinder->Shutdown();
-
    // connect to the selected game
    net::NetworkEngine& netEngine = net::NetworkEngine::GetRef();
    for (int port = GAME_PLAYER_0_PORT; !net::NetworkEngine::GetRef().GetNode().Start(port); ++port) { }
    net::NetworkEngine::GetRef().GetNode().Connect(serverAddress);
+
+   //wait until we're connected
+   //TODO Probably need to break out of this after some period
+   while (!net::NetworkEngine::GetRef().GetNode().IsConnected())
+   {
+      net::NetworkEngine::GetRef().Update(0.001f);
+      // wait for a millisecond
+      OpenThreads::Thread::microSleep(1000);
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
