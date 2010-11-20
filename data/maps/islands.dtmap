@@ -8,7 +8,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-19T17:53:50-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-19T17:29:53-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-19T18:18:59-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -2874,6 +2874,115 @@
             </property>
         </actor>
         <actor>
+            <type>SuperMaritimeKart.SMKPickUp</type>
+            <id>6f8ef55a-abe4-45c3-8433-fb28128892ac</id>
+            <name>healthPickup_01</name>
+            <property>
+                <name>Description</name>
+                <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Rotation</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Translation</name>
+                <vec3>
+                    <value1>-70.512283</value1>
+                    <value2>-174.015381</value2>
+                    <value3>1.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Normal Rescaling</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Show Collision Geometry</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Collision Type</name>
+                <enumerated>CUBE</enumerated>
+            </property>
+            <property>
+                <name>Collision Radius</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Length</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Box</name>
+                <vec3>
+                    <value1>1.000000</value1>
+                    <value2>1.000000</value2>
+                    <value3>1.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Enable Collision</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Render Proxy Node</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Enable Dynamics</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Mass</name>
+                <float>4.1887903</float>
+            </property>
+            <property>
+                <name>Center of Gravity</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Initial Ownership</name>
+                <enumerated>PROTOTYPE</enumerated>
+            </property>
+            <property>
+                <name>Local Actor Update Policy</name>
+                <enumerated>ACCEPT_ALL</enumerated>
+            </property>
+            <property>
+                <name>ShaderGroup</name>
+                <string></string>
+            </property>
+            <property>
+                <name>Type</name>
+                <string>health</string>
+            </property>
+            <property>
+                <name>IconImage</name>
+                <resourceType>Textures</resourceType>
+                <resourceDisplayName>Textures::health_pickup.png</resourceDisplayName>
+                <resource>Textures::health_pickup.png</resource>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
+        </actor>
+        <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
             <id>80753087-cb15-49c6-bb43-0fb47658ecc6</id>
             <name>StaticMesh_15</name>
@@ -4013,77 +4122,6 @@
             </property>
         </actor>
         <actor>
-            <type>dtActors.Prefab</type>
-            <id>ad55f5a2-1cf3-4019-b8d2-28fa87d7b638</id>
-            <name>PrefabActor_01</name>
-            <property>
-                <name>Description</name>
-                <string></string>
-            </property>
-            <property>
-                <name>IsActive</name>
-                <boolean>true</boolean>
-            </property>
-            <property>
-                <name>Rotation</name>
-                <vec3>
-                    <value1>0.000000</value1>
-                    <value2>0.000000</value2>
-                    <value3>0.000000</value3>
-                </vec3>
-            </property>
-            <property>
-                <name>Translation</name>
-                <vec3>
-                    <value1>-143.930161</value1>
-                    <value2>-168.370651</value2>
-                    <value3>0.000000</value3>
-                </vec3>
-            </property>
-            <property>
-                <name>Normal Rescaling</name>
-                <boolean>true</boolean>
-            </property>
-            <property>
-                <name>Show Collision Geometry</name>
-                <boolean>false</boolean>
-            </property>
-            <property>
-                <name>Collision Type</name>
-                <enumerated>NONE</enumerated>
-            </property>
-            <property>
-                <name>Collision Radius</name>
-                <float>0</float>
-            </property>
-            <property>
-                <name>Collision Length</name>
-                <float>0</float>
-            </property>
-            <property>
-                <name>Collision Box</name>
-                <vec3>
-                    <value1>0.000000</value1>
-                    <value2>0.000000</value2>
-                    <value3>0.000000</value3>
-                </vec3>
-            </property>
-            <property>
-                <name>Enable Collision</name>
-                <boolean>false</boolean>
-            </property>
-            <property>
-                <name>Render Proxy Node</name>
-                <boolean>false</boolean>
-            </property>
-            <property>
-                <name>PrefabResource</name>
-                <resourceType>Prefabs</resourceType>
-                <resourceDisplayName>Prefabs::General::HealthPickup.dtprefab</resourceDisplayName>
-                <resource>Prefabs::General::HealthPickup.dtprefab</resource>
-            </property>
-        </actor>
-        <actor>
             <type>Shared.FloatingActor</type>
             <id>b8357a1b-5047-46eb-a9c6-3858aa7311a5</id>
             <name>TugBoat_02</name>
@@ -5013,6 +5051,9 @@
         </group>
         <group>
             <actor>1c03878c-3774-4e01-aa62-79ed477e596b</actor>
+        </group>
+        <group>
+            <actor>6f8ef55a-abe4-45c3-8433-fb28128892ac</actor>
         </group>
     </groups>
     <presetCameras></presetCameras>
