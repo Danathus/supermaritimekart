@@ -20,7 +20,7 @@ public:
 
 protected:
    virtual ~BackWeaponSlot();
-   virtual void AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
+   virtual void AttachWeaponToBoat(Weapon* Weapon, dtCore::DeltaDrawable* boat);
 
 private:
 };

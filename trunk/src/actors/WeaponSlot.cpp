@@ -127,10 +127,10 @@ void WeaponSlot::SetDefaultWeapon(const std::string& val)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-WeaponActor* WeaponSlot::CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
+Weapon* WeaponSlot::CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
 {
    //use the Item Factory to create the InventoryItem
-   WeaponActor* weapon = WeaponFactory::GetInstance().Create(weaponClass);
+   Weapon* weapon = WeaponFactory::GetInstance().Create(weaponClass);
    weapon->SetSMKBoatActorProxy(actorProxy);
 
    //Add the item to the RoleActor
@@ -142,18 +142,18 @@ WeaponActor* WeaponSlot::CreateWeaponActor(const std::string& weaponClass, SMKBo
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponSlot::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
+void WeaponSlot::AttachWeaponToBoat(Weapon* Weapon, dtCore::DeltaDrawable* boat)
 {
    dtCore::Transform weaponTransform;
    weaponTransform.SetTranslation(mPosition);
-   weaponActor->SetTransform(weaponTransform);
-   boat->AddChild(weaponActor);
+   Weapon->SetTransform(weaponTransform);
+   boat->AddChild(Weapon);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponSlot::DetachWeaponFromBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
+void WeaponSlot::DetachWeaponFromBoat(Weapon* Weapon, dtCore::DeltaDrawable* boat)
 {
-   boat->RemoveChild(weaponActor);
+   boat->RemoveChild(Weapon);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

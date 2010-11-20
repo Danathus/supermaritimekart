@@ -1,13 +1,13 @@
-#include <actors/WeaponActor.h>
+#include <actors/Weapon.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtUtil/log.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-const std::string WeaponActor::WEAPON_ACTOR_TYPE = "Weapon";
+const std::string Weapon::WEAPON_ACTOR_TYPE = "Weapon";
 
 //////////////////////////////////////////////////////////////////////////
-WeaponActor::WeaponActor(const std::string& filename /*= ""*/)
+Weapon::Weapon(const std::string& filename /*= ""*/)
    : dtCore::Object(WEAPON_ACTOR_TYPE)
    , mIsFiring(false)
    , mFiringRate(1.0f)
@@ -26,7 +26,7 @@ WeaponActor::WeaponActor(const std::string& filename /*= ""*/)
 }
 
 //////////////////////////////////////////////////////////////////////////
-WeaponActor::~WeaponActor()
+Weapon::~Weapon()
 {
    if (mpStartFiringSound)
    {
@@ -46,7 +46,7 @@ WeaponActor::~WeaponActor()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponActor::SetFiringRate(float rate)
+void Weapon::SetFiringRate(float rate)
 {
    mFiringRate = rate;
    if (mFiringRate != 0)
@@ -56,7 +56,7 @@ void WeaponActor::SetFiringRate(float rate)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponActor::Update(float deltaTime)
+void Weapon::Update(float deltaTime)
 {
    mFiringCounter += deltaTime;
 
@@ -72,7 +72,7 @@ void WeaponActor::Update(float deltaTime)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponActor::StartWeaponFiring()
+void Weapon::StartWeaponFiring()
 {
    // Play weapon start sounds and effects
    if (mpStartFiringSound.valid())
@@ -84,7 +84,7 @@ void WeaponActor::StartWeaponFiring()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponActor::FireWeapon()
+void Weapon::FireWeapon()
 {
    // Play weapon fire sounds and effects
    if (mpFireSound.valid())
@@ -94,7 +94,7 @@ void WeaponActor::FireWeapon()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponActor::StopWeaponFiring()
+void Weapon::StopWeaponFiring()
 {
    // Play weapon stop sounds and effects
    if (mpStopFiringSound.valid())
@@ -106,13 +106,13 @@ void WeaponActor::StopWeaponFiring()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponActor::SetIsFiring(bool isFiring)
+void Weapon::SetIsFiring(bool isFiring)
 {
    mIsFiring = isFiring;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-dtAudio::Sound* WeaponActor::LoadSound(const std::string& file)
+dtAudio::Sound* Weapon::LoadSound(const std::string& file)
 {
    if (!file.empty())
    {

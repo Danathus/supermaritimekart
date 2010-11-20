@@ -22,7 +22,7 @@ const float BULLET_TRAIL_HEIGHT = 0.5f;
 
 //////////////////////////////////////////////////////////////////////////
 MachineGun::MachineGun(const std::string& filename /*= ""*/)
-: FrontWeaponActor(filename)
+: FrontWeapon(filename)
 {
    SetName(MACHINE_GUN_ACTOR_TYPE);
 
@@ -54,7 +54,7 @@ MachineGun::~MachineGun()
 ///////////////////////////////////////////////////////////////////////////////
 void MachineGun::FireWeapon()
 {
-   FrontWeaponActor::FireWeapon();
+   FrontWeapon::FireWeapon();
 
    dtCore::Transform currentTransform;
    GetTransform(currentTransform, dtCore::Transformable::REL_CS);

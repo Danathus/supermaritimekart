@@ -3,7 +3,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
-#include <actors/BackWeaponActor.h>
+#include <actors/BackWeapon.h>
 
 namespace dtCore
 {
@@ -19,7 +19,7 @@ namespace osg
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-class SMK_ACTOR_EXPORT MineDropper : public BackWeaponActor
+class SMK_ACTOR_EXPORT MineDropper : public BackWeapon
 {
 public:
    const static std::string MINE_DROPPER_WEAPON_TYPE;

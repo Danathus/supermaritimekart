@@ -1,5 +1,5 @@
 #include <actors/BackWeaponSlot.h>
-#include <actors/BackWeaponActor.h>
+#include <actors/BackWeapon.h>
 
 #include <dtUtil/log.h>
 
@@ -35,16 +35,16 @@ void BackWeaponSlot::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void BackWeaponSlot::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
+void BackWeaponSlot::AttachWeaponToBoat(Weapon* Weapon, dtCore::DeltaDrawable* boat)
 {
-   // Our weapon actor must be a BackWeaponActor type
-   if (dynamic_cast<BackWeaponActor*>(weaponActor) != NULL)
+   // Our weapon actor must be a BackWeapon type
+   if (dynamic_cast<BackWeapon*>(Weapon) != NULL)
    {
-      WeaponSlot::AttachWeaponToBoat(weaponActor, boat);
+      WeaponSlot::AttachWeaponToBoat(Weapon, boat);
    }
    else
    {
-      LOG_ERROR("Invalid weapon type " + weaponActor->GetName() + " tried to attach to back spot");
+      LOG_ERROR("Invalid weapon type " + Weapon->GetName() + " tried to attach to back spot");
       mpWeaponActor = NULL;
    }
 }
