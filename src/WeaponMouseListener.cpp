@@ -1,6 +1,6 @@
 #include <WeaponMouseListener.h>
-#include <actors/FrontWeapon.h>
-#include <actors/Weapon.h>
+#include <actors/FrontWeaponSlot.h>
+#include <actors/WeaponSlot.h>
 #include <actors/WeaponActor.h>
 
 #include <dtCore/transform.h>
@@ -17,7 +17,7 @@ WeaponMouseListener::~WeaponMouseListener()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponMouseListener::SetWeapon(Weapon* weapon)
+void WeaponMouseListener::SetWeapon(WeaponSlot* weapon)
 {
    mpWeapon = weapon;
 }
@@ -31,7 +31,7 @@ bool WeaponMouseListener::HandleMouseScrolled(const  dtCore::Mouse* mouse, int d
 ////////////////////////////////////////////////////////////////////////////////
 bool WeaponMouseListener::HandleButtonPressed(const dtCore::Mouse* mouse, dtCore::Mouse::MouseButton button)
 {
-   FrontWeapon* turret = dynamic_cast<FrontWeapon*>(mpWeapon.get());
+   FrontWeaponSlot* turret = dynamic_cast<FrontWeaponSlot*>(mpWeapon.get());
    if ((turret != NULL && button == dtCore::Mouse::LeftButton) ||
       ( turret == NULL && button == dtCore::Mouse::RightButton))
    {
@@ -44,7 +44,7 @@ bool WeaponMouseListener::HandleButtonPressed(const dtCore::Mouse* mouse, dtCore
 ////////////////////////////////////////////////////////////////////////////////
 bool WeaponMouseListener::HandleButtonReleased(const dtCore::Mouse* mouse, dtCore::Mouse::MouseButton button)
 {
-   FrontWeapon* turret = dynamic_cast<FrontWeapon*>(mpWeapon.get());
+   FrontWeaponSlot* turret = dynamic_cast<FrontWeaponSlot*>(mpWeapon.get());
    if ((turret != NULL && button == dtCore::Mouse::LeftButton) ||
       ( turret == NULL && button == dtCore::Mouse::RightButton))
    {
@@ -79,7 +79,7 @@ bool WeaponMouseListener::HandleMouseDragged(const dtCore::Mouse* mouse, float x
 ///////////////////////////////////////////////////////////////////////////////
 void WeaponMouseListener::UpdateLastMousePosition(float x, float y)
 {
-   FrontWeapon* turret = dynamic_cast<FrontWeapon*>(mpWeapon.get());
+   FrontWeaponSlot* turret = dynamic_cast<FrontWeaponSlot*>(mpWeapon.get());
    if (turret != NULL)
    {
       WeaponActor* actor = turret->GetWeaponActor();

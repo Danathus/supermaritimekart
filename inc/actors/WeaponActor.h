@@ -20,6 +20,8 @@ public:
    void SetSMKBoatActorProxy(SMKBoatActorProxy* proxy) { mpSMKBoatActorProxy = proxy;       }
    SMKBoatActorProxy* GetSMKBoatActorProxy() const     { return mpSMKBoatActorProxy.get();  }
 
+   void SetFiringRate(float rate);
+
    void Update(float deltaTime);
 
    virtual void StartWeaponFiring();
@@ -32,7 +34,6 @@ protected:
    virtual void SetIsFiring(bool isFiring);
    dtAudio::Sound* LoadSound(const std::string& file);
 
-   float mFiringRate;
    dtCore::RefPtr<dtAudio::Sound> mpStartFiringSound;
    dtCore::RefPtr<dtAudio::Sound> mpFireSound;
    dtCore::RefPtr<dtAudio::Sound> mpStopFiringSound;
@@ -40,6 +41,7 @@ protected:
 
 private:
    bool mIsFiring;
+   float mFiringRate;
    float mFiringCounter;
 };
 #endif // WeaponActor_h__

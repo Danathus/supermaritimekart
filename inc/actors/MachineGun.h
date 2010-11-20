@@ -1,5 +1,5 @@
-#ifndef MachineGunActor_h__
-#define MachineGunActor_h__
+#ifndef MachineGun_h__
+#define MachineGun_h__
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
@@ -19,17 +19,17 @@ namespace osg
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-class SMK_ACTOR_EXPORT MachineGunActor : public FrontWeaponActor
+class SMK_ACTOR_EXPORT MachineGun : public FrontWeaponActor
 {
 public:
    const static std::string MACHINE_GUN_ACTOR_TYPE;
 
-   MachineGunActor(const std::string& filename = "../examples/data/models/physics_happy_sphere.ive");
+   MachineGun(const std::string& filename = "../examples/data/models/physics_happy_sphere.ive");
 
    virtual void FireWeapon();
 
 protected:
-   virtual ~MachineGunActor();
+   virtual ~MachineGun();
 
 private:
    void CreateBulletTrail();
@@ -40,6 +40,6 @@ private:
    dtCore::RefPtr<osg::Geometry> mpQuad;
    dtCore::RefPtr<dtCore::ShaderParamOscillator> mpTimeParam;
 };
-#endif // MachineGunActor_h__
+#endif // MachineGun_h__
 
 ////////////////////////////////////////////////////////////////////////////////

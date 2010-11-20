@@ -1,15 +1,15 @@
-#ifndef FrontWeapon_h__
-#define FrontWeapon_h__
+#ifndef BackWeaponSlot_h__
+#define BackWeaponSlot_h__
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
-#include <actors/Weapon.h>
+#include <actors/WeaponSlot.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-class SMK_ACTOR_EXPORT FrontWeapon : public Weapon
+class SMK_ACTOR_EXPORT BackWeaponSlot : public WeaponSlot
 {
 public:
-   FrontWeapon(const std::string& name = "FrontWeapon");
+   BackWeaponSlot(const std::string& name = "BackWeapon");
 
    /**
    * Builds the property map for STAGE
@@ -18,22 +18,12 @@ public:
 
    virtual void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
 
-   ///The max angle the weapon can rotate left or right to
-   float GetHorizontalMaxAngle() const;
-   void SetHorizontalMaxAngle(const float val);
-
-   ///The max angle the weapon can rotate up or down to
-   float GetVerticalMaxAngle() const;
-   void SetVerticalMaxAngle(const float val);
-
 protected:
-   virtual ~FrontWeapon();
+   virtual ~BackWeaponSlot();
    virtual void AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
 
 private:
-   float mHorizontalMaxAngle;
-   float mVerticalMaxAngle;
 };
-#endif // FrontWeapon_h__
+#endif // BackWeaponSlot_h__
 
 ////////////////////////////////////////////////////////////////////////////////

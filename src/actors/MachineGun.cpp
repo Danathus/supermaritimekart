@@ -1,4 +1,4 @@
-#include <actors/MachineGunActor.h>
+#include <actors/MachineGun.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/shadermanager.h>
@@ -17,16 +17,16 @@
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////
-const std::string MachineGunActor::MACHINE_GUN_ACTOR_TYPE = "MachineGun";
+const std::string MachineGun::MACHINE_GUN_ACTOR_TYPE = "MachineGun";
 const float BULLET_TRAIL_HEIGHT = 0.5f;
 
 //////////////////////////////////////////////////////////////////////////
-MachineGunActor::MachineGunActor(const std::string& filename /*= ""*/)
+MachineGun::MachineGun(const std::string& filename /*= ""*/)
 : FrontWeaponActor(filename)
 {
    SetName(MACHINE_GUN_ACTOR_TYPE);
 
-   mFiringRate = 10.0f;
+   SetFiringRate(10.0f);
 
    // Load any sounds we have
    mpFireSound = LoadSound("/sounds/exp57.wav");
@@ -36,7 +36,7 @@ MachineGunActor::MachineGunActor(const std::string& filename /*= ""*/)
 }
 
 //////////////////////////////////////////////////////////////////////////
-MachineGunActor::~MachineGunActor()
+MachineGun::~MachineGun()
 {
    if (mpQuad.valid())
    {
@@ -52,7 +52,7 @@ MachineGunActor::~MachineGunActor()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MachineGunActor::FireWeapon()
+void MachineGun::FireWeapon()
 {
    FrontWeaponActor::FireWeapon();
 
@@ -64,7 +64,7 @@ void MachineGunActor::FireWeapon()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MachineGunActor::CreateBulletTrail()
+void MachineGun::CreateBulletTrail()
 {
    // Orient beam so that it exposes as much of its face as possible
    mpBeam = new osg::Billboard;
@@ -104,7 +104,7 @@ void MachineGunActor::CreateBulletTrail()
    mpTimeParam->SetUseRealTime(false);}
 
 ///////////////////////////////////////////////////////////////////////////////
-void MachineGunActor::ShowBulletTrail(osg::Vec3 target)
+void MachineGun::ShowBulletTrail(osg::Vec3 target)
 {
    osg::Vec3 heightVec(0.0f, 0.0f, BULLET_TRAIL_HEIGHT);
    osg::Vec3 corner   = osg::Vec3() - (heightVec * 0.5f);

@@ -1,4 +1,4 @@
-#include <actors/FrontWeapon.h>
+#include <actors/FrontWeaponSlot.h>
 #include <actors/FrontWeaponActor.h>
 
 #include <dtDAL/actorproxy.h>
@@ -6,22 +6,22 @@
 #include <dtUtil/log.h>
 
 //////////////////////////////////////////////////////////////////////////
-FrontWeapon::FrontWeapon(const std::string& name /*= "FrontWeapon"*/)
-: Weapon(name)
+FrontWeaponSlot::FrontWeaponSlot(const std::string& name /*= "FrontWeapon"*/)
+: WeaponSlot(name)
 , mHorizontalMaxAngle(30.0f)
 , mVerticalMaxAngle(30.0f)
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
-FrontWeapon::~FrontWeapon()
+FrontWeaponSlot::~FrontWeaponSlot()
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void FrontWeapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
+void FrontWeaponSlot::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 {
-   Weapon::BuildPropertyMap(actorProxy);
+   WeaponSlot::BuildPropertyMap(actorProxy);
 
    dtCore::DeltaDrawable* actor = NULL;
    actorProxy->GetActor(actor);
@@ -33,54 +33,54 @@ void FrontWeapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 
    actorProxy->AddProperty(new dtDAL::FloatActorProperty(
       mName + "MaxHorizontalAngle", "Max Horizontal Angle",
-      dtDAL::FloatActorProperty::SetFuncType(this, &FrontWeapon::SetHorizontalMaxAngle),
-      dtDAL::FloatActorProperty::GetFuncType(this, &FrontWeapon::GetHorizontalMaxAngle),
+      dtDAL::FloatActorProperty::SetFuncType(this, &FrontWeaponSlot::SetHorizontalMaxAngle),
+      dtDAL::FloatActorProperty::GetFuncType(this, &FrontWeaponSlot::GetHorizontalMaxAngle),
       "The max angle the weapon can rotate left or right to", mName));
 
    actorProxy->AddProperty(new dtDAL::FloatActorProperty(
       mName + "MaxVerticalAngle", "Max Vertical Angle",
-      dtDAL::FloatActorProperty::SetFuncType(this, &FrontWeapon::SetVerticalMaxAngle),
-      dtDAL::FloatActorProperty::GetFuncType(this, &FrontWeapon::GetVerticalMaxAngle),
+      dtDAL::FloatActorProperty::SetFuncType(this, &FrontWeaponSlot::SetVerticalMaxAngle),
+      dtDAL::FloatActorProperty::GetFuncType(this, &FrontWeaponSlot::GetVerticalMaxAngle),
       "The max angle the weapon can rotate up or down to", mName));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void FrontWeapon::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
+void FrontWeaponSlot::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
 {
-   Weapon::GetPartialUpdateProperties(propNamesToFill);
+   WeaponSlot::GetPartialUpdateProperties(propNamesToFill);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-float FrontWeapon::GetHorizontalMaxAngle() const
+float FrontWeaponSlot::GetHorizontalMaxAngle() const
 {
    return mHorizontalMaxAngle;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void FrontWeapon::SetHorizontalMaxAngle(const float val)
+void FrontWeaponSlot::SetHorizontalMaxAngle(const float val)
 {
    mHorizontalMaxAngle = val;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-float FrontWeapon::GetVerticalMaxAngle() const
+float FrontWeaponSlot::GetVerticalMaxAngle() const
 {
    return mVerticalMaxAngle;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void FrontWeapon::SetVerticalMaxAngle(const float val)
+void FrontWeaponSlot::SetVerticalMaxAngle(const float val)
 {
    mVerticalMaxAngle = val;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void FrontWeapon::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
+void FrontWeaponSlot::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
 {
    // Our weapon actor must be a FrontWeaponActor type
    if (dynamic_cast<FrontWeaponActor*>(weaponActor) != NULL)
    {
-      Weapon::AttachWeaponToBoat(weaponActor, boat);
+      WeaponSlot::AttachWeaponToBoat(weaponActor, boat);
    }
    else
    {

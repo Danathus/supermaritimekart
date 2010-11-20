@@ -8,15 +8,15 @@ namespace dtCore
    class Mouse;
 }
 
-class Weapon;
+class WeaponSlot;
 
 ////////////////////////////////////////////////////////////////////////////////
 class WeaponMouseListener : public dtCore::MouseListener
 {
 public:
    WeaponMouseListener();
-   void SetWeapon(Weapon* weapon);
-   Weapon* GetWeapon() { return mpWeapon.get(); }
+   void SetWeapon(WeaponSlot* weapon);
+   WeaponSlot* GetWeapon() { return mpWeapon.get(); }
 
    virtual bool HandleMouseScrolled(const dtCore::Mouse* mouse, int delta);
    virtual bool HandleButtonPressed(const dtCore::Mouse* mouse, dtCore::Mouse::MouseButton button);
@@ -31,7 +31,7 @@ protected:
 private:
    void UpdateLastMousePosition(float x, float y);
 
-   dtCore::RefPtr<Weapon> mpWeapon;
+   dtCore::RefPtr<WeaponSlot> mpWeapon;
 };
 #endif // WeaponMouseListener_h__
 

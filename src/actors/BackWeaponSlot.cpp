@@ -1,23 +1,23 @@
-#include <actors/BackWeapon.h>
+#include <actors/BackWeaponSlot.h>
 #include <actors/BackWeaponActor.h>
 
 #include <dtUtil/log.h>
 
 //////////////////////////////////////////////////////////////////////////
-BackWeapon::BackWeapon(const std::string& name /*= "BackWeapon"*/)
-: Weapon(name)
+BackWeaponSlot::BackWeaponSlot(const std::string& name /*= "BackWeaponSlot"*/)
+: WeaponSlot(name)
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
-BackWeapon::~BackWeapon()
+BackWeaponSlot::~BackWeaponSlot()
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void BackWeapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
+void BackWeaponSlot::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 {
-   Weapon::BuildPropertyMap(actorProxy);
+   WeaponSlot::BuildPropertyMap(actorProxy);
 
    dtCore::DeltaDrawable* actor = NULL;
    actorProxy->GetActor(actor);
@@ -29,18 +29,18 @@ void BackWeapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void BackWeapon::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
+void BackWeaponSlot::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
 {
-   Weapon::GetPartialUpdateProperties(propNamesToFill);
+   WeaponSlot::GetPartialUpdateProperties(propNamesToFill);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void BackWeapon::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
+void BackWeaponSlot::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
 {
    // Our weapon actor must be a BackWeaponActor type
    if (dynamic_cast<BackWeaponActor*>(weaponActor) != NULL)
    {
-      Weapon::AttachWeaponToBoat(weaponActor, boat);
+      WeaponSlot::AttachWeaponToBoat(weaponActor, boat);
    }
    else
    {

@@ -1,4 +1,4 @@
-#include <actors/Weapon.h>
+#include <actors/WeaponSlot.h>
 #include <actors/WeaponFactory.h>
 
 #include <dtCore/deltadrawable.h>
@@ -8,19 +8,19 @@
 #include <dtGame/gameactorproxy.h>
 
 //////////////////////////////////////////////////////////////////////////
-Weapon::Weapon(const std::string& name /*= "Weapon"*/)
+WeaponSlot::WeaponSlot(const std::string& name /*= "Weapon"*/)
 : mName(name)
 , mpWeaponActor(NULL)
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
-Weapon::~Weapon()
+WeaponSlot::~WeaponSlot()
 {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::Update(float deltaTime)
+void WeaponSlot::Update(float deltaTime)
 {
    if (mpWeaponActor.valid())
    {
@@ -29,7 +29,7 @@ void Weapon::Update(float deltaTime)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void Weapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
+void WeaponSlot::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 {
    dtCore::DeltaDrawable* actor = NULL;
    actorProxy->GetActor(actor);
@@ -41,24 +41,24 @@ void Weapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 
    actorProxy->AddProperty(new dtDAL::Vec3ActorProperty(
       mName + "Position", "Weapon Position",
-      dtDAL::Vec3ActorProperty::SetFuncType(this, &Weapon::SetWeaponPosition),
-      dtDAL::Vec3ActorProperty::GetFuncType(this, &Weapon::GetWeaponPosition),
+      dtDAL::Vec3ActorProperty::SetFuncType(this, &WeaponSlot::SetWeaponPosition),
+      dtDAL::Vec3ActorProperty::GetFuncType(this, &WeaponSlot::GetWeaponPosition),
       "The weapon's location relative to the BoatActor", mName));
 
    actorProxy->AddProperty(new dtDAL::StringActorProperty(
       mName + "DefaultWeapon", "Default Weapon",
-      dtDAL::StringActorProperty::SetFuncType(this, &Weapon::SetDefaultWeapon),
-      dtDAL::StringActorProperty::GetFuncType(this, &Weapon::GetDefaultWeapon),
+      dtDAL::StringActorProperty::SetFuncType(this, &WeaponSlot::SetDefaultWeapon),
+      dtDAL::StringActorProperty::GetFuncType(this, &WeaponSlot::GetDefaultWeapon),
       "The class name of the SMKBoatActor's default weapon", mName));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void Weapon::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
+void WeaponSlot::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
 {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::Initialize(SMKBoatActorProxy* actorProxy)
+void WeaponSlot::Initialize(SMKBoatActorProxy* actorProxy)
 {
    if (!mDefaultWeaponClass.empty())
    {
@@ -67,7 +67,7 @@ void Weapon::Initialize(SMKBoatActorProxy* actorProxy)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::StartWeaponFire()
+void WeaponSlot::StartWeaponFire()
 {
    if (mpWeaponActor.valid())
    {
@@ -76,7 +76,7 @@ void Weapon::StartWeaponFire()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::StopWeaponFire()
+void WeaponSlot::StopWeaponFire()
 {
    if (mpWeaponActor.valid())
    {
@@ -85,7 +85,7 @@ void Weapon::StopWeaponFire()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::SetWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
+void WeaponSlot::SetWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
 {
    if (mpWeaponActor != NULL)
    {
@@ -103,31 +103,31 @@ void Weapon::SetWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorP
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-osg::Vec3 Weapon::GetWeaponPosition() const
+osg::Vec3 WeaponSlot::GetWeaponPosition() const
 {
    return mPosition;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::SetWeaponPosition(const osg::Vec3& val)
+void WeaponSlot::SetWeaponPosition(const osg::Vec3& val)
 {
    mPosition = val;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-std::string Weapon::GetDefaultWeapon() const
+std::string WeaponSlot::GetDefaultWeapon() const
 {
    return mDefaultWeaponClass;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::SetDefaultWeapon(const std::string& val)
+void WeaponSlot::SetDefaultWeapon(const std::string& val)
 {
    mDefaultWeaponClass = val;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-WeaponActor* Weapon::CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
+WeaponActor* WeaponSlot::CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
 {
    //use the Item Factory to create the InventoryItem
    WeaponActor* weapon = WeaponFactory::GetInstance().Create(weaponClass);
@@ -142,7 +142,7 @@ WeaponActor* Weapon::CreateWeaponActor(const std::string& weaponClass, SMKBoatAc
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
+void WeaponSlot::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
 {
    dtCore::Transform weaponTransform;
    weaponTransform.SetTranslation(mPosition);
@@ -151,7 +151,7 @@ void Weapon::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable*
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Weapon::DetachWeaponFromBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
+void WeaponSlot::DetachWeaponFromBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
 {
    boat->RemoveChild(weaponActor);
 }
