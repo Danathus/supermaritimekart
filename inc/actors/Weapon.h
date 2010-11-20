@@ -10,12 +10,12 @@
 #include <dtCore/observerptr.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-class SMK_ACTOR_EXPORT WeaponActor : public dtCore::Object
+class SMK_ACTOR_EXPORT Weapon : public dtCore::Object
 {
 public:
    const static std::string WEAPON_ACTOR_TYPE;
 
-   WeaponActor(const std::string& filename = "");
+   Weapon(const std::string& filename = "");
 
    void SetSMKBoatActorProxy(SMKBoatActorProxy* proxy) { mpSMKBoatActorProxy = proxy;       }
    SMKBoatActorProxy* GetSMKBoatActorProxy() const     { return mpSMKBoatActorProxy.get();  }
@@ -29,7 +29,7 @@ public:
    virtual void StopWeaponFiring();
 
 protected:
-   virtual ~WeaponActor();
+   virtual ~Weapon();
 
    virtual void SetIsFiring(bool isFiring);
    dtAudio::Sound* LoadSound(const std::string& file);

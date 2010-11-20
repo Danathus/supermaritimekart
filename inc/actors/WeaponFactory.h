@@ -12,7 +12,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class WeaponActor;
+class Weapon;
 
 /**
  * Singleton class used to create derived InventoryItems from the
@@ -42,7 +42,7 @@ public:
 
    void RegisterInventoryItems();
 
-   WeaponActor* Create(const std::string& itemType);
+   Weapon* Create(const std::string& itemType);
 
 protected:
    WeaponFactory();
@@ -51,7 +51,7 @@ protected:
 private:
    static WeaponFactory* mInstance;
 
-   typedef dtUtil::ObjectFactory<std::string, WeaponActor> FactoryType;
+   typedef dtUtil::ObjectFactory<std::string, Weapon> FactoryType;
    dtCore::RefPtr<FactoryType> mpWeaponFactory;
 };
 

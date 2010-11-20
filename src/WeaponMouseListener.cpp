@@ -1,7 +1,7 @@
 #include <WeaponMouseListener.h>
 #include <actors/FrontWeaponSlot.h>
 #include <actors/WeaponSlot.h>
-#include <actors/WeaponActor.h>
+#include <actors/Weapon.h>
 
 #include <dtCore/transform.h>
 #include <dtUtil/mathdefines.h>
@@ -82,7 +82,7 @@ void WeaponMouseListener::UpdateLastMousePosition(float x, float y)
    FrontWeaponSlot* turret = dynamic_cast<FrontWeaponSlot*>(mpWeapon.get());
    if (turret != NULL)
    {
-      WeaponActor* actor = turret->GetWeaponActor();
+      Weapon* actor = turret->GetWeaponActor();
       dtCore::Transform weaponTransform;
       actor->GetTransform(weaponTransform, dtCore::Transformable::REL_CS);
       weaponTransform.SetRotation(-x * turret->GetHorizontalMaxAngle(),

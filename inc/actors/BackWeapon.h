@@ -3,20 +3,20 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
-#include <actors/WeaponActor.h>
+#include <actors/Weapon.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-class SMK_ACTOR_EXPORT BackWeaponActor : public WeaponActor
+class SMK_ACTOR_EXPORT BackWeapon : public Weapon
 {
 public:
    const static std::string MACHINE_GUN_ACTOR_TYPE;
 
-   BackWeaponActor(const std::string& filename = "");
+   BackWeapon(const std::string& filename = "");
 
    virtual void FireWeapon();
 
 protected:
-   virtual ~BackWeaponActor();
+   virtual ~BackWeapon();
 
 private:
 };

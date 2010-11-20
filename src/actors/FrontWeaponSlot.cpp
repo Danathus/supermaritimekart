@@ -1,5 +1,5 @@
 #include <actors/FrontWeaponSlot.h>
-#include <actors/FrontWeaponActor.h>
+#include <actors/FrontWeapon.h>
 
 #include <dtDAL/actorproxy.h>
 #include <dtDAL/floatactorproperty.h>
@@ -75,16 +75,16 @@ void FrontWeaponSlot::SetVerticalMaxAngle(const float val)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void FrontWeaponSlot::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
+void FrontWeaponSlot::AttachWeaponToBoat(Weapon* Weapon, dtCore::DeltaDrawable* boat)
 {
-   // Our weapon actor must be a FrontWeaponActor type
-   if (dynamic_cast<FrontWeaponActor*>(weaponActor) != NULL)
+   // Our weapon actor must be a FrontWeapon type
+   if (dynamic_cast<FrontWeapon*>(Weapon) != NULL)
    {
-      WeaponSlot::AttachWeaponToBoat(weaponActor, boat);
+      WeaponSlot::AttachWeaponToBoat(Weapon, boat);
    }
    else
    {
-      LOG_ERROR("Invalid weapon type " + weaponActor->GetName() + " tried to attach to front spot");
+      LOG_ERROR("Invalid weapon type " + Weapon->GetName() + " tried to attach to front spot");
       mpWeaponActor = NULL;
    }
 }

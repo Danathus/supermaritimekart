@@ -5,7 +5,7 @@
 #include <actors/SMKActorExport.h>
 #include <osg/Referenced>
 
-#include <actors/WeaponActor.h>
+#include <actors/Weapon.h>
 
 #include <dtCore/refptr.h>
 
@@ -47,7 +47,7 @@ public:
    void StopWeaponFire();
 
    void SetWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy);
-   WeaponActor* GetWeaponActor() { return mpWeaponActor; }
+   Weapon* GetWeaponActor() { return mpWeaponActor; }
 
    ///The relative position of the weapon is placed
    osg::Vec3 GetWeaponPosition() const;
@@ -59,14 +59,14 @@ public:
 
 protected:
    virtual ~WeaponSlot();
-   virtual WeaponActor* CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy);
-   virtual void AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
-   virtual void DetachWeaponFromBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
+   virtual Weapon* CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy);
+   virtual void AttachWeaponToBoat(Weapon* Weapon, dtCore::DeltaDrawable* boat);
+   virtual void DetachWeaponFromBoat(Weapon* Weapon, dtCore::DeltaDrawable* boat);
 
    std::string                 mName;
    osg::Vec3                   mPosition;
    std::string                 mDefaultWeaponClass;
-   dtCore::RefPtr<WeaponActor> mpWeaponActor;
+   dtCore::RefPtr<Weapon> mpWeaponActor;
 };
 #endif // WeaponSlot_h__
 

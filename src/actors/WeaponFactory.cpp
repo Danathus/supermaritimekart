@@ -32,9 +32,9 @@ WeaponFactory& WeaponFactory::GetInstance()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-WeaponActor* WeaponFactory::Create(const std::string& itemType)
+Weapon* WeaponFactory::Create(const std::string& itemType)
 {
-   WeaponActor* inventoryItem = mpWeaponFactory->CreateObject(itemType);
+   Weapon* inventoryItem = mpWeaponFactory->CreateObject(itemType);
    return inventoryItem;
 }
 

@@ -1,29 +1,29 @@
-#include <actors/BackWeaponActor.h>
+#include <actors/FrontWeapon.h>
 
 #include <messages/NetworkMessages.h>
 
 #include <dtGame/gamemanager.h>
 
 //////////////////////////////////////////////////////////////////////////
-BackWeaponActor::BackWeaponActor(const std::string& filename /*= ""*/)
-: WeaponActor(filename)
+FrontWeapon::FrontWeapon(const std::string& filename /*= ""*/)
+: Weapon(filename)
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
-BackWeaponActor::~BackWeaponActor()
+FrontWeapon::~FrontWeapon()
 {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void BackWeaponActor::FireWeapon()
+void FrontWeapon::FireWeapon()
 {
-   WeaponActor::FireWeapon();
+   Weapon::FireWeapon();
 
    if (mpSMKBoatActorProxy.valid() && !mpSMKBoatActorProxy->GetGameActor().IsRemote())
    {
       dtCore::RefPtr<dtGame::Message> fireMessage;
-      mpSMKBoatActorProxy->GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_BACK_WEAPON_FIRED, fireMessage);
+      mpSMKBoatActorProxy->GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_FRONT_WEAPON_FIRED, fireMessage);
       fireMessage->SetAboutActorId(mpSMKBoatActorProxy->GetGameActor().GetUniqueId());
       mpSMKBoatActorProxy->GetGameManager()->SendNetworkMessage(*fireMessage);
    }

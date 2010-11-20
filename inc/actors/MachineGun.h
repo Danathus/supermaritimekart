@@ -3,7 +3,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
-#include <actors/FrontWeaponActor.h>
+#include <actors/FrontWeapon.h>
 
 namespace dtCore
 {
@@ -19,7 +19,7 @@ namespace osg
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-class SMK_ACTOR_EXPORT MachineGun : public FrontWeaponActor
+class SMK_ACTOR_EXPORT MachineGun : public FrontWeapon
 {
 public:
    const static std::string MACHINE_GUN_ACTOR_TYPE;

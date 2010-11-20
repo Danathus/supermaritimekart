@@ -5,7 +5,7 @@ const std::string MineDropper::MINE_DROPPER_WEAPON_TYPE = "MineDropper";
 
 //////////////////////////////////////////////////////////////////////////
 MineDropper::MineDropper(const std::string& filename /*= ""*/)
-: BackWeaponActor(filename)
+: BackWeapon(filename)
 {
    SetName(MINE_DROPPER_WEAPON_TYPE);
 
@@ -25,7 +25,7 @@ MineDropper::~MineDropper()
 ///////////////////////////////////////////////////////////////////////////////
 void MineDropper::FireWeapon()
 {
-   BackWeaponActor::FireWeapon();
+   BackWeapon::FireWeapon();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
