@@ -1,7 +1,7 @@
 #include <actors/SMKBoatActor.h>
 #include <actors/PickUpItemHandle.h>
-#include <actors/TurretWeapon.h>
-#include <actors/Weapon.h>
+#include <actors/FrontWeapon.h>
+#include <actors/BackWeapon.h>
 #include <messages/NetworkMessages.h>
 
 #include <dtGame/basemessages.h>
@@ -17,15 +17,16 @@
 using namespace SMK;
 
 //////////////////////////////////////////////////////////
-static const std::string WEAPON_FIRED = "WeaponFired";
+static const std::string FRONT_WEAPON_FIRED = "FrontWeaponFired";
+static const std::string BACK_WEAPON_FIRED  = "BackWeaponFired";
 
 //////////////////////////////////////////////////////////
 // Actor code
 //////////////////////////////////////////////////////////
 SMKBoatActor::SMKBoatActor(SMKBoatActorProxy& proxy)
    : BoatActor(proxy)
-   , mpFrontWeapon(new TurretWeapon("Front Weapon"))
-   , mpBackWeapon(new Weapon("Back Weapon"))
+   , mpFrontWeapon(new FrontWeapon())
+   , mpBackWeapon(new BackWeapon())
    , mDeadReckoningHelper(new dtGame::DeadReckoningHelper)
 {
    SetName("SMKBoat");
@@ -241,6 +242,38 @@ void SMKBoatActor::BuildActorComponents()
    mDeadReckoningHelper->SetDeadReckoningAlgorithm(dtGame::DeadReckoningAlgorithm::VELOCITY_AND_ACCELERATION);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::ProcessMessage(const dtGame::Message& message)
+{
+   BoatActor::ProcessMessage(message);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::CauseFullUpdate()
+{
+   if (!IsRemote() && GetDRPublishingActComp() != NULL && GetGameActorProxy().IsInGM())
+   {
+      GetDRPublishingActComp()->ForceFullUpdateAtNextOpportunity();
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::Initialize()
+{
+   BoatActor::Initialize();
+
+   if (IsRemote())
+   {
+      GetGameActorProxy().AddInvokable(*new dtGame::Invokable(FRONT_WEAPON_FIRED,
+         dtUtil::MakeFunctor(&SMKBoatActor::FireFrontWeapon, this)));
+      GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BACK_WEAPON_FIRED,
+         dtUtil::MakeFunctor(&SMKBoatActor::FireBackWeapon, this)));
+
+      GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_FRONT_WEAPON_FIRED, FRONT_WEAPON_FIRED);
+      GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_BACK_WEAPON_FIRED, BACK_WEAPON_FIRED);
+   }
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::SetupDefaultWeapon()
 {
@@ -260,7 +293,7 @@ void SMKBoatActor::SetupDefaultWeapon()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::FireWeapon(const dtGame::Message& weaponFiredMessage)
+void SMKBoatActor::FireFrontWeapon(const dtGame::Message& weaponFiredMessage)
 {
    // Only fire our weapon is this message was from our unique ID
    if (weaponFiredMessage.GetAboutActorId() == GetUniqueId())
@@ -270,32 +303,9 @@ void SMKBoatActor::FireWeapon(const dtGame::Message& weaponFiredMessage)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::CauseFullUpdate()
+void SMKBoatActor::FireBackWeapon(const dtGame::Message& weaponFiredMessage)
 {
-   if (!IsRemote() && GetDRPublishingActComp() != NULL && GetGameActorProxy().IsInGM())
-   {
-      GetDRPublishingActComp()->ForceFullUpdateAtNextOpportunity();
-   }
-}
 
-///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::Initialize()
-{
-   BoatActor::Initialize();
-
-   if (IsRemote())
-   {
-      GetGameActorProxy().AddInvokable(*new dtGame::Invokable(WEAPON_FIRED,
-         dtUtil::MakeFunctor(&SMKBoatActor::FireWeapon, this)));
-
-      GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_WEAPON_FIRED, WEAPON_FIRED);
-   }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::ProcessMessage(const dtGame::Message& message)
-{
-   BoatActor::ProcessMessage(message);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

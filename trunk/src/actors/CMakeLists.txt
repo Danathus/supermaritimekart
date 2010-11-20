@@ -6,27 +6,33 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc/actors)
 ################### SOURCE FILES #####################
     
 SET(SOURCE_FILES
+    ${SOURCE_PATH}/BackWeapon.cpp
+    ${SOURCE_PATH}/BackWeaponActor.cpp
     ${SOURCE_PATH}/DOFDrawable.cpp
+    ${SOURCE_PATH}/FrontWeapon.cpp
+    ${SOURCE_PATH}/FrontWeaponActor.cpp
     ${SOURCE_PATH}/Health.cpp
     ${SOURCE_PATH}/MachineGunActor.cpp
     ${SOURCE_PATH}/PickUpItemHandle.cpp
     ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
     ${SOURCE_PATH}/SMKBoatActor.cpp
-    ${SOURCE_PATH}/TurretWeapon.cpp
     ${SOURCE_PATH}/Weapon.cpp
     ${SOURCE_PATH}/WeaponActor.cpp
     ${SOURCE_PATH}/WeaponFactory.cpp
 )
 
 SET(HEADER_FILES
+    ${HEADER_PATH}/BackWeapon.h
+    ${HEADER_PATH}/BackWeaponActor.h
     ${HEADER_PATH}/DOFDrawable.h
+    ${HEADER_PATH}/FrontWeapon.h
+    ${HEADER_PATH}/FrontWeaponActor.h
     ${HEADER_PATH}/Health.h 
     ${HEADER_PATH}/MachineGunActor.h
     ${HEADER_PATH}/PickUpItemHandle.h
     ${HEADER_PATH}/SMKActorExport.h
     ${HEADER_PATH}/SMKActorLibraryRegistry.h
     ${HEADER_PATH}/SMKBoatActor.h
-    ${HEADER_PATH}/TurretWeapon.h
     ${HEADER_PATH}/Weapon.h
     ${HEADER_PATH}/WeaponActor.h
     ${HEADER_PATH}/WeaponFactory.h

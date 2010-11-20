@@ -22,8 +22,10 @@ const float BULLET_TRAIL_HEIGHT = 0.5f;
 
 //////////////////////////////////////////////////////////////////////////
 MachineGunActor::MachineGunActor(const std::string& filename /*= ""*/)
-: WeaponActor(filename)
+: FrontWeaponActor(filename)
 {
+   SetName(MACHINE_GUN_ACTOR_TYPE);
+
    mFiringRate = 10.0f;
 
    // Load any sounds we have
@@ -52,7 +54,7 @@ MachineGunActor::~MachineGunActor()
 ///////////////////////////////////////////////////////////////////////////////
 void MachineGunActor::FireWeapon()
 {
-   WeaponActor::FireWeapon();
+   FrontWeaponActor::FireWeapon();
 
    dtCore::Transform currentTransform;
    GetTransform(currentTransform, dtCore::Transformable::REL_CS);

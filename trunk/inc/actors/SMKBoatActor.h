@@ -10,7 +10,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 class SMKBoatActorProxy;
-class TurretWeapon;
+class FrontWeapon;
+class BackWeapon;
 class Weapon;
 
 namespace dtAudio { class Sound; }
@@ -91,11 +92,12 @@ protected:
 private:
    void SetupDefaultWeapon();
 
-   void FireWeapon(const dtGame::Message& weaponFiredMessage);
+   void FireFrontWeapon(const dtGame::Message& weaponFiredMessage);
+   void FireBackWeapon(const dtGame::Message& weaponFiredMessage);
    bool DoWeWantThisPickUp(const SMK::PickUpItemHandle& pickup) const;
 
-   dtCore::RefPtr<TurretWeapon> mpFrontWeapon;
-   dtCore::RefPtr<Weapon> mpBackWeapon;
+   dtCore::RefPtr<FrontWeapon> mpFrontWeapon;
+   dtCore::RefPtr<BackWeapon> mpBackWeapon;
    SMK::Health mHealth;  ///<The current health of this boat
    dtCore::RefPtr<dtAudio::Sound> mPickupAcquireSound;
 

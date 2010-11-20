@@ -36,12 +36,11 @@ protected:
    dtCore::RefPtr<dtAudio::Sound> mpStartFiringSound;
    dtCore::RefPtr<dtAudio::Sound> mpFireSound;
    dtCore::RefPtr<dtAudio::Sound> mpStopFiringSound;
+   dtCore::ObserverPtr<SMKBoatActorProxy> mpSMKBoatActorProxy;
 
 private:
    bool mIsFiring;
    float mFiringCounter;
-
-   dtCore::ObserverPtr<SMKBoatActorProxy> mpSMKBoatActorProxy;
 };
 #endif // WeaponActor_h__
 

@@ -11,7 +11,8 @@ namespace SMK
    DT_DECLARE_MESSAGE_TYPE_CLASS_BEGIN(SMKNetworkMessages, SMK_MESSAGE_EXPORT)
 
    static const SMKNetworkMessages INFO_CLIENT_MAP_LOADED;
-   static const SMKNetworkMessages ACTION_WEAPON_FIRED;
+   static const SMKNetworkMessages ACTION_FRONT_WEAPON_FIRED;
+   static const SMKNetworkMessages ACTION_BACK_WEAPON_FIRED;
    static const SMKNetworkMessages REQUEST_PICKUP_PICKUP; //<A request to pickup a pickup item
 
    enum
@@ -20,7 +21,8 @@ namespace SMK
 
       // Network messages
       ID_INFO_CLIENT_MAP_LOADED,
-      ID_ACTION_WEAPON_FIRED,
+      ID_ACTION_FRONT_WEAPON_FIRED,
+      ID_ACTION_BACK_WEAPON_FIRED,
       ID_REQUEST_PICKUP_PICKUP
    };
 
