@@ -24,7 +24,7 @@ namespace DeltaNetworkAdapter
          enum
          {
             //ID_NULL_NETWORK_MESSAGE = SharedUtilMessageType::ID_USER_DEFINED_MESSAGE_TYPE + 1,
-            ID_NULL_NETWORK_MESSAGE = dtGame::MessageType::USER_DEFINED_MESSAGE_TYPE + 1,
+            ID_NULL_NETWORK_MESSAGE = dtGame::MessageType::USER_DEFINED_MESSAGE_TYPE + 1000,
 
             // Network messages
             ID_INFO_NETWORK_MESSAGE,
