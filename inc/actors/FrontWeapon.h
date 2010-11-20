@@ -1,15 +1,15 @@
-#ifndef TurretWeapon_h__
-#define TurretWeapon_h__
+#ifndef FrontWeapon_h__
+#define FrontWeapon_h__
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
 #include <actors/Weapon.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-class SMK_ACTOR_EXPORT TurretWeapon : public Weapon
+class SMK_ACTOR_EXPORT FrontWeapon : public Weapon
 {
 public:
-   TurretWeapon(const std::string& name = "TurretWeapon");
+   FrontWeapon(const std::string& name = "FrontWeapon");
 
    /**
    * Builds the property map for STAGE
@@ -27,12 +27,13 @@ public:
    void SetVerticalMaxAngle(const float val);
 
 protected:
-   virtual ~TurretWeapon();
+   virtual ~FrontWeapon();
+   virtual void AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
 
 private:
    float mHorizontalMaxAngle;
    float mVerticalMaxAngle;
 };
-#endif // TurretWeapon_h__
+#endif // FrontWeapon_h__
 
 ////////////////////////////////////////////////////////////////////////////////

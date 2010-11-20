@@ -1,6 +1,4 @@
 #include <actors/WeaponActor.h>
-#include <messages/NetworkMessages.h>
-#include <network/NetworkBuddy.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtUtil/log.h>
@@ -81,14 +79,6 @@ void WeaponActor::FireWeapon()
    if (mpFireSound.valid())
    {
       mpFireSound->Play();
-   }
-
-   if (mpSMKBoatActorProxy.valid() && !mpSMKBoatActorProxy->GetGameActor().IsRemote())
-   {
-      dtCore::RefPtr<dtGame::Message> testMessage;
-      mpSMKBoatActorProxy->GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_WEAPON_FIRED, testMessage);
-      testMessage->SetAboutActorId(mpSMKBoatActorProxy->GetGameActor().GetUniqueId());
-      mpSMKBoatActorProxy->GetGameManager()->SendNetworkMessage(*testMessage);
    }
 }
 

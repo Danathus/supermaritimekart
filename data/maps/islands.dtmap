@@ -2410,7 +2410,7 @@
                 <boolean>false</boolean>
             </property>
             <property>
-                <name>Front WeaponPosition</name>
+                <name>FrontWeaponPosition</name>
                 <vec3>
                     <value1>0.000000</value1>
                     <value2>-1.000000</value2>
@@ -2418,19 +2418,19 @@
                 </vec3>
             </property>
             <property>
-                <name>Front WeaponDefaultWeapon</name>
+                <name>FrontWeaponDefaultWeapon</name>
                 <string>MachineGun</string>
             </property>
             <property>
-                <name>Front WeaponMaxHorizontalAngle</name>
-                <float>30</float>
+                <name>FrontWeaponMaxHorizontalAngle</name>
+                <float>45</float>
             </property>
             <property>
-                <name>Front WeaponMaxVerticalAngle</name>
+                <name>FrontWeaponMaxVerticalAngle</name>
                 <float>15</float>
             </property>
             <property>
-                <name>Back WeaponPosition</name>
+                <name>BackWeaponPosition</name>
                 <vec3>
                     <value1>0.000000</value1>
                     <value2>-5.000000</value2>
@@ -2438,7 +2438,7 @@
                 </vec3>
             </property>
             <property>
-                <name>Back WeaponDefaultWeapon</name>
+                <name>BackWeaponDefaultWeapon</name>
                 <string></string>
             </property>
             <property>

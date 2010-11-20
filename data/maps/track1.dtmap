@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <map xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="delta3dMap" xsi:schemaLocation="delta3dMap map.xsd">
     <header>
         <name>track1</name>
@@ -8,7 +7,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-21T09:21:17-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-17T18:11:10-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-19T20:40:27-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -314,8 +313,8 @@
                 <name>Rotation</name>
                 <vec3>
                     <value1>0.000000</value1>
-                    <value2>-0.000000</value2>
-                    <value3>-0.000000</value3>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
@@ -4558,7 +4557,7 @@
                 <boolean>false</boolean>
             </property>
             <property>
-                <name>Front WeaponPosition</name>
+                <name>FrontWeaponPosition</name>
                 <vec3>
                     <value1>0.000000</value1>
                     <value2>-1.000000</value2>
@@ -4566,19 +4565,19 @@
                 </vec3>
             </property>
             <property>
-                <name>Front WeaponDefaultWeapon</name>
+                <name>FrontWeaponDefaultWeapon</name>
                 <string>MachineGun</string>
             </property>
             <property>
-                <name>Front WeaponMaxHorizontalAngle</name>
-                <float>30</float>
+                <name>FrontWeaponMaxHorizontalAngle</name>
+                <float>45</float>
             </property>
             <property>
-                <name>Front WeaponMaxVerticalAngle</name>
+                <name>FrontWeaponMaxVerticalAngle</name>
                 <float>15</float>
             </property>
             <property>
-                <name>Back WeaponPosition</name>
+                <name>BackWeaponPosition</name>
                 <vec3>
                     <value1>0.000000</value1>
                     <value2>-5.000000</value2>
@@ -4586,7 +4585,7 @@
                 </vec3>
             </property>
             <property>
-                <name>Back WeaponDefaultWeapon</name>
+                <name>BackWeaponDefaultWeapon</name>
                 <string></string>
             </property>
             <property>

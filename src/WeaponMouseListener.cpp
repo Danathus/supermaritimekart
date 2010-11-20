@@ -1,5 +1,5 @@
 #include <WeaponMouseListener.h>
-#include <actors/TurretWeapon.h>
+#include <actors/FrontWeapon.h>
 #include <actors/Weapon.h>
 #include <actors/WeaponActor.h>
 
@@ -31,7 +31,7 @@ bool WeaponMouseListener::HandleMouseScrolled(const  dtCore::Mouse* mouse, int d
 ////////////////////////////////////////////////////////////////////////////////
 bool WeaponMouseListener::HandleButtonPressed(const dtCore::Mouse* mouse, dtCore::Mouse::MouseButton button)
 {
-   TurretWeapon* turret = dynamic_cast<TurretWeapon*>(mpWeapon.get());
+   FrontWeapon* turret = dynamic_cast<FrontWeapon*>(mpWeapon.get());
    if ((turret != NULL && button == dtCore::Mouse::LeftButton) ||
       ( turret == NULL && button == dtCore::Mouse::RightButton))
    {
@@ -44,7 +44,7 @@ bool WeaponMouseListener::HandleButtonPressed(const dtCore::Mouse* mouse, dtCore
 ////////////////////////////////////////////////////////////////////////////////
 bool WeaponMouseListener::HandleButtonReleased(const dtCore::Mouse* mouse, dtCore::Mouse::MouseButton button)
 {
-   TurretWeapon* turret = dynamic_cast<TurretWeapon*>(mpWeapon.get());
+   FrontWeapon* turret = dynamic_cast<FrontWeapon*>(mpWeapon.get());
    if ((turret != NULL && button == dtCore::Mouse::LeftButton) ||
       ( turret == NULL && button == dtCore::Mouse::RightButton))
    {
@@ -79,7 +79,7 @@ bool WeaponMouseListener::HandleMouseDragged(const dtCore::Mouse* mouse, float x
 ///////////////////////////////////////////////////////////////////////////////
 void WeaponMouseListener::UpdateLastMousePosition(float x, float y)
 {
-   TurretWeapon* turret = dynamic_cast<TurretWeapon*>(mpWeapon.get());
+   FrontWeapon* turret = dynamic_cast<FrontWeapon*>(mpWeapon.get());
    if (turret != NULL)
    {
       WeaponActor* actor = turret->GetWeaponActor();

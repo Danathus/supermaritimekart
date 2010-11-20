@@ -1,10 +1,12 @@
-#include <actors/TurretWeapon.h>
+#include <actors/FrontWeapon.h>
+#include <actors/FrontWeaponActor.h>
 
 #include <dtDAL/actorproxy.h>
 #include <dtDAL/floatactorproperty.h>
+#include <dtUtil/log.h>
 
 //////////////////////////////////////////////////////////////////////////
-TurretWeapon::TurretWeapon(const std::string& name /*= "TurretWeapon"*/)
+FrontWeapon::FrontWeapon(const std::string& name /*= "FrontWeapon"*/)
 : Weapon(name)
 , mHorizontalMaxAngle(30.0f)
 , mVerticalMaxAngle(30.0f)
@@ -12,12 +14,12 @@ TurretWeapon::TurretWeapon(const std::string& name /*= "TurretWeapon"*/)
 }
 
 //////////////////////////////////////////////////////////////////////////
-TurretWeapon::~TurretWeapon()
+FrontWeapon::~FrontWeapon()
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void TurretWeapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
+void FrontWeapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 {
    Weapon::BuildPropertyMap(actorProxy);
 
@@ -31,45 +33,60 @@ void TurretWeapon::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
 
    actorProxy->AddProperty(new dtDAL::FloatActorProperty(
       mName + "MaxHorizontalAngle", "Max Horizontal Angle",
-      dtDAL::FloatActorProperty::SetFuncType(this, &TurretWeapon::SetHorizontalMaxAngle),
-      dtDAL::FloatActorProperty::GetFuncType(this, &TurretWeapon::GetHorizontalMaxAngle),
+      dtDAL::FloatActorProperty::SetFuncType(this, &FrontWeapon::SetHorizontalMaxAngle),
+      dtDAL::FloatActorProperty::GetFuncType(this, &FrontWeapon::GetHorizontalMaxAngle),
       "The max angle the weapon can rotate left or right to", mName));
 
    actorProxy->AddProperty(new dtDAL::FloatActorProperty(
       mName + "MaxVerticalAngle", "Max Vertical Angle",
-      dtDAL::FloatActorProperty::SetFuncType(this, &TurretWeapon::SetVerticalMaxAngle),
-      dtDAL::FloatActorProperty::GetFuncType(this, &TurretWeapon::GetVerticalMaxAngle),
+      dtDAL::FloatActorProperty::SetFuncType(this, &FrontWeapon::SetVerticalMaxAngle),
+      dtDAL::FloatActorProperty::GetFuncType(this, &FrontWeapon::GetVerticalMaxAngle),
       "The max angle the weapon can rotate up or down to", mName));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void TurretWeapon::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
+void FrontWeapon::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
 {
    Weapon::GetPartialUpdateProperties(propNamesToFill);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-float TurretWeapon::GetHorizontalMaxAngle() const
+float FrontWeapon::GetHorizontalMaxAngle() const
 {
    return mHorizontalMaxAngle;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void TurretWeapon::SetHorizontalMaxAngle(const float val)
+void FrontWeapon::SetHorizontalMaxAngle(const float val)
 {
    mHorizontalMaxAngle = val;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-float TurretWeapon::GetVerticalMaxAngle() const
+float FrontWeapon::GetVerticalMaxAngle() const
 {
    return mVerticalMaxAngle;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void TurretWeapon::SetVerticalMaxAngle(const float val)
+void FrontWeapon::SetVerticalMaxAngle(const float val)
 {
    mVerticalMaxAngle = val;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void FrontWeapon::AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat)
+{
+   // Our weapon actor must be a FrontWeaponActor type
+   if (dynamic_cast<FrontWeaponActor*>(weaponActor) != NULL)
+   {
+      Weapon::AttachWeaponToBoat(weaponActor, boat);
+   }
+   else
+   {
+      LOG_ERROR("Invalid weapon type " + weaponActor->GetName() + " tried to attach to front spot");
+      mpWeaponActor = NULL;
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
