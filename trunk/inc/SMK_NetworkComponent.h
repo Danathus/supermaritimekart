@@ -46,6 +46,7 @@ private:
    ProxyContainer mProxiesToSendToNewClients;
 
    void SendGameDataToClient(const dtGame::MachineInfo* machineInfo);
+   void HandleThePickUpRequest(const dtGame::Message& message);
 
 };
 

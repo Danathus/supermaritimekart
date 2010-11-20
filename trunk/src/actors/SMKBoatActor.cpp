@@ -84,29 +84,33 @@ const Weapon* SMKBoatActor::GetBackWeapon() const
 ////////////////////////////////////////////////////////////////////////////////
 bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
 {
+   //osg::Vec3 position(contact->geom.pos[0], contact->geom.pos[1], contact->geom.pos[2]);
+   //osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
+
    // Do not send events in STAGE.
    if (!GetGameActorProxy().IsInSTAGE())
    {
       PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
 
-      if (pickup)
+      if (pickup && (DoWeWantThisPickUp(*pickup)))
       {
+       
          dtGame::GameActorProxy& boatProxy = GetGameActorProxy();
 
-         osg::Vec3 position(contact->geom.pos[0], contact->geom.pos[1], contact->geom.pos[2]);
-         osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
-
-         // Remove the pickup actor
-         boatProxy.GetGameManager()->DeleteActor(pickup->GetGameActorProxy());
+         // TODO hide the pickup actor
+         //boatProxy.GetGameManager()->DeleteActor(pickup->GetGameActorProxy());
 
          // TEMP
          // This should happen when the item is acquired
-         {
-            mPickupAcquireSound->Play();
-         }
+         //{
+         //   mPickupAcquireSound->Play();
+         //}
 
-         //TODO Send request to server indicating our interest in acquiring "pickup"
-         //pickup->GetType();
+         //Send request to server indicating our interest in acquiring "pickup"         
+         dtCore::RefPtr<dtGame::Message> msg;
+         GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP, msg);
+         msg->SetAboutActorId(pickup->GetUniqueId());
+         GetGameActorProxy().GetGameManager()->SendNetworkMessage(*msg);
       }
       else
       {
@@ -290,6 +294,13 @@ void SMKBoatActor::Initialize()
 void SMKBoatActor::ProcessMessage(const dtGame::Message& message)
 {
    BoatActor::ProcessMessage(message);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool SMKBoatActor::DoWeWantThisPickUp(const PickUpItemHandle& pickup) const
+{
+   //pickup.GetType();
+   return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

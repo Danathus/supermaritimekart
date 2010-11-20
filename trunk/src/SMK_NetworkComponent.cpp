@@ -5,6 +5,7 @@
 #include <DeltaNetworkAdapter/machineinfomessage.h>
 #include <messages/NetworkMessages.h>
 //#include <CCTS_ActorLibrary/IdentityAssignmentManager.h>
+#include <actors/PickUpItemHandle.h>
 
 #include <dtGame/basemessages.h>
 #include <dtUtil/log.h>
@@ -49,7 +50,11 @@ void SMK_NetworkComponent::ProcessMessage(const dtGame::Message& message)
       //now send all pertinent game data to the newly connected client
       //Their map should have been loaded by this point.
       SendGameDataToClient(&message.GetSource());
-   }  
+   }
+   else if (message.GetMessageType() == SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP)
+   {      
+      HandleThePickUpRequest(message);
+   }
 
    // in all cases, we must respect our elder
    NetworkEngineComponent::ProcessMessage(message);
@@ -100,6 +105,34 @@ void SMK_NetworkComponent::SendGameDataToClient(const dtGame::MachineInfo* machi
 
       ++proxyItr;
    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMK_NetworkComponent::HandleThePickUpRequest(const dtGame::Message& message)
+{
+   const dtCore::UniqueId& pickupUID = message.GetAboutActorId();
+
+   SMK::PickUpItemBaseProxy* pickupProxy(NULL);
+
+   GetGameManager()->FindActorById(pickupUID, pickupProxy);
+   if (pickupProxy)
+   {
+      SMK::PickUpItemHandle* pickup(NULL);
+      pickupProxy->GetActor(pickup);
+
+      if (pickup->GetActive() == true)
+      {
+         //TODO send a msg to the world indicating who got this pickup.
+
+         //Looks like a valid pickup attempt.  Mark it inactive and tell the world
+         pickup->SetActive(false);
+
+         //tell the world this pickup is now inactive
+         std::vector<dtUtil::RefString> propsToSend;
+         propsToSend.push_back("IsActive");
+         pickupProxy->NotifyPartialActorUpdate(propsToSend);
+      }      
+   }   
 }
 
 ////////////////////////////////////////////////////////////////////////////////

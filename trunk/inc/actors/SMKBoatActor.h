@@ -20,6 +20,10 @@ namespace dtGame
    class DeadReckoningHelper;
    class DRPublishingActComp;
 }
+namespace SMK
+{
+   class PickUpItemHandle;
+}
 
 class SMK_ACTOR_EXPORT SMKBoatActor : public BoatActor
 {
@@ -88,6 +92,7 @@ private:
    void SetupDefaultWeapon();
 
    void FireWeapon(const dtGame::Message& weaponFiredMessage);
+   bool DoWeWantThisPickUp(const SMK::PickUpItemHandle& pickup) const;
 
    dtCore::RefPtr<TurretWeapon> mpFrontWeapon;
    dtCore::RefPtr<Weapon> mpBackWeapon;
