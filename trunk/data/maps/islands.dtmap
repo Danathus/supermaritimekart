@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <map xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="delta3dMap" xsi:schemaLocation="delta3dMap map.xsd">
     <header>
         <name>islands</name>
@@ -7,7 +8,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-19T17:53:50-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-17T18:12:57-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-19T17:29:53-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -2100,7 +2101,7 @@
                 <vec3>
                     <value1>4.933347</value1>
                     <value2>-160.940704</value2>
-                    <value3>18.183990</value3>
+                    <value3>1.000000</value3>
                 </vec3>
             </property>
             <property>
@@ -4027,8 +4028,8 @@
                 <name>Rotation</name>
                 <vec3>
                     <value1>0.000000</value1>
-                    <value2>-0.000000</value2>
-                    <value3>-0.000000</value3>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
