@@ -12,6 +12,7 @@ namespace SMK
 
    static const SMKNetworkMessages INFO_CLIENT_MAP_LOADED;
    static const SMKNetworkMessages ACTION_WEAPON_FIRED;
+   static const SMKNetworkMessages REQUEST_PICKUP_PICKUP; //<A request to pickup a pickup item
 
    enum
    {
@@ -19,7 +20,8 @@ namespace SMK
 
       // Network messages
       ID_INFO_CLIENT_MAP_LOADED,
-      ID_ACTION_WEAPON_FIRED
+      ID_ACTION_WEAPON_FIRED,
+      ID_REQUEST_PICKUP_PICKUP
    };
 
    DT_DECLARE_MESSAGE_TYPE_CLASS_END()

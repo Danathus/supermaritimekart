@@ -18,5 +18,6 @@ DT_IMPLEMENT_MESSAGE_TYPE_CLASS(SMKNetworkMessages)
 // Network messages
 DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, INFO,   CLIENT_MAP_LOADED, "Sent when client is finished loading it's map",  dtGame::Message);
 DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, ACTION, WEAPON_FIRED,      "Sent when a player fires their weapon",  dtGame::Message);
+DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, REQUEST, PICKUP_PICKUP,    "Sent when a player requests to pickup a pickup",  dtGame::Message);
 
 ///////////////////////////////////////////////////////////////////////////////
