@@ -92,7 +92,7 @@ void SMK_NetworkComponent::ClearNewClientPublishList()
 ////////////////////////////////////////////////////////////////////////////////
 void SMK_NetworkComponent::SendGameDataToClient(const dtGame::MachineInfo* machineInfo)
 {   
-   LOG_DEBUG("Sending game data to newly connected client");
+   LOG_INFO("Sending game data to newly connected client");
 
    ProxyContainer::const_iterator proxyItr = mProxiesToSendToNewClients.begin();
    while (proxyItr != mProxiesToSendToNewClients.end())
@@ -126,10 +126,12 @@ void SMK_NetworkComponent::HandleThePickUpRequest(const dtGame::Message& message
 
          //Looks like a valid pickup attempt.  Mark it inactive and tell the world
          pickup->SetActive(false);
+         pickup->SetCollisionDetection(false);
 
          //tell the world this pickup is now inactive
          std::vector<dtUtil::RefString> propsToSend;
-         propsToSend.push_back("IsActive");
+         propsToSend.push_back("IsActive"); //DeltaDrawable
+         propsToSend.push_back(dtDAL::TransformableActorProxy::PROPERTY_ENABLE_COLLISION);
          pickupProxy->NotifyPartialActorUpdate(propsToSend);
       }      
    }   

@@ -93,12 +93,12 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
       PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
 
       if (pickup && (DoWeWantThisPickUp(*pickup)))
-      {
-       
+      {      
          dtGame::GameActorProxy& boatProxy = GetGameActorProxy();
 
-         // TODO hide the pickup actor
-         //boatProxy.GetGameManager()->DeleteActor(pickup->GetGameActorProxy());
+         //make it inactive locally.  The server will provide the ultimate jugment later
+         //pickup->SetActive(false);
+         //pickup->SetCollisionDetection(false);
 
          // TEMP
          // This should happen when the item is acquired
@@ -110,7 +110,9 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          dtCore::RefPtr<dtGame::Message> msg;
          GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP, msg);
          msg->SetAboutActorId(pickup->GetUniqueId());
-         GetGameActorProxy().GetGameManager()->SendNetworkMessage(*msg);
+
+         //SendNetworkMessage() doesn't seem to do the job when no-one else is connected?
+         GetGameActorProxy().GetGameManager()->SendMessage(*msg);  
       }
       else
       {
