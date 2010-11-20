@@ -1,5 +1,5 @@
-#ifndef Weapon_h__
-#define Weapon_h__
+#ifndef WeaponSlot_h__
+#define WeaponSlot_h__
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
@@ -24,10 +24,10 @@ namespace dtUtil
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-class SMK_ACTOR_EXPORT Weapon : public osg::Referenced
+class SMK_ACTOR_EXPORT WeaponSlot : public osg::Referenced
 {
 public:
-   Weapon(const std::string& name = "Weapon");
+   WeaponSlot(const std::string& name = "Weapon");
 
    virtual void Update(float deltaTime);
 
@@ -58,7 +58,7 @@ public:
    void SetDefaultWeapon(const std::string& val);
 
 protected:
-   virtual ~Weapon();
+   virtual ~WeaponSlot();
    virtual WeaponActor* CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy);
    virtual void AttachWeaponToBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
    virtual void DetachWeaponFromBoat(WeaponActor* weaponActor, dtCore::DeltaDrawable* boat);
@@ -68,6 +68,6 @@ protected:
    std::string                 mDefaultWeaponClass;
    dtCore::RefPtr<WeaponActor> mpWeaponActor;
 };
-#endif // Weapon_h__
+#endif // WeaponSlot_h__
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <map xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="delta3dMap" xsi:schemaLocation="delta3dMap map.xsd">
     <header>
         <name>JustOcean</name>
@@ -7,7 +8,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-22T19:23:23-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-19T20:42:02-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-19T21:10:33-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -1102,7 +1103,7 @@
             </property>
             <property>
                 <name>BackWeaponDefaultWeapon</name>
-                <string></string>
+                <string>MineDropper</string>
             </property>
             <property>
                 <name>CurrentShader</name>

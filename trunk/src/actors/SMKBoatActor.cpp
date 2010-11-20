@@ -1,7 +1,7 @@
 #include <actors/SMKBoatActor.h>
 #include <actors/PickUpItemHandle.h>
-#include <actors/FrontWeapon.h>
-#include <actors/BackWeapon.h>
+#include <actors/FrontWeaponSlot.h>
+#include <actors/BackWeaponSlot.h>
 #include <messages/NetworkMessages.h>
 
 #include <dtGame/basemessages.h>
@@ -25,8 +25,8 @@ static const std::string BACK_WEAPON_FIRED  = "BackWeaponFired";
 //////////////////////////////////////////////////////////
 SMKBoatActor::SMKBoatActor(SMKBoatActorProxy& proxy)
    : BoatActor(proxy)
-   , mpFrontWeapon(new FrontWeapon())
-   , mpBackWeapon(new BackWeapon())
+   , mpFrontWeapon(new FrontWeaponSlot())
+   , mpBackWeapon(new BackWeaponSlot())
    , mDeadReckoningHelper(new dtGame::DeadReckoningHelper)
 {
    SetName("SMKBoat");
@@ -59,25 +59,25 @@ void SMKBoatActor::TickLocal(const dtGame::Message& msg)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-Weapon* SMKBoatActor::GetFrontWeapon()
+WeaponSlot* SMKBoatActor::GetFrontWeapon()
 {
    return mpFrontWeapon.get();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-const Weapon* SMKBoatActor::GetFrontWeapon() const
+const WeaponSlot* SMKBoatActor::GetFrontWeapon() const
 {
    return mpFrontWeapon.get();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-Weapon* SMKBoatActor::GetBackWeapon()
+WeaponSlot* SMKBoatActor::GetBackWeapon()
 {
    return mpBackWeapon.get();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-const Weapon* SMKBoatActor::GetBackWeapon() const
+const WeaponSlot* SMKBoatActor::GetBackWeapon() const
 {
    return mpBackWeapon.get();
 }

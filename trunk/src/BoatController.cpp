@@ -5,7 +5,7 @@
 #include <WeaponMouseListener.h>
 #include <actors/SMKActorLibraryRegistry.h>
 #include <actors/SMKBoatActor.h>
-#include <actors/Weapon.h>
+#include <actors/WeaponSlot.h>
 
 #include <dtActors/engineactorregistry.h>
 #include <dtActors/playerstartactorproxy.h>

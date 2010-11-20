@@ -10,9 +10,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 class SMKBoatActorProxy;
-class FrontWeapon;
-class BackWeapon;
-class Weapon;
+class FrontWeaponSlot;
+class BackWeaponSlot;
+class WeaponSlot;
 
 namespace dtAudio { class Sound; }
 
@@ -40,14 +40,14 @@ public:
    /**
    * Get the front weapon.
    */
-   Weapon* GetFrontWeapon();
-   const Weapon* GetFrontWeapon() const;
+   WeaponSlot* GetFrontWeapon();
+   const WeaponSlot* GetFrontWeapon() const;
 
    /**
    * Get the back weapon.
    */
-   Weapon* GetBackWeapon();
-   const Weapon* GetBackWeapon() const;
+   WeaponSlot* GetBackWeapon();
+   const WeaponSlot* GetBackWeapon() const;
 
    /**
    * Callback from Scene when a contact occurs. This normally is used to 
@@ -96,8 +96,8 @@ private:
    void FireBackWeapon(const dtGame::Message& weaponFiredMessage);
    bool DoWeWantThisPickUp(const SMK::PickUpItemHandle& pickup) const;
 
-   dtCore::RefPtr<FrontWeapon> mpFrontWeapon;
-   dtCore::RefPtr<BackWeapon> mpBackWeapon;
+   dtCore::RefPtr<FrontWeaponSlot> mpFrontWeapon;
+   dtCore::RefPtr<BackWeaponSlot> mpBackWeapon;
    SMK::Health mHealth;  ///<The current health of this boat
    dtCore::RefPtr<dtAudio::Sound> mPickupAcquireSound;
 

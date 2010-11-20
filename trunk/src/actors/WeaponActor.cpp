@@ -46,11 +46,22 @@ WeaponActor::~WeaponActor()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void WeaponActor::SetFiringRate(float rate)
+{
+   mFiringRate = rate;
+   if (mFiringRate != 0)
+   {
+      mFiringCounter = (1.0f / mFiringRate);
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void WeaponActor::Update(float deltaTime)
 {
+   mFiringCounter += deltaTime;
+
    if (mIsFiring)
    {
-      mFiringCounter += deltaTime;
       // Convert firing rate from number of shots per second to number of seconds per shot
       if (mFiringRate == 0.0f || mFiringCounter > (1.0f / mFiringRate))
       {
@@ -98,10 +109,6 @@ void WeaponActor::StopWeaponFiring()
 void WeaponActor::SetIsFiring(bool isFiring)
 {
    mIsFiring = isFiring;
-   if (mFiringRate != 0)
-   {
-      mFiringCounter = (1.0f / mFiringRate);
-   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

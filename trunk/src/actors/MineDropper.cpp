@@ -1,0 +1,31 @@
+#include <actors/MineDropper.h>
+
+////////////////////////////////////////////////////////////////////////////////
+const std::string MineDropper::MINE_DROPPER_WEAPON_TYPE = "MineDropper";
+
+//////////////////////////////////////////////////////////////////////////
+MineDropper::MineDropper(const std::string& filename /*= ""*/)
+: BackWeaponActor(filename)
+{
+   SetName(MINE_DROPPER_WEAPON_TYPE);
+
+   // We want to drop one mine every six seconds
+   SetFiringRate(1.0f / 6.0f);
+
+   // Load any sounds we have
+   mpFireSound = LoadSound("/sounds/exp57.wav");
+   mpFireSound->SetGain(0.5f);
+}
+
+//////////////////////////////////////////////////////////////////////////
+MineDropper::~MineDropper()
+{
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MineDropper::FireWeapon()
+{
+   BackWeaponActor::FireWeapon();
+}
+
+////////////////////////////////////////////////////////////////////////////////
