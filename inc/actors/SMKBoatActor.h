@@ -3,7 +3,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
-#include <actors/Health.h>
+#include <util/Armor.h>
+#include <util/Health.h>
 
 #include <BoatActors/BoatActor.h>
 
@@ -23,6 +24,8 @@ namespace dtGame
 }
 namespace SMK
 {
+   class Damage;
+   class DamageMessage;
    class PickUpItemHandle;
 }
 
@@ -75,8 +78,6 @@ public:
    dtGame::DRPublishingActComp* GetDRPublishingActComp() { return mDRPublishingActComp; }
    const dtGame::DRPublishingActComp* GetDRPublishingActComp() const { return mDRPublishingActComp; }
 
-   void BoatHit(const dtGame::Message& boatHitMessage);
-
 protected:
 
    /**
@@ -98,13 +99,17 @@ private:
    void FireFrontWeapon(const dtGame::Message& weaponFiredMessage);
    void FireBackWeapon(const dtGame::Message& weaponFiredMessage);
 
-   void ProjectileExploded(const dtGame::Message& weaponFiredMessage);
+   void BoatHit(const SMK::DamageMessage& boatHitMessage);
+   void ProjectileExploded(const SMK::DamageMessage& weaponFiredMessage);
+
+   void ApplyDamage(const SMK::Damage& damage);
 
    bool DoWeWantThisPickUp(const SMK::PickUpItemHandle& pickup) const;
 
    dtCore::RefPtr<FrontWeaponSlot> mpFrontWeapon;
    dtCore::RefPtr<BackWeaponSlot> mpBackWeapon;
    SMK::Health mHealth;  ///<The current health of this boat
+   SMK::Armor  mArmor;   ///<The current armor of this boat
    dtCore::RefPtr<dtAudio::Sound> mPickupAcquireSound;
 
    dtCore::RefPtr<dtGame::DeadReckoningHelper> mDeadReckoningHelper;

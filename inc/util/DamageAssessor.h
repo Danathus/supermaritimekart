@@ -1,6 +1,8 @@
 #ifndef DAMAGEASSESSOR_h__
 #define DAMAGEASSESSOR_h__
 
+#include <util/SMKUtilExport.h>
+
 namespace dtCore
 {
    class Transformable;
@@ -20,17 +22,23 @@ namespace SMK
       dtCore::Transformable* mTransformable; ///should have a position
    };
 
-   /** 
-     * The DamageAssessor's job is to figure out how much to reduce the 
+   /**
+     * The DamageAssessor's job is to figure out how much to reduce the
      * DamageTaker's Health and Armor, based on the supplied Damage.
      */
-   class DamageAssessor
+   class SMK_UTIL_EXPORT DamageAssessor
    {
    public:
       DamageAssessor();
       ~DamageAssessor();
 
       void Assess(const Damage& damage, DamageTaker& damageTaker) const;
+
+   private:
+      void AssessBlastDamage(const Damage& damage, DamageTaker& damageTaker) const;
+      void AssessProjectileDamage(const Damage& damage, DamageTaker& damageTaker) const;
+      void AssessImpactDamage(const Damage& damage, DamageTaker& damageTaker) const;
+      void ApplyDamage(const Damage& damage, DamageTaker& damageTaker) const;
    };
 }
 #endif // DAMAGEASSESSOR_h__

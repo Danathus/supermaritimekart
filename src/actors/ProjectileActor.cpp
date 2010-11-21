@@ -1,5 +1,6 @@
 #include <actors/ProjectileActor.h>
 #include <actors/SMKBoatActor.h>
+#include <messages/DamageMessage.h>
 #include <messages/NetworkMessages.h>
 
 #include <dtDAL/datatype.h>
@@ -142,30 +143,36 @@ bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
 {
    if (!GetGameActorProxy().IsInSTAGE() && !IsRemote() && GetCollisionDetection())
    {
-      SMKBoatActor* boat = dynamic_cast<SMKBoatActor*>(collider);
-      if (boat != NULL)
+      // Set the damage's location to where we are at the time of impact
+      mDamage.SetLocation(GetGameActorProxy().GetTranslation());
+
+      // If our damage radius is greater than 0, then tell everyone we exploded
+      if (mDamage.GetRadius() > 0.0f)
       {
-         // Tell the boat we hit that we hit it both locally and remotely
-         dtCore::RefPtr<dtGame::Message> collisionMessage;
-         GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, collisionMessage);
-         collisionMessage->SetAboutActorId(boat->GetUniqueId());
-         GetGameActorProxy().GetGameManager()->SendNetworkMessage(*collisionMessage);
-         boat->BoatHit(*collisionMessage);
-
-         // If our damage radius is greater than 0, then tell everyone we exploded
-         if (mDamage.GetRadius() > 0.0f)
-         {
-            dtCore::RefPtr<dtGame::Message> explosionMessage;
-            GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, explosionMessage);
-            GetGameActorProxy().GetGameManager()->SendNetworkMessage(*explosionMessage);
-            GetGameActorProxy().GetGameManager()->SendMessage(*explosionMessage);
-         }
-
-         // Destroy ourselves
-         SetCollisionDetection(false);
-         GetGameActorProxy().GetGameManager()->DeleteActor(GetGameActorProxy());
-         return true;
+         dtCore::RefPtr<SMK::DamageMessage> explosionMessage;
+         GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, explosionMessage);
+         explosionMessage->SetDamage(GetDamage());
+         GetGameActorProxy().GetGameManager()->SendNetworkMessage(*explosionMessage);
+         GetGameActorProxy().GetGameManager()->SendMessage(*explosionMessage);
       }
+      else
+      {
+         SMKBoatActor* boat = dynamic_cast<SMKBoatActor*>(collider);
+         if (boat != NULL)
+         {
+            // Tell the boat we hit that we hit it both locally and remotely
+            dtCore::RefPtr<SMK::DamageMessage> collisionMessage;
+            GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, collisionMessage);
+            collisionMessage->SetAboutActorId(boat->GetUniqueId());
+            collisionMessage->SetDamage(GetDamage());
+            GetGameActorProxy().GetGameManager()->SendNetworkMessage(*collisionMessage);
+            GetGameActorProxy().GetGameManager()->SendMessage(*collisionMessage);
+         }
+      }
+      // Destroy ourselves
+      SetCollisionDetection(false);
+      GetGameActorProxy().GetGameManager()->DeleteActor(GetGameActorProxy());
+
       return dtActors::GameMeshActor::FilterContact(contact, collider);
    }
 

@@ -5,7 +5,7 @@
 #include <actors/SMKActorExport.h>
 #include <dtActors/GameMeshActor.h>
 
-#include <actors/Damage.h>
+#include <util/Damage.h>
 
 namespace dtGame
 {

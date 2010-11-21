@@ -1,13 +1,13 @@
-#include <actors/Health.h>
+#include <util/Health.h>
 #include <dtUtil/mathdefines.h>
 #include <limits>
 
 using namespace SMK;
 
 ////////////////////////////////////////////////////////////////////////////////
-SMK::Health::Health():
- mAmount(UCHAR_MAX)
-,mMax(UCHAR_MAX)
+Health::Health():
+ mAmount(0)
+,mMax(100)
 {
 
 }
@@ -34,15 +34,21 @@ HealthType Health::GetHealth() const
 {
    return mAmount;
 }
- 
+
 
 ////////////////////////////////////////////////////////////////////////////////
-void Health::DecrementHealth(HealthType amount)
-{  
-   mAmount =- amount ;
+HealthType Health::DecrementHealth(HealthType amount)
+{
+   mAmount -= amount;
 
-   dtUtil::ClampMin(mAmount, HealthType(0));
+   if (mAmount < 0)
+   {
+      HealthType damageRemaining = 0 - mAmount;
+      dtUtil::ClampMin(mAmount, HealthType(0));
+      return damageRemaining;
+   }
    //TODO notify parent object?
+   return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
