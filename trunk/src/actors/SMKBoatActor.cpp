@@ -25,6 +25,7 @@ static const std::string FRONT_WEAPON_FIRED  = "FrontWeaponFired";
 static const std::string BACK_WEAPON_FIRED   = "BackWeaponFired";
 static const std::string BOAT_HIT            = "BoatHit";
 static const std::string PROJECTILE_EXPLODED = "ProjectileExploded";
+static const std::string PICKUP_ACQUIRED     = "PickupAcquired";
 
 //////////////////////////////////////////////////////////
 // Actor code
@@ -328,6 +329,10 @@ void SMKBoatActor::RegisterLocalBoatMessages()
       dtUtil::MakeFunctor(&SMKBoatActor::ProjectileExploded, this)));
 
    GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, PROJECTILE_EXPLODED);
+
+   GetGameActorProxy().AddInvokable(*new dtGame::Invokable(PICKUP_ACQUIRED,
+      dtUtil::MakeFunctor(&SMKBoatActor::PickupAquired, this)));
+   GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::INFO_PICKUP_ITEM_ACQUIRED, PICKUP_ACQUIRED);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -392,6 +397,24 @@ bool SMKBoatActor::DoWeWantThisPickUp(const PickUpItemHandle& pickup) const
 {
    //pickup.GetType();
    return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::PickupAquired(const dtGame::Message& pickupAcquiredMsg)
+{
+   const dtCore::UniqueId& pickupUID = pickupAcquiredMsg.GetAboutActorId();
+   //find the actual PickUpItemHandle to get it's data
+
+   PickUpItemBaseProxy* pickupProxy(NULL);
+   GetGameActorProxy().GetGameManager()->FindActorById(pickupUID, pickupProxy);
+   if (pickupProxy)
+   {
+      const PickUpItemHandle* pickup = static_cast<const PickUpItemHandle*>(pickupProxy->GetActor());
+      //create the pickup via the pickup factory
+      //apply the pickup
+      //pickup->GetType()
+      LOGN_DEBUG("SMKBoatActor", "acquired a pickup of type:" + pickup->GetType());
+   }  
 }
 
 ///////////////////////////////////////////////////////////////////////////////

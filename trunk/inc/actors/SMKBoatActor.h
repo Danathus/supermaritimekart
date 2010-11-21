@@ -104,6 +104,8 @@ private:
 
    void ApplyDamage(const SMK::Damage& damage);
 
+   void PickupAquired(const dtGame::Message& pickupAcquiredMsg);
+
    bool DoWeWantThisPickUp(const SMK::PickUpItemHandle& pickup) const;
 
    dtCore::RefPtr<FrontWeaponSlot> mpFrontWeapon;

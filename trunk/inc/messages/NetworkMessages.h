@@ -11,6 +11,7 @@ namespace SMK
    DT_DECLARE_MESSAGE_TYPE_CLASS_BEGIN(SMKNetworkMessages, SMK_MESSAGE_EXPORT)
 
    static const SMKNetworkMessages INFO_CLIENT_MAP_LOADED;
+   static const SMKNetworkMessages INFO_PICKUP_ITEM_ACQUIRED; ///<a player was granted the pick up from the server
    static const SMKNetworkMessages ACTION_FRONT_WEAPON_FIRED;
    static const SMKNetworkMessages ACTION_BACK_WEAPON_FIRED;
    static const SMKNetworkMessages ACTION_BOAT_HIT;
@@ -23,6 +24,7 @@ namespace SMK
 
       // Network messages
       ID_INFO_CLIENT_MAP_LOADED,
+      ID_INFO_PICKUP_ITEM_ACQUIRED,
       ID_ACTION_FRONT_WEAPON_FIRED,
       ID_ACTION_BACK_WEAPON_FIRED,
       ID_ACTION_BOAT_HIT,
