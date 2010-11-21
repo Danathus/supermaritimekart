@@ -27,17 +27,6 @@ ProjectileActor::~ProjectileActor()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void ProjectileActor::TickLocal(const dtGame::Message& msg)
-{
-   dtActors::GameMeshActor::TickLocal(msg);
-
-   dtCore::Transform currentTransform;
-   GetTransform(currentTransform);
-   currentTransform.SetRotation(currentTransform.GetRotation() + osg::Vec3(1.0, 0.0, 0.0));
-   SetTransform(currentTransform);
-}
-
-///////////////////////////////////////////////////////////////////////////////
 void ProjectileActor::OnEnteredWorld()
 {
    GetOSGNode()->setName(GetName());

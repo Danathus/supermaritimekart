@@ -11,6 +11,8 @@ class SMK_ACTOR_EXPORT MineActor : public ProjectileActor
 public:
    MineActor(dtGame::GameActorProxy& proxy);
 
+   virtual void TickLocal(const dtGame::Message& msg);
+
    virtual void OnEnteredWorld();
 
 protected:
