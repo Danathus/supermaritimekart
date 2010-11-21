@@ -6,8 +6,11 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc/actors)
 ################### SOURCE FILES #####################
     
 SET(SOURCE_FILES
+    ${SOURCE_PATH}/Armor.cpp
     ${SOURCE_PATH}/BackWeapon.cpp
     ${SOURCE_PATH}/BackWeaponSlot.cpp
+    ${SOURCE_PATH}/Damage.cpp
+    ${SOURCE_PATH}/DamageAssessor.cpp
     ${SOURCE_PATH}/DOFDrawable.cpp
     ${SOURCE_PATH}/FrontWeapon.cpp
     ${SOURCE_PATH}/FrontWeaponSlot.cpp
@@ -25,8 +28,11 @@ SET(SOURCE_FILES
 )
 
 SET(HEADER_FILES
+    ${HEADER_PATH}/Armor.h
     ${HEADER_PATH}/BackWeapon.h
     ${HEADER_PATH}/BackWeaponSlot.h
+    ${HEADER_PATH}/Damage.h
+    ${HEADER_PATH}/DamageAssessor.h
     ${HEADER_PATH}/DOFDrawable.h
     ${HEADER_PATH}/FrontWeapon.h
     ${HEADER_PATH}/FrontWeaponSlot.h

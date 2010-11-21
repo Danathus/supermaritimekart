@@ -5,6 +5,8 @@
 #include <actors/SMKActorExport.h>
 #include <dtActors/GameMeshActor.h>
 
+#include <actors/Damage.h>
+
 namespace dtGame
 {
    class DeadReckoningHelper;
@@ -36,6 +38,11 @@ public:
    dtGame::DRPublishingActComp* GetDRPublishingActComp() { return mDRPublishingActComp; }
    const dtGame::DRPublishingActComp* GetDRPublishingActComp() const { return mDRPublishingActComp; }
 
+   void SetDamage(const SMK::Damage& damage) { mDamage = damage; }
+   SMK::Damage GetDamage() const             { return mDamage;   }
+
+   virtual bool FilterContact(dContact* contact, Transformable* collider);
+
 protected:
    virtual ~ProjectileActor();
    void SetMeshResource(const std::string& name, const std::string& file);
@@ -43,6 +50,8 @@ protected:
 private:
    dtCore::RefPtr<dtGame::DeadReckoningHelper> mDeadReckoningHelper;
    dtCore::RefPtr<dtGame::DRPublishingActComp> mDRPublishingActComp;
+
+   SMK::Damage mDamage;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -18,6 +18,10 @@ MineDropper::MineDropper(const std::string& filename /*= ""*/)
    // We want to drop one mine every six seconds
    SetFiringRate(1.0f / 6.0f);
 
+   // Setup our damage
+   mDamage.SetDamageType(SMK::Damage::DAMAGE_BLAST);
+   mDamage.SetRadius(15.0f);
+
    //// Load any sounds we have
    //mpFireSound = LoadSound("/sounds/exp57.wav");
    //mpFireSound->SetGain(0.5f);
@@ -36,14 +40,16 @@ void MineDropper::FireWeapon()
    if (!mpSMKBoatActorProxy->GetGameActor().IsRemote())
    {
       // Create a MineActor and publish it
-      dtCore::RefPtr<MineActorProxy> mineActor;
-      mpSMKBoatActorProxy->GetGameManager()->CreateActor(*SMKActorLibraryRegistry::MINE_ACTOR_TYPE, mineActor);
-      if (mineActor.valid())
+      dtCore::RefPtr<MineActorProxy> mineActorProxy;
+      mpSMKBoatActorProxy->GetGameManager()->CreateActor(*SMKActorLibraryRegistry::MINE_ACTOR_TYPE, mineActorProxy);
+      if (mineActorProxy.valid())
       {
+         MineActor* mineActor = dynamic_cast<MineActor*>(&mineActorProxy->GetGameActor());
          dtCore::Transform currentTransform;
          GetTransform(currentTransform);
-         (&mineActor->GetGameActor())->SetTransform(currentTransform);
-         mpSMKBoatActorProxy->GetGameManager()->AddActor(*mineActor, false, true);
+         mineActor->SetTransform(currentTransform);
+         mineActor->SetDamage(mDamage);
+         mpSMKBoatActorProxy->GetGameManager()->AddActor(*mineActorProxy, false, true);
       }
    }
 }

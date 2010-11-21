@@ -75,6 +75,8 @@ public:
    dtGame::DRPublishingActComp* GetDRPublishingActComp() { return mDRPublishingActComp; }
    const dtGame::DRPublishingActComp* GetDRPublishingActComp() const { return mDRPublishingActComp; }
 
+   void BoatHit(const dtGame::Message& boatHitMessage);
+
 protected:
 
    /**
@@ -89,9 +91,15 @@ protected:
 
 private:
    void SetupDefaultWeapon();
+   void RegisterGlobalBoatMessages();
+   void RegisterRemoteBoatMessages();
+   void RegisterLocalBoatMessages();
 
    void FireFrontWeapon(const dtGame::Message& weaponFiredMessage);
    void FireBackWeapon(const dtGame::Message& weaponFiredMessage);
+
+   void ProjectileExploded(const dtGame::Message& weaponFiredMessage);
+
    bool DoWeWantThisPickUp(const SMK::PickUpItemHandle& pickup) const;
 
    dtCore::RefPtr<FrontWeaponSlot> mpFrontWeapon;

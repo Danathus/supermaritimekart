@@ -17,8 +17,10 @@
 using namespace SMK;
 
 //////////////////////////////////////////////////////////
-static const std::string FRONT_WEAPON_FIRED = "FrontWeaponFired";
-static const std::string BACK_WEAPON_FIRED  = "BackWeaponFired";
+static const std::string FRONT_WEAPON_FIRED  = "FrontWeaponFired";
+static const std::string BACK_WEAPON_FIRED   = "BackWeaponFired";
+static const std::string BOAT_HIT            = "BoatHit";
+static const std::string PROJECTILE_EXPLODED = "ProjectileExploded";
 
 //////////////////////////////////////////////////////////
 // Actor code
@@ -94,7 +96,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
       PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
 
       if (pickup && (DoWeWantThisPickUp(*pickup)))
-      {      
+      {
          dtGame::GameActorProxy& boatProxy = GetGameActorProxy();
 
          //make it inactive locally.  The server will provide the ultimate jugment later
@@ -249,19 +251,28 @@ void SMKBoatActor::ProcessMessage(const dtGame::Message& message)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::BoatHit(const dtGame::Message& boatHitMessage)
+{
+   // Only apply damage if this message was from our unique ID
+   if (boatHitMessage.GetAboutActorId() == GetUniqueId())
+   {
+      LOG_ALWAYS("We've been hit!");
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::Initialize()
 {
    BoatActor::Initialize();
 
+   RegisterGlobalBoatMessages();
    if (IsRemote())
    {
-      GetGameActorProxy().AddInvokable(*new dtGame::Invokable(FRONT_WEAPON_FIRED,
-         dtUtil::MakeFunctor(&SMKBoatActor::FireFrontWeapon, this)));
-      GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BACK_WEAPON_FIRED,
-         dtUtil::MakeFunctor(&SMKBoatActor::FireBackWeapon, this)));
-
-      GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_FRONT_WEAPON_FIRED, FRONT_WEAPON_FIRED);
-      GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_BACK_WEAPON_FIRED, BACK_WEAPON_FIRED);
+      RegisterRemoteBoatMessages();
+   }
+   else
+   {
+      RegisterLocalBoatMessages();
    }
 }
 
@@ -284,6 +295,36 @@ void SMKBoatActor::SetupDefaultWeapon()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::RegisterGlobalBoatMessages()
+{
+   GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BOAT_HIT,
+      dtUtil::MakeFunctor(&SMKBoatActor::BoatHit, this)));
+
+   GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, BOAT_HIT);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::RegisterRemoteBoatMessages()
+{
+   GetGameActorProxy().AddInvokable(*new dtGame::Invokable(FRONT_WEAPON_FIRED,
+      dtUtil::MakeFunctor(&SMKBoatActor::FireFrontWeapon, this)));
+   GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BACK_WEAPON_FIRED,
+      dtUtil::MakeFunctor(&SMKBoatActor::FireBackWeapon, this)));
+
+   GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_FRONT_WEAPON_FIRED, FRONT_WEAPON_FIRED);
+   GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_BACK_WEAPON_FIRED, BACK_WEAPON_FIRED);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::RegisterLocalBoatMessages()
+{
+   GetGameActorProxy().AddInvokable(*new dtGame::Invokable(PROJECTILE_EXPLODED,
+      dtUtil::MakeFunctor(&SMKBoatActor::ProjectileExploded, this)));
+
+   GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, PROJECTILE_EXPLODED);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::FireFrontWeapon(const dtGame::Message& weaponFiredMessage)
 {
    // Only fire our weapon is this message was from our unique ID
@@ -296,7 +337,18 @@ void SMKBoatActor::FireFrontWeapon(const dtGame::Message& weaponFiredMessage)
 ///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::FireBackWeapon(const dtGame::Message& weaponFiredMessage)
 {
+   // Only fire our weapon is this message was from our unique ID
+   if (weaponFiredMessage.GetAboutActorId() == GetUniqueId())
+   {
+      mpBackWeapon->GetWeapon()->FireWeapon();
+   }
+}
 
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::ProjectileExploded(const dtGame::Message& weaponFiredMessage)
+{
+   // Check to see if we are in the explosion's blast radius
+   LOG_ALWAYS("Projectile exploded!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
