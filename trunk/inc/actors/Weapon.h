@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
 #include <actors/SMKBoatActor.h>
-#include <actors/Damage.h>
+#include <util/Damage.h>
 
 #include <dtAudio/sound.h>
 #include <dtCore/object.h>

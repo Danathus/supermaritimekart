@@ -2,8 +2,11 @@
 #include <actors/PickUpItemHandle.h>
 #include <actors/FrontWeaponSlot.h>
 #include <actors/BackWeaponSlot.h>
+#include <messages/DamageMessage.h>
 #include <messages/NetworkMessages.h>
 #include <network/NetworkBuddy.h>
+#include <util/Damage.h>
+#include <util/DamageAssessor.h>
 
 #include <dtGame/basemessages.h>
 #include <dtGame/gamemanager.h>
@@ -31,6 +34,8 @@ SMKBoatActor::SMKBoatActor(SMKBoatActorProxy& proxy)
    , mpFrontWeapon(new FrontWeaponSlot())
    , mpBackWeapon(new BackWeaponSlot())
    , mDeadReckoningHelper(new dtGame::DeadReckoningHelper)
+   , mHealth(100, 100)
+   , mArmor(SMK::Armor::ARMOR_NONE)
 {
    SetName("SMKBoat");
 }
@@ -97,7 +102,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
       return false;
    }
    
-   if (IsRemote() == false)
+   if (!IsRemote())
    {
       PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
 
@@ -105,7 +110,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
       {
          dtGame::GameActorProxy& boatProxy = GetGameActorProxy();
 
-         //TOOD make it inactive locally.  The server will provide the ultimate jugment later
+         //TODO make it inactive locally.  The server will provide the ultimate jugment later
          //pickup->SetActive(false);
          //pickup->SetCollisionDetection(false);
 
@@ -262,16 +267,6 @@ void SMKBoatActor::ProcessMessage(const dtGame::Message& message)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::BoatHit(const dtGame::Message& boatHitMessage)
-{
-   // Only apply damage if this message was from our unique ID
-   if (boatHitMessage.GetAboutActorId() == GetUniqueId())
-   {
-      LOG_ALWAYS("We've been hit!");
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::Initialize()
 {
    BoatActor::Initialize();
@@ -356,10 +351,40 @@ void SMKBoatActor::FireBackWeapon(const dtGame::Message& weaponFiredMessage)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::ProjectileExploded(const dtGame::Message& weaponFiredMessage)
+void SMKBoatActor::BoatHit(const SMK::DamageMessage& boatHitMessage)
 {
-   // Check to see if we are in the explosion's blast radius
-   LOG_ALWAYS("Projectile exploded!");
+   // Only apply damage if this message was from our unique ID
+   if (boatHitMessage.GetAboutActorId() == GetUniqueId())
+   {
+      ApplyDamage(boatHitMessage.GetDamage());
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::ProjectileExploded(const SMK::DamageMessage& weaponFiredMessage)
+{
+   // Apply damage function will determine if we take damage from this explosion
+   ApplyDamage(weaponFiredMessage.GetDamage());
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
+{
+   // Setup our damage taker
+   SMK::DamageTaker damageTaker;
+   damageTaker.mTransformable = this;
+   damageTaker.mArmor = &mArmor;
+   damageTaker.mHealth = &mHealth;
+
+   // Assess and apply the damage
+   SMK::DamageAssessor assessor;
+   assessor.Assess(damage, damageTaker);
+
+   if (!IsRemote() && mHealth.GetHealth() <= 0)
+   {
+      // TODO: Put respawn logic here
+      LOG_ALWAYS("OH NO!!! WE (" + GetUniqueId().ToString() + ") DIED!!!!");
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

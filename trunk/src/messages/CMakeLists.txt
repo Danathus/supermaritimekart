@@ -6,10 +6,12 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc/messages)
 ################### SOURCE FILES #####################
     
 SET(LIB_SOURCE_FILES
+    ${SOURCE_PATH}/DamageMessage.cpp
     ${SOURCE_PATH}/NetworkMessages.cpp
 )
 
 SET(LIB_HEADER_FILES
+    ${HEADER_PATH}/DamageMessage.h
     ${HEADER_PATH}/NetworkMessages.h
     ${HEADER_PATH}/MessagesExport.h
 )
@@ -27,6 +29,7 @@ TARGET_LINK_LIBRARIES(${LIB_NAME}
                       ${DTDAL_LIBRARIES}
                       ${DTGAME_LIBRARIES}
                       ${DTUTIL_LIBRARIES}
+					  SMKUtil
                       )
 
 

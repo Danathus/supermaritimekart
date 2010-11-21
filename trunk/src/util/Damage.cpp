@@ -1,4 +1,4 @@
-#include <actors/Damage.h>
+#include <util/Damage.h>
 #include <limits>
 
 using namespace SMK;

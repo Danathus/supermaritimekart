@@ -1,13 +1,13 @@
 #ifndef HEALTH_h__
 #define HEALTH_h__
 
-#include <actors/SMKActorExport.h>
+#include <util/SMKUtilExport.h>
 
 namespace SMK
 {
-   typedef unsigned char HealthType;
+   typedef short HealthType;
 
-   class SMK_ACTOR_EXPORT Health
+   class SMK_UTIL_EXPORT Health
    {
    public:
 
@@ -22,8 +22,8 @@ namespace SMK
       ///Set the current health amount.  Will clamp  [0..GetMax()]
       void SetHealth(HealthType val);
 
-      ///Reduce the health by this amount.  Will clamp to 0
-      void DecrementHealth(HealthType amount);
+      ///Reduce the health by this amount.  Will clamp to 0 and return any extra damage not applied
+      HealthType DecrementHealth(HealthType amount);
 
       ///Increase the health by this amount.  Will clamp to GetMax()
       void IncrementHealth(HealthType amount);
@@ -35,7 +35,7 @@ namespace SMK
       void SetMax(const HealthType& val);
 
    protected:
-      
+
    private:
       HealthType mAmount;
       HealthType mMax;
