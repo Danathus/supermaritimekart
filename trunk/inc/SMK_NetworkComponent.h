@@ -45,8 +45,11 @@ private:
    typedef std::vector<dtCore::RefPtr<dtDAL::BaseActorObject> > ProxyContainer;
    ProxyContainer mProxiesToSendToNewClients;
 
-   void SendGameDataToClient(const dtGame::MachineInfo* machineInfo);
+   void SendGameDataToClient();
    void HandleThePickUpRequest(const dtGame::Message& message);
+
+   double mTimeLeftBeforeUpdatingClients; ///<delay sending game state to connecting clients by this many seconds
+   bool mNeedToUpdateClients; ///<a connected client needs to be pushed the game state
 
 };
 

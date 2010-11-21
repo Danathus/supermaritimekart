@@ -10,10 +10,14 @@
 #include <dtGame/basemessages.h>
 #include <dtUtil/log.h>
 
+static const double SECONDS_BEFORE_SENDING_GAME_STATE = 1.0;
+
 ////////////////////////////////////////////////////////////////////////////////
 
 SMK_NetworkComponent::SMK_NetworkComponent()
    : NetworkEngineComponent()
+   , mTimeLeftBeforeUpdatingClients(SECONDS_BEFORE_SENDING_GAME_STATE)
+   , mNeedToUpdateClients(false)
 {
    //
 }
@@ -43,17 +47,34 @@ void SMK_NetworkComponent::OnRemovedFromGM()
 
 void SMK_NetworkComponent::ProcessMessage(const dtGame::Message& message)
 {
-   if (message.GetMessageType() == dtGame::MessageType::INFO_CLIENT_CONNECTED)
+   if (NetworkBuddy::GetRef().IsServer())
    {
-      const DeltaNetworkAdapter::MachineInfoMessage& machineInfoMessage = static_cast<const DeltaNetworkAdapter::MachineInfoMessage&>(message);
+      if (message.GetMessageType() == dtGame::MessageType::INFO_CLIENT_CONNECTED)
+      {
+         const DeltaNetworkAdapter::MachineInfoMessage& machineInfoMessage = static_cast<const DeltaNetworkAdapter::MachineInfoMessage&>(message);
+         mNeedToUpdateClients = true;  
+         mTimeLeftBeforeUpdatingClients = SECONDS_BEFORE_SENDING_GAME_STATE;
+      }
+      else if (message.GetMessageType() == SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP)
+      {      
+         HandleThePickUpRequest(message);
+      }
+      else if (message.GetMessageType() == dtGame::MessageType::TICK_LOCAL)
+      {
+         if (mNeedToUpdateClients)
+         {
+           const dtGame::TickMessage& tickMsg = static_cast<const dtGame::TickMessage&>(message);
 
-      //now send all pertinent game data to the newly connected client
-      //Their map should have been loaded by this point.
-      SendGameDataToClient(&message.GetSource());
-   }
-   else if (message.GetMessageType() == SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP)
-   {      
-      HandleThePickUpRequest(message);
+            mTimeLeftBeforeUpdatingClients -= tickMsg.GetDeltaRealTime();
+            if (mTimeLeftBeforeUpdatingClients <= 0.0)
+            {
+               //now send all pertinent game data to the newly connected client
+               //Their map should have been loaded by this point.
+               SendGameDataToClient();
+               mNeedToUpdateClients = false;
+            }
+         }         
+      }
    }
 
    // in all cases, we must respect our elder
@@ -90,10 +111,8 @@ void SMK_NetworkComponent::ClearNewClientPublishList()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void SMK_NetworkComponent::SendGameDataToClient(const dtGame::MachineInfo* machineInfo)
+void SMK_NetworkComponent::SendGameDataToClient()
 {   
-   LOG_INFO("Sending game data to newly connected client");
-
    ProxyContainer::const_iterator proxyItr = mProxiesToSendToNewClients.begin();
    while (proxyItr != mProxiesToSendToNewClients.end())
    {
