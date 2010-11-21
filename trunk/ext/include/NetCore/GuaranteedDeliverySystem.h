@@ -9,6 +9,10 @@
 
 #include <NetCore/ReliabilitySystem.h>
 
+namespace dtUtil
+{
+   class Log;
+}
 ////////////////////////////////////////////////////////////////////////////////
 
 class NETCORE_EXPORT GuaranteedDeliverySystem
@@ -78,6 +82,8 @@ private:
 
    // for debug reporting
    bool mGuaranteedNumberMismatchReported;
+
+   dtUtil::Log* mLogger;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
