@@ -92,7 +92,12 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
    //osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
 
    // Do not send events in STAGE or if we're a remote actor
-   if (!GetGameActorProxy().IsInSTAGE() && !IsRemote())
+   if (GetGameActorProxy().IsInSTAGE())
+   {
+      return false;
+   }
+   
+   if (IsRemote() == false)
    {
       PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
 
@@ -123,15 +128,13 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          else
          {
             GetGameActorProxy().GetGameManager()->SendNetworkMessage(*msg);  
-         }         
-      }
-      else
-      {
-         return BoatActor::FilterContact(contact, collider);
+         }
+         return false;
       }
    }
 
-   return false;
+  return BoatActor::FilterContact(contact, collider);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
