@@ -3,6 +3,7 @@
 #include <actors/FrontWeaponSlot.h>
 #include <actors/BackWeaponSlot.h>
 #include <messages/NetworkMessages.h>
+#include <network/NetworkBuddy.h>
 
 #include <dtGame/basemessages.h>
 #include <dtGame/gamemanager.h>
@@ -90,8 +91,8 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
    //osg::Vec3 position(contact->geom.pos[0], contact->geom.pos[1], contact->geom.pos[2]);
    //osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
 
-   // Do not send events in STAGE.
-   if (!GetGameActorProxy().IsInSTAGE())
+   // Do not send events in STAGE or if we're a remote actor
+   if (!GetGameActorProxy().IsInSTAGE() && !IsRemote())
    {
       PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
 
@@ -99,7 +100,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
       {
          dtGame::GameActorProxy& boatProxy = GetGameActorProxy();
 
-         //make it inactive locally.  The server will provide the ultimate jugment later
+         //TOOD make it inactive locally.  The server will provide the ultimate jugment later
          //pickup->SetActive(false);
          //pickup->SetCollisionDetection(false);
 
@@ -114,8 +115,15 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP, msg);
          msg->SetAboutActorId(pickup->GetUniqueId());
 
-         //SendNetworkMessage() doesn't seem to do the job when no-one else is connected?
-         GetGameActorProxy().GetGameManager()->SendMessage(*msg);  
+         if (NetworkBuddy::GetRef().IsServer())
+         {
+            //if we're the server and this is our local boat, send the message locally (?)
+            GetGameActorProxy().GetGameManager()->SendMessage(*msg);  
+         }
+         else
+         {
+            GetGameActorProxy().GetGameManager()->SendNetworkMessage(*msg);  
+         }         
       }
       else
       {
