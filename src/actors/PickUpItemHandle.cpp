@@ -12,6 +12,21 @@
 #include <osg/Geode>
 using namespace SMK;
 
+//borrowed from SimCore to hide a node
+class HideNodeCallback : public osg::NodeCallback
+{
+public:
+
+   HideNodeCallback()
+   {}
+
+   virtual void operator()(osg::Node* node, osg::NodeVisitor* nv)
+   {
+      // We're hiding the node.  The point is to NOT traverse.
+      // traverse(node, nv);
+   }
+};
+static dtCore::RefPtr<HideNodeCallback> HIDE_NODE_CALLBACK(new HideNodeCallback);
 
 ////////////////////////////////////////////////////////////////////////////////
 PickUpItemBaseProxy::PickUpItemBaseProxy():
@@ -58,8 +73,9 @@ void PickUpItemBaseProxy::BuildPropertyMap()
 DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, std::string, Type);
 DT_IMPLEMENT_ACCESSOR_GETTER(PickUpItemHandle, dtDAL::ResourceDescriptor, IconImage);
 
-PickUpItemHandle::PickUpItemHandle(dtGame::GameActorProxy& proxy):
-dtGame::GameActor(proxy)
+PickUpItemHandle::PickUpItemHandle(dtGame::GameActorProxy& proxy)
+: dtGame::GameActor(proxy)
+, mIsAvailable(true)
 {
    SetName("pick up item");   
    osg::Node* root = GetOSGNode();
@@ -126,4 +142,29 @@ osg::ref_ptr<osg::Node> PickUpItemHandle::CreateGeometry()
    geode->addDrawable(shape);
 
    return geode;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMK::PickUpItemHandle::SetActive(bool enable)
+{
+   if (mIsAvailable == enable)
+   {
+      return;
+   }
+
+   mIsAvailable = enable;
+   if (enable)
+   {
+      GetOSGNode()->setCullCallback(NULL);
+   }
+   else
+   {
+      GetOSGNode()->setCullCallback(HIDE_NODE_CALLBACK.get());
+   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool SMK::PickUpItemHandle::GetActive() const
+{
+   return mIsAvailable;
 }

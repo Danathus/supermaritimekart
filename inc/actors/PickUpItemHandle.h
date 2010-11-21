@@ -23,10 +23,20 @@ namespace SMK
       DT_DECLARE_ACCESSOR(std::string, Type); ///<The pickup type ("MachineGun", "Health", etc)
       DT_DECLARE_ACCESSOR(dtDAL::ResourceDescriptor, IconImage); ///<The texture used for the rendered PickUp geometry
 
+      ///overwriting from DeltaDrawable which doesn't seem to work(?)
+      virtual void SetActive(bool enable);
+
+      /**
+       * @return true if active, false if not active
+       */
+      virtual bool GetActive() const;
+
+
    protected:
       virtual ~PickUpItemHandle();
    private:
       osg::ref_ptr<osg::Node> CreateGeometry();
+      bool mIsAvailable; ///<Is this PickUpItemHandle available for picking up?
    };
 
    //////////////////////////////////////////////////////////////////////////
