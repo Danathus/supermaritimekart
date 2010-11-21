@@ -1,5 +1,5 @@
-#ifndef BackWeaponActor_h__
-#define BackWeaponActor_h__
+#ifndef BackWeapon_h__
+#define BackWeapon_h__
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
@@ -20,6 +20,6 @@ protected:
 
 private:
 };
-#endif // BackWeaponActor_h__
+#endif // BackWeapon_h__
 
 ////////////////////////////////////////////////////////////////////////////////

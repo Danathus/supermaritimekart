@@ -10,7 +10,7 @@
 //////////////////////////////////////////////////////////////////////////
 WeaponSlot::WeaponSlot(const std::string& name /*= "Weapon"*/)
 : mName(name)
-, mpWeaponActor(NULL)
+, mpWeapon(NULL)
 {
 }
 
@@ -22,9 +22,9 @@ WeaponSlot::~WeaponSlot()
 ///////////////////////////////////////////////////////////////////////////////
 void WeaponSlot::Update(float deltaTime)
 {
-   if (mpWeaponActor.valid())
+   if (mpWeapon.valid())
    {
-      mpWeaponActor->Update(deltaTime);
+      mpWeapon->Update(deltaTime);
    }
 }
 
@@ -69,36 +69,36 @@ void WeaponSlot::Initialize(SMKBoatActorProxy* actorProxy)
 ///////////////////////////////////////////////////////////////////////////////
 void WeaponSlot::StartWeaponFire()
 {
-   if (mpWeaponActor.valid())
+   if (mpWeapon.valid())
    {
-      mpWeaponActor->StartWeaponFiring();
+      mpWeapon->StartWeaponFiring();
    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void WeaponSlot::StopWeaponFire()
 {
-   if (mpWeaponActor.valid())
+   if (mpWeapon.valid())
    {
-      mpWeaponActor->StopWeaponFiring();
+      mpWeapon->StopWeaponFiring();
    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void WeaponSlot::SetWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
 {
-   if (mpWeaponActor != NULL)
+   if (mpWeapon != NULL)
    {
-      DetachWeaponFromBoat(mpWeaponActor, actorProxy->GetActor());
+      DetachWeaponFromBoat(mpWeapon, actorProxy->GetActor());
    }
 
    // Create default weapon actor
-   mpWeaponActor = CreateWeaponActor(weaponClass, actorProxy);
+   mpWeapon = CreateWeapon(weaponClass, actorProxy);
 
-   if (mpWeaponActor != NULL)
+   if (mpWeapon != NULL)
    {
       // Attach weapon actor to boat at location
-      AttachWeaponToBoat(mpWeaponActor, actorProxy->GetActor());
+      AttachWeaponToBoat(mpWeapon, actorProxy->GetActor());
    }
 }
 
@@ -127,7 +127,7 @@ void WeaponSlot::SetDefaultWeapon(const std::string& val)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Weapon* WeaponSlot::CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
+Weapon* WeaponSlot::CreateWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
 {
    //use the Item Factory to create the InventoryItem
    Weapon* weapon = WeaponFactory::GetInstance().Create(weaponClass);

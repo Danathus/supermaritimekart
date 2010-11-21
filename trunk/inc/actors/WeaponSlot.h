@@ -47,7 +47,7 @@ public:
    void StopWeaponFire();
 
    void SetWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy);
-   Weapon* GetWeaponActor() { return mpWeaponActor; }
+   Weapon* GetWeapon() { return mpWeapon; }
 
    ///The relative position of the weapon is placed
    osg::Vec3 GetWeaponPosition() const;
@@ -59,14 +59,14 @@ public:
 
 protected:
    virtual ~WeaponSlot();
-   virtual Weapon* CreateWeaponActor(const std::string& weaponClass, SMKBoatActorProxy* actorProxy);
+   virtual Weapon* CreateWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy);
    virtual void AttachWeaponToBoat(Weapon* Weapon, dtCore::DeltaDrawable* boat);
    virtual void DetachWeaponFromBoat(Weapon* Weapon, dtCore::DeltaDrawable* boat);
 
-   std::string                 mName;
-   osg::Vec3                   mPosition;
-   std::string                 mDefaultWeaponClass;
-   dtCore::RefPtr<Weapon> mpWeaponActor;
+   std::string            mName;
+   osg::Vec3              mPosition;
+   std::string            mDefaultWeaponClass;
+   dtCore::RefPtr<Weapon> mpWeapon;
 };
 #endif // WeaponSlot_h__
 

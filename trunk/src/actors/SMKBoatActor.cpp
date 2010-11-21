@@ -249,15 +249,6 @@ void SMKBoatActor::ProcessMessage(const dtGame::Message& message)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::CauseFullUpdate()
-{
-   if (!IsRemote() && GetDRPublishingActComp() != NULL && GetGameActorProxy().IsInGM())
-   {
-      GetDRPublishingActComp()->ForceFullUpdateAtNextOpportunity();
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::Initialize()
 {
    BoatActor::Initialize();
@@ -298,7 +289,7 @@ void SMKBoatActor::FireFrontWeapon(const dtGame::Message& weaponFiredMessage)
    // Only fire our weapon is this message was from our unique ID
    if (weaponFiredMessage.GetAboutActorId() == GetUniqueId())
    {
-      mpFrontWeapon->GetWeaponActor()->FireWeapon();
+      mpFrontWeapon->GetWeapon()->FireWeapon();
    }
 }
 
@@ -371,11 +362,6 @@ void SMKBoatActorProxy::CreateActor()
 void SMKBoatActorProxy::OnEnteredWorld()
 {
    BoatActorProxy::OnEnteredWorld();
-
-   if (!IsRemote())
-   {
-      RegisterForMessages(dtGame::MessageType::TICK_LOCAL, dtGame::GameActorProxy::TICK_LOCAL_INVOKABLE);
-   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

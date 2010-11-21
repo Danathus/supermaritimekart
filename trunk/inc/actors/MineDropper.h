@@ -5,19 +5,6 @@
 #include <actors/SMKActorExport.h>
 #include <actors/BackWeapon.h>
 
-namespace dtCore
-{
-   class ShaderParamOscillator;
-}
-
-namespace osg 
-{
-   class Billboard; 
-   class Geometry;
-   class StateSet;  
-   class Node;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 class SMK_ACTOR_EXPORT MineDropper : public BackWeapon
 {

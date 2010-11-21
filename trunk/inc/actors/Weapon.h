@@ -1,5 +1,5 @@
-#ifndef WeaponActor_h__
-#define WeaponActor_h__
+#ifndef Weapon_h__
+#define Weapon_h__
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
@@ -44,6 +44,6 @@ private:
    float mFiringRate;
    float mFiringCounter;
 };
-#endif // WeaponActor_h__
+#endif // Weapon_h__
 
 ////////////////////////////////////////////////////////////////////////////////

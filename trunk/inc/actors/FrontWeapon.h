@@ -1,5 +1,5 @@
-#ifndef FrontWeaponActor_h__
-#define FrontWeaponActor_h__
+#ifndef FrontWeapon_h__
+#define FrontWeapon_h__
 
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
@@ -20,6 +20,6 @@ protected:
 
 private:
 };
-#endif // FrontWeaponActor_h__
+#endif // FrontWeapon_h__
 
 ////////////////////////////////////////////////////////////////////////////////

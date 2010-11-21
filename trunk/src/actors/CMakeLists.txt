@@ -13,8 +13,10 @@ SET(SOURCE_FILES
     ${SOURCE_PATH}/FrontWeaponSlot.cpp
     ${SOURCE_PATH}/Health.cpp
     ${SOURCE_PATH}/MachineGun.cpp
+    ${SOURCE_PATH}/MineActor.cpp
     ${SOURCE_PATH}/MineDropper.cpp
     ${SOURCE_PATH}/PickUpItemHandle.cpp
+    ${SOURCE_PATH}/ProjectileActor.cpp
     ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
     ${SOURCE_PATH}/SMKBoatActor.cpp
     ${SOURCE_PATH}/Weapon.cpp
@@ -30,8 +32,10 @@ SET(HEADER_FILES
     ${HEADER_PATH}/FrontWeaponSlot.h
     ${HEADER_PATH}/Health.h 
     ${HEADER_PATH}/MachineGun.h
+    ${HEADER_PATH}/MineActor.h
     ${HEADER_PATH}/MineDropper.h
     ${HEADER_PATH}/PickUpItemHandle.h
+    ${HEADER_PATH}/ProjectileActor.h
     ${HEADER_PATH}/SMKActorExport.h
     ${HEADER_PATH}/SMKActorLibraryRegistry.h
     ${HEADER_PATH}/SMKBoatActor.h
