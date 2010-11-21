@@ -45,7 +45,7 @@ void BackWeaponSlot::AttachWeaponToBoat(Weapon* Weapon, dtCore::DeltaDrawable* b
    else
    {
       LOG_ERROR("Invalid weapon type " + Weapon->GetName() + " tried to attach to back spot");
-      mpWeaponActor = NULL;
+      mpWeapon = NULL;
    }
 }
 

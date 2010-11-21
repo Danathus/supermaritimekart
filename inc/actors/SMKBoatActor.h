@@ -75,8 +75,6 @@ public:
    dtGame::DRPublishingActComp* GetDRPublishingActComp() { return mDRPublishingActComp; }
    const dtGame::DRPublishingActComp* GetDRPublishingActComp() const { return mDRPublishingActComp; }
 
-   void CauseFullUpdate();
-
 protected:
 
    /**
@@ -105,7 +103,7 @@ private:
    dtCore::RefPtr<dtGame::DRPublishingActComp> mDRPublishingActComp;
 };
 
-class SMKBoatActorProxy : public BoatActorProxy
+class SMK_ACTOR_EXPORT SMKBoatActorProxy : public BoatActorProxy
 {
 public:
 

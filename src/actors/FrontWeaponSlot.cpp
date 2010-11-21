@@ -85,7 +85,7 @@ void FrontWeaponSlot::AttachWeaponToBoat(Weapon* Weapon, dtCore::DeltaDrawable* 
    else
    {
       LOG_ERROR("Invalid weapon type " + Weapon->GetName() + " tried to attach to front spot");
-      mpWeaponActor = NULL;
+      mpWeapon = NULL;
    }
 }
 

@@ -82,7 +82,7 @@ void WeaponMouseListener::UpdateLastMousePosition(float x, float y)
    FrontWeaponSlot* turret = dynamic_cast<FrontWeaponSlot*>(mpWeapon.get());
    if (turret != NULL)
    {
-      Weapon* actor = turret->GetWeaponActor();
+      Weapon* actor = turret->GetWeapon();
       dtCore::Transform weaponTransform;
       actor->GetTransform(weaponTransform, dtCore::Transformable::REL_CS);
       weaponTransform.SetRotation(-x * turret->GetHorizontalMaxAngle(),
