@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include <actors/SMKActorExport.h>
 #include <actors/SMKBoatActor.h>
+#include <actors/Damage.h>
 
 #include <dtAudio/sound.h>
 #include <dtCore/object.h>
@@ -38,6 +39,8 @@ protected:
    dtCore::RefPtr<dtAudio::Sound> mpFireSound;
    dtCore::RefPtr<dtAudio::Sound> mpStopFiringSound;
    dtCore::ObserverPtr<SMKBoatActorProxy> mpSMKBoatActorProxy;
+
+   SMK::Damage mDamage;
 
 private:
    bool mIsFiring;

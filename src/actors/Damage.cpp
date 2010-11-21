@@ -1,14 +1,14 @@
-#include <Damage.h>
+#include <actors/Damage.h>
 #include <limits>
 
 using namespace SMK;
 
 ////////////////////////////////////////////////////////////////////////////////
-Damage::Damage():
- mAmount(UCHAR_MAX)
-,mDamageType(DAMAGE_IMPACT)
-,mLocation(0.f,0.f,0.f)
-,mRadius(1.f)
+Damage::Damage()
+   : mAmount(UCHAR_MAX)
+   , mDamageType(DAMAGE_INVALID)
+   , mLocation(0.0f, 0.0f, 0.0f)
+   , mRadius(0.0f)
 {
 }
 

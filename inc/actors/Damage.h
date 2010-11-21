@@ -15,7 +15,8 @@ namespace SMK
    public:
       enum DamageType
       {
-         DAMAGE_BLAST = 0,   ///< explosions
+         DAMAGE_INVALID = -1,
+         DAMAGE_BLAST,   ///< explosions
          DAMAGE_PROJECTILE,  ///< bullets, missiles
          DAMAGE_IMPACT       ///< collisions with static objects, players, ground
       };

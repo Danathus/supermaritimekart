@@ -1,6 +1,6 @@
-#include <DamageAssessor.h>
-#include <Damage.h>
-#include <Armor.h>
+#include <actors/DamageAssessor.h>
+#include <actors/Armor.h>
+#include <actors/Damage.h>
 #include <actors/Health.h>
 #include <dtCore/transformable.h>
 #include <dtCore/transform.h>

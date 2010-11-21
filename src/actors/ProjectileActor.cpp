@@ -1,4 +1,6 @@
 #include <actors/ProjectileActor.h>
+#include <actors/SMKBoatActor.h>
+#include <messages/NetworkMessages.h>
 
 #include <dtDAL/datatype.h>
 #include <dtDAL/project.h>
@@ -136,12 +138,50 @@ void ProjectileActor::BuildActorComponents()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
+{
+   if (!GetGameActorProxy().IsInSTAGE() && !IsRemote() && GetCollisionDetection())
+   {
+      SMKBoatActor* boat = dynamic_cast<SMKBoatActor*>(collider);
+      if (boat != NULL)
+      {
+         // Tell the boat we hit that we hit it both locally and remotely
+         dtCore::RefPtr<dtGame::Message> collisionMessage;
+         GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, collisionMessage);
+         collisionMessage->SetAboutActorId(boat->GetUniqueId());
+         GetGameActorProxy().GetGameManager()->SendNetworkMessage(*collisionMessage);
+         boat->BoatHit(*collisionMessage);
+
+         // If our damage radius is greater than 0, then tell everyone we exploded
+         if (mDamage.GetRadius() > 0.0f)
+         {
+            dtCore::RefPtr<dtGame::Message> explosionMessage;
+            GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, explosionMessage);
+            GetGameActorProxy().GetGameManager()->SendNetworkMessage(*explosionMessage);
+            GetGameActorProxy().GetGameManager()->SendMessage(*explosionMessage);
+         }
+
+         // Destroy ourselves
+         SetCollisionDetection(false);
+         GetGameActorProxy().GetGameManager()->DeleteActor(GetGameActorProxy());
+         return true;
+      }
+      return dtActors::GameMeshActor::FilterContact(contact, collider);
+   }
+
+   return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void ProjectileActor::SetMeshResource(const std::string& name, const std::string& file)
 {
    dtDAL::ResourceActorProperty* meshProperty =
       dynamic_cast<dtDAL::ResourceActorProperty*>(GetGameActorProxy().GetProperty("static mesh"));
    meshProperty->SetValue(dtDAL::Project::GetInstance().AddResource(name, file,
       "StaticMeshes", dtDAL::DataType::STATIC_MESH));
+
+   SetCollisionBox();
+   SetCollisionDetection(true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -38,14 +38,11 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 
 ################### SOURCE FILES #####################
 SET(APP_SOURCE_FILES
-    ${SOURCE_PATH}/Armor.cpp
     ${SOURCE_PATH}/BoatController.cpp
     ${SOURCE_PATH}/BoatKeyboardListener.cpp
     ${SOURCE_PATH}/CameraController.cpp
     ${SOURCE_PATH}/CameraMouseListener.cpp
     ${SOURCE_PATH}/CollisionCallback.cpp
-    ${SOURCE_PATH}/Damage.cpp
-    ${SOURCE_PATH}/DamageAssessor.cpp
     ${SOURCE_PATH}/DeltaOceanGetHeight.cpp
     ${SOURCE_PATH}/FloaterController.cpp
     ${SOURCE_PATH}/GameFinder.cpp
@@ -65,14 +62,11 @@ SET(ACTOR_HEADER_FILES
 )
 
 SET(APP_HEADER_FILES
-    ${HEADER_PATH}/Armor.h
     ${HEADER_PATH}/BoatController.h
     ${HEADER_PATH}/BoatKeyboardListener.h
     ${HEADER_PATH}/CameraController.h
     ${HEADER_PATH}/CameraMouseListener.h
     ${HEADER_PATH}/CollisionCallback.h
-    ${HEADER_PATH}/Damage.h
-    ${HEADER_PATH}/DamageAssessor.h
     ${HEADER_PATH}/DeltaOceanGetHeight.h
     ${HEADER_PATH}/FloaterController.h
     ${HEADER_PATH}/GameFinder.h
