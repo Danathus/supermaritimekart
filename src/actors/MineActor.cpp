@@ -1,5 +1,7 @@
 #include <actors/MineActor.h>
 
+#include <dtCore/transform.h>
+
 //////////////////////////////////////////////////////////////////////////
 MineActor::MineActor(dtGame::GameActorProxy& proxy)
 : ProjectileActor(proxy)
@@ -9,6 +11,17 @@ MineActor::MineActor(dtGame::GameActorProxy& proxy)
 //////////////////////////////////////////////////////////////////////////
 MineActor::~MineActor()
 {
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MineActor::TickLocal(const dtGame::Message& msg)
+{
+   ProjectileActor::TickLocal(msg);
+
+   dtCore::Transform currentTransform;
+   GetTransform(currentTransform);
+   currentTransform.SetRotation(currentTransform.GetRotation() + osg::Vec3(1.0, 0.0, 0.0));
+   SetTransform(currentTransform);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

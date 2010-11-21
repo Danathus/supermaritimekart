@@ -19,8 +19,6 @@ class SMK_ACTOR_EXPORT ProjectileActor : public dtActors::GameMeshActor
 public:
    ProjectileActor(dtGame::GameActorProxy& proxy);
 
-   virtual void TickLocal(const dtGame::Message& msg);
-
    /**
    * Called when an actor is first placed in the "world"
    */
