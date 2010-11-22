@@ -20,5 +20,17 @@
       
       </shader>
    </shadergroup>
+   
+   <shadergroup name="Lighting">
+      <shader name="PerPixelLit" default="yes">
+         <source type="Vertex">shaders/PerPixelLit.vert</source>
+         <source type="Fragment">shaders/PerPixelLit.frag</source>
+         <parameter name="diffuseTexture">
+            <texture2D textureUnit="0">
+               <source type="Auto"/>
+            </texture2D>
+         </parameter>
+	  </shader>
+	</shadergroup>
 
 </shaderlist>

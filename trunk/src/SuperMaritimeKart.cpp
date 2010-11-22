@@ -243,6 +243,27 @@ void SuperMaritimeKart::PostFrame(const double deltaFrameTime)
 ////////////////////////////////////////////////////////////////////////////////
 bool SuperMaritimeKart::KeyPressed(const dtCore::Keyboard* keyboard, int kc)
 {
+   static bool usingShaders = false;
+
+   if (kc == 'g')
+   {
+      dtCore::ShaderManager& shaderManager = dtCore::ShaderManager::GetInstance();
+
+      if (!usingShaders)
+      {
+         // Retrieve the shader from the shader manager and assign it to this stateset         
+         const dtCore::ShaderProgram* prototypeProgram = shaderManager.FindShaderPrototype("PerPixelLit");
+         dtCore::ShaderProgram* program = shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetScene()->GetSceneNode());
+         assert(program);
+      }
+      else
+      {
+         shaderManager.UnassignShaderFromNode(*GetScene()->GetSceneNode());
+      }
+
+      usingShaders = !usingShaders;
+   }
+
    return false;
 }
 
@@ -290,7 +311,6 @@ void SuperMaritimeKart::OnMapLoaded()
       mGameManager->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::INFO_CLIENT_MAP_LOADED, msg);
       mGameManager->SendNetworkMessage(*msg);
    }
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////
