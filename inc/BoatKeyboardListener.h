@@ -13,7 +13,7 @@ public:
    Outboard* GetOutboard() { return mpOutboard.get(); }
 
    bool HandleKeyPressed(const dtCore::Keyboard* keyboard, int key);
-   virtual bool HandleKeyReleased(const dtCore::Keyboard* keyboard, int kc );
+   virtual bool HandleKeyReleased(const dtCore::Keyboard* keyboard, int kc);
    virtual bool HandleKeyTyped(const dtCore::Keyboard* keyboard, int kc );
 
 protected:
