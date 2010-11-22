@@ -420,7 +420,7 @@ void SMKBoatActor::PickupAquired(const dtGame::Message& pickupAcquiredMsg)
       }
       else
       {
-         LOGN_DEBUG(LOGNAME, "PickupItemFactory couldn't create pickup of type: " + pickup->GetType());
+         LOGN_WARNING(LOGNAME, "PickupItemFactory couldn't create pickup of type: " + pickup->GetType());
       }      
 
       // aural feedback
@@ -439,6 +439,20 @@ void SMKBoatActor::SetHealth(const SMK::Health& health)
 {
    mHealth = health;
    LOGN_DEBUG(LOGNAME,"Health level: " + dtUtil::ToString(mHealth.GetHealth()));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+SMK::Armor SMKBoatActor::GetArmor() const
+{
+   return mArmor;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::SetArmor(const SMK::Armor& armor)
+{
+   mArmor = armor;
+   LOGN_DEBUG(LOGNAME,"Armor type: " + dtUtil::ToString(mArmor.GetArmorType()) +
+              ". Level: " + dtUtil::ToString(mArmor.GetHealth()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////

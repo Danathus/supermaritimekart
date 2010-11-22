@@ -13,6 +13,7 @@
 #include <network/NetworkBuddy.h>
 #include <actors/PickupItemFactory.h>
 #include <actors/HealthPickup.h>
+#include <actors/ArmorPickup.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/system.h>
@@ -461,6 +462,7 @@ void SuperMaritimeKart::RegisterFactoryTypes()
    SMK::PickupItemFactory& factory = SMK::PickupItemFactory::GetInstance();
 
    factory.RegisterType<SMK::HealthPickup>(SMK::HealthPickup::HEALTH_PICKUP_TYPE);
+   factory.RegisterType<SMK::IronArmorPickup>(SMK::IronArmorPickup::IRON_ARMOR_PICKUP_TYPE);
 
 }
 

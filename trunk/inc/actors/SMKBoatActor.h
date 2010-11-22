@@ -40,10 +40,15 @@ public:
 
    virtual void TickLocal(const dtGame::Message& msg);
 
-   //Get a copy of the current Health
+   ///Get a copy of the current Health
    SMK::Health GetHealth() const;
 
    void SetHealth(const SMK::Health& health);
+
+   ///Get a copy of the current Armor
+   SMK::Armor GetArmor() const;
+
+   void SetArmor(const SMK::Armor& armor);
 
    /**
    * Get the front weapon.
