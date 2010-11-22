@@ -12,8 +12,8 @@
 const std::string RocketLauncher::ROCKET_LAUNCHER_ACTOR_TYPE = "RocketLauncher";
 
 //////////////////////////////////////////////////////////////////////////
-RocketLauncher::RocketLauncher(const std::string& filename /*= ""*/)
-: FrontWeapon(filename)
+RocketLauncher::RocketLauncher(const dtDAL::ResourceDescriptor& resource)
+: FrontWeapon(resource)
 {
    SetName(ROCKET_LAUNCHER_ACTOR_TYPE);
 

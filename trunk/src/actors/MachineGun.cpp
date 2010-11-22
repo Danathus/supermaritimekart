@@ -27,8 +27,8 @@ const float BULLET_TRAIL_HEIGHT = 1.0f;
 const float MAX_BULLET_DISTANCE = 1000.0f;
 
 //////////////////////////////////////////////////////////////////////////
-MachineGun::MachineGun(const std::string& filename /*= ""*/)
-: FrontWeapon(filename)
+MachineGun::MachineGun(const dtDAL::ResourceDescriptor& resource )
+: FrontWeapon(resource)
 {
    SetName(MACHINE_GUN_ACTOR_TYPE);
 

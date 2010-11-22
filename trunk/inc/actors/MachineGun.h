@@ -24,7 +24,7 @@ class SMK_ACTOR_EXPORT MachineGun : public FrontWeapon
 public:
    const static std::string MACHINE_GUN_ACTOR_TYPE;
 
-   MachineGun(const std::string& filename = "../examples/data/models/physics_happy_sphere.ive");
+   MachineGun(const dtDAL::ResourceDescriptor& resource = dtDAL::ResourceDescriptor("StaticMeshes:physics_happy_sphere.ive"));
 
    virtual void FireWeapon();
 

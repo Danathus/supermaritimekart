@@ -5,8 +5,8 @@
 #include <dtGame/gamemanager.h>
 
 //////////////////////////////////////////////////////////////////////////
-BackWeapon::BackWeapon(const std::string& filename /*= ""*/)
-: Weapon(filename)
+BackWeapon::BackWeapon(const dtDAL::ResourceDescriptor& resource)
+: Weapon(resource)
 {
 }
 

@@ -2,12 +2,13 @@
 
 #include <dtAudio/audiomanager.h>
 #include <dtUtil/log.h>
+#include <dtDAL/project.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 const std::string Weapon::WEAPON_ACTOR_TYPE = "Weapon";
 
 //////////////////////////////////////////////////////////////////////////
-Weapon::Weapon(const std::string& filename /*= ""*/)
+Weapon::Weapon(const dtDAL::ResourceDescriptor& resource)
    : dtCore::Object(WEAPON_ACTOR_TYPE)
    , mIsFiring(false)
    , mFiringRate(1.0f)
@@ -16,12 +17,23 @@ Weapon::Weapon(const std::string& filename /*= ""*/)
    , mpStopFiringSound(NULL)
 {
    // Load our mesh
-   if (!filename.empty())
+   if (!resource.IsEmpty())
    {
-      if (LoadFile(filename) == NULL)
+      std::string path;
+      try
       {
-         LOG_ERROR("Unable to load mesh: " + filename);
+         path = dtDAL::Project::GetInstance().GetResourcePath(resource);
       }
+      catch (const dtUtil::Exception& e)
+      {
+      	e.LogException();
+      }
+
+      if (LoadFile(path) == NULL)
+      {
+         LOG_ERROR("Unable to load mesh: " + path);
+      }
+      
    }
 }
 

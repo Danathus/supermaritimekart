@@ -9,6 +9,7 @@
 #include <dtAudio/sound.h>
 #include <dtCore/object.h>
 #include <dtCore/observerptr.h>
+#include <dtDAL/resourcedescriptor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 class SMK_ACTOR_EXPORT Weapon : public dtCore::Object
@@ -16,7 +17,7 @@ class SMK_ACTOR_EXPORT Weapon : public dtCore::Object
 public:
    const static std::string WEAPON_ACTOR_TYPE;
 
-   Weapon(const std::string& filename = "");
+   Weapon(const dtDAL::ResourceDescriptor& resource = dtDAL::ResourceDescriptor());
 
    void SetSMKBoatActorProxy(SMKBoatActorProxy* proxy) { mpSMKBoatActorProxy = proxy;       }
    SMKBoatActorProxy* GetSMKBoatActorProxy() const     { return mpSMKBoatActorProxy.get();  }
