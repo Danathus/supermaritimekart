@@ -11,6 +11,8 @@
 #include <messages/NetworkMessages.h>
 #include <network/NetConfig.h>
 #include <network/NetworkBuddy.h>
+#include <actors/PickupItemFactory.h>
+#include <actors/HealthPickup.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/system.h>
@@ -83,6 +85,8 @@ SuperMaritimeKart::~SuperMaritimeKart()
    mGameManager->Shutdown();
 
    dtAudio::AudioManager::Destroy();
+   SMK::PickupItemFactory::Destroy();
+   WeaponFactory::Destroy();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -146,6 +150,8 @@ void SuperMaritimeKart::Config()
          e.LogException(dtUtil::Log::LOG_ERROR);
       }
    }
+
+   RegisterFactoryTypes();
 
    // read timeout property
    {
@@ -446,6 +452,15 @@ void SuperMaritimeKart::OnMapUnloaded()
    {
       mNetworkComponent->ClearNewClientPublishList();
    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SuperMaritimeKart::RegisterFactoryTypes()
+{
+   SMK::PickupItemFactory& factory = SMK::PickupItemFactory::GetInstance();
+
+   factory.RegisterType<SMK::HealthPickup>(SMK::HealthPickup::HEALTH_PICKUP_TYPE);
 
 }
 
