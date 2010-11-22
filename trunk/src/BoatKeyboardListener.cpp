@@ -1,6 +1,11 @@
 #include <BoatKeyboardListener.h>
 #include <BoatActors/Outboard.h>
 
+#include <dtCore/odebodywrap.h>
+#include <dtCore/transform.h>
+#include <dtCore/physical.h>
+#include <dtCore/timer.h>
+
 //////////////////////////////////////////////////////////////////////////
 BoatKeyboardListener::BoatKeyboardListener()
    : mpOutboard(NULL)
@@ -46,6 +51,42 @@ bool BoatKeyboardListener::HandleKeyPressed(const dtCore::Keyboard* keyboard, in
 
    case ' ':
       mpOutboard->CutEngine();
+      break;
+
+   case 'r':
+   case 'R':
+      {
+         dtCore::Physical* boat = mpOutboard->GetObject();  
+
+         dtCore::Transform boatTransform;
+         boat->GetTransform(boatTransform);
+
+         float yaw, pitch, roll;
+         boatTransform.GetRotation(yaw, pitch, roll);
+
+         // Only allow applying a torque when the boat is flipped
+         if (fabs(roll) > 90)
+         {
+            static dtCore::Timer_t lastTime = dtCore::Timer::Instance()->Tick();
+
+            const dtCore::Timer* timer = dtCore::Timer::Instance();
+            dtCore::Timer_t currentTime = timer->Tick();
+
+            if (timer->DeltaSec(lastTime, currentTime) > 2.0f)
+            {          
+               boat->GetBodyWrapper()->SetLinearVelocity(osg::Vec3());
+               boat->GetBodyWrapper()->SetAngularVelocity(osg::Vec3());
+               boat->GetBodyWrapper()->ApplyRelTorque(osg::Vec3(0.0f, 200000.0f, 0.0f));
+               lastTime = currentTime;
+            }         
+
+            /*float h, p, r;
+            boatTransform.GetRotation(h, p, r);
+            boatTransform.SetRotation(h, p, r + 180.0f);
+
+            mpOutboard->GetObject()->SetTransform(boatTransform);*/
+         }
+      }
       break;
 
    default:
