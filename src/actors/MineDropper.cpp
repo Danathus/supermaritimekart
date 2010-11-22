@@ -10,8 +10,8 @@
 const std::string MineDropper::MINE_DROPPER_WEAPON_TYPE = "MineDropper";
 
 //////////////////////////////////////////////////////////////////////////
-MineDropper::MineDropper(const std::string& filename /*= ""*/)
-: BackWeapon(filename)
+MineDropper::MineDropper(const dtDAL::ResourceDescriptor& resource)
+: BackWeapon(resource)
 {
    SetName(MINE_DROPPER_WEAPON_TYPE);
 

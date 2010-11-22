@@ -11,7 +11,7 @@ class SMK_ACTOR_EXPORT FrontWeapon : public Weapon
 public:
    const static std::string MACHINE_GUN_ACTOR_TYPE;
 
-   FrontWeapon(const std::string& filename = "");
+   FrontWeapon(const dtDAL::ResourceDescriptor& resource = dtDAL::ResourceDescriptor());
 
    virtual void FireWeapon();
 
