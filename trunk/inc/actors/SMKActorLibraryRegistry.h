@@ -16,6 +16,7 @@ public:
    static dtCore::RefPtr<dtDAL::ActorType> SMK_BOAT_ACTOR_TYPE;
    static dtCore::RefPtr<dtDAL::ActorType> SMK_PICKUP_ACTOR_TYPE;
    static dtCore::RefPtr<dtDAL::ActorType> MINE_ACTOR_TYPE;
+   static dtCore::RefPtr<dtDAL::ActorType> ROCKET_ACTOR_TYPE;
 
    /// Constructor
    SMKActorLibraryRegistry();

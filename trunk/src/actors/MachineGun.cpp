@@ -1,10 +1,15 @@
 #include <actors/MachineGun.h>
+#include <messages/DamageMessage.h>
+#include <messages/NetworkMessages.h>
 
 #include <dtAudio/audiomanager.h>
+#include <dtCore/batchisector.h>
 #include <dtCore/shadermanager.h>
 #include <dtCore/shaderparamoscillator.h>
 #include <dtCore/timer.h>
 #include <dtCore/transform.h>
+#include <dtGame/gamemanager.h>
+#include <dtGame/messagefactory.h>
 #include <dtUtil/log.h>
 
 #include <osg/Billboard>
@@ -19,6 +24,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 const std::string MachineGun::MACHINE_GUN_ACTOR_TYPE = "MachineGun";
 const float BULLET_TRAIL_HEIGHT = 1.0f;
+const float MAX_BULLET_DISTANCE = 1000.0f;
 
 //////////////////////////////////////////////////////////////////////////
 MachineGun::MachineGun(const std::string& filename /*= ""*/)
@@ -31,6 +37,11 @@ MachineGun::MachineGun(const std::string& filename /*= ""*/)
    // Load any sounds we have
    mpFireSound = LoadSound("/sounds/exp57.wav");
    mpFireSound->SetGain(0.5f);
+
+   // Setup our damage
+   mDamage.SetDamageType(SMK::Damage::DAMAGE_PROJECTILE);
+   mDamage.SetAmount(5);
+   mDamage.SetRadius(0.0f);
 
    CreateBulletTrail();
 }
@@ -60,7 +71,8 @@ void MachineGun::FireWeapon()
    GetTransform(currentTransform, dtCore::Transformable::REL_CS);
    osg::Vec3 right, up, forward;
    currentTransform.GetOrientation(right, up, forward);
-   ShowBulletTrail(forward * 1000.0f);
+   osg::Vec3 hitPoint = CheckForBoatCollision(forward);
+   ShowBulletTrail(hitPoint);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -101,7 +113,8 @@ void MachineGun::CreateBulletTrail()
 
    mpTimeParam = dynamic_cast<dtCore::ShaderParamOscillator*>(program->FindParameter("time"));
    assert(mpTimeParam.valid());
-   mpTimeParam->SetUseRealTime(false);}
+   mpTimeParam->SetUseRealTime(false);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 void MachineGun::ShowBulletTrail(osg::Vec3 target)
@@ -141,6 +154,37 @@ void MachineGun::ShowBulletTrail(osg::Vec3 target)
 
    // Tell the oscillator to start updating the time uniform
    mpTimeParam->TriggerOscillationStart();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+osg::Vec3 MachineGun::CheckForBoatCollision(osg::Vec3 fireDirection)
+{
+   dtGame::GameManager* gm = mpSMKBoatActorProxy->GetGameManager();
+   dtCore::RefPtr<dtCore::BatchIsector> iSector = new dtCore::BatchIsector(&gm->GetScene());
+   iSector->EnableAndGetISector(0).SetToCheckForClosestDrawable(true);
+   dtCore::Transform currentTransform;
+   GetTransform(currentTransform);
+   iSector->EnableAndGetISector(0).SetSectorAsRay(currentTransform.GetTranslation(),
+      fireDirection, MAX_BULLET_DISTANCE);
+   iSector->Update();
+
+   dtCore::DeltaDrawable* hitDrawable = iSector->EnableAndGetISector(0).GetClosestDrawable();
+   SMKBoatActor* hitBoat = dynamic_cast<SMKBoatActor*>(hitDrawable);
+   if (hitBoat != NULL)
+   {
+      dtCore::RefPtr<SMK::DamageMessage> collisionMessage;
+      gm->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, collisionMessage);
+      collisionMessage->SetAboutActorId(hitBoat->GetUniqueId());
+      collisionMessage->SetDamage(mDamage);
+      gm->SendNetworkMessage(*collisionMessage);
+      gm->SendMessage(*collisionMessage);
+
+      osg::Vec3 hitPoint;
+      iSector->EnableAndGetISector(0).GetHitPoint(hitPoint);
+      return hitPoint;
+   }
+
+   return currentTransform.GetTranslation() + fireDirection * MAX_BULLET_DISTANCE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

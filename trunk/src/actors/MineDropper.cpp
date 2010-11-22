@@ -20,7 +20,7 @@ MineDropper::MineDropper(const std::string& filename /*= ""*/)
 
    // Setup our damage
    mDamage.SetDamageType(SMK::Damage::DAMAGE_BLAST);
-   mDamage.SetAmount(25);
+   mDamage.SetAmount(100);
    mDamage.SetRadius(15.0f);
 
    //// Load any sounds we have

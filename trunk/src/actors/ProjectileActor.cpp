@@ -7,6 +7,7 @@
 #include <dtDAL/project.h>
 #include <dtDAL/resourceactorproperty.h>
 #include <dtDAL/resourcedescriptor.h>
+#include <dtGame/basemessages.h>
 #include <dtGame/deadreckoninghelper.h>
 #include <dtGame/drpublishingactcomp.h>
 #include <dtGame/gamemanager.h>
@@ -18,12 +19,36 @@
 ProjectileActor::ProjectileActor(dtGame::GameActorProxy& proxy)
 : dtActors::GameMeshActor(proxy)
 , mDeadReckoningHelper(new dtGame::DeadReckoningHelper)
+, mLifetime(10.0f)
+, mLifeCounter(0.0f)
 {
 }
 
 //////////////////////////////////////////////////////////////////////////
 ProjectileActor::~ProjectileActor()
 {
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void ProjectileActor::TickLocal(const dtGame::Message& msg)
+{
+   dtActors::GameMeshActor::TickLocal(msg);
+
+   const dtGame::TickMessage& tickMessage = static_cast<const dtGame::TickMessage&>(msg);
+   float dt = tickMessage.GetDeltaSimTime();
+
+   mLifeCounter += dt;
+   if (mLifeCounter > mLifetime)
+   {
+      if (mDamage.GetRadius() > 0.0f)
+      {
+         DetonateProjectile();
+      }
+
+      // Destroy ourselves
+      SetCollisionDetection(false);
+      GetGameActorProxy().GetGameManager()->DeleteActor(GetGameActorProxy());
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -138,11 +163,7 @@ bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
       // If our damage radius is greater than 0, then tell everyone we exploded
       if (mDamage.GetRadius() > 0.0f)
       {
-         dtCore::RefPtr<SMK::DamageMessage> explosionMessage;
-         GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, explosionMessage);
-         explosionMessage->SetDamage(GetDamage());
-         GetGameActorProxy().GetGameManager()->SendNetworkMessage(*explosionMessage);
-         GetGameActorProxy().GetGameManager()->SendMessage(*explosionMessage);
+         DetonateProjectile();
       }
       else
       {
@@ -190,6 +211,16 @@ void ProjectileActor::SetMeshResource(const std::string& name)
    }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void ProjectileActor::DetonateProjectile()
+{
+   dtCore::RefPtr<SMK::DamageMessage> explosionMessage;
+   GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, explosionMessage);
+   explosionMessage->SetDamage(GetDamage());
+   GetGameActorProxy().GetGameManager()->SendNetworkMessage(*explosionMessage);
+   GetGameActorProxy().GetGameManager()->SendMessage(*explosionMessage);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ProjectileActorProxy::ProjectileActorProxy()
@@ -231,22 +262,46 @@ void ProjectileActorProxy::OnRemovedFromWorld()
 ///////////////////////////////////////////////////////////////////////////////
 void ProjectileActorProxy::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill)
 {
-   propNamesToFill.push_back(dtDAL::TransformableActorProxy::PROPERTY_TRANSLATION);
-   propNamesToFill.push_back(dtDAL::TransformableActorProxy::PROPERTY_ROTATION);
+   ProjectileActor *actor = NULL;
+   GetActor(actor);
+
+   if (!actor)
+   {
+      return;
+   }
+
+   // Add the properties for dead reckoning such as last known translation, etc...
+   actor->GetDeadReckoningHelper()->GetPartialUpdateProperties(propNamesToFill);
+
+   //propNamesToFill.push_back(dtDAL::TransformableActorProxy::PROPERTY_TRANSLATION);
+   //propNamesToFill.push_back(dtDAL::TransformableActorProxy::PROPERTY_ROTATION);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-void ProjectileActorProxy::OnRotation(const osg::Vec3 &oldValue, const osg::Vec3 &newValue)
+////////////////////////////////////////////////////////////////////////////////
+void ProjectileActorProxy::NotifyFullActorUpdate()
 {
-   int i = 0;
-   --i;
-}
+   // Remove the rot and trans from the full actor update.
+   // If we send pos & rot out in an update, then that sometimes causes problems
+   // on remote items. Network components usually pick up their data on tick local, which
+   // sends a message to the DefaultmessageProcessorComponent. However, before that message
+   // gets processed, the tick-remote gets picked up by the DeadReckoningComponent. Causes jumpiness.
+   std::vector<dtDAL::ActorProperty* > allProperties;
+   GetPropertyList(allProperties);
 
-///////////////////////////////////////////////////////////////////////////////
-void ProjectileActorProxy::OnTranslation(const osg::Vec3 &oldValue, const osg::Vec3 &newValue)
-{
-   int i = 0;
-   --i;
+   std::vector<dtUtil::RefString> finalPropNameList;
+   finalPropNameList.reserve(allProperties.size());
+
+   for (size_t i = 0; i < allProperties.size(); ++i)
+   {
+      if (allProperties[i]->GetName() != dtDAL::TransformableActorProxy::PROPERTY_ROTATION &&
+         allProperties[i]->GetName() != dtDAL::TransformableActorProxy::PROPERTY_TRANSLATION)
+      {
+         finalPropNameList.push_back(allProperties[i]->GetName());
+      }
+   }
+
+   // Even though we are using the partialactorupdate method - it should be treated as a full
+   NotifyPartialActorUpdate(finalPropNameList, false);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
