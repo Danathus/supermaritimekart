@@ -169,15 +169,25 @@ bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void ProjectileActor::SetMeshResource(const std::string& name, const std::string& file)
+void ProjectileActor::SetMeshResource(const std::string& name)
 {
+   // Get the static mesh property
    dtDAL::ResourceActorProperty* meshProperty =
       dynamic_cast<dtDAL::ResourceActorProperty*>(GetGameActorProxy().GetProperty("static mesh"));
-   meshProperty->SetValue(dtDAL::Project::GetInstance().AddResource(name, file,
-      "StaticMeshes", dtDAL::DataType::STATIC_MESH));
 
-   SetCollisionBox();
-   SetCollisionDetection(true);
+   // Find the static mesh resource and apply it to the property
+   dtUtil::tree<dtDAL::ResourceTreeNode> resources;
+   dtDAL::Project::GetInstance().GetResourcesOfType(dtDAL::DataType::STATIC_MESH, resources);
+   dtUtil::tree<dtDAL::ResourceTreeNode>::const_iterator resourceItr = resources.begin();
+   for (; resourceItr != resources.end(); ++resourceItr)
+   {
+      if (resourceItr->getResource().GetResourceName() == name)
+      {
+         meshProperty->SetValue(resourceItr->getResource());
+         SetCollisionBox();
+         SetCollisionDetection(true);
+      }
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -43,7 +43,7 @@ public:
 
 protected:
    virtual ~ProjectileActor();
-   void SetMeshResource(const std::string& name, const std::string& file);
+   void SetMeshResource(const std::string& name);
 
 private:
    dtCore::RefPtr<dtGame::DeadReckoningHelper> mDeadReckoningHelper;

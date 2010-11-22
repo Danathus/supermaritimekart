@@ -27,7 +27,7 @@ void MineActor::TickLocal(const dtGame::Message& msg)
 ///////////////////////////////////////////////////////////////////////////////
 void MineActor::OnEnteredWorld()
 {
-   SetMeshResource("Mine", "./StaticMeshes/physics_happy_sphere.ive");
+   SetMeshResource("physics_happy_sphere.ive");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

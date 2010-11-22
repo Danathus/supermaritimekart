@@ -110,7 +110,7 @@ void SuperMaritimeKart::Config()
       
       try
       {
-         mGameManager->SetProjectContext("./data", false);
+         mGameManager->SetProjectContext("./data", true);
 
          try
          {
