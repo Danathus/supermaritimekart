@@ -86,6 +86,7 @@ public:
    * The object to push around
    */
    void SetObject(dtCore::Physical& obj);
+   dtCore::Physical* GetObject() const;
 
    /**
    * Sets the GetHeight class.
@@ -175,4 +176,5 @@ private:
    EngineData                 mEngineDOF[ENGINE_MAX];
    dtCore::RefPtr<IGetHeight> mGetHeight;
 };
+
 #endif // Outboard_h__
