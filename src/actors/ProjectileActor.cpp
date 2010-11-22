@@ -195,20 +195,9 @@ void ProjectileActor::SetMeshResource(const std::string& name)
    // Get the static mesh property
    dtDAL::ResourceActorProperty* meshProperty =
       dynamic_cast<dtDAL::ResourceActorProperty*>(GetGameActorProxy().GetProperty("static mesh"));
-
-   // Find the static mesh resource and apply it to the property
-   dtUtil::tree<dtDAL::ResourceTreeNode> resources;
-   dtDAL::Project::GetInstance().GetResourcesOfType(dtDAL::DataType::STATIC_MESH, resources);
-   dtUtil::tree<dtDAL::ResourceTreeNode>::const_iterator resourceItr = resources.begin();
-   for (; resourceItr != resources.end(); ++resourceItr)
-   {
-      if (resourceItr->getResource().GetResourceName() == name)
-      {
-         meshProperty->SetValue(resourceItr->getResource());
-         SetCollisionBox();
-         SetCollisionDetection(true);
-      }
-   }
+   meshProperty->SetValue(dtDAL::ResourceDescriptor("StaticMeshes:" + name));
+   SetCollisionBox();
+   SetCollisionDetection(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

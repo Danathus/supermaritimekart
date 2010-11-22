@@ -20,7 +20,7 @@ MineDropper::MineDropper(const dtDAL::ResourceDescriptor& resource)
 
    // Setup our damage
    mDamage.SetDamageType(SMK::Damage::DAMAGE_BLAST);
-   mDamage.SetAmount(100);
+   mDamage.SetAmount(25);
    mDamage.SetRadius(15.0f);
 
    //// Load any sounds we have
