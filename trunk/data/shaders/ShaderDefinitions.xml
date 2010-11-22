@@ -14,7 +14,7 @@
          </parameter>
       
        <parameter name="time">
-         <oscillator cycletimemin="1.0" cycletimemax="1.0" rangemin="1.0"
+         <oscillator cycletimemin="5.0" cycletimemax="5.0" rangemin="1.0"
          rangemax="1.0" oscillation="Up" cyclecount="1" trigger="manual"/>
        </parameter>
       

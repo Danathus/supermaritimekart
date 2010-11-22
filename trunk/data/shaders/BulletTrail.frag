@@ -6,7 +6,7 @@ uniform float time;
 void main(void)
 {
 	// Determine how much time this texel has to live
-	float leftOver = max(gl_TexCoord[0].x - time, 0.0) + 0.1;
+	float leftOver = max(gl_TexCoord[0].x - time, 0.0);
 
 	// Calculate the overall attenation over time
 	float timeAttenuation = pow(1.0 - time, 5.0);
