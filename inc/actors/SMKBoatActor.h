@@ -15,7 +15,15 @@ class FrontWeaponSlot;
 class BackWeaponSlot;
 class WeaponSlot;
 
-namespace dtAudio { class Sound; }
+namespace dtAudio
+{
+   class Sound;
+}
+
+namespace dtCore
+{
+   class ParticleSystem;
+}
 
 namespace dtGame
 {
@@ -109,10 +117,13 @@ private:
    void FireFrontWeapon(const dtGame::Message& weaponFiredMessage);
    void FireBackWeapon(const dtGame::Message& weaponFiredMessage);
 
+   void Teleport(const dtCore::Transform& transform);
+
    void BoatHit(const SMK::DamageMessage& boatHitMessage);
    void ProjectileExploded(const SMK::DamageMessage& weaponFiredMessage);
 
    void ApplyDamage(const SMK::Damage& damage);
+   void RespawnBoat();
 
    void PickupAquired(const dtGame::Message& pickupAcquiredMsg);
 
@@ -123,6 +134,7 @@ private:
    SMK::Health mHealth;  ///<The current health of this boat
    SMK::Armor  mArmor;   ///<The current armor of this boat
    dtCore::RefPtr<dtAudio::Sound> mPickupAcquireSound;
+   dtCore::RefPtr<dtCore::ParticleSystem> mpExplosionParticles;
 
    dtCore::RefPtr<dtGame::DeadReckoningHelper> mDeadReckoningHelper;
    dtCore::RefPtr<dtGame::DRPublishingActComp> mDRPublishingActComp;

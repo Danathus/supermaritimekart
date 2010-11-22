@@ -10,13 +10,19 @@
 #include <util/Damage.h>
 #include <util/DamageAssessor.h>
 
+#include <BoatActors/Outboard.h>
+
+#include <dtAudio/audiomanager.h>
+#include <dtCore/odebodywrap.h>
+#include <dtCore/particlesystem.h>
+#include <dtCore/scene.h>
+#include <dtCore/transform.h>
 #include <dtGame/basemessages.h>
 #include <dtGame/gamemanager.h>
 #include <dtGame/deadreckoninghelper.h>
 #include <dtGame/drpublishingactcomp.h>
 #include <dtGame/invokable.h>
 #include <dtGame/messagetype.h>
-#include <dtAudio/audiomanager.h>
 
 #include <ode/contact.h>
 
@@ -69,6 +75,33 @@ void SMKBoatActor::TickLocal(const dtGame::Message& msg)
    {
       mpBackWeapon->Update(dt);
    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+SMK::Health SMKBoatActor::GetHealth() const
+{
+   return mHealth;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::SetHealth(const SMK::Health& health)
+{
+   mHealth = health;
+   LOGN_DEBUG(LOGNAME,"Health level: " + dtUtil::ToString(mHealth.GetHealth()));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+SMK::Armor SMKBoatActor::GetArmor() const
+{
+   return mArmor;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::SetArmor(const SMK::Armor& armor)
+{
+   mArmor = armor;
+   LOGN_DEBUG(LOGNAME,"Armor type: " + dtUtil::ToString(mArmor.GetArmorType()) +
+      ". Level: " + dtUtil::ToString(mArmor.GetHealth()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -146,10 +179,17 @@ void SMKBoatActor::OnEnteredWorld()
 {
    BoatActor::OnEnteredWorld();
 
+   // Setup pickup sound
    mPickupAcquireSound = dtAudio::AudioManager::GetInstance().NewSound();
    mPickupAcquireSound->LoadFile("sounds/pop.wav");
    mPickupAcquireSound->SetGain(1.0f);
    mPickupAcquireSound->SetListenerRelative(true);
+
+   // Setup explosion particles
+   mpExplosionParticles = new dtCore::ParticleSystem;
+   mpExplosionParticles->LoadFile("particles/explosion.osg");
+   mpExplosionParticles->SetEnabled(false);
+   GetGameActorProxy().GetGameManager()->GetScene().AddDrawable(mpExplosionParticles);
 
    GetOSGNode()->setName(GetName());
 
@@ -354,6 +394,20 @@ void SMKBoatActor::FireBackWeapon(const dtGame::Message& weaponFiredMessage)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::Teleport(const dtCore::Transform& transform)
+{
+   Outboard* outboard = GetOutBoard();
+   if (outboard)
+   {
+      outboard->CutEngine();
+   }
+
+   GetBodyWrapper()->SetLinearVelocity(osg::Vec3(0.f,0.f,0.f));
+   GetBodyWrapper()->SetAngularVelocity(osg::Vec3(0.f,0.f,0.f));
+   SetTransform(transform);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::BoatHit(const SMK::DamageMessage& boatHitMessage)
 {
    // Only apply damage if this message was from our unique ID
@@ -384,18 +438,35 @@ void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
    assessor.Assess(damage, damageTaker);
    LOGN_DEBUG(LOGNAME, "My health is now: " + dtUtil::ToString(mHealth.GetHealth()));
 
-   if (!IsRemote() && mHealth.GetHealth() <= 0)
+   if (mHealth.GetHealth() <= 0)
    {
-      // TODO: Put respawn logic here
-      LOG_ALWAYS("OH NO!!! WE (" + GetUniqueId().ToString() + ") DIED!!!!");
+      RespawnBoat();
    }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-bool SMKBoatActor::DoWeWantThisPickUp(const PickUpItemHandle& pickup) const
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::RespawnBoat()
 {
-   //pickup.GetType();
-   return true;
+   // Play explosion particle
+   dtCore::Transform currentTransform;
+   GetTransform(currentTransform);
+   mpExplosionParticles->SetTransform(currentTransform);
+   // TODO: Find out how to have particle system only play once and not loop
+   //mpExplosionParticles->SetEnabled(true);
+
+   // Reset our health and weapons
+   mHealth.SetHealth(mHealth.GetMax());
+   SetupDefaultWeapon();
+
+   // If this is our boat, move back to the respawn point
+   if (!IsRemote())
+   {
+      SMKBoatActorProxy* prototypeProxy;
+      GetGameActorProxy().GetGameManager()->FindPrototypeByName(GetPrototypeName(), prototypeProxy);
+      dtCore::Transform transform;
+      prototypeProxy->GetGameActor().GetTransform(transform);
+      Teleport(transform);
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -429,30 +500,10 @@ void SMKBoatActor::PickupAquired(const dtGame::Message& pickupAcquiredMsg)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-SMK::Health SMKBoatActor::GetHealth() const
+bool SMKBoatActor::DoWeWantThisPickUp(const PickUpItemHandle& pickup) const
 {
-   return mHealth;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::SetHealth(const SMK::Health& health)
-{
-   mHealth = health;
-   LOGN_DEBUG(LOGNAME,"Health level: " + dtUtil::ToString(mHealth.GetHealth()));
-}
-
-////////////////////////////////////////////////////////////////////////////////
-SMK::Armor SMKBoatActor::GetArmor() const
-{
-   return mArmor;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::SetArmor(const SMK::Armor& armor)
-{
-   mArmor = armor;
-   LOGN_DEBUG(LOGNAME,"Armor type: " + dtUtil::ToString(mArmor.GetArmorType()) +
-              ". Level: " + dtUtil::ToString(mArmor.GetHealth()));
+   //pickup.GetType();
+   return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

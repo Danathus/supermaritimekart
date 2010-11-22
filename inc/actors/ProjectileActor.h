@@ -19,6 +19,8 @@ class SMK_ACTOR_EXPORT ProjectileActor : public dtActors::GameMeshActor
 public:
    ProjectileActor(dtGame::GameActorProxy& proxy);
 
+   virtual void TickLocal(const dtGame::Message& msg);
+
    /**
    * Called when an actor is first placed in the "world"
    */
@@ -39,6 +41,9 @@ public:
    void SetDamage(const SMK::Damage& damage) { mDamage = damage; }
    SMK::Damage GetDamage() const             { return mDamage;   }
 
+   void SetLifetime(float lifetime) { mLifetime = lifetime; }
+   float GetLifetime() const        { return mLifetime;     }
+
    virtual bool FilterContact(dContact* contact, Transformable* collider);
 
 protected:
@@ -46,10 +51,14 @@ protected:
    void SetMeshResource(const std::string& name);
 
 private:
+   void DetonateProjectile();
+
    dtCore::RefPtr<dtGame::DeadReckoningHelper> mDeadReckoningHelper;
    dtCore::RefPtr<dtGame::DRPublishingActComp> mDRPublishingActComp;
 
    SMK::Damage mDamage;
+   float mLifetime;
+   float mLifeCounter;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,8 +82,7 @@ public:
 
    virtual void GetPartialUpdateProperties(std::vector<dtUtil::RefString>& propNamesToFill);
 
-   virtual void OnRotation(const osg::Vec3 &oldValue, const osg::Vec3 &newValue);
-   virtual void OnTranslation(const osg::Vec3 &oldValue, const osg::Vec3 &newValue);
+   virtual void NotifyFullActorUpdate();
 
 protected:
    virtual ~ProjectileActorProxy();
