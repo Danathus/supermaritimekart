@@ -2,6 +2,8 @@
 #include <actors/PickUpItemHandle.h>
 #include <actors/FrontWeaponSlot.h>
 #include <actors/BackWeaponSlot.h>
+#include <actors/PickupItemFactory.h>
+#include <actors/PickupItem.h>
 #include <messages/DamageMessage.h>
 #include <messages/NetworkMessages.h>
 #include <network/NetworkBuddy.h>
@@ -26,6 +28,8 @@ static const std::string BACK_WEAPON_FIRED   = "BackWeaponFired";
 static const std::string BOAT_HIT            = "BoatHit";
 static const std::string PROJECTILE_EXPLODED = "ProjectileExploded";
 static const std::string PICKUP_ACQUIRED     = "PickupAcquired";
+
+static const std::string LOGNAME             = "SMKBoatActor";
 
 //////////////////////////////////////////////////////////
 // Actor code
@@ -384,6 +388,7 @@ void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
    // Assess and apply the damage
    SMK::DamageAssessor assessor;
    assessor.Assess(damage, damageTaker);
+   LOGN_DEBUG(LOGNAME, "My health is now: " + dtUtil::ToString(mHealth.GetHealth()));
 
    if (!IsRemote() && mHealth.GetHealth() <= 0)
    {
@@ -410,11 +415,33 @@ void SMKBoatActor::PickupAquired(const dtGame::Message& pickupAcquiredMsg)
    if (pickupProxy)
    {
       const PickUpItemHandle* pickup = static_cast<const PickUpItemHandle*>(pickupProxy->GetActor());
+      LOGN_DEBUG(LOGNAME, "acquired a pickup of type:" + pickup->GetType());
+
       //create the pickup via the pickup factory
-      //apply the pickup
-      //pickup->GetType()
-      LOGN_DEBUG("SMKBoatActor", "acquired a pickup of type:" + pickup->GetType());
+      const PickupItem* pickupItem = PickupItemFactory::GetInstance().Create(pickup->GetType());
+      if (pickupItem)
+      {
+         //apply the pickup
+         bool applied = pickupItem->Apply(*this);
+      }
+      else
+      {
+         LOGN_DEBUG(LOGNAME, "PickupItemFactory couldn't create pickup of type: " + pickup->GetType());
+      }      
    }  
+}
+
+////////////////////////////////////////////////////////////////////////////////
+SMK::Health SMKBoatActor::GetHealth() const
+{
+   return mHealth;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::SetHealth(const SMK::Health& health)
+{
+   mHealth = health;
+   LOGN_DEBUG(LOGNAME,"Health level: " + dtUtil::ToString(mHealth.GetHealth()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////

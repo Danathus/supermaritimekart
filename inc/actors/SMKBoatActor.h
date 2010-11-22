@@ -40,6 +40,11 @@ public:
 
    virtual void TickLocal(const dtGame::Message& msg);
 
+   //Get a copy of the current Health
+   SMK::Health GetHealth() const;
+
+   void SetHealth(const SMK::Health& health);
+
    /**
    * Get the front weapon.
    */

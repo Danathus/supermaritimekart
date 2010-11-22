@@ -13,6 +13,7 @@ namespace SMK
 
       Health();
       Health(HealthType health, HealthType maxHealth);
+      Health(const Health& copy);
 
       ~Health() {};
 
