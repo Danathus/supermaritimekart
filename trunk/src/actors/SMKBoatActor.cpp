@@ -119,12 +119,6 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          //pickup->SetActive(false);
          //pickup->SetCollisionDetection(false);
 
-         // TEMP
-         // This should happen when the item is acquired
-         //{
-         //   mPickupAcquireSound->Play();
-         //}
-
          //Send request to server indicating our interest in acquiring "pickup"         
          dtCore::RefPtr<dtGame::Message> msg;
          GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP, msg);
@@ -428,6 +422,9 @@ void SMKBoatActor::PickupAquired(const dtGame::Message& pickupAcquiredMsg)
       {
          LOGN_DEBUG(LOGNAME, "PickupItemFactory couldn't create pickup of type: " + pickup->GetType());
       }      
+
+      // aural feedback
+      mPickupAcquireSound->Play();
    }  
 }
 
