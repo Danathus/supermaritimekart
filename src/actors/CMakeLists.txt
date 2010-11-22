@@ -12,6 +12,7 @@ SET(SOURCE_FILES
     ${SOURCE_PATH}/FrontWeapon.cpp
     ${SOURCE_PATH}/FrontWeaponSlot.cpp
     ${SOURCE_PATH}/HealthPickup.cpp
+    ${SOURCE_PATH}/ArmorPickup.cpp
     ${SOURCE_PATH}/MachineGun.cpp
     ${SOURCE_PATH}/MineActor.cpp
     ${SOURCE_PATH}/MineDropper.cpp
@@ -32,6 +33,7 @@ SET(HEADER_FILES
     ${HEADER_PATH}/FrontWeapon.h
     ${HEADER_PATH}/FrontWeaponSlot.h
     ${HEADER_PATH}/HealthPickup.h
+    ${HEADER_PATH}/ArmorPickup.h
     ${HEADER_PATH}/MachineGun.h
     ${HEADER_PATH}/MineActor.h
     ${HEADER_PATH}/MineDropper.h
