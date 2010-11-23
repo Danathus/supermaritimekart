@@ -20,8 +20,8 @@ RocketLauncher::RocketLauncher(const dtDAL::ResourceDescriptor& resource)
    SetFiringRate(1.0f);
 
    // Load any sounds we have
-   mpFireSound = LoadSound("/sounds/exp57.wav");
-   mpFireSound->SetGain(0.5f);
+   mpFireSound = LoadSound("/sounds/explosion.wav");
+   mpFireSound->SetGain(0.75f);
 
    // Setup our damage
    mDamage.SetDamageType(SMK::Damage::DAMAGE_PROJECTILE);

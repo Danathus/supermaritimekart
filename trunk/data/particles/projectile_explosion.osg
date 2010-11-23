@@ -6,7 +6,7 @@ Group {
   Geode {
     UniqueID Geode_0
     DataVariance DYNAMIC
-    name "Layer 0"
+    name "Smoke"
     nodeMask 0xffffffff
     cullingActive TRUE
     num_drawables 1
@@ -70,10 +70,10 @@ Group {
       defaultBoundingBox -10 -10 -10 10 10 10
       particleTemplate {
         shape QUAD
-        lifeTime 1.01
-        sizeRange 15 20
-        alphaRange 1 0
-        colorRange 1 0.5 0 1 1 1 1 1
+        lifeTime 0.8
+        sizeRange 0 1.5
+        alphaRange 0.7 0
+        colorRange 0.7 0.5 0.5 1 0.8 0.5 0 1
         position 0 0 0
         velocity 0 0 0
         angle 0 0 0
@@ -127,7 +127,7 @@ Group {
       lifeTime 0.01
       startTime 0
       currentTime 0
-      resetTime 6
+      resetTime 0
       useDefaultTemplate TRUE
       osgParticle::RandomRateCounter {
         DataVariance DYNAMIC
@@ -139,9 +139,9 @@ Group {
       }
       osgParticle::RadialShooter {
         DataVariance DYNAMIC
-        thetaRange -3.14 3.14
+        thetaRange -1.12 1.55
         phiRange -1.57 1.57
-        initialSpeedRange 5 7.5
+        initialSpeedRange 1 2
         initialRotationalSpeedRange 0 0 0 0 0 0
       }
     }

@@ -23,9 +23,8 @@ MineDropper::MineDropper(const dtDAL::ResourceDescriptor& resource)
    mDamage.SetAmount(25);
    mDamage.SetRadius(15.0f);
 
-   //// Load any sounds we have
-   //mpFireSound = LoadSound("/sounds/exp57.wav");
-   //mpFireSound->SetGain(0.5f);
+   // Load any sounds we have
+   mpFireSound = LoadSound("/sounds/splash.wav");
 }
 
 //////////////////////////////////////////////////////////////////////////
