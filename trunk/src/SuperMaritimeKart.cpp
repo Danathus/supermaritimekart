@@ -41,7 +41,6 @@
 #include <assert.h>
 
 #define CONNECT_ONLY_TO_ME 0 // commit as 0
-#define MY_IP_ADDRESS DOTTED_QUAD_TO_INT(172, 20, 82, 212)
 
 ////////////////////////////////////////////////////////////////////////////////
 SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
@@ -223,7 +222,7 @@ void SuperMaritimeKart::PostFrame(const double deltaFrameTime)
          assert(selectedGame);
 #if CONNECT_ONLY_TO_ME
          // quick hack to limit connecting to only one specific IP
-         if (selectedGame->mSenderAddress.GetAddress() != MY_IP_ADDRESS)
+         if (selectedGame->mSenderAddress.GetAddress() != net::NetworkEngine::GetRef().GetAddressFromHostName(net::NetworkEngine::GetRef().GetHostName()).GetAddress())
          {
             return;
          }
