@@ -34,7 +34,6 @@ static const std::string BACK_WEAPON_FIRED   = "BackWeaponFired";
 static const std::string BOAT_HIT            = "BoatHit";
 static const std::string PROJECTILE_EXPLODED = "ProjectileExploded";
 static const std::string PICKUP_ACQUIRED     = "PickupAcquired";
-
 static const std::string LOGNAME             = "SMKBoatActor";
 
 //////////////////////////////////////////////////////////
