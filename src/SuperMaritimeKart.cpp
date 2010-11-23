@@ -40,6 +40,9 @@
 #include <CollisionCallback.h>
 #include <assert.h>
 
+#define CONNECT_ONLY_TO_ME 0 // commit as 0
+#define MY_IP_ADDRESS DOTTED_QUAD_TO_INT(172, 20, 82, 212)
+
 ////////////////////////////////////////////////////////////////////////////////
 SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
    : Application(configFilename)
@@ -218,12 +221,13 @@ void SuperMaritimeKart::PostFrame(const double deltaFrameTime)
          // let's get the first one
          const GameFinder::GameDescription* selectedGame = mGameFinder->GetGame(gameList[0]);
          assert(selectedGame);
-
-         //quick hack to limit connecting to only one specific IP
-         //if (selectedGame->mSenderAddress.GetAddress() != DOTTED_QUAD_TO_INT(172,20,81,230))
-         //{
-         //   return;
-         //}
+#if CONNECT_ONLY_TO_ME
+         // quick hack to limit connecting to only one specific IP
+         if (selectedGame->mSenderAddress.GetAddress() != MY_IP_ADDRESS)
+         {
+            return;
+         }
+#endif
 
          //start loading the map, given by the game finder
          mGameManager->ChangeMap(selectedGame->mMapName);
