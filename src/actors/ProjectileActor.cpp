@@ -287,7 +287,7 @@ void ProjectileActorProxy::NotifyFullActorUpdate()
    for (size_t i = 0; i < allProperties.size(); ++i)
    {
       if (allProperties[i]->GetName() != dtDAL::TransformableActorProxy::PROPERTY_ROTATION &&
-         allProperties[i]->GetName() != dtDAL::TransformableActorProxy::PROPERTY_TRANSLATION)
+          allProperties[i]->GetName() != dtDAL::TransformableActorProxy::PROPERTY_TRANSLATION)
       {
          finalPropNameList.push_back(allProperties[i]->GetName());
       }
