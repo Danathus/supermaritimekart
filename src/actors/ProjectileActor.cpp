@@ -161,7 +161,7 @@ bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
 {
    if (mLifeCounter < COLLISION_DETECTION_DELAY) {return false;}
 
-   if (!GetGameActorProxy().IsInSTAGE() && !IsRemote() && GetCollisionDetection())
+   if (!GetGameActorProxy().IsInSTAGE() && !IsRemote())
    {
       // Set the damage's location to where we are at the time of impact
       mDamage.SetLocation(GetGameActorProxy().GetTranslation());
