@@ -33,6 +33,7 @@ static const std::string FRONT_WEAPON_FIRED  = "FrontWeaponFired";
 static const std::string BACK_WEAPON_FIRED   = "BackWeaponFired";
 static const std::string BOAT_HIT            = "BoatHit";
 static const std::string PROJECTILE_EXPLODED = "ProjectileExploded";
+static const std::string BOAT_EXPLODED       = "BoatExploded";
 static const std::string PICKUP_ACQUIRED     = "PickupAcquired";
 static const std::string LOGNAME             = "SMKBoatActor";
 
@@ -298,12 +299,6 @@ void SMKBoatActor::BuildActorComponents()
    mDeadReckoningHelper->SetDeadReckoningAlgorithm(dtGame::DeadReckoningAlgorithm::VELOCITY_AND_ACCELERATION);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::ProcessMessage(const dtGame::Message& message)
-{
-   BoatActor::ProcessMessage(message);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::Initialize()
 {
@@ -343,8 +338,11 @@ void SMKBoatActor::RegisterGlobalBoatMessages()
 {
    GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BOAT_HIT,
       dtUtil::MakeFunctor(&SMKBoatActor::BoatHit, this)));
+   GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BOAT_EXPLODED,
+      dtUtil::MakeFunctor(&SMKBoatActor::RespawnBoat, this)));
 
    GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, BOAT_HIT);
+   GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_BOAT_EXPLODED, BOAT_EXPLODED);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -424,6 +422,34 @@ void SMKBoatActor::ProjectileExploded(const SMK::DamageMessage& weaponFiredMessa
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::RespawnBoat(const dtGame::Message& weaponFiredMessage)
+{
+   if (weaponFiredMessage.GetAboutActorId() == GetUniqueId())
+   {
+      // Play explosion particle
+      dtCore::Transform currentTransform;
+      GetTransform(currentTransform);
+      mpExplosionParticles->SetTransform(currentTransform);
+      mpExplosionParticles->ResetTime();
+      mpExplosionParticles->SetEnabled(true);
+
+      // Reset our health and weapons
+      mHealth.SetHealth(mHealth.GetMax());
+      SetupDefaultWeapon();
+
+      // If this is our boat, move back to the respawn point
+      if (!IsRemote())
+      {
+         SMKBoatActorProxy* prototypeProxy;
+         GetGameActorProxy().GetGameManager()->FindPrototypeByName(GetPrototypeName(), prototypeProxy);
+         dtCore::Transform transform;
+         prototypeProxy->GetGameActor().GetTransform(transform);
+         Teleport(transform);
+      }
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
 {
    // Setup our damage taker
@@ -437,34 +463,13 @@ void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
    assessor.Assess(damage, damageTaker);
    LOGN_DEBUG(LOGNAME, "My health is now: " + dtUtil::ToString(mHealth.GetHealth()));
 
-   if (mHealth.GetHealth() <= 0)
+   if (mHealth.GetHealth() <= 0 && !IsRemote())
    {
-      RespawnBoat();
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::RespawnBoat()
-{
-   // Play explosion particle
-   dtCore::Transform currentTransform;
-   GetTransform(currentTransform);
-   mpExplosionParticles->SetTransform(currentTransform);
-   mpExplosionParticles->ResetTime();
-   mpExplosionParticles->SetEnabled(true);
-
-   // Reset our health and weapons
-   mHealth.SetHealth(mHealth.GetMax());
-   SetupDefaultWeapon();
-
-   // If this is our boat, move back to the respawn point
-   if (!IsRemote())
-   {
-      SMKBoatActorProxy* prototypeProxy;
-      GetGameActorProxy().GetGameManager()->FindPrototypeByName(GetPrototypeName(), prototypeProxy);
-      dtCore::Transform transform;
-      prototypeProxy->GetGameActor().GetTransform(transform);
-      Teleport(transform);
+      dtCore::RefPtr<dtGame::Message> deathMsg;
+      GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_BOAT_EXPLODED, deathMsg);
+      deathMsg->SetAboutActorId(GetUniqueId());
+      GetGameActorProxy().GetGameManager()->SendMessage(*deathMsg);
+      GetGameActorProxy().GetGameManager()->SendNetworkMessage(*deathMsg);
    }
 }
 

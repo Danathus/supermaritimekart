@@ -88,8 +88,6 @@ public:
 
    virtual void BuildActorComponents();
 
-   virtual void ProcessMessage(const dtGame::Message& message);
-
    dtGame::DeadReckoningHelper* GetDeadReckoningHelper() { return mDeadReckoningHelper; }
    const dtGame::DeadReckoningHelper* GetDeadReckoningHelper() const { return mDeadReckoningHelper; }
    dtGame::DRPublishingActComp* GetDRPublishingActComp() { return mDRPublishingActComp; }
@@ -120,9 +118,9 @@ private:
 
    void BoatHit(const SMK::DamageMessage& boatHitMessage);
    void ProjectileExploded(const SMK::DamageMessage& weaponFiredMessage);
+   void RespawnBoat(const dtGame::Message& weaponFiredMessage);
 
    void ApplyDamage(const SMK::Damage& damage);
-   void RespawnBoat();
 
    void PickupAquired(const dtGame::Message& pickupAcquiredMsg);
 

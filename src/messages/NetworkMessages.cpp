@@ -23,6 +23,7 @@ DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, ACTION,  FRONT_WEAPON_FIRED,  "Sent 
 DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, ACTION,  BACK_WEAPON_FIRED,   "Sent when a player fires their back weapon",  dtGame::Message);
 DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, ACTION,  BOAT_HIT,            "Sent when a boat gets hit by a weapon",  SMK::DamageMessage);
 DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, ACTION,  PROJECTILE_EXPLODED, "Sent when a projectile explodes",  SMK::DamageMessage);
+DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, ACTION,  BOAT_EXPLODED,       "Sent when your local boat dies",  SMK::DamageMessage);
 DEFINE_APP_MESSAGE_TYPE(SMKNetworkMessages, REQUEST, PICKUP_PICKUP,       "Sent when a player requests to pickup a pickup",  dtGame::Message);
 
 ///////////////////////////////////////////////////////////////////////////////

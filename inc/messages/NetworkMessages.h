@@ -16,6 +16,7 @@ namespace SMK
    static const SMKNetworkMessages ACTION_BACK_WEAPON_FIRED;
    static const SMKNetworkMessages ACTION_BOAT_HIT;
    static const SMKNetworkMessages ACTION_PROJECTILE_EXPLODED;
+   static const SMKNetworkMessages ACTION_BOAT_EXPLODED;
    static const SMKNetworkMessages REQUEST_PICKUP_PICKUP; //<A request to pickup a pickup item
 
    enum
@@ -29,6 +30,7 @@ namespace SMK
       ID_ACTION_BACK_WEAPON_FIRED,
       ID_ACTION_BOAT_HIT,
       ID_ACTION_PROJECTILE_EXPLODED,
+      ID_ACTION_BOAT_EXPLODED,
       ID_REQUEST_PICKUP_PICKUP
    };
 
