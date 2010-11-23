@@ -37,8 +37,7 @@ MachineGun::MachineGun(const dtDAL::ResourceDescriptor& resource )
    SetFiringRate(10.0f);
 
    // Load any sounds we have
-   mpFireSound = LoadSound("/sounds/exp57.wav");
-   mpFireSound->SetGain(0.5f);
+   mpFireSound = LoadSound("/sounds/impact.wav");
 
    // Setup our damage
    mDamage.SetDamageType(SMK::Damage::DAMAGE_PROJECTILE);
@@ -70,7 +69,7 @@ void MachineGun::FireWeapon()
    FrontWeapon::FireWeapon();
 
    osg::Vec3 hitPoint = CheckForBoatCollision();
-   ShowBulletTrail(hitPoint);
+   ShowBulletTrail(ConvertAbsoluteToRelativePosition(hitPoint));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -116,7 +115,7 @@ void MachineGun::CreateBulletTrail()
 
 ///////////////////////////////////////////////////////////////////////////////
 void MachineGun::ShowBulletTrail(osg::Vec3 target)
-{
+{   
    osg::Vec3 heightVec(0.0f, 0.0f, BULLET_TRAIL_HEIGHT);
    osg::Vec3 corner   = osg::Vec3() - (heightVec * 0.5f);
    osg::Vec3 widthVec = target;
@@ -155,6 +154,20 @@ void MachineGun::ShowBulletTrail(osg::Vec3 target)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+osg::Vec3 MachineGun::ConvertAbsoluteToRelativePosition(osg::Vec3 relativePos)
+{
+   //get the parent's world position
+   osg::Matrix parentMat;
+   GetAbsoluteMatrix(GetOSGNode(), parentMat);
+
+   //calc the difference between xform and the parent's world position
+   //child * parent^-1
+   relativePos = relativePos * osg::Matrix::inverse(parentMat);
+
+   return relativePos;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 osg::Vec3 MachineGun::CheckForBoatCollision()
 {
    dtGame::GameManager* gm = mpSMKBoatActorProxy->GetGameManager();
@@ -163,7 +176,6 @@ osg::Vec3 MachineGun::CheckForBoatCollision()
    dtCore::Transform currentTransform;
    GetTransform(currentTransform);
    osg::Vec3 location = currentTransform.GetTranslation();
-   //GetTransform(currentTransform);
    osg::Vec3 right, up, forward;
    currentTransform.GetOrientation(right, up, forward);
    iSector->EnableAndGetISector(0).SetSectorAsRay(location,
@@ -175,33 +187,33 @@ osg::Vec3 MachineGun::CheckForBoatCollision()
    {
       osg::NodePath &nodePath = hitList[hitIndex].getNodePath();
       dtCore::DeltaDrawable* hitDrawable = iSector->MapNodePathToDrawable(nodePath);
+
+      // Ignore our boat and the ocean
       if (hitDrawable == mpSMKBoatActorProxy->GetActor() || dynamic_cast<dtOcean::OceanActor*>(hitDrawable) != NULL)
       {
          continue;
       }
 
-      SMKBoatActor* hitBoat = dynamic_cast<SMKBoatActor*>(hitDrawable);
-      if (hitBoat != NULL)
+      if (hitDrawable != NULL)
       {
+         osg::Vec3 hitLocation = hitList[hitIndex].getWorldIntersectPoint();
          if (!mpSMKBoatActorProxy->GetGameActor().IsRemote())
          {
+            mDamage.SetLocation(hitLocation);
+
             dtCore::RefPtr<SMK::DamageMessage> collisionMessage;
             gm->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, collisionMessage);
-            collisionMessage->SetAboutActorId(hitBoat->GetUniqueId());
+            collisionMessage->SetAboutActorId(hitDrawable->GetUniqueId());
             collisionMessage->SetDamage(mDamage);
             gm->SendNetworkMessage(*collisionMessage);
             gm->SendMessage(*collisionMessage);
          }
 
-         osg::Vec3 hitPoint;
-         iSector->EnableAndGetISector(0).GetHitPoint(hitPoint);
-         return hitPoint;
+         return hitLocation;
       }
    }
 
-   GetTransform(currentTransform, dtCore::Transformable::REL_CS);
-   currentTransform.GetOrientation(right, up, forward);
-   return currentTransform.GetTranslation() + forward * MAX_BULLET_DISTANCE;
+   return location + forward * MAX_BULLET_DISTANCE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

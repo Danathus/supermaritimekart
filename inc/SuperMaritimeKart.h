@@ -17,10 +17,11 @@ namespace dtDAL
 
 
 
+class CameraController;
 class FloatingActor;
 class GameFinder;
+class ImpactEffectsComponent;
 class SMK_NetworkComponent;
-class CameraController;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -55,6 +56,7 @@ private:
    dtCore::RefPtr<SMK_NetworkComponent> mNetworkComponent;
    dtCore::RefPtr<SuperMaritimeKartMessenger> mAppComponent;
    dtCore::RefPtr<CameraController> mCameraComponent;
+   dtCore::RefPtr<ImpactEffectsComponent> mpEffectsComponent;
 
    bool mTryingToBeServer; ///<Are we attempting to be the server?
    net::Address mAddressToConnectTo; ///<The address the client is trying to connect to

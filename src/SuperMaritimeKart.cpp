@@ -1,11 +1,12 @@
 #include <SuperMaritimeKart.h>
-#include <SuperMaritimeKartMessenger.h>
 #include <BoatController.h>
 #include <CameraController.h>
 #include <FloaterController.h>
-#include <SMK_BeaconData.h>
 #include <GameFinder.h>
+#include <ImpactEffectsComponent.h>
+#include <SMK_BeaconData.h>
 #include <ScenarioComponent.h>
+#include <SuperMaritimeKartMessenger.h>
 #include <actors/SMKActorLibraryRegistry.h>
 #include <actors/WeaponFactory.h>
 #include <messages/NetworkMessages.h>
@@ -85,6 +86,7 @@ SuperMaritimeKart::~SuperMaritimeKart()
   
    mGameManager->RemoveComponent(*mAppComponent);
    mGameManager->RemoveComponent(*mCameraComponent);
+   mGameManager->RemoveComponent(*mpEffectsComponent);
 
    mGameManager->Shutdown();
 
@@ -129,11 +131,13 @@ void SuperMaritimeKart::Config()
          BoatController* boatComponent = new BoatController(*GetWindow(), *GetKeyboard(), *GetMouse());
          mCameraComponent = new CameraController(*GetCamera(),*GetKeyboard(), *GetMouse());
          FloaterController* floaterComponent = new FloaterController();
+         mpEffectsComponent = new ImpactEffectsComponent();
 
          mGameManager->AddComponent(*mAppComponent);
          mGameManager->AddComponent(*boatComponent);
          mGameManager->AddComponent(*mCameraComponent);
          mGameManager->AddComponent(*floaterComponent);
+         mGameManager->AddComponent(*mpEffectsComponent);
 
          mGameManager->AddComponent(*new dtGame::DefaultMessageProcessor(), dtGame::GameManager::ComponentPriority::HIGHEST);
          mGameManager->AddComponent(*new dtGame::DefaultNetworkPublishingComponent());

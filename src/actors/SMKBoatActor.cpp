@@ -186,7 +186,7 @@ void SMKBoatActor::OnEnteredWorld()
 
    // Setup explosion particles
    mpExplosionParticles = new dtCore::ParticleSystem;
-   mpExplosionParticles->LoadFile("particles/explosion.osg");
+   mpExplosionParticles->LoadFile("particles/boat_explosion.osg");
    mpExplosionParticles->SetEnabled(false);
    GetGameActorProxy().GetGameManager()->GetScene().AddDrawable(mpExplosionParticles);
 
@@ -450,8 +450,8 @@ void SMKBoatActor::RespawnBoat()
    dtCore::Transform currentTransform;
    GetTransform(currentTransform);
    mpExplosionParticles->SetTransform(currentTransform);
-   // TODO: Find out how to have particle system only play once and not loop
-   //mpExplosionParticles->SetEnabled(true);
+   mpExplosionParticles->ResetTime();
+   mpExplosionParticles->SetEnabled(true);
 
    // Reset our health and weapons
    mHealth.SetHealth(mHealth.GetMax());
