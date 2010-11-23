@@ -15,6 +15,10 @@
 #include <dtGame/messagetype.h>
 #include <dtUtil/configproperties.h>
 
+///How long to wait before enabling Collision Detection. This gives the player
+///a chance to not be hit by it's own weapons.
+const static double COLLISION_DETECTION_DELAY = 1.0;
+
 //////////////////////////////////////////////////////////////////////////
 ProjectileActor::ProjectileActor(dtGame::GameActorProxy& proxy)
 : dtActors::GameMeshActor(proxy)
@@ -155,6 +159,8 @@ void ProjectileActor::BuildActorComponents()
 ///////////////////////////////////////////////////////////////////////////////
 bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
 {
+   if (mLifeCounter < COLLISION_DETECTION_DELAY) {return false;}
+
    if (!GetGameActorProxy().IsInSTAGE() && !IsRemote() && GetCollisionDetection())
    {
       // Set the damage's location to where we are at the time of impact
@@ -182,11 +188,11 @@ bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
       // Destroy ourselves
       SetCollisionDetection(false);
       GetGameActorProxy().GetGameManager()->DeleteActor(GetGameActorProxy());
+      return false;
 
-      return dtActors::GameMeshActor::FilterContact(contact, collider);
    }
 
-   return false;
+   return dtActors::GameMeshActor::FilterContact(contact, collider);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
