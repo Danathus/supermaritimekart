@@ -1,6 +1,6 @@
 #include <BoatController.h>
 #include <BoatKeyboardListener.h>
-#include <DeltaOceanGetHeight.h>
+#include <util/DeltaOceanGetHeight.h>
 #include <OceanWindowResize.h>
 #include <WeaponMouseListener.h>
 #include <actors/SMKActorLibraryRegistry.h>

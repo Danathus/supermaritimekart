@@ -1,6 +1,7 @@
 #ifndef DeltaOceanGetHeight_h__
 #define DeltaOceanGetHeight_h__
 
+#include <util/SMKUtilExport.h>
 #include <BoatActors/IGetHeight.h>
 
 # include <dtCore/refptr.h>
@@ -13,7 +14,7 @@ namespace dtOcean
 }
 #endif
 
-class DeltaOceanGetHeight : public IGetHeight
+class SMK_UTIL_EXPORT DeltaOceanGetHeight : public IGetHeight
 {
 public:
    DeltaOceanGetHeight(dtOcean::OceanActor& oceanActor);

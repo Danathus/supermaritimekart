@@ -43,7 +43,6 @@ SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/CameraController.cpp
     ${SOURCE_PATH}/CameraMouseListener.cpp
     ${SOURCE_PATH}/CollisionCallback.cpp
-    ${SOURCE_PATH}/DeltaOceanGetHeight.cpp
     ${SOURCE_PATH}/FloaterController.cpp
     ${SOURCE_PATH}/GameFinder.cpp
     ${SOURCE_PATH}/GeometryUtils.cpp
@@ -67,7 +66,6 @@ SET(APP_HEADER_FILES
     ${HEADER_PATH}/CameraController.h
     ${HEADER_PATH}/CameraMouseListener.h
     ${HEADER_PATH}/CollisionCallback.h
-    ${HEADER_PATH}/DeltaOceanGetHeight.h
     ${HEADER_PATH}/FloaterController.h
     ${HEADER_PATH}/GameFinder.h
     ${HEADER_PATH}/GeometryUtils.h
@@ -127,6 +125,7 @@ SET(LIBS_TO_LINK ${DTABC_LIBRARIES}
 				 SMKActors
                  SMKMessages
 				 SMKNetwork
+				 SMKUtil
 )
 IF (BUILD_WITH_DTOCEAN)
   SET(LIBS_TO_LINK ${LIBS_TO_LINK}
