@@ -482,16 +482,46 @@ void SMKBoatActor::PickupAquired(const dtGame::Message& pickupAcquiredMsg)
       LOGN_DEBUG(LOGNAME, "acquired a pickup of type:" + pickup->GetType());
 
       //create the pickup via the pickup factory
-      const PickupItem* pickupItem = PickupItemFactory::GetInstance().Create(pickup->GetType());
-      if (pickupItem)
+      if ((pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_ARMOR) ||
+          (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_HEALTH))
       {
-         //apply the pickup
-         bool applied = pickupItem->Apply(*this);
+         const PickupItem* pickupItem = PickupItemFactory::GetInstance().Create(pickup->GetType());
+         if (pickupItem)
+         {
+            //apply the pickup
+            bool applied = pickupItem->Apply(*this);
+         }
+         else
+         {          
+            LOGN_WARNING(LOGNAME, "PickupItemFactory couldn't create pickup of type: " + pickup->GetType());
+         }      
       }
       else
       {
-         LOGN_WARNING(LOGNAME, "PickupItemFactory couldn't create pickup of type: " + pickup->GetType());
-      }      
+          //maybe this is a Weapon instead?
+         WeaponSlot* slot(NULL);
+         if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_BOW_WEAPON)
+         {
+            slot = GetFrontWeapon();
+         }         
+         else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_TOP_WEAPON)
+         {
+            //slot = GetTopWeapon();
+         }
+         else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_REAR_WEAPON)
+         {
+            slot = GetBackWeapon();
+         }
+         else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_SIDE_WEAPON)
+         {
+            //slot = GetSideWeapon();
+         }
+
+         if (slot)
+         {
+            slot->SetWeapon(pickup->GetType(), &GetGameActorProxy());
+         }         
+      }     
 
       // aural feedback
       mPickupAcquireSound->Play();
