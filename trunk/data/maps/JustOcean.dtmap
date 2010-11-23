@@ -8,7 +8,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-22T19:23:23-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-19T21:10:33-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-22T14:11:59-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -835,8 +835,8 @@
             <property>
                 <name>static mesh</name>
                 <resourceType>StaticMeshes</resourceType>
-                <resourceDisplayName>StaticMeshes::DefendCG_Amb.IVE</resourceDisplayName>
-                <resource>StaticMeshes::DefendCG_Amb.IVE</resource>
+                <resourceDisplayName>StaticMeshes:Boat:HydroBoat.IVE</resourceDisplayName>
+                <resource>StaticMeshes:Boat:HydroBoat.IVE</resource>
             </property>
             <property>
                 <name>use cache object</name>
@@ -1077,8 +1077,8 @@
                 <name>FrontWeaponPosition</name>
                 <vec3>
                     <value1>0.000000</value1>
-                    <value2>-1.000000</value2>
-                    <value3>3.000000</value3>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
@@ -1097,8 +1097,8 @@
                 <name>BackWeaponPosition</name>
                 <vec3>
                     <value1>0.000000</value1>
-                    <value2>-5.000000</value2>
-                    <value3>0.500000</value3>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
