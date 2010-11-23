@@ -161,7 +161,7 @@ bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
 {
    if (mLifeCounter < COLLISION_DETECTION_DELAY) {return false;}
 
-   if (!GetGameActorProxy().IsInSTAGE() && !IsRemote())
+   if (!GetGameActorProxy().IsInSTAGE() && !IsRemote() && GetCollisionDetection())
    {
       // Set the damage's location to where we are at the time of impact
       mDamage.SetLocation(GetGameActorProxy().GetTranslation());
@@ -187,6 +187,7 @@ bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
       }
       // Destroy ourselves
       SetCollisionDetection(false);
+      mLifeCounter = 0;
       GetGameActorProxy().GetGameManager()->DeleteActor(GetGameActorProxy());
       return false;
 
