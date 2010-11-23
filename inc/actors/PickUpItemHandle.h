@@ -6,7 +6,7 @@
 #include <dtGame/gameactor.h>
 #include <dtUtil/getsetmacros.h>
 #include <dtDAL/resourcedescriptor.h>
-
+#include <actors/PickupCategoryEnum.h>
 namespace SMK
 {
    /** The PickUpItemHandle are used to place and render
@@ -22,6 +22,7 @@ namespace SMK
       //Accessors
       DT_DECLARE_ACCESSOR(std::string, Type); ///<The pickup type ("MachineGun", "Health", etc)
       DT_DECLARE_ACCESSOR(dtDAL::ResourceDescriptor, IconImage); ///<The texture used for the rendered PickUp geometry
+      DT_DECLARE_ACCESSOR(dtUtil::EnumerationPointer<PickupCategoryEnum>, PickupCategory);  ///<what category this pickup is
 
       ///overwriting from DeltaDrawable which doesn't seem to work(?)
       virtual void SetActive(bool enable);
@@ -47,7 +48,6 @@ namespace SMK
       virtual ~PickUpItemBaseProxy();
       virtual void BuildPropertyMap();
       
-      //TODO category (bow turret, rear dropper, etc)
 
    protected:
       virtual void CreateActor();

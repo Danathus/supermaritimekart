@@ -65,6 +65,7 @@ void PickUpItemBaseProxy::BuildPropertyMap()
    //add in additional properties
    DT_REGISTER_PROPERTY(Type, "Defines the type of PickUp; matches what's registered in the PickUp Factor", RegHelperType, regHelper);
    DT_REGISTER_RESOURCE_PROPERTY(dtDAL::DataType::TEXTURE, IconImage, "Icon Image", "Used on the rendered geometry", RegHelperType, regHelper);
+   DT_REGISTER_PROPERTY(PickupCategory, "Which category of pickup item is this?", RegHelperType, regHelper);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -72,10 +73,12 @@ void PickUpItemBaseProxy::BuildPropertyMap()
 
 DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, std::string, Type);
 DT_IMPLEMENT_ACCESSOR_GETTER(PickUpItemHandle, dtDAL::ResourceDescriptor, IconImage);
+DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, dtUtil::EnumerationPointer<PickupCategoryEnum>, PickupCategory);
 
 PickUpItemHandle::PickUpItemHandle(dtGame::GameActorProxy& proxy)
 : dtGame::GameActor(proxy)
 , mIsAvailable(true)
+, mPickupCategory(&PickupCategoryEnum::PICKUP_NONE)
 {
    SetName("pick up item");   
    osg::Node* root = GetOSGNode();
