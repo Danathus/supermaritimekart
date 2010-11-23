@@ -40,7 +40,6 @@ namespace SMK
 class SMK_ACTOR_EXPORT SMKBoatActor : public BoatActor
 {
 public:  
-
    /**
    * Constructor
    */

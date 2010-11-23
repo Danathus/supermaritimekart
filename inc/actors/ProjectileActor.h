@@ -44,6 +44,11 @@ public:
    void SetLifetime(float lifetime) { mLifetime = lifetime; }
    float GetLifetime() const        { return mLifetime;     }
 
+   ///How long to wait before enabling Collision Detection. This gives the player
+   ///a chance to not be hit by it's own weapons.
+   void SetArmingDelay(float delay) { mArmingDelay = delay; }
+   float GetArmingDelay() const     { return mArmingDelay;  }
+
    virtual bool FilterContact(dContact* contact, Transformable* collider);
 
 protected:
@@ -59,6 +64,7 @@ private:
    SMK::Damage mDamage;
    float mLifetime;
    float mLifeCounter;
+   float mArmingDelay;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

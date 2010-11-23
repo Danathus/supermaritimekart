@@ -2,6 +2,8 @@
 #include <messages/DamageMessage.h>
 #include <messages/NetworkMessages.h>
 
+#include <dtOcean/oceanactor.h>
+
 #include <dtAudio/audiomanager.h>
 #include <dtCore/batchisector.h>
 #include <dtCore/shadermanager.h>
@@ -67,11 +69,7 @@ void MachineGun::FireWeapon()
 {
    FrontWeapon::FireWeapon();
 
-   dtCore::Transform currentTransform;
-   GetTransform(currentTransform, dtCore::Transformable::REL_CS);
-   osg::Vec3 right, up, forward;
-   currentTransform.GetOrientation(right, up, forward);
-   osg::Vec3 hitPoint = CheckForBoatCollision(forward);
+   osg::Vec3 hitPoint = CheckForBoatCollision();
    ShowBulletTrail(hitPoint);
 }
 
@@ -157,34 +155,53 @@ void MachineGun::ShowBulletTrail(osg::Vec3 target)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-osg::Vec3 MachineGun::CheckForBoatCollision(osg::Vec3 fireDirection)
+osg::Vec3 MachineGun::CheckForBoatCollision()
 {
    dtGame::GameManager* gm = mpSMKBoatActorProxy->GetGameManager();
    dtCore::RefPtr<dtCore::BatchIsector> iSector = new dtCore::BatchIsector(&gm->GetScene());
    iSector->EnableAndGetISector(0).SetToCheckForClosestDrawable(true);
    dtCore::Transform currentTransform;
    GetTransform(currentTransform);
-   iSector->EnableAndGetISector(0).SetSectorAsRay(currentTransform.GetTranslation(),
-      fireDirection, MAX_BULLET_DISTANCE);
+   osg::Vec3 location = currentTransform.GetTranslation();
+   //GetTransform(currentTransform);
+   osg::Vec3 right, up, forward;
+   currentTransform.GetOrientation(right, up, forward);
+   iSector->EnableAndGetISector(0).SetSectorAsRay(location,
+      forward, MAX_BULLET_DISTANCE);
    iSector->Update();
 
-   dtCore::DeltaDrawable* hitDrawable = iSector->EnableAndGetISector(0).GetClosestDrawable();
-   SMKBoatActor* hitBoat = dynamic_cast<SMKBoatActor*>(hitDrawable);
-   if (hitBoat != NULL)
+   dtCore::BatchIsector::HitList hitList = iSector->EnableAndGetISector(0).GetHitList();
+   for (size_t hitIndex = 0; hitIndex < hitList.size(); ++hitIndex)
    {
-      dtCore::RefPtr<SMK::DamageMessage> collisionMessage;
-      gm->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, collisionMessage);
-      collisionMessage->SetAboutActorId(hitBoat->GetUniqueId());
-      collisionMessage->SetDamage(mDamage);
-      gm->SendNetworkMessage(*collisionMessage);
-      gm->SendMessage(*collisionMessage);
+      osg::NodePath &nodePath = hitList[hitIndex].getNodePath();
+      dtCore::DeltaDrawable* hitDrawable = iSector->MapNodePathToDrawable(nodePath);
+      if (hitDrawable == mpSMKBoatActorProxy->GetActor() || dynamic_cast<dtOcean::OceanActor*>(hitDrawable) != NULL)
+      {
+         continue;
+      }
 
-      osg::Vec3 hitPoint;
-      iSector->EnableAndGetISector(0).GetHitPoint(hitPoint);
-      return hitPoint;
+      SMKBoatActor* hitBoat = dynamic_cast<SMKBoatActor*>(hitDrawable);
+      if (hitBoat != NULL)
+      {
+         if (!mpSMKBoatActorProxy->GetGameActor().IsRemote())
+         {
+            dtCore::RefPtr<SMK::DamageMessage> collisionMessage;
+            gm->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, collisionMessage);
+            collisionMessage->SetAboutActorId(hitBoat->GetUniqueId());
+            collisionMessage->SetDamage(mDamage);
+            gm->SendNetworkMessage(*collisionMessage);
+            gm->SendMessage(*collisionMessage);
+         }
+
+         osg::Vec3 hitPoint;
+         iSector->EnableAndGetISector(0).GetHitPoint(hitPoint);
+         return hitPoint;
+      }
    }
 
-   return currentTransform.GetTranslation() + fireDirection * MAX_BULLET_DISTANCE;
+   GetTransform(currentTransform, dtCore::Transformable::REL_CS);
+   currentTransform.GetOrientation(right, up, forward);
+   return currentTransform.GetTranslation() + forward * MAX_BULLET_DISTANCE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
