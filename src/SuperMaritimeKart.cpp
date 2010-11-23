@@ -40,7 +40,7 @@
 #include <CollisionCallback.h>
 #include <assert.h>
 
-#define CONNECT_ONLY_TO_ME 1 // commit as 0
+#define CONNECT_ONLY_TO_ME 0 // commit as 0
 
 ////////////////////////////////////////////////////////////////////////////////
 SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
