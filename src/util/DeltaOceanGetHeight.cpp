@@ -1,4 +1,4 @@
-#include <DeltaOceanGetHeight.h>
+#include <util/DeltaOceanGetHeight.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 DeltaOceanGetHeight::DeltaOceanGetHeight(dtOcean::OceanActor& oceanActor)

@@ -6,6 +6,8 @@
 #include <actors/ProjectileActor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+class SimpleFloaterActorComponent;
+
 class SMK_ACTOR_EXPORT MineActor : public ProjectileActor
 {
 public:
@@ -19,6 +21,9 @@ protected:
    virtual ~MineActor();
 
 private:
+   void SetupFloaterComponent();
+
+   dtCore::RefPtr<SimpleFloaterActorComponent> mpFloaterComponent;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

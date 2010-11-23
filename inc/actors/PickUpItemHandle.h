@@ -4,9 +4,13 @@
 #include <actors/SMKActorExport.h>
 #include <dtGame/gameactorproxy.h>
 #include <dtGame/gameactor.h>
-#include <dtUtil/getsetmacros.h>
-#include <dtDAL/resourcedescriptor.h>
+
 #include <actors/PickupCategoryEnum.h>
+#include <actors/SimpleFloaterActorComponent.h>
+
+#include <dtDAL/resourcedescriptor.h>
+#include <dtUtil/getsetmacros.h>
+
 namespace SMK
 {
    /** The PickUpItemHandle are used to place and render
@@ -32,12 +36,22 @@ namespace SMK
        */
       virtual bool GetActive() const;
 
+      virtual void TickLocal(const dtGame::Message& msg);
+      virtual void TickRemote(const dtGame::Message& msg);
+
+      virtual void OnEnteredWorld();
 
    protected:
       virtual ~PickUpItemHandle();
+
    private:
       osg::ref_ptr<osg::Node> CreateGeometry();
+      void SetupFloaterComponent();
+
+      void SpinPickUpItem();
+
       bool mIsAvailable; ///<Is this PickUpItemHandle available for picking up?
+      dtCore::RefPtr<SimpleFloaterActorComponent> mpFloaterComponent;
    };
 
    //////////////////////////////////////////////////////////////////////////
@@ -48,6 +62,7 @@ namespace SMK
       virtual ~PickUpItemBaseProxy();
       virtual void BuildPropertyMap();
       
+      virtual void OnEnteredWorld();
 
    protected:
       virtual void CreateActor();
