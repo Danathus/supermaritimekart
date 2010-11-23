@@ -84,6 +84,7 @@ SuperMaritimeKart::~SuperMaritimeKart()
    }
   
    mGameManager->RemoveComponent(*mAppComponent);
+   mGameManager->RemoveComponent(*mCameraComponent);
 
    mGameManager->Shutdown();
 
@@ -126,12 +127,12 @@ void SuperMaritimeKart::Config()
 
          mAppComponent = new SuperMaritimeKartMessenger(*this);
          BoatController* boatComponent = new BoatController(*GetWindow(), *GetKeyboard(), *GetMouse());
-         CameraController* cameraComponent = new CameraController(*GetCamera(),*GetKeyboard(), *GetMouse());
+         mCameraComponent = new CameraController(*GetCamera(),*GetKeyboard(), *GetMouse());
          FloaterController* floaterComponent = new FloaterController();
 
          mGameManager->AddComponent(*mAppComponent);
          mGameManager->AddComponent(*boatComponent);
-         mGameManager->AddComponent(*cameraComponent);
+         mGameManager->AddComponent(*mCameraComponent);
          mGameManager->AddComponent(*floaterComponent);
 
          mGameManager->AddComponent(*new dtGame::DefaultMessageProcessor(), dtGame::GameManager::ComponentPriority::HIGHEST);
@@ -268,6 +269,24 @@ bool SuperMaritimeKart::KeyPressed(const dtCore::Keyboard* keyboard, int kc)
    }
 
    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool SuperMaritimeKart::KeyReleased(const dtCore::Keyboard* keyboard, int kc)
+{
+   bool handled(true);
+   switch(kc)
+   {
+   case 'c':
+   case 'C':
+      mCameraComponent->CycleCameraModes();
+      break;
+   default:
+      handled = false;
+      break;
+   }
+
+   return handled;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

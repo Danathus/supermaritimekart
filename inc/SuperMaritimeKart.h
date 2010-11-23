@@ -20,6 +20,7 @@ namespace dtDAL
 class FloatingActor;
 class GameFinder;
 class SMK_NetworkComponent;
+class CameraController;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -35,6 +36,7 @@ public:
    virtual void PostFrame(const double deltaFrameTime);
 
    virtual bool KeyPressed(const dtCore::Keyboard* keyboard, int kc);
+   virtual bool KeyReleased(const dtCore::Keyboard* keyboard, int kc);
 
 protected:
    virtual ~SuperMaritimeKart();
@@ -52,6 +54,7 @@ private:
    ProxyContainer mInstantiatedPrototypes;
    dtCore::RefPtr<SMK_NetworkComponent> mNetworkComponent;
    dtCore::RefPtr<SuperMaritimeKartMessenger> mAppComponent;
+   dtCore::RefPtr<CameraController> mCameraComponent;
 
    bool mTryingToBeServer; ///<Are we attempting to be the server?
    net::Address mAddressToConnectTo; ///<The address the client is trying to connect to
