@@ -16,6 +16,7 @@ SET(SOURCE_FILES
     ${SOURCE_PATH}/MachineGun.cpp
     ${SOURCE_PATH}/MineActor.cpp
     ${SOURCE_PATH}/MineDropper.cpp
+    ${SOURCE_PATH}/PickupCategoryEnum.cpp
     ${SOURCE_PATH}/PickupItemFactory.cpp
     ${SOURCE_PATH}/PickUpItemHandle.cpp
     ${SOURCE_PATH}/ProjectileActor.cpp
@@ -40,6 +41,7 @@ SET(HEADER_FILES
     ${HEADER_PATH}/MineActor.h
     ${HEADER_PATH}/MineDropper.h
     ${HEADER_PATH}/PickupItem.h
+    ${HEADER_PATH}/PickupCategoryEnum.h
     ${HEADER_PATH}/PickupItemFactory.h
     ${HEADER_PATH}/PickUpItemHandle.h
     ${HEADER_PATH}/ProjectileActor.h
