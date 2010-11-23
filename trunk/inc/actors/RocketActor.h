@@ -27,9 +27,9 @@ class SMK_ACTOR_EXPORT RocketActorProxy : public ProjectileActorProxy
 public:
    RocketActorProxy();
 
-      /**
-   * Creates the actor
-   */
+   /**
+    * Creates the actor
+    */
    virtual void CreateActor();
 
 protected:

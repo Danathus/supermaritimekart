@@ -2601,7 +2601,7 @@
             </property>
             <property>
                 <name>Dead Reckoning Algorithm</name>
-                <enumerated>Static</enumerated>
+                <enumerated>Velocity and Acceleration</enumerated>
             </property>
             <property>
                 <name>GroundClampType</name>
