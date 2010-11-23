@@ -19,8 +19,8 @@ public:
 
    Weapon(const dtDAL::ResourceDescriptor& resource = dtDAL::ResourceDescriptor());
 
-   void SetSMKBoatActorProxy(SMKBoatActorProxy* proxy) { mpSMKBoatActorProxy = proxy;       }
-   SMKBoatActorProxy* GetSMKBoatActorProxy() const     { return mpSMKBoatActorProxy.get();  }
+   void SetSMKBoatActorProxy(dtGame::GameActorProxy* proxy) { mpSMKBoatActorProxy = proxy;       }
+   dtGame::GameActorProxy* GetSMKBoatActorProxy() const     { return mpSMKBoatActorProxy.get();  }
 
    void SetFiringRate(float rate);
 
@@ -39,7 +39,7 @@ protected:
    dtCore::RefPtr<dtAudio::Sound> mpStartFiringSound;
    dtCore::RefPtr<dtAudio::Sound> mpFireSound;
    dtCore::RefPtr<dtAudio::Sound> mpStopFiringSound;
-   dtCore::ObserverPtr<SMKBoatActorProxy> mpSMKBoatActorProxy;
+   dtCore::ObserverPtr<dtGame::GameActorProxy> mpSMKBoatActorProxy;
 
    SMK::Damage mDamage;
 

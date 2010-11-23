@@ -85,7 +85,7 @@ void WeaponSlot::StopWeaponFire()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WeaponSlot::SetWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
+void WeaponSlot::SetWeapon(const std::string& weaponClass, dtGame::GameActorProxy* actorProxy)
 {
    if (mpWeapon != NULL)
    {
@@ -127,7 +127,7 @@ void WeaponSlot::SetDefaultWeapon(const std::string& val)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Weapon* WeaponSlot::CreateWeapon(const std::string& weaponClass, SMKBoatActorProxy* actorProxy)
+Weapon* WeaponSlot::CreateWeapon(const std::string& weaponClass, dtGame::GameActorProxy* actorProxy)
 {
    //use the Item Factory to create the InventoryItem
    Weapon* weapon = WeaponFactory::GetInstance().Create(weaponClass);
