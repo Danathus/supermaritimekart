@@ -11,7 +11,7 @@ class SMK_ACTOR_EXPORT RocketLauncher : public FrontWeapon
 public:
    const static std::string ROCKET_LAUNCHER_ACTOR_TYPE;
 
-   RocketLauncher(const dtDAL::ResourceDescriptor& resource = dtDAL::ResourceDescriptor("StaticMeshes:physics_happy_sphere.ive"));
+   RocketLauncher(const dtDAL::ResourceDescriptor& resource = dtDAL::ResourceDescriptor("StaticMeshes:Boat:RocketRackGreen.IVE"));
 
    virtual void FireWeapon();
 
