@@ -29,9 +29,12 @@ Weapon::Weapon(const dtDAL::ResourceDescriptor& resource)
       	e.LogException();
       }
 
-      if (LoadFile(path) == NULL)
+      if (!path.empty())
       {
-         LOG_ERROR("Unable to load mesh: " + path);
+         if (LoadFile(path) == NULL)
+         {
+            LOG_ERROR("Unable to load mesh: " + path);
+         }
       }
       
    }
