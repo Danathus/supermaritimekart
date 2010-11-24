@@ -23,6 +23,7 @@ namespace dtAudio
 namespace dtCore
 {
    class ParticleSystem;
+   class ShaderParamFloat;
 }
 
 namespace dtGame
@@ -135,6 +136,8 @@ private:
 
    dtCore::RefPtr<dtGame::DeadReckoningHelper> mDeadReckoningHelper;
    dtCore::RefPtr<dtGame::DRPublishingActComp> mDRPublishingActComp;
+
+   dtCore::RefPtr<dtCore::ShaderParamFloat> mHealthUniform;
 };
 
 class SMK_ACTOR_EXPORT SMKBoatActorProxy : public BoatActorProxy

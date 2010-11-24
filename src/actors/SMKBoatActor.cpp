@@ -15,6 +15,8 @@
 #include <dtAudio/audiomanager.h>
 #include <dtCore/odebodywrap.h>
 #include <dtCore/particlesystem.h>
+#include <dtCore/shadermanager.h>
+#include <dtCore/shaderparamfloat.h>
 #include <dtCore/scene.h>
 #include <dtCore/transform.h>
 #include <dtGame/basemessages.h>
@@ -25,6 +27,8 @@
 #include <dtGame/messagetype.h>
 
 #include <ode/contact.h>
+
+#include <assert.h>
 
 using namespace SMK;
 
@@ -192,6 +196,18 @@ void SMKBoatActor::OnEnteredWorld()
    GetGameActorProxy().GetGameManager()->GetScene().AddDrawable(mpExplosionParticles);
 
    GetOSGNode()->setName(GetName());
+
+   // Retrieve the shader from the shader manager and assign it to this stateset
+   dtCore::ShaderManager& shaderManager = dtCore::ShaderManager::GetInstance();
+   const dtCore::ShaderProgram* prototypeProgram = shaderManager.FindShaderPrototype("Boat");
+   dtCore::ShaderProgram* program = shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetOSGNode());
+   assert(program);
+
+   dtCore::ShaderProgram* instance = 
+      dtCore::ShaderManager::GetInstance().AssignShaderFromPrototype(*program, *GetOSGNode());
+
+   mHealthUniform = dynamic_cast<dtCore::ShaderParamFloat*>(program->FindParameter("health"));
+   assert(mHealthUniform);
 
    if (!IsRemote())
    {
