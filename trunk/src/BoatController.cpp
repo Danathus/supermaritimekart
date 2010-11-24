@@ -1,5 +1,5 @@
 #include <BoatController.h>
-#include <BoatKeyboardListener.h>
+#include <BoatInputHandler.h>
 #include <util/DeltaOceanGetHeight.h>
 #include <OceanWindowResize.h>
 #include <WeaponMouseListener.h>
@@ -29,7 +29,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard, dtCore::Mouse& mouse)
    : dtGame::GMComponent("BoatController")
-   , mpKeyboardListener(new BoatKeyboardListener())
+   , mpInputHandler(new BoatInputHandler(&keyboard, &mouse))
    , mpPrimaryMouseListener(new WeaponMouseListener())
    , mpSecondaryMouseListener(new WeaponMouseListener())
    , mpKeyboardToListenTo(&keyboard)
@@ -42,13 +42,12 @@ BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard
 ////////////////////////////////////////////////////////////////////////////////
 BoatController::~BoatController()
 {
-   mpKeyboardListener->SetOutboard(NULL);
+   mpInputHandler->SetOutboard(NULL);
    mpMouseToListenTo->RemoveMouseListener(mpPrimaryMouseListener.get());
    mpMouseToListenTo->RemoveMouseListener(mpSecondaryMouseListener.get());
    mpMouseToListenTo = NULL;
    mpPrimaryMouseListener = NULL;
    mpSecondaryMouseListener = NULL;
-   mpKeyboardToListenTo->RemoveKeyboardListener(mpKeyboardListener.get());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,6 +94,7 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
          }
 
          //mpBoat->GetGameActorProxy().NotifyFullActorUpdate();
+         mpInputHandler->Update();
       }
    }
 
@@ -165,8 +165,7 @@ dtOcean::OceanActor* BoatController::GetOcean() const
 void BoatController::SetupControlledBoat(dtOcean::OceanActor* ocean)
 {
    // Setup BoatKeyboardListener
-   mpKeyboardListener->SetOutboard(mpBoat->GetOutBoard());
-   mpKeyboardToListenTo->AddKeyboardListener(mpKeyboardListener.get());
+   mpInputHandler->SetOutboard(mpBoat->GetOutBoard());
 
    // Setup WeaponMouseListener
    mpPrimaryMouseListener->SetWeapon(mpBoat->GetFrontWeapon());
@@ -197,8 +196,7 @@ void BoatController::SetupControlledBoat(dtOcean::OceanActor* ocean)
 ///////////////////////////////////////////////////////////////////////////////
 void BoatController::CleanupControlledBoat()
 {
-   mpKeyboardListener->SetOutboard(NULL);
-   mpKeyboardToListenTo->RemoveKeyboardListener(mpKeyboardListener.get());
+   mpInputHandler->SetOutboard(NULL);
    mpMouseToListenTo->RemoveMouseListener(mpPrimaryMouseListener.get());
    mpMouseToListenTo->RemoveMouseListener(mpSecondaryMouseListener.get());
 

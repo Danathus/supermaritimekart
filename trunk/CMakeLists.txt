@@ -25,6 +25,7 @@ FIND_PACKAGE(dtCore              REQUIRED)
 FIND_PACKAGE(dtDAL               REQUIRED)
 FIND_PACKAGE(dtUtil              REQUIRED)
 FIND_PACKAGE(dtGame              REQUIRED)
+FIND_PACKAGE(dtInputPLIB         REQUIRED)
 FIND_PACKAGE(OpenGL              REQUIRED)
 FIND_PACKAGE(dtOcean             REQUIRED) #For the OceanActor
 FIND_PACKAGE(NetCore             REQUIRED)
@@ -39,6 +40,7 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc)
 ################### SOURCE FILES #####################
 SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/BoatController.cpp
+    ${SOURCE_PATH}/BoatInputHandler.cpp
     ${SOURCE_PATH}/BoatKeyboardListener.cpp
     ${SOURCE_PATH}/CameraController.cpp
     ${SOURCE_PATH}/CameraMouseListener.cpp
@@ -46,7 +48,7 @@ SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/FloaterController.cpp
     ${SOURCE_PATH}/GameFinder.cpp
     ${SOURCE_PATH}/GeometryUtils.cpp
-	${SOURCE_PATH}/ImpactEffectsComponent.cpp
+    ${SOURCE_PATH}/ImpactEffectsComponent.cpp
     ${SOURCE_PATH}/main.cpp
     ${SOURCE_PATH}/OceanWindowResize.cpp
     ${SOURCE_PATH}/ScenarioComponent.cpp
@@ -63,6 +65,7 @@ SET(ACTOR_HEADER_FILES
 
 SET(APP_HEADER_FILES
     ${HEADER_PATH}/BoatController.h
+    ${HEADER_PATH}/BoatInputHandler.h
     ${HEADER_PATH}/BoatKeyboardListener.h
     ${HEADER_PATH}/CameraController.h
     ${HEADER_PATH}/CameraMouseListener.h
@@ -70,7 +73,7 @@ SET(APP_HEADER_FILES
     ${HEADER_PATH}/FloaterController.h
     ${HEADER_PATH}/GameFinder.h
     ${HEADER_PATH}/GeometryUtils.h
-	${HEADER_PATH}/ImpactEffectsComponent.h
+    ${HEADER_PATH}/ImpactEffectsComponent.h
     ${HEADER_PATH}/OceanWindowResize.h
     ${HEADER_PATH}/ScenarioComponent.h
     ${HEADER_PATH}/SMK_BeaconData.h
@@ -121,13 +124,14 @@ SET(LIBS_TO_LINK ${DTABC_LIBRARIES}
                  ${DTCORE_LIBRARIES}
                  ${DTDAL_LIBRARIES}
                  ${DTGAME_LIBRARIES}
+                 ${DTINPUTPLIB_LIBRARIES}
                  ${DTUTIL_LIBRARIES}
                  ${OPENGL_gl_LIBRARY}
                  ${BOATACTORS_LIBRARIES}
-				 SMKActors
+                 SMKActors
                  SMKMessages
-				 SMKNetwork
-				 SMKUtil
+                 SMKNetwork
+                 SMKUtil
 )
 IF (BUILD_WITH_DTOCEAN)
   SET(LIBS_TO_LINK ${LIBS_TO_LINK}
