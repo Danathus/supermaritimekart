@@ -97,8 +97,12 @@ dtOcean::OceanActor* FloaterController::GetOcean() const
 ///////////////////////////////////////////////////////////////////////////////
 void FloaterController::SetupFloater(FloatingActor* floater, dtOcean::OceanActor* ocean)
 {
-   floater->SetGetHeight(new DeltaOceanGetHeight(*ocean));
-   floater->EnableDynamics(true);
+   if (!floater->IsRemote())
+   {
+      floater->SetGetHeight(new DeltaOceanGetHeight(*ocean));
+      floater->EnableDynamics(true);
+   }
+   
 
    const std::string altCollisionMeshFilename = floater->GetAlternateCollisionMesh();
    if (!altCollisionMeshFilename.empty())

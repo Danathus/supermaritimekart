@@ -7,7 +7,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-19T17:53:50-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-22T20:24:03-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-23T11:50:13-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -300,7 +300,7 @@
         <actor>
             <type>Shared.FloatingActor</type>
             <id>144fc5fb-59be-4749-871f-4ab767c86263</id>
-            <name>TugBoat_04</name>
+            <name>Buoy_04</name>
             <property>
                 <name>Description</name>
                 <string></string>
@@ -322,7 +322,7 @@
                 <vec3>
                     <value1>-2.717094</value1>
                     <value2>-181.573822</value2>
-                    <value3>8.030156</value3>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
@@ -379,7 +379,7 @@
             </property>
             <property>
                 <name>Initial Ownership</name>
-                <enumerated>Server Local</enumerated>
+                <enumerated>PROTOTYPE</enumerated>
             </property>
             <property>
                 <name>Local Actor Update Policy</name>
@@ -690,7 +690,7 @@
         <actor>
             <type>Shared.FloatingActor</type>
             <id>1c03878c-3774-4e01-aa62-79ed477e596b</id>
-            <name>TugBoat_06</name>
+            <name>Buoy_06</name>
             <property>
                 <name>Description</name>
                 <string></string>
@@ -712,7 +712,7 @@
                 <vec3>
                     <value1>30.247070</value1>
                     <value2>-181.573822</value2>
-                    <value3>8.030156</value3>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
@@ -769,7 +769,7 @@
             </property>
             <property>
                 <name>Initial Ownership</name>
-                <enumerated>Server Local</enumerated>
+                <enumerated>PROTOTYPE</enumerated>
             </property>
             <property>
                 <name>Local Actor Update Policy</name>
@@ -1790,7 +1790,7 @@
         <actor>
             <type>Shared.FloatingActor</type>
             <id>51331c17-92d4-4be9-8af9-28fc820ae2a1</id>
-            <name>TugBoat_05</name>
+            <name>Buoy_05</name>
             <property>
                 <name>Description</name>
                 <string></string>
@@ -1812,7 +1812,7 @@
                 <vec3>
                     <value1>17.448296</value1>
                     <value2>-159.081909</value2>
-                    <value3>9.936505</value3>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
@@ -1869,7 +1869,7 @@
             </property>
             <property>
                 <name>Initial Ownership</name>
-                <enumerated>Server Local</enumerated>
+                <enumerated>PROTOTYPE</enumerated>
             </property>
             <property>
                 <name>Local Actor Update Policy</name>
@@ -3446,7 +3446,7 @@
             </property>
             <property>
                 <name>Initial Ownership</name>
-                <enumerated>Server Local</enumerated>
+                <enumerated>PROTOTYPE</enumerated>
             </property>
             <property>
                 <name>Local Actor Update Policy</name>
@@ -4240,7 +4240,7 @@
         <actor>
             <type>Shared.FloatingActor</type>
             <id>b8357a1b-5047-46eb-a9c6-3858aa7311a5</id>
-            <name>TugBoat_02</name>
+            <name>Buoy_02</name>
             <property>
                 <name>Description</name>
                 <string></string>
@@ -4262,7 +4262,7 @@
                 <vec3>
                     <value1>-15.515869</value1>
                     <value2>-159.081909</value2>
-                    <value3>9.936505</value3>
+                    <value3>0.000000</value3>
                 </vec3>
             </property>
             <property>
@@ -4319,7 +4319,7 @@
             </property>
             <property>
                 <name>Initial Ownership</name>
-                <enumerated>Server Local</enumerated>
+                <enumerated>PROTOTYPE</enumerated>
             </property>
             <property>
                 <name>Local Actor Update Policy</name>
