@@ -244,6 +244,11 @@ void ProjectileActorProxy::OnEnteredWorld()
 ////////////////////////////////////////////////////////////////////////////////
 void ProjectileActorProxy::OnRemovedFromWorld()
 {
+   if (!IsRemote())
+   {
+      UnregisterForMessages(dtGame::MessageType::TICK_LOCAL, dtGame::GameActorProxy::TICK_LOCAL_INVOKABLE);
+   }
+
    //tell our BoatActor it's time to go
    static_cast<ProjectileActor*>(GetActor())->OnRemovedFromWorld();
 }

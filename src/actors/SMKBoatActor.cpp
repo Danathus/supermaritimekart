@@ -205,6 +205,7 @@ void SMKBoatActor::OnEnteredWorld()
 
    mHealthUniform = dynamic_cast<dtCore::ShaderParamFloat*>(program->FindParameter("health"));
    assert(mHealthUniform);
+   UpdateHealthShader();
 
    if (!IsRemote())
    {
@@ -448,6 +449,7 @@ void SMKBoatActor::RespawnBoat(const dtGame::Message& weaponFiredMessage)
 
       // Reset our health and weapons
       mHealth.SetHealth(mHealth.GetMax());
+      UpdateHealthShader();
       SetupDefaultWeapon();
 
       // If this is our boat, move back to the respawn point
@@ -475,6 +477,7 @@ void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
    SMK::DamageAssessor assessor;
    assessor.Assess(damage, damageTaker);
    LOGN_DEBUG(LOGNAME, "My health is now: " + dtUtil::ToString(mHealth.GetHealth()));
+   UpdateHealthShader();
 
    if (mHealth.GetHealth() <= 0 && !IsRemote())
    {
@@ -484,6 +487,12 @@ void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
       GetGameActorProxy().GetGameManager()->SendMessage(*deathMsg);
       GetGameActorProxy().GetGameManager()->SendNetworkMessage(*deathMsg);
    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::UpdateHealthShader()
+{
+   mHealthUniform->SetValue(float(mHealth.GetHealth()) / float(mHealth.GetMax()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -508,6 +517,7 @@ void SMKBoatActor::PickupAquired(const dtGame::Message& pickupAcquiredMsg)
          {
             //apply the pickup
             bool applied = pickupItem->Apply(*this);
+            UpdateHealthShader();
          }
          else
          {          
@@ -614,8 +624,7 @@ void SMKBoatActorProxy::OnEnteredWorld()
 ////////////////////////////////////////////////////////////////////////////////
 void SMKBoatActorProxy::OnRemovedFromWorld()
 {
-   //tell our BoatActor it's time to go
-   static_cast<BoatActor*>(GetActor())->OnRemovedFromWorld();
+   BoatActorProxy::OnRemovedFromWorld();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
