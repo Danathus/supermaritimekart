@@ -47,6 +47,7 @@ public:
    * Standard update.
    */
    virtual void TickLocal(const dtGame::Message& msg);
+   virtual void TickRemote(const dtGame::Message& msg);
 
    /**
    * Message handler.
@@ -125,13 +126,8 @@ public:
    // Adds the properties associated with this actor
    virtual void BuildPropertyMap();
 
-   virtual void BuildInvokables();
-
    // Creates the actor
    virtual void CreateActor();
-
-   // Insert into game
-   virtual void RegisterWithGameManager(dtGame::GameManager* gm, bool useDefaultModel = true);
 
    virtual void OnEnteredWorld();
 
