@@ -3,17 +3,23 @@
 #include <actors/SMKActorLibraryRegistry.h>
 
 #include <dtAudio/audiomanager.h>
+#include <dtCore/particlesystem.h>
+#include <dtCore/scene.h>
 #include <dtCore/transform.h>
 #include <dtGame/gamemanager.h>
+#include <dtUtil/nodecollector.h>
+#include <dtUtil/stringutils.h>
 
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////
 const std::string RocketLauncher::ROCKET_LAUNCHER_ACTOR_TYPE = "RocketLauncher";
+const int MAX_ROCKET_NODES = 3;
 
 //////////////////////////////////////////////////////////////////////////
 RocketLauncher::RocketLauncher(const dtDAL::ResourceDescriptor& resource)
 : FrontWeapon(resource)
+, mCurrentRocketNode(0)
 {
    SetName(ROCKET_LAUNCHER_ACTOR_TYPE);
 
@@ -22,6 +28,12 @@ RocketLauncher::RocketLauncher(const dtDAL::ResourceDescriptor& resource)
    // Load any sounds we have
    mpFireSound = LoadSound("/sounds/explosion.wav");
    mpFireSound->SetGain(0.75f);
+
+   // Setup launch particles
+   mpLaunchParticles = new dtCore::ParticleSystem;
+   mpLaunchParticles->LoadFile("particles/rocket_launch.osg");
+   mpLaunchParticles->SetEnabled(false);
+   AddChild(mpLaunchParticles);
 
    // Setup our damage
    mDamage.SetDamageType(SMK::Damage::DAMAGE_PROJECTILE);
@@ -41,7 +53,7 @@ void RocketLauncher::FireWeapon()
 
    if (!mpSMKBoatActorProxy->GetGameActor().IsRemote())
    {
-      // Create a MineActor and publish it
+      // Create a RocketActor and publish it
       dtCore::RefPtr<RocketActorProxy> rocketActorProxy;
       mpSMKBoatActorProxy->GetGameManager()->CreateActor(*SMKActorLibraryRegistry::ROCKET_ACTOR_TYPE, rocketActorProxy);
       if (rocketActorProxy.valid())
@@ -49,11 +61,48 @@ void RocketLauncher::FireWeapon()
          RocketActor* rocketActor = dynamic_cast<RocketActor*>(&rocketActorProxy->GetGameActor());
          dtCore::Transform currentTransform;
          GetTransform(currentTransform);
+         currentTransform.Set(GetLaunchLocation());
          rocketActor->SetTransform(currentTransform);
          rocketActor->SetDamage(mDamage);
          mpSMKBoatActorProxy->GetGameManager()->AddActor(*rocketActorProxy, false, true);
+
+         mpLaunchParticles->SetTransform(currentTransform);
+         mpLaunchParticles->ResetTime();
+         mpLaunchParticles->SetEnabled(true);
       }
    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+osg::Matrix RocketLauncher::GetLaunchLocation()
+{
+   osg::Matrix launchLocation;
+
+   dtCore::RefPtr<dtUtil::NodeCollector> collect = 
+      new dtUtil::NodeCollector(GetOSGNode(),
+      dtUtil::NodeCollector::MatrixTransformFlag);
+
+   osg::MatrixTransform* launchTransform = collect->GetMatrixTransform(GetRocketNodeToFire());
+   if (launchTransform != NULL)
+   {
+      launchLocation = launchTransform->getWorldMatrices()[0];
+   }
+   else
+   {
+      dtCore::Transform currentTransform;
+      GetTransform(currentTransform);
+      currentTransform.Get(launchLocation);
+   }
+
+   return launchLocation;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+std::string RocketLauncher::GetRocketNodeToFire()
+{
+   std::string rocketNode = "Node_Rocket" + dtUtil::ToString(++mCurrentRocketNode);
+   mCurrentRocketNode %= MAX_ROCKET_NODES;
+   return rocketNode;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

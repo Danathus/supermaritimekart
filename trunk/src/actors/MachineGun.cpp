@@ -1,4 +1,5 @@
 #include <actors/MachineGun.h>
+#include <actors/PickUpItemHandle.h>
 #include <messages/DamageMessage.h>
 #include <messages/NetworkMessages.h>
 
@@ -188,8 +189,9 @@ osg::Vec3 MachineGun::CheckForBoatCollision()
       osg::NodePath &nodePath = hitList[hitIndex].getNodePath();
       dtCore::DeltaDrawable* hitDrawable = iSector->MapNodePathToDrawable(nodePath);
 
-      // Ignore our boat and the ocean
-      if (hitDrawable == mpSMKBoatActorProxy->GetActor() || dynamic_cast<dtOcean::OceanActor*>(hitDrawable) != NULL)
+      // Ignore our boat, the ocean, and power ups
+      if (hitDrawable == mpSMKBoatActorProxy->GetActor() || dynamic_cast<dtOcean::OceanActor*>(hitDrawable) != NULL ||
+         dynamic_cast<SMK::PickUpItemHandle*>(hitDrawable) != NULL)
       {
          continue;
       }
