@@ -15,8 +15,6 @@ namespace dtDAL
    class BaseActorObject;
 }
 
-
-
 class CameraController;
 class FloatingActor;
 class GameFinder;

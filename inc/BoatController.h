@@ -4,7 +4,7 @@
 #include <dtGame/gmcomponent.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-class BoatKeyboardListener;
+class BoatInputHandler;
 class OceanWindowResize;
 class SMKBoatActor;
 class WeaponMouseListener;
@@ -49,7 +49,7 @@ private:
    void CleanupControlledBoat();
 
    dtCore::RefPtr<SMKBoatActor> mpBoat;
-   dtCore::RefPtr<BoatKeyboardListener> mpKeyboardListener;
+   dtCore::RefPtr<BoatInputHandler> mpInputHandler;
    dtCore::RefPtr<WeaponMouseListener> mpPrimaryMouseListener;
    dtCore::RefPtr<WeaponMouseListener> mpSecondaryMouseListener;
    dtCore::RefPtr<dtCore::Mouse> mpMouseToListenTo;
