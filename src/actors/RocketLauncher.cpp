@@ -1,6 +1,7 @@
 #include <actors/RocketLauncher.h>
 #include <actors/RocketActor.h>
 #include <actors/SMKActorLibraryRegistry.h>
+#include <util/SMKUtilFunctions.h>
 
 #include <dtAudio/audiomanager.h>
 #include <dtCore/particlesystem.h>
@@ -51,6 +52,13 @@ void RocketLauncher::FireWeapon()
 {
    FrontWeapon::FireWeapon();
 
+   osg::Matrix launchLocation = GetLaunchLocation();
+   dtCore::Transform currentTransform;
+   currentTransform.Set(launchLocation);
+   mpLaunchParticles->SetTransform(currentTransform);
+   mpLaunchParticles->ResetTime();
+   mpLaunchParticles->SetEnabled(true);
+
    if (!mpSMKBoatActorProxy->GetGameActor().IsRemote())
    {
       // Create a RocketActor and publish it
@@ -59,16 +67,9 @@ void RocketLauncher::FireWeapon()
       if (rocketActorProxy.valid())
       {
          RocketActor* rocketActor = dynamic_cast<RocketActor*>(&rocketActorProxy->GetGameActor());
-         dtCore::Transform currentTransform;
-         GetTransform(currentTransform);
-         currentTransform.Set(GetLaunchLocation());
          rocketActor->SetTransform(currentTransform);
          rocketActor->SetDamage(mDamage);
          mpSMKBoatActorProxy->GetGameManager()->AddActor(*rocketActorProxy, false, true);
-
-         mpLaunchParticles->SetTransform(currentTransform);
-         mpLaunchParticles->ResetTime();
-         mpLaunchParticles->SetEnabled(true);
       }
    }
 }
@@ -85,7 +86,7 @@ osg::Matrix RocketLauncher::GetLaunchLocation()
    osg::MatrixTransform* launchTransform = collect->GetMatrixTransform(GetRocketNodeToFire());
    if (launchTransform != NULL)
    {
-      launchLocation = launchTransform->getWorldMatrices()[0];
+      launchLocation = SMK::GetAbsoluteMatrix(GetOSGNode(), launchTransform);
    }
    else
    {

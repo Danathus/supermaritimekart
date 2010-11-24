@@ -2,6 +2,7 @@
 #include <actors/PickUpItemHandle.h>
 #include <messages/DamageMessage.h>
 #include <messages/NetworkMessages.h>
+#include <util/SMKUtilFunctions.h>
 
 #include <dtOcean/oceanactor.h>
 
@@ -13,7 +14,7 @@
 #include <dtCore/transform.h>
 #include <dtGame/gamemanager.h>
 #include <dtGame/messagefactory.h>
-#include <dtUtil/log.h>
+#include <dtUtil/nodecollector.h>
 
 #include <osg/Billboard>
 #include <osg/BlendEquation>
@@ -30,10 +31,13 @@ const float BULLET_TRAIL_HEIGHT = 1.0f;
 const float MAX_BULLET_DISTANCE = 1000.0f;
 
 //////////////////////////////////////////////////////////////////////////
-MachineGun::MachineGun(const dtDAL::ResourceDescriptor& resource )
+MachineGun::MachineGun(const dtDAL::ResourceDescriptor& resource)
 : FrontWeapon(resource)
 {
-   SetName(MACHINE_GUN_ACTOR_TYPE);
+   static int id = 0;
+   std::string name = MACHINE_GUN_ACTOR_TYPE + dtUtil::ToString(++id);
+   SetName(name);
+   GetOSGNode()->setName(name);
 
    SetFiringRate(10.0f);
 
@@ -117,9 +121,10 @@ void MachineGun::CreateBulletTrail()
 ///////////////////////////////////////////////////////////////////////////////
 void MachineGun::ShowBulletTrail(osg::Vec3 target)
 {   
+   osg::Vec3 origin = ConvertAbsoluteToRelativePosition(GetGunfireLocation().getTrans());
    osg::Vec3 heightVec(0.0f, 0.0f, BULLET_TRAIL_HEIGHT);
-   osg::Vec3 corner   = osg::Vec3() - (heightVec * 0.5f);
-   osg::Vec3 widthVec = target;
+   osg::Vec3 corner   = origin - (heightVec * 0.5f);
+   osg::Vec3 widthVec = target - origin;
    osg::Vec3 rightVec = heightVec ^ widthVec;
 
    heightVec = widthVec ^ rightVec;
@@ -139,7 +144,7 @@ void MachineGun::ShowBulletTrail(osg::Vec3 target)
    widthVec *= 0.025f;
    mpQuad->setStateSet(mpBeamStateSet.get());
    mpBeam->addDrawable(mpQuad.get());
-   mpBeam->setPosition(0, widthVec);
+   mpBeam->setPosition(0, origin + widthVec);
 
    osg::Vec3 axis = widthVec;
    osg::Vec3 normal = rightVec;
@@ -175,7 +180,7 @@ osg::Vec3 MachineGun::CheckForBoatCollision()
    dtCore::RefPtr<dtCore::BatchIsector> iSector = new dtCore::BatchIsector(&gm->GetScene());
    iSector->EnableAndGetISector(0).SetToCheckForClosestDrawable(true);
    dtCore::Transform currentTransform;
-   GetTransform(currentTransform);
+   currentTransform.Set(GetGunfireLocation());
    osg::Vec3 location = currentTransform.GetTranslation();
    osg::Vec3 right, up, forward;
    currentTransform.GetOrientation(right, up, forward);
@@ -190,7 +195,8 @@ osg::Vec3 MachineGun::CheckForBoatCollision()
       dtCore::DeltaDrawable* hitDrawable = iSector->MapNodePathToDrawable(nodePath);
 
       // Ignore our boat, the ocean, and power ups
-      if (hitDrawable == mpSMKBoatActorProxy->GetActor() || dynamic_cast<dtOcean::OceanActor*>(hitDrawable) != NULL ||
+      if (hitDrawable == this || hitDrawable == mpSMKBoatActorProxy->GetActor() ||
+         dynamic_cast<dtOcean::OceanActor*>(hitDrawable) != NULL ||
          dynamic_cast<SMK::PickUpItemHandle*>(hitDrawable) != NULL)
       {
          continue;
@@ -216,6 +222,30 @@ osg::Vec3 MachineGun::CheckForBoatCollision()
    }
 
    return location + forward * MAX_BULLET_DISTANCE;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+osg::Matrix MachineGun::GetGunfireLocation()
+{
+   osg::Matrix gunLocation;
+
+   dtCore::RefPtr<dtUtil::NodeCollector> collect = 
+      new dtUtil::NodeCollector(GetOSGNode(),
+      dtUtil::NodeCollector::MatrixTransformFlag);
+
+   osg::MatrixTransform* gunTransform = collect->GetMatrixTransform("Node_DeckGun");
+   if (gunTransform != NULL)
+   {
+      gunLocation = SMK::GetAbsoluteMatrix(GetOSGNode(), gunTransform);
+   }
+   else
+   {
+      dtCore::Transform currentTransform;
+      GetTransform(currentTransform);
+      currentTransform.Get(gunLocation);
+   }
+
+   return gunLocation;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
