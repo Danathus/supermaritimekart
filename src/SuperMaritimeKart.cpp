@@ -463,15 +463,24 @@ void SuperMaritimeKart::CreatePickUpItemHandleActors()
    //Assuming we're the server, lets create the PickUpItems defined in the map
    const dtGame::GameManager::NameVector& mapNames = mGameManager->GetCurrentMapSet();
    if (mapNames.empty()) {return;} //no maps loaded?
-   
-   std::vector<dtDAL::BaseActorObject*> pickups;
-   mGameManager->FindPrototypesByActorType(*SMKActorLibraryRegistry::SMK_PICKUP_ACTOR_TYPE, pickups);
 
-   std::vector<dtDAL::BaseActorObject*>::iterator itr = pickups.begin();
-   while (itr != pickups.end())
+   std::vector<dtDAL::BaseActorObject*> proxiesToCreate;
+   
+   std::vector<dtDAL::BaseActorObject*> pickupProtoProxies;
+   mGameManager->FindPrototypesByActorType(*SMKActorLibraryRegistry::SMK_PICKUP_ACTOR_TYPE, pickupProtoProxies);
+
+   std::vector<dtDAL::BaseActorObject*> floatingProtoProxies;
+   mGameManager->FindPrototypesByActorType(*BoatActorsLibraryRegistry::FLOATING_ACTOR_TYPE, floatingProtoProxies);
+
+   proxiesToCreate.reserve(pickupProtoProxies.size() + floatingProtoProxies.size());
+   proxiesToCreate.insert(proxiesToCreate.end(), pickupProtoProxies.begin(), pickupProtoProxies.end());
+   proxiesToCreate.insert(proxiesToCreate.end(), floatingProtoProxies.begin(), floatingProtoProxies.end());
+
+   std::vector<dtDAL::BaseActorObject*>::iterator itr = proxiesToCreate.begin();
+   while (itr != proxiesToCreate.end())
    {
-      dtCore::RefPtr<dtDAL::BaseActorObject> pickup = mGameManager->CreateActorFromPrototype((*itr)->GetActor()->GetUniqueId());
-      dtGame::GameActorProxy* proxy = dynamic_cast<dtGame::GameActorProxy*>(pickup.get());
+      dtCore::RefPtr<dtDAL::BaseActorObject> actorProxy = mGameManager->CreateActorFromPrototype((*itr)->GetActor()->GetUniqueId());
+      dtGame::GameActorProxy* proxy = dynamic_cast<dtGame::GameActorProxy*>(actorProxy.get());
       if (proxy)
       {
          try
@@ -482,7 +491,7 @@ void SuperMaritimeKart::CreatePickUpItemHandleActors()
          }
          catch (const dtUtil::Exception& e)
          {
-            LOG_ERROR("Problem adding the PickupItemActor prototype to the GM. " + e.ToString());
+            LOG_ERROR("Problem adding the actor prototype to the GM. " + e.ToString());
          }         
       }
       ++itr;
