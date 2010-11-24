@@ -19,8 +19,8 @@ public:
 
    Weapon(const dtDAL::ResourceDescriptor& resource = dtDAL::ResourceDescriptor());
 
-   void SetSMKBoatActorProxy(dtGame::GameActorProxy* proxy) { mpSMKBoatActorProxy = proxy;       }
-   dtGame::GameActorProxy* GetSMKBoatActorProxy() const     { return mpSMKBoatActorProxy.get();  }
+   void SetSMKBoatActorProxy(dtGame::GameActorProxy* proxy) { mpSMKBoatActorProxy = proxy;      }
+   dtGame::GameActorProxy* GetSMKBoatActorProxy() const     { return mpSMKBoatActorProxy.get(); }
 
    void SetFiringRate(float rate);
 

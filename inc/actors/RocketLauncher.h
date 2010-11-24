@@ -19,6 +19,11 @@ protected:
    virtual ~RocketLauncher();
 
 private:
+   osg::Matrix GetLaunchLocation();
+   std::string GetRocketNodeToFire();
+
+   dtCore::RefPtr<dtCore::ParticleSystem> mpLaunchParticles;
+   int mCurrentRocketNode;
 };
 #endif // RocketLauncher_h__
 
