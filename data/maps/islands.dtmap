@@ -7,7 +7,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-19T17:53:50-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-23T11:50:13-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-23T19:16:26-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -2283,8 +2283,8 @@
             <property>
                 <name>static mesh</name>
                 <resourceType>StaticMeshes</resourceType>
-                <resourceDisplayName>StaticMeshes:Boat:HydroBoat.IVE</resourceDisplayName>
-                <resource>StaticMeshes:Boat:HydroBoat.IVE</resource>
+                <resourceDisplayName>StaticMeshes::HydroRed.IVE</resourceDisplayName>
+                <resource>StaticMeshes::HydroRed.IVE</resource>
             </property>
             <property>
                 <name>use cache object</name>

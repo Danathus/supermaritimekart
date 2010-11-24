@@ -31,6 +31,25 @@
             </texture2D>
          </parameter>
 	  </shader>
+     
+     <shader name="BumpedPhong" default="no">
+         <source type="Vertex">shaders/BumpedPhong.vert</source>
+         <source type="Fragment">shaders/BumpedPhong.frag</source>
+         <parameter name="diffuseTexture">
+            <texture2D textureUnit="0">
+               <source type="Auto"/>
+            </texture2D>
+         </parameter>	 
+	      <parameter name="normalTexture">
+            <texture2D textureUnit="1">
+               <source type="Auto"/>
+            </texture2D>
+         </parameter>       
+       <parameter name="mode">
+   		<integer defaultValue="1"/>
+   	 </parameter>	 
+      </shader>
+      
 	</shadergroup>
 
 </shaderlist>
