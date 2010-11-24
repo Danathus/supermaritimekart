@@ -203,9 +203,6 @@ void SMKBoatActor::OnEnteredWorld()
    dtCore::ShaderProgram* program = shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetOSGNode());
    assert(program);
 
-   dtCore::ShaderProgram* instance = 
-      dtCore::ShaderManager::GetInstance().AssignShaderFromPrototype(*program, *GetOSGNode());
-
    mHealthUniform = dynamic_cast<dtCore::ShaderParamFloat*>(program->FindParameter("health"));
    assert(mHealthUniform);
 
