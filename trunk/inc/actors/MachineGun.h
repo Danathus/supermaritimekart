@@ -8,6 +8,7 @@
 namespace dtCore
 {
    class ShaderParamOscillator;
+   class ISector;
 }
 
 namespace osg 
@@ -41,6 +42,7 @@ private:
    dtCore::RefPtr<osg::StateSet>  mpBeamStateSet;
    dtCore::RefPtr<osg::Geometry> mpQuad;
    dtCore::RefPtr<dtCore::ShaderParamOscillator> mpTimeParam;
+   //dtCore::RefPtr<dtCore::ISector> mISector;
 };
 #endif // MachineGun_h__
 
