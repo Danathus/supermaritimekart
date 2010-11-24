@@ -122,6 +122,7 @@ private:
    void RespawnBoat(const dtGame::Message& weaponFiredMessage);
 
    void ApplyDamage(const SMK::Damage& damage);
+   void UpdateHealthShader();
 
    void PickupAquired(const dtGame::Message& pickupAcquiredMsg);
 

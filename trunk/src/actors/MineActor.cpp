@@ -43,7 +43,7 @@ void MineActor::TickLocal(const dtGame::Message& msg)
 void MineActor::OnEnteredWorld()
 {
    SetupFloaterComponent();
-   SetMeshResource("Boat:Mine.ive");
+   SetMeshResource("Boat:Mine_LG.ive");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
