@@ -7,7 +7,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-21T09:21:17-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-19T21:10:51-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-23T19:16:42-08:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -398,6 +398,10 @@
                 <resourceType>Textures</resourceType>
                 <resourceDisplayName>Textures::health_pickup.png</resourceDisplayName>
                 <resource>Textures::health_pickup.png</resource>
+            </property>
+            <property>
+                <name>PickupCategory</name>
+                <enumerated>None</enumerated>
             </property>
             <property>
                 <name>CurrentShader</name>
@@ -4318,8 +4322,8 @@
             <property>
                 <name>static mesh</name>
                 <resourceType>StaticMeshes</resourceType>
-                <resourceDisplayName>StaticMeshes::DefenderPol.IVE</resourceDisplayName>
-                <resource>StaticMeshes::DefenderPol.IVE</resource>
+                <resourceDisplayName>StaticMeshes::HydroGreyCamo.IVE</resourceDisplayName>
+                <resource>StaticMeshes::HydroGreyCamo.IVE</resource>
             </property>
             <property>
                 <name>use cache object</name>

@@ -12,6 +12,7 @@
 #include <dtCore/deltawin.h>
 #include <dtCore/keyboard.h>
 #include <dtCore/mouse.h>
+#include <dtCore/shadermanager.h>
 #include <dtCore/transform.h>
 #include <dtGame/messagetype.h>
 #include <dtGame/basemessages.h>
@@ -117,6 +118,14 @@ SMKBoatActor* BoatController::CreateBoatToControl()
       boatActor->RemoveProperty("Enable Dynamics"); // "ODE Enable Dynamics"
       if (boatActor.valid())
       {
+         osg::Node* boatNode = boatActor->GetActor()->GetOSGNode();
+
+         // Retrieve the shader from the shader manager and assign it to this stateset
+         dtCore::ShaderManager& shaderManager = dtCore::ShaderManager::GetInstance();
+         const dtCore::ShaderProgram* prototypeProgram = shaderManager.FindShaderPrototype("BumpedPhong");
+         dtCore::ShaderProgram* program = shaderManager.AssignShaderFromPrototype(*prototypeProgram, *boatNode);
+         assert(program);
+
          GetGameManager()->AddActor(*boatActor, false, true);
          return dynamic_cast<SMKBoatActor*>(boatActor->GetActor());
       }
@@ -136,7 +145,7 @@ osg::Vec3 BoatController::GetStartLocation() const
       spawnProxy->GetActor(startPoint);
       dtCore::Transform xform;
       startPoint->GetTransform(xform);
-      
+
       return xform.GetTranslation();
    }
 
