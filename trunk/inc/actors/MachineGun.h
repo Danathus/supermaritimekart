@@ -35,8 +35,10 @@ protected:
 private:
    void CreateBulletTrail();
    void ShowBulletTrail(osg::Vec3 target);
+
    osg::Vec3 ConvertAbsoluteToRelativePosition(osg::Vec3 relativePos);
    osg::Vec3 CheckForBoatCollision();
+   osg::Matrix GetGunfireLocation();
 
    dtCore::RefPtr<osg::Billboard> mpBeam;  
    dtCore::RefPtr<osg::StateSet>  mpBeamStateSet;
