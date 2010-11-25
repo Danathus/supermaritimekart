@@ -23,18 +23,18 @@ float getDamage()
    vec4 noiseVec = texture2D(noiseTexture, gl_TexCoord[0].st);
    float noiseSum = noiseVec.x + noiseVec.y + noiseVec.z;
 
-   return max(noiseSum - 0.065 * health, 0.0);
+   return max(noiseSum - pow(health, 0.75), 0.0);
 }
 
 void main(void)
 {  
    float damage = getDamage();
 
-   if (damage > 0.49)
+   if (damage > 1.35)
    {
       discard;
    }
-   else if (damage > 0.485)
+   else if (damage > 1.3)
    {
       gl_FragColor = vec4(1.0, 0.2, 0.2, 1.0);
    }

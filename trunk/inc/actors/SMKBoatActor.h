@@ -123,7 +123,7 @@ private:
    void RespawnBoat(const dtGame::Message& weaponFiredMessage);
 
    void ApplyDamage(const SMK::Damage& damage);
-   void UpdateHealthShader();
+   void UpdateHealthShader(float timeStep);
 
    void PickupAquired(const dtGame::MachineInfoMessage& pickupAcquiredMsg);
 
