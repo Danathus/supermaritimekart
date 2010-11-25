@@ -23,7 +23,7 @@ float getDamage()
    vec4 noiseVec = texture2D(noiseTexture, gl_TexCoord[0].st);
    float noiseSum = noiseVec.x + noiseVec.y + noiseVec.z;
 
-   return max(noiseSum - health, 0.0);
+   return max(noiseSum - 0.065 * health, 0.0);
 }
 
 void main(void)
@@ -68,6 +68,7 @@ void main(void)
    //gl_FragColor = vec4(specularColor.rgb, baseColor.a);
    //gl_FragColor = vec4(vec3(normalColor.a), 1.0);
    //gl_FragColor = vec4(noiseColor.rgb, 1.0);
+   //gl_FragColor = vec4(health, 0.0, 0.0, 1.0);
 
   } 
    }
