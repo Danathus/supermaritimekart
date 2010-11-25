@@ -66,7 +66,7 @@
 
 		 <parameter name="noiseTexture">
             <texture2D textureUnit="2">
-               <source type="Image">textures/noise2d.tga</source>
+               <source type="Image">textures/noise2d-alt.tga</source>
             </texture2D>
 		 </parameter>
 		 

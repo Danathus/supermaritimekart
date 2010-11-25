@@ -25,6 +25,7 @@
 #include <dtGame/drpublishingactcomp.h>
 #include <dtGame/invokable.h>
 #include <dtGame/messagetype.h>
+#include <dtUtil/mathdefines.h>
 
 #include <ode/contact.h>
 
@@ -79,6 +80,8 @@ void SMKBoatActor::TickLocal(const dtGame::Message& msg)
    {
       mpBackWeapon->Update(dt);
    }
+
+   UpdateHealthShader(dt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +209,6 @@ void SMKBoatActor::OnEnteredWorld()
 
    mHealthUniform = dynamic_cast<dtCore::ShaderParamFloat*>(program->FindParameter("health"));
    assert(mHealthUniform);
-   UpdateHealthShader();
 
    if (!IsRemote())
    {
@@ -449,7 +451,7 @@ void SMKBoatActor::RespawnBoat(const dtGame::Message& weaponFiredMessage)
 
       // Reset our health and weapons
       mHealth.SetHealth(mHealth.GetMax());
-      UpdateHealthShader();
+      
       SetupDefaultWeapon();
 
       // If this is our boat, move back to the respawn point
@@ -477,7 +479,6 @@ void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
    SMK::DamageAssessor assessor;
    assessor.Assess(damage, damageTaker);
    LOGN_DEBUG(LOGNAME, "My health is now: " + dtUtil::ToString(mHealth.GetHealth()));
-   UpdateHealthShader();
 
    if (mHealth.GetHealth() <= 0 && !IsRemote())
    {
@@ -490,9 +491,14 @@ void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::UpdateHealthShader()
+void SMKBoatActor::UpdateHealthShader(float timeStep)
 {
-   mHealthUniform->SetValue(float(mHealth.GetHealth()) / float(mHealth.GetMax()));
+   float currentValue = mHealthUniform->GetValue();
+   float targetValue = float(mHealth.GetHealth()) / float(mHealth.GetMax());
+
+   float alpha = dtUtil::Min(timeStep * 5.0f, 1.0f);
+
+   mHealthUniform->SetValue(currentValue + (targetValue - currentValue) * alpha);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -519,7 +525,6 @@ void SMKBoatActor::PickupAquired(const dtGame::MachineInfoMessage& pickupAcquire
             {
                //apply the pickup
                bool applied = pickupItem->Apply(*this);
-               UpdateHealthShader();
             }
             else
             {          
