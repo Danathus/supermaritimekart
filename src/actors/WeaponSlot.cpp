@@ -87,6 +87,9 @@ void WeaponSlot::StopWeaponFire()
 ///////////////////////////////////////////////////////////////////////////////
 void WeaponSlot::SetWeapon(const std::string& weaponClass, dtGame::GameActorProxy* actorProxy)
 {
+   // Set this weapon as our new default
+   mDefaultWeaponClass = weaponClass;
+
    if (mpWeapon != NULL)
    {
       DetachWeaponFromBoat(mpWeapon, actorProxy->GetActor());

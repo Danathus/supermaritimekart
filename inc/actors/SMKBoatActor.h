@@ -30,6 +30,7 @@ namespace dtGame
 {
    class DeadReckoningHelper;
    class DRPublishingActComp;
+   class MachineInfoMessage;
 }
 namespace SMK
 {
@@ -124,7 +125,7 @@ private:
    void ApplyDamage(const SMK::Damage& damage);
    void UpdateHealthShader();
 
-   void PickupAquired(const dtGame::Message& pickupAcquiredMsg);
+   void PickupAquired(const dtGame::MachineInfoMessage& pickupAcquiredMsg);
 
    bool DoWeWantThisPickUp(const SMK::PickUpItemHandle& pickup) const;
 

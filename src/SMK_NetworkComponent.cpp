@@ -142,11 +142,12 @@ void SMK_NetworkComponent::HandleThePickUpRequest(const dtGame::Message& message
       if (pickup->GetActive() == true)
       {
          //send a msg to the player who got this pickup.
-         dtCore::RefPtr<dtGame::Message> msg;
+         dtCore::RefPtr<dtGame::MachineInfoMessage> msg;
          GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::INFO_PICKUP_ITEM_ACQUIRED, msg);
-         msg->SetAboutActorId(pickupUID);
-         msg->SetDestination(&message.GetSource()); //send back to the place the request message came from
-         SendNetworkMessage(*msg);
+         msg->SetAboutActorId(message.GetSendingActorId());
+         msg->SetUniqueId(pickupUID.ToString());
+         GetGameManager()->SendNetworkMessage(*msg);
+         GetGameManager()->SendMessage(*msg);
 
          //Looks like a valid pickup attempt.  Mark it inactive and tell the world
          pickup->SetActive(false);

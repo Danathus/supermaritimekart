@@ -160,6 +160,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          dtCore::RefPtr<dtGame::Message> msg;
          GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP, msg);
          msg->SetAboutActorId(pickup->GetUniqueId());
+         msg->SetSendingActorId(GetUniqueId());
 
          if (NetworkBuddy::GetRef().IsServer())
          {
@@ -350,11 +351,14 @@ void SMKBoatActor::SetupDefaultWeapon()
 ///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::RegisterGlobalBoatMessages()
 {
+   GetGameActorProxy().AddInvokable(*new dtGame::Invokable(PICKUP_ACQUIRED,
+      dtUtil::MakeFunctor(&SMKBoatActor::PickupAquired, this)));
    GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BOAT_HIT,
       dtUtil::MakeFunctor(&SMKBoatActor::BoatHit, this)));
    GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BOAT_EXPLODED,
       dtUtil::MakeFunctor(&SMKBoatActor::RespawnBoat, this)));
 
+   GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::INFO_PICKUP_ITEM_ACQUIRED, PICKUP_ACQUIRED);
    GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, BOAT_HIT);
    GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_BOAT_EXPLODED, BOAT_EXPLODED);
 }
@@ -378,10 +382,6 @@ void SMKBoatActor::RegisterLocalBoatMessages()
       dtUtil::MakeFunctor(&SMKBoatActor::ProjectileExploded, this)));
 
    GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, PROJECTILE_EXPLODED);
-
-   GetGameActorProxy().AddInvokable(*new dtGame::Invokable(PICKUP_ACQUIRED,
-      dtUtil::MakeFunctor(&SMKBoatActor::PickupAquired, this)));
-   GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::INFO_PICKUP_ITEM_ACQUIRED, PICKUP_ACQUIRED);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -496,64 +496,70 @@ void SMKBoatActor::UpdateHealthShader()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::PickupAquired(const dtGame::Message& pickupAcquiredMsg)
+void SMKBoatActor::PickupAquired(const dtGame::MachineInfoMessage& pickupAcquiredMsg)
 {
-   const dtCore::UniqueId& pickupUID = pickupAcquiredMsg.GetAboutActorId();
-   //find the actual PickUpItemHandle to get it's data
-
-   PickUpItemBaseProxy* pickupProxy(NULL);
-   GetGameActorProxy().GetGameManager()->FindActorById(pickupUID, pickupProxy);
-   if (pickupProxy)
+   if (pickupAcquiredMsg.GetAboutActorId() == GetUniqueId())
    {
-      const PickUpItemHandle* pickup = static_cast<const PickUpItemHandle*>(pickupProxy->GetActor());
-      LOGN_DEBUG(LOGNAME, "acquired a pickup of type:" + pickup->GetType());
+      const dtCore::UniqueId& pickupUID = dtCore::UniqueId(pickupAcquiredMsg.GetUniqueId());
+      //find the actual PickUpItemHandle to get it's data
 
-      //create the pickup via the pickup factory
-      if ((pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_ARMOR) ||
-          (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_HEALTH))
+      PickUpItemBaseProxy* pickupProxy(NULL);
+      GetGameActorProxy().GetGameManager()->FindActorById(pickupUID, pickupProxy);
+      if (pickupProxy)
       {
-         const PickupItem* pickupItem = PickupItemFactory::GetInstance().Create(pickup->GetType());
-         if (pickupItem)
+         const PickUpItemHandle* pickup = static_cast<const PickUpItemHandle*>(pickupProxy->GetActor());
+         LOGN_DEBUG(LOGNAME, "acquired a pickup of type:" + pickup->GetType());
+
+         //create the pickup via the pickup factory
+         if ((pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_ARMOR) ||
+            (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_HEALTH))
          {
-            //apply the pickup
-            bool applied = pickupItem->Apply(*this);
-            UpdateHealthShader();
+            const PickupItem* pickupItem = PickupItemFactory::GetInstance().Create(pickup->GetType());
+            if (pickupItem)
+            {
+               //apply the pickup
+               bool applied = pickupItem->Apply(*this);
+               UpdateHealthShader();
+            }
+            else
+            {          
+               LOGN_WARNING(LOGNAME, "PickupItemFactory couldn't create pickup of type: " + pickup->GetType());
+            }      
          }
          else
-         {          
-            LOGN_WARNING(LOGNAME, "PickupItemFactory couldn't create pickup of type: " + pickup->GetType());
-         }      
-      }
-      else
-      {
-          //maybe this is a Weapon instead?
-         WeaponSlot* slot(NULL);
-         if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_BOW_WEAPON)
          {
-            slot = GetFrontWeapon();
-         }         
-         else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_TOP_WEAPON)
-         {
-            //slot = GetTopWeapon();
-         }
-         else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_REAR_WEAPON)
-         {
-            slot = GetBackWeapon();
-         }
-         else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_SIDE_WEAPON)
-         {
-            //slot = GetSideWeapon();
-         }
+            //maybe this is a Weapon instead?
+            WeaponSlot* slot(NULL);
+            if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_BOW_WEAPON)
+            {
+               slot = GetFrontWeapon();
+            }         
+            else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_TOP_WEAPON)
+            {
+               //slot = GetTopWeapon();
+            }
+            else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_REAR_WEAPON)
+            {
+               slot = GetBackWeapon();
+            }
+            else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_SIDE_WEAPON)
+            {
+               //slot = GetSideWeapon();
+            }
 
-         if (slot)
-         {
-            slot->SetWeapon(pickup->GetType(), &GetGameActorProxy());
-         }         
-      }     
+            if (slot)
+            {
+               slot->SetWeapon(pickup->GetType(), &GetGameActorProxy());
+            }         
+         }     
 
-      // aural feedback
-      mPickupAcquireSound->Play();
-   }  
+         if (!IsRemote())
+         {
+            // aural feedback
+            mPickupAcquireSound->Play();
+         }
+      }  
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
