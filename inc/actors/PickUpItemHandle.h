@@ -52,6 +52,7 @@ namespace SMK
 
       bool mIsAvailable; ///<Is this PickUpItemHandle available for picking up?
       dtCore::RefPtr<SimpleFloaterActorComponent> mpFloaterComponent;
+      float mReactivateCounter;
    };
 
    //////////////////////////////////////////////////////////////////////////

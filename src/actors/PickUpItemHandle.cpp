@@ -5,6 +5,7 @@
 #include <dtDAL/actortype.h>
 #include <dtDAL/propertymacros.h> //for dtDAL::PropertyRegHelper
 #include <dtDAL/project.h>//for loading resources
+#include <dtGame/basemessages.h>
 #include <dtGame/gamemanager.h>
 #include <dtGame/messagetype.h>
 
@@ -39,7 +40,9 @@ public:
 static dtCore::RefPtr<HideNodeCallback> HIDE_NODE_CALLBACK(new HideNodeCallback);
 
 ////////////////////////////////////////////////////////////////////////////////
+static const float PICKUP_RESPAWN_TIME = 5.0f;
 
+////////////////////////////////////////////////////////////////////////////////
 DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, std::string, Type);
 DT_IMPLEMENT_ACCESSOR_GETTER(PickUpItemHandle, dtDAL::ResourceDescriptor, IconImage);
 DT_IMPLEMENT_ACCESSOR(PickUpItemHandle, dtUtil::EnumerationPointer<PickupCategoryEnum>, PickupCategory);
@@ -48,6 +51,7 @@ PickUpItemHandle::PickUpItemHandle(dtGame::GameActorProxy& proxy)
 : dtGame::GameActor(proxy)
 , mIsAvailable(true)
 , mPickupCategory(&PickupCategoryEnum::PICKUP_NONE)
+, mReactivateCounter(0.0f)
 {
    SetName("pick up item");   
    osg::Node* root = GetOSGNode();
@@ -123,6 +127,27 @@ void PickUpItemHandle::TickLocal(const dtGame::Message& msg)
    dtGame::GameActor::TickLocal(msg);
 
    SpinPickUpItem();
+
+   // If we're not active, activate us after a certain amount of time has passed
+   if (!GetActive())
+   {
+      const dtGame::TickMessage& tickMessage = static_cast<const dtGame::TickMessage&>(msg);
+      float dt = tickMessage.GetDeltaSimTime();
+
+      mReactivateCounter += dt;
+      if (mReactivateCounter > PICKUP_RESPAWN_TIME)
+      {
+         mReactivateCounter = 0.0f;
+         SetActive(true);
+         SetCollisionDetection(true);
+
+         //tell the world this pickup is now inactive
+         std::vector<dtUtil::RefString> propsToSend;
+         propsToSend.push_back("IsActive"); //DeltaDrawable
+         propsToSend.push_back(dtDAL::TransformableActorProxy::PROPERTY_ENABLE_COLLISION);
+         GetGameActorProxy().NotifyPartialActorUpdate(propsToSend);
+      }
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
