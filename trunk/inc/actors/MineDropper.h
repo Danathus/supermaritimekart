@@ -19,6 +19,11 @@ protected:
    virtual ~MineDropper();
 
 private:
+   osg::Matrix GetLaunchLocation();
+   std::string GetMineNodeToFire();
+
+   dtCore::RefPtr<dtCore::ParticleSystem> mpLaunchParticles;
+   int mCurrentMineNode;
 };
 #endif // MineDropper_h__
 
