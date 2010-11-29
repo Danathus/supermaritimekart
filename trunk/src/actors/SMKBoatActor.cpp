@@ -33,6 +33,8 @@
 
 using namespace SMK;
 
+#define ENABLE_DAMAGE_SHADER 0
+
 //////////////////////////////////////////////////////////
 static const std::string FRONT_WEAPON_FIRED  = "FrontWeaponFired";
 static const std::string BACK_WEAPON_FIRED   = "BackWeaponFired";
@@ -208,6 +210,7 @@ void SMKBoatActor::OnEnteredWorld()
    assert(program);
 
    mHealthUniform = dynamic_cast<dtCore::ShaderParamFloat*>(program->FindParameter("health"));
+   mHealthUniform->SetValue(1.0f);
    assert(mHealthUniform);
 
    if (!IsRemote())
@@ -493,12 +496,14 @@ void SMKBoatActor::ApplyDamage(const SMK::Damage& damage)
 ///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::UpdateHealthShader(float timeStep)
 {
+#if ENABLE_DAMAGE_SHADER
    float currentValue = mHealthUniform->GetValue();
    float targetValue = float(mHealth.GetHealth()) / float(mHealth.GetMax());
 
    float alpha = dtUtil::Min(timeStep * 5.0f, 1.0f);
 
    mHealthUniform->SetValue(currentValue + (targetValue - currentValue) * alpha);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
