@@ -2,6 +2,7 @@
 #include <actors/SimpleFloaterActorComponent.h>
 
 #include <dtCore/transform.h>
+#include <dtCore/shadermanager.h>
 #include <dtGame/gamemanager.h>
 
 #ifdef BUILD_WITH_DTOCEAN
@@ -44,6 +45,12 @@ void MineActor::OnEnteredWorld()
 {
    SetupFloaterComponent();
    SetMeshResource("Boat:Mine_LG.ive");
+
+   // Retrieve the shader from the shader manager and assign it to this stateset
+   dtCore::ShaderManager& shaderManager = dtCore::ShaderManager::GetInstance();
+   const dtCore::ShaderProgram* prototypeProgram = shaderManager.FindShaderPrototype("BumpedPhong");
+   dtCore::ShaderProgram* program = shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetOSGNode());
+   assert(program);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
