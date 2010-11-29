@@ -13,9 +13,10 @@
 #include <dtCore/inputmapper.h>
 #include <dtInputPLIB/joystick.h>
 
-static const int kCutEnginesButton = 0xAAAA;
-static const int kRollButton       = 0xAAAB;
-static const int KBUTTON3 = 0xAAAC;
+static const int kCutEnginesButton    = 0xAAAA;
+static const int kRollButton          = 0xAAAB;
+static const int kFirePrimaryWeapon   = 0xAAAC;
+static const int kFireSecondaryWeapon = 0xAAAD;
 
 static const int KAXIS1 = 0xBBBA;
 
@@ -26,9 +27,9 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
 {
    // setup keyboard axis input device
    {
-      mKeyboardAxisInputDevice = new dtCore::LogicalInputDevice;
+      mKeyboardMouseInputDevice = new dtCore::LogicalInputDevice;
 
-      mKeyboardAxisInputDevice->AddAxis(
+      mKeyboardMouseInputDevice->AddAxis(
          "w/s",
          new dtCore::ButtonsToAxis(
             mpKeyboard->GetButton('w'),
@@ -36,7 +37,7 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
          )
       );
 
-      mKeyboardAxisInputDevice->AddAxis(
+      mKeyboardMouseInputDevice->AddAxis(
          "a/d",
          new dtCore::ButtonsToAxis(
             mpKeyboard->GetButton('a'),
@@ -44,10 +45,16 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
          )
       );
 
-      mKeyboardAxisInputDevice->AddButton(
+      mKeyboardMouseInputDevice->AddButton(
          "cut engines",
          keyboard->GetButton(' '),
          kCutEnginesButton
+      );
+
+      mKeyboardMouseInputDevice->AddButton(
+         "roll",
+         keyboard->GetButton('r'),
+         kRollButton
       );
    }
 
@@ -62,7 +69,7 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
       );
 
       mApplicationInputDevice->AddButton(
-         "action 2",
+         "roll",
          keyboard->GetButton('2'),
          kRollButton
       );
@@ -70,7 +77,7 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
       //*
       mApplicationInputDevice->AddAxis(
          "axis 1",
-         mKeyboardAxisInputDevice->AddAxis(
+         mKeyboardMouseInputDevice->AddAxis(
             "up/down",
             new dtCore::ButtonsToAxis(
                keyboard->GetButton(osgGA::GUIEventAdapter::KEY_Up),
@@ -81,7 +88,7 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
 
       mApplicationInputDevice->AddAxis(
          "axis 2",
-         mKeyboardAxisInputDevice->AddAxis(
+         mKeyboardMouseInputDevice->AddAxis(
             "left/right",
             new dtCore::ButtonsToAxis(
                keyboard->GetButton(osgGA::GUIEventAdapter::KEY_Left),
@@ -94,7 +101,7 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
    mInputMapper = new dtCore::InputMapper;
 
    mInputMapper->AddDevice(keyboard);
-   mInputMapper->AddDevice(mKeyboardAxisInputDevice.get());
+   mInputMapper->AddDevice(mKeyboardMouseInputDevice.get());
    mInputMapper->AddDevice(mouse);
 
    mInputMapper->SetCancelButton(keyboard->GetButton(osgGA::GUIEventAdapter::KEY_Escape));
@@ -120,21 +127,21 @@ void BoatInputHandler::MapKeyboardControls()
    for (size_t axisIdx = 0; axisIdx < 2; ++axisIdx)
    {
       dtCore::LogicalAxis* axis = static_cast<dtCore::LogicalAxis*>(mApplicationInputDevice->GetAxis(axisIdx));
-      dtCore::AxisMapping* mapping = new dtCore::AxisToAxis(mKeyboardAxisInputDevice->GetAxis(axisIdx));
+      dtCore::AxisMapping* mapping = new dtCore::AxisToAxis(mKeyboardMouseInputDevice->GetAxis(axisIdx));
       axis->SetMapping(mapping);
    }
 
    // cut engines button
    {
       dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kCutEnginesButton));
-      dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(mKeyboardAxisInputDevice->GetButton(kCutEnginesButton));
+      dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(mKeyboardMouseInputDevice->GetButton(kCutEnginesButton));
       button->SetMapping(mapping);
    }
 
    // roll button
    {
       dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kRollButton));
-      dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(mKeyboardAxisInputDevice->GetButton(kRollButton));
+      dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(mKeyboardMouseInputDevice->GetButton(kRollButton));
       button->SetMapping(mapping);
    }
 }
