@@ -40,9 +40,9 @@ private:
    dtCore::RefPtr<dtCore::LogicalInputDevice> mApplicationInputDevice;
 
    /**
-    * The keyboard axis input device.
+    * The keyboard and mouse input device.
     */
-   dtCore::RefPtr<dtCore::LogicalInputDevice> mKeyboardAxisInputDevice;
+   dtCore::RefPtr<dtCore::LogicalInputDevice> mKeyboardMouseInputDevice;
 
    /**
     * The input mapper.
