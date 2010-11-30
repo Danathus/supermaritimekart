@@ -110,8 +110,11 @@ protected:
 private:
    void SetupDefaultWeapon();
    void RegisterGlobalBoatMessages();
+   void UnregisterGlobalBoatMessages();
    void RegisterRemoteBoatMessages();
+   void UnregisterRemoteBoatMessages();
    void RegisterLocalBoatMessages();
+   void UnregisterLocalBoatMessages();
 
    void FireFrontWeapon(const dtGame::Message& weaponFiredMessage);
    void FireBackWeapon(const dtGame::Message& weaponFiredMessage);

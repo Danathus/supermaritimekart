@@ -41,6 +41,8 @@ void ProjectileActor::TickLocal(const dtGame::Message& msg)
    mLifeCounter += dt;
    if (mLifeCounter > mLifetime)
    {
+      mDamage.SetLocation(GetGameActorProxy().GetTranslation());
+
       if (mDamage.GetRadius() > 0.0f)
       {
          DetonateProjectile();

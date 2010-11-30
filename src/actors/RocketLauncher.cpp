@@ -37,9 +37,9 @@ RocketLauncher::RocketLauncher(const dtDAL::ResourceDescriptor& resource)
    AddChild(mpLaunchParticles);
 
    // Setup our damage
-   mDamage.SetDamageType(SMK::Damage::DAMAGE_PROJECTILE);
+   mDamage.SetDamageType(SMK::Damage::DAMAGE_BLAST);
    mDamage.SetAmount(15);
-   mDamage.SetRadius(0.0f);
+   mDamage.SetRadius(5.0f);
 }
 
 //////////////////////////////////////////////////////////////////////////

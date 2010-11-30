@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 static const float ROCKET_SPEED = 1.0f;
 static const float ROCKET_LIFETIME = 2.5f;
-static const float ROCKET_ARMING_DELAY = 0.5f;
+static const float ROCKET_ARMING_DELAY = 0.1f;
 
 //////////////////////////////////////////////////////////////////////////
 RocketActor::RocketActor(dtGame::GameActorProxy& proxy)
