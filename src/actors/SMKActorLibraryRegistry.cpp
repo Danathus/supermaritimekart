@@ -3,6 +3,7 @@
 #include <actors/MineActor.h>
 #include <actors/PickUpItemHandle.h>
 #include <actors/RocketActor.h>
+#include <actors/TorpedoActor.h>
 #include <actors/SMKBoatActor.h>
 
 #include <dtDAL/actorpluginregistry.h>
@@ -14,6 +15,7 @@ RefPtr<dtDAL::ActorType> SMKActorLibraryRegistry::SMK_BOAT_ACTOR_TYPE(new dtDAL:
 RefPtr<dtDAL::ActorType> SMKActorLibraryRegistry::SMK_PICKUP_ACTOR_TYPE(new dtDAL::ActorType("SMKPickUp", "SuperMaritimeKart"));
 RefPtr<dtDAL::ActorType> SMKActorLibraryRegistry::MINE_ACTOR_TYPE(new dtDAL::ActorType("MineActor", "SuperMaritimeKart"));
 RefPtr<dtDAL::ActorType> SMKActorLibraryRegistry::ROCKET_ACTOR_TYPE(new dtDAL::ActorType("RocketActor", "SuperMaritimeKart"));
+RefPtr<dtDAL::ActorType> SMKActorLibraryRegistry::TORPEDO_ACTOR_TYPE(new dtDAL::ActorType("TorpedoActor", "SuperMaritimeKart"));
 
 //////////////////////////////////////////////////////////////////////////
 extern "C" SMK_ACTOR_EXPORT dtDAL::ActorPluginRegistry* CreatePluginRegistry()
@@ -40,6 +42,7 @@ void SMKActorLibraryRegistry::RegisterActorTypes()
    mActorFactory->RegisterType<SMK::PickUpItemBaseProxy>(SMK_PICKUP_ACTOR_TYPE.get());
    mActorFactory->RegisterType<MineActorProxy>(MINE_ACTOR_TYPE.get());
    mActorFactory->RegisterType<RocketActorProxy>(ROCKET_ACTOR_TYPE.get());
+   mActorFactory->RegisterType<TorpedoActorProxy>(TORPEDO_ACTOR_TYPE.get());
 }
 
 //////////////////////////////////////////////////////////////////////////

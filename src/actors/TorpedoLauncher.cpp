@@ -1,53 +1,56 @@
-#include <actors/MineDropper.h>
+#include <actors/TorpedoLauncher.h>
+#include <actors/TorpedoActor.h>
+#include <actors/SMKActorLibraryRegistry.h>
 #include <util/SMKUtilFunctions.h>
 
-#include <actors/SMKActorLibraryRegistry.h>
-#include <actors/MineActor.h>
-
+#include <dtAudio/audiomanager.h>
 #include <dtCore/particlesystem.h>
+#include <dtCore/scene.h>
 #include <dtCore/transform.h>
 #include <dtGame/gamemanager.h>
 #include <dtUtil/nodecollector.h>
 #include <dtUtil/stringutils.h>
 
+#include <cassert>
+
 ////////////////////////////////////////////////////////////////////////////////
-const std::string MineDropper::MINE_DROPPER_WEAPON_TYPE = "MineDropper";
-const int MAX_MINE_NODES = 2;
+const std::string TorpedoLauncher::TORPEDO_LAUNCHER_ACTOR_TYPE = "TorpedoLauncher";
+const int MAX_TORPEDO_NODES = 2;
 
 //////////////////////////////////////////////////////////////////////////
-MineDropper::MineDropper(const dtDAL::ResourceDescriptor& resource)
-: BackWeapon(resource)
-, mCurrentMineNode(0)
+TorpedoLauncher::TorpedoLauncher(const dtDAL::ResourceDescriptor& resource)
+: FrontWeapon(resource)
+, mCurrentTorpedoNode(0)
 {
-   SetName(MINE_DROPPER_WEAPON_TYPE);
+   SetName(TORPEDO_LAUNCHER_ACTOR_TYPE);
 
-   // We want to drop one mine every two seconds
-   SetFiringRate(1.0f / 2.0f);
+   SetFiringRate(1.0f);
 
    // Load any sounds we have
-   mpFireSound = LoadSound("/sounds/splash.wav");
+   mpFireSound = LoadSound("/sounds/explosion.wav");
+   mpFireSound->SetGain(0.75f);
 
    // Setup launch particles
    mpLaunchParticles = new dtCore::ParticleSystem;
-   mpLaunchParticles->LoadFile("particles/mine_launch.osg");
+   mpLaunchParticles->LoadFile("particles/torpedo_launch.osg");
    mpLaunchParticles->SetEnabled(false);
    AddChild(mpLaunchParticles);
 
    // Setup our damage
    mDamage.SetDamageType(SMK::Damage::DAMAGE_BLAST);
-   mDamage.SetAmount(25);
-   mDamage.SetRadius(15.0f);
+   mDamage.SetAmount(15);
+   mDamage.SetRadius(5.0f);
 }
 
 //////////////////////////////////////////////////////////////////////////
-MineDropper::~MineDropper()
+TorpedoLauncher::~TorpedoLauncher()
 {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MineDropper::FireWeapon()
+void TorpedoLauncher::FireWeapon()
 {
-   BackWeapon::FireWeapon();
+   FrontWeapon::FireWeapon();
 
    osg::Matrix launchLocation = GetLaunchLocation();
    dtCore::Transform currentTransform;
@@ -58,21 +61,21 @@ void MineDropper::FireWeapon()
 
    if (!mpSMKBoatActorProxy->GetGameActor().IsRemote())
    {
-      // Create a MineActor and publish it
-      dtCore::RefPtr<MineActorProxy> mineActorProxy;
-      mpSMKBoatActorProxy->GetGameManager()->CreateActor(*SMKActorLibraryRegistry::MINE_ACTOR_TYPE, mineActorProxy);
-      if (mineActorProxy.valid())
+      // Create a TorpedoActor and publish it
+      dtCore::RefPtr<TorpedoActorProxy> torpedoActorProxy;
+      mpSMKBoatActorProxy->GetGameManager()->CreateActor(*SMKActorLibraryRegistry::TORPEDO_ACTOR_TYPE, torpedoActorProxy);
+      if (torpedoActorProxy.valid())
       {
-         MineActor* mineActor = dynamic_cast<MineActor*>(&mineActorProxy->GetGameActor());
-         mineActor->SetTransform(currentTransform);
-         mineActor->SetDamage(mDamage);
-         mpSMKBoatActorProxy->GetGameManager()->AddActor(*mineActorProxy, false, true);
+         TorpedoActor* torpedoActor = dynamic_cast<TorpedoActor*>(&torpedoActorProxy->GetGameActor());
+         torpedoActor->SetTransform(currentTransform);
+         torpedoActor->SetDamage(mDamage);
+         mpSMKBoatActorProxy->GetGameManager()->AddActor(*torpedoActorProxy, false, true);
       }
    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-osg::Matrix MineDropper::GetLaunchLocation()
+osg::Matrix TorpedoLauncher::GetLaunchLocation()
 {
    osg::Matrix launchLocation;
 
@@ -80,7 +83,7 @@ osg::Matrix MineDropper::GetLaunchLocation()
       new dtUtil::NodeCollector(GetOSGNode(),
       dtUtil::NodeCollector::MatrixTransformFlag);
 
-   osg::MatrixTransform* launchTransform = collect->GetMatrixTransform(GetMineNodeToFire());
+   osg::MatrixTransform* launchTransform = collect->GetMatrixTransform(GetTorpedoNodeToFire());
    if (launchTransform != NULL)
    {
       launchLocation = SMK::GetAbsoluteMatrix(GetOSGNode(), launchTransform);
@@ -96,11 +99,11 @@ osg::Matrix MineDropper::GetLaunchLocation()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-std::string MineDropper::GetMineNodeToFire()
+std::string TorpedoLauncher::GetTorpedoNodeToFire()
 {
-   std::string mineNode = "Node_Mine" + dtUtil::ToString(++mCurrentMineNode);
-   mCurrentMineNode %= MAX_MINE_NODES;
-   return mineNode;
+   std::string TorpedoNode = "Node_Torp" + dtUtil::ToString(++mCurrentTorpedoNode);
+   mCurrentTorpedoNode %= MAX_TORPEDO_NODES;
+   return TorpedoNode;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

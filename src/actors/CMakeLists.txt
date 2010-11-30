@@ -25,6 +25,8 @@ SET(SOURCE_FILES
 	${SOURCE_PATH}/SimpleFloaterActorComponent.cpp
     ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
     ${SOURCE_PATH}/SMKBoatActor.cpp
+    ${SOURCE_PATH}/TorpedoActor.cpp
+    ${SOURCE_PATH}/TorpedoLauncher.cpp
     ${SOURCE_PATH}/Weapon.cpp
     ${SOURCE_PATH}/WeaponSlot.cpp
     ${SOURCE_PATH}/WeaponFactory.cpp
@@ -52,6 +54,8 @@ SET(HEADER_FILES
     ${HEADER_PATH}/SMKActorExport.h
     ${HEADER_PATH}/SMKActorLibraryRegistry.h
     ${HEADER_PATH}/SMKBoatActor.h
+    ${HEADER_PATH}/TorpedoActor.h
+    ${HEADER_PATH}/TorpedoLauncher.h
     ${HEADER_PATH}/Weapon.h
     ${HEADER_PATH}/WeaponSlot.h
     ${HEADER_PATH}/WeaponFactory.h

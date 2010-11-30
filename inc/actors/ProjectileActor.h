@@ -48,6 +48,7 @@ public:
    ///a chance to not be hit by it's own weapons.
    void SetArmingDelay(float delay) { mArmingDelay = delay; }
    float GetArmingDelay() const     { return mArmingDelay;  }
+   bool IsArmed() { return mLifeCounter >= mArmingDelay; }
 
    virtual bool FilterContact(dContact* contact, Transformable* collider);
 

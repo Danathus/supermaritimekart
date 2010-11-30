@@ -13,15 +13,15 @@
 !ifdef OUTFILE
   OutFile "${OUTFILE}"
 !else
-  OutFile DamageVisualizer--${VERSION}--setup.exe
+  OutFile SuperMaritimeKart--${VERSION}--setup.exe
 !endif
 
 ; HM NIS Edit Wizard helper defines
-!define PRODUCT_NAME             "Damage Visualizer"
+!define PRODUCT_NAME             "Super Maritime Kart"
 !define PRODUCT_VERSION          ${VERSION}
 !define PRODUCT_PUBLISHER        "MOVES"
 !define PRODUCT_WEB_SITE         "http://delta3d.org"
-!define PRODUCT_DIR_REGKEY       "Software\DamageVisualizer"
+!define PRODUCT_DIR_REGKEY       "Software\S"
 !define PRODUCT_UNINST_KEY       "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY  "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
@@ -34,11 +34,10 @@
 !define MUI_ICON   "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
-; paths to assets and binaries for Damage Visualizer App
+; paths to assets and binaries for Super Maritime Kart App
 !define DELTA_ASSET_PATH        "$%DELTA_ROOT%\data"
 !define APPLICATION_ASSET_PATH  "..\data"
-!define APPLICATION_UI_PATH     "..\ui"
-!define BIN_PATH                "..\build\Release"
+!define BIN_PATH                "..\bin"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
@@ -55,7 +54,7 @@
 ; Start menu page
 var ICONS_GROUP
 !define MUI_STARTMENUPAGE_NODISABLE
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Damage Visualizer"
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Super Maritime Kart"
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "${PRODUCT_UNINST_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "${PRODUCT_STARTMENU_REGVAL}"
@@ -77,10 +76,7 @@ var ICONS_GROUP
 
 ; Dependencies
 !define XERCES "xerces-c_3_1.dll"
-!define QTCORE4 "QtCore4.dll"
 !define ODE_SINGLE "ode_single.dll"
-!define QTGUI4 "QtGui4.dll"
-!define QTOPENGL4 "QtOpenGL4.dll"
 !define OSG "osg65-osg.dll"
 !define OSGDB "osg65-osgDB.dll"
 !define OSGGA "osg65-osgGA.dll"
@@ -100,7 +96,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-InstallDir "c:\Training\Damage Visualizer"
+InstallDir "c:\Training\Super Maritime Kart"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
@@ -113,11 +109,6 @@ Section "-Delta3D Dependencies" DeltaDepsSection
    ; Delta3D dependencies
    File /nonfatal "$%DELTA_ROOT%\ext\bin\${ODE_SINGLE}"
    File "$%DELTA_ROOT%\ext\bin\${XERCES}"
-
-   ; try getting Qt from QTDIR
-   File /nonfatal "$%QTDIR%\bin\${QTCORE4}"
-   File /nonfatal "$%QTDIR%\bin\${QTGUI4}"
-   File /nonfatal "$%QTDIR%\bin\${QTOPENGL4}"
    
    SetOutPath "$INSTDIR\bin"
 
@@ -173,26 +164,26 @@ Section "-Delta3D Engine" DeltaSection
      File "$%DELTA_ROOT%\build\bin\${DTUTIL}"
 SectionEnd
 
-Section "-DamageVisualizer Application" AppSection
+Section "-SuperMaritimeKart Application" AppSection
    SetOverwrite ifnewer
    SetOutPath "$INSTDIR"
 
    ; batch files
-   File "Damage Visualizer.bat"
+   File "Super Maritime Kart.bat"
 
-   ; DamageVisualizer application binaries
+   ; SuperMaritimeKart application binaries
    SetOutPath "$INSTDIR\bin"
 	 File "${BIN_PATH}\DEVOApp.exe"
 
 SectionEnd
 
-Section "-DamageVisualizer Data" DataSection
+Section "-SuperMaritimeKart Data" DataSection
    SetOverwrite ifnewer
 
    SetOutPath "$INSTDIR"
      File "${APPLICATION_ASSET_PATH}\object.xsd"
 
-   ; assets for DamageVisualizer application
+   ; assets for SuperMaritimeKart application
    SetOutPath "$INSTDIR\bin"
      File "${APPLICATION_ASSET_PATH}\config.xml"
      
@@ -212,7 +203,7 @@ Section "Shortcuts" ShortcutsSection
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     SetOutPath "$INSTDIR"
       CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
-      CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Damage Visualizer.lnk" "$INSTDIR\Damage Visualizer.bat"
+      CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Super Maritime Kart.lnk" "$INSTDIR\Super Maritime Kart.bat"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
