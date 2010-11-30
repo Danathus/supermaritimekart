@@ -23,6 +23,7 @@ namespace dtAudio
 namespace dtCore
 {
    class ParticleSystem;
+   class ShaderProgram;
    class ShaderParamFloat;
 }
 
@@ -48,6 +49,8 @@ public:
    SMKBoatActor(SMKBoatActorProxy& proxy);
 
    virtual void TickLocal(const dtGame::Message& msg);
+
+   //virtual void SetMesh(const std::string& meshFile);
 
    ///Get a copy of the current Health
    SMK::Health GetHealth() const;
@@ -142,6 +145,7 @@ private:
    dtCore::RefPtr<dtGame::DeadReckoningHelper> mDeadReckoningHelper;
    dtCore::RefPtr<dtGame::DRPublishingActComp> mDRPublishingActComp;
 
+   dtCore::ShaderProgram* mBoatProgram;
    dtCore::RefPtr<dtCore::ShaderParamFloat> mHealthUniform;
 };
 

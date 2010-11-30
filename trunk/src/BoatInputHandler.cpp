@@ -252,7 +252,7 @@ bool BoatInputHandler::Update()
          {          
             boat->GetBodyWrapper()->SetLinearVelocity(osg::Vec3());
             boat->GetBodyWrapper()->SetAngularVelocity(osg::Vec3());
-            boat->GetBodyWrapper()->ApplyRelTorque(osg::Vec3(0.0f, 200000.0f, 0.0f));
+            boat->GetBodyWrapper()->ApplyRelTorque(osg::Vec3(0.0f, 10000000.0f, 0.0f));
             lastTime = currentTime;
          }         
 
