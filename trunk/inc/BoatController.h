@@ -37,6 +37,8 @@ public:
 
    virtual void ProcessMessage(const dtGame::Message& message);
 
+   void ToggleDemoMode() { mInDemoMode = !mInDemoMode; }
+
 protected:
    virtual ~BoatController();
 
@@ -48,6 +50,12 @@ private:
    void SetupControlledBoat(dtOcean::OceanActor* ocean);
    void CleanupControlledBoat();
 
+   void UpdateBoat(double deltaTime);
+   bool NeedToTurn();
+   bool CurrentlyTurning() const;
+   bool TimeToStartTurning() const;
+   void Reset();
+
    dtCore::RefPtr<SMKBoatActor> mpBoat;
    dtCore::RefPtr<BoatInputHandler> mpInputHandler;
    dtCore::RefPtr<WeaponMouseListener> mpPrimaryMouseListener;
@@ -56,6 +64,12 @@ private:
    dtCore::RefPtr<dtCore::Keyboard> mpKeyboardToListenTo;
    dtCore::RefPtr<OceanWindowResize> mpOceanResizer;
    dtCore::RefPtr<dtGame::DeadReckoningComponent> mDeadReckoningComponent;
+
+   bool mInDemoMode;
+   double mTimeSinceLastTurn;
+   bool mTurnDirection; ///<True if the turn is to the left
+   double mWhenToTurnNext; ///<When to take the next turn
+   double mTurnDuration; ///<How long to turn;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
