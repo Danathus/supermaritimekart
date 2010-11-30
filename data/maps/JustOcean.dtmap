@@ -965,7 +965,7 @@
             </property>
             <property>
                 <name>use cache object</name>
-                <boolean>true</boolean>
+                <boolean>false</boolean>
             </property>
             <property>
                 <name>Scale</name>
