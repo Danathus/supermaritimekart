@@ -13,12 +13,15 @@ namespace dtCore
 }
 
 class Outboard;
+class WeaponSlot;
 
 class BoatInputHandler : public osg::Referenced
 {
 public:
    BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mouse);
    void SetOutboard(Outboard* outboard);
+   void SetPrimaryWeapon(WeaponSlot* weapon) { mpPrimaryWeapon = weapon; }
+   void SetSecondaryWeapon(WeaponSlot* weapon) { mpSecondaryWeapon = weapon; }
    Outboard* GetOutboard() { return mpOutboard.get(); }
 
    bool Update();
@@ -31,6 +34,8 @@ protected:
 
 private:
    dtCore::RefPtr<Outboard> mpOutboard;
+   dtCore::RefPtr<WeaponSlot> mpPrimaryWeapon;
+   dtCore::RefPtr<WeaponSlot> mpSecondaryWeapon;
 
    dtCore::Keyboard* mpKeyboard;
 

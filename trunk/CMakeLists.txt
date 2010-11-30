@@ -56,7 +56,6 @@ SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/SMK_NetworkComponent.cpp
     ${SOURCE_PATH}/SuperMaritimeKart.cpp
     ${SOURCE_PATH}/SuperMaritimeKartMessenger.cpp
-    ${SOURCE_PATH}/WeaponMouseListener.cpp
 )
 
 ################### HEADER FILES #####################
@@ -80,7 +79,6 @@ SET(APP_HEADER_FILES
     ${HEADER_PATH}/SMK_NetworkComponent.h
     ${HEADER_PATH}/SuperMaritimeKart.h
     ${HEADER_PATH}/SuperMaritimeKartMessenger.h
-    ${HEADER_PATH}/WeaponMouseListener.h
 )
 
 ###################### RESOURCE FILES ######################

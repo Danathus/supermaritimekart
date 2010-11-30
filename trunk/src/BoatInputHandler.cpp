@@ -1,5 +1,6 @@
 #include <BoatInputHandler.h>
 #include <BoatActors/Outboard.h>
+#include <actors/WeaponSlot.h>
 
 #include <dtCore/odebodywrap.h>
 #include <dtCore/transform.h>
@@ -13,12 +14,16 @@
 #include <dtCore/inputmapper.h>
 #include <dtInputPLIB/joystick.h>
 
-static const int kCutEnginesButton    = 0xAAAA;
-static const int kRollButton          = 0xAAAB;
-static const int kFirePrimaryWeapon   = 0xAAAC;
-static const int kFireSecondaryWeapon = 0xAAAD;
+enum ButtonNames
+{
+   kFirstButtonName     = 0xAAAA,
+   kCutEnginesButton    = kFirstButtonName,
+   kRollButton,
+   kFirePrimaryWeapon,
+   kFireSecondaryWeapon,
 
-static const int KAXIS1 = 0xBBBA;
+   kMaxButtons
+};
 
 //////////////////////////////////////////////////////////////////////////
 BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mouse)
@@ -56,6 +61,18 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
          keyboard->GetButton('r'),
          kRollButton
       );
+
+      mKeyboardMouseInputDevice->AddButton(
+         "fire primary",
+         mouse->GetButton(0),
+         kFirePrimaryWeapon
+      );
+
+      mKeyboardMouseInputDevice->AddButton(
+         "fire secondary",
+         mouse->GetButton(2),
+         kFireSecondaryWeapon
+      );
    }
 
    // setup indirect input device
@@ -72,6 +89,18 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
          "roll",
          keyboard->GetButton('2'),
          kRollButton
+      );
+
+      mApplicationInputDevice->AddButton(
+         "fire primary",
+         keyboard->GetButton('3'),
+         kFirePrimaryWeapon
+      );
+
+      mApplicationInputDevice->AddButton(
+         "fire secondary",
+         keyboard->GetButton('4'),
+         kFireSecondaryWeapon
       );
 
       //*
@@ -131,17 +160,10 @@ void BoatInputHandler::MapKeyboardControls()
       axis->SetMapping(mapping);
    }
 
-   // cut engines button
+   for (size_t buttonID = kFirstButtonName; buttonID < kMaxButtons; ++buttonID)
    {
-      dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kCutEnginesButton));
-      dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(mKeyboardMouseInputDevice->GetButton(kCutEnginesButton));
-      button->SetMapping(mapping);
-   }
-
-   // roll button
-   {
-      dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kRollButton));
-      dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(mKeyboardMouseInputDevice->GetButton(kRollButton));
+      dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(buttonID));
+      dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(mKeyboardMouseInputDevice->GetButton(buttonID));
       button->SetMapping(mapping);
    }
 }
@@ -177,6 +199,20 @@ void BoatInputHandler::MapGamepadControls()
       {
          dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kRollButton));
          dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(13));
+         button->SetMapping(mapping);
+      }
+
+      // fire primary (/\) (todo: find correct button number)
+      {
+         dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kFirePrimaryWeapon));
+         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(12));
+         button->SetMapping(mapping);
+      }
+
+      // fire secondary ([]) (todo: find correct button number)
+      {
+         dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kFireSecondaryWeapon));
+         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(11));
          button->SetMapping(mapping);
       }
    }
@@ -232,7 +268,7 @@ bool BoatInputHandler::Update()
 
    if (mApplicationInputDevice->GetButton(kRollButton)->GetState())
    {
-      dtCore::Physical* boat = mpOutboard->GetObject();  
+      dtCore::Physical* boat = mpOutboard->GetObject();
 
       dtCore::Transform boatTransform;
       boat->GetTransform(boatTransform);
@@ -262,6 +298,28 @@ bool BoatInputHandler::Update()
 
          mpOutboard->GetObject()->SetTransform(boatTransform);*/
       }
+   }
+
+   if (mApplicationInputDevice->GetButton(kFirePrimaryWeapon)->GetState() &&
+      !mpPrimaryWeapon->GetWeapon()->IsFiring())
+   {
+      mpPrimaryWeapon->StartWeaponFire();
+   }
+   else if (!mApplicationInputDevice->GetButton(kFirePrimaryWeapon)->GetState() &&
+      mpPrimaryWeapon->GetWeapon()->IsFiring())
+   {
+      mpPrimaryWeapon->StopWeaponFire();
+   }
+
+   if (mApplicationInputDevice->GetButton(kFireSecondaryWeapon)->GetState() &&
+      !mpSecondaryWeapon->GetWeapon()->IsFiring())
+   {
+      mpSecondaryWeapon->StartWeaponFire();
+   }
+   else if (!mApplicationInputDevice->GetButton(kFireSecondaryWeapon)->GetState() &&
+      mpSecondaryWeapon->GetWeapon()->IsFiring())
+   {
+      mpSecondaryWeapon->StopWeaponFire();
    }
 
    return handled;

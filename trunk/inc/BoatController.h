@@ -7,7 +7,6 @@
 class BoatInputHandler;
 class OceanWindowResize;
 class SMKBoatActor;
-class WeaponMouseListener;
 
 namespace dtCore
 {
@@ -58,8 +57,6 @@ private:
 
    dtCore::RefPtr<SMKBoatActor> mpBoat;
    dtCore::RefPtr<BoatInputHandler> mpInputHandler;
-   dtCore::RefPtr<WeaponMouseListener> mpPrimaryMouseListener;
-   dtCore::RefPtr<WeaponMouseListener> mpSecondaryMouseListener;
    dtCore::RefPtr<dtCore::Mouse> mpMouseToListenTo;
    dtCore::RefPtr<dtCore::Keyboard> mpKeyboardToListenTo;
    dtCore::RefPtr<OceanWindowResize> mpOceanResizer;
