@@ -7,6 +7,8 @@
 #include <actors/SMKBoatActor.h>
 #include <actors/WeaponSlot.h>
 
+#include <BoatActors/OutBoard.h>
+
 #include <dtActors/engineactorregistry.h>
 #include <dtActors/playerstartactorproxy.h>
 #include <dtCore/deltawin.h>
@@ -16,6 +18,7 @@
 #include <dtGame/messagetype.h>
 #include <dtGame/basemessages.h>
 #include <dtGame/deadreckoningcomponent.h>
+#include <dtUtil/mathdefines.h>
 
 #ifdef BUILD_WITH_DTOCEAN
 # include <dtOcean/actorregistry.h>
@@ -27,6 +30,12 @@
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////
+const double WHEN_TO_TURN_MIN = 10.0;
+const double WHEN_TO_TURN_MAX = 30.0;
+const double TURN_DURATION_MIN = 3.0;
+const double TURN_DURATION_MAX = 6.0;
+
+////////////////////////////////////////////////////////////////////////////////
 BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard, dtCore::Mouse& mouse)
    : dtGame::GMComponent("BoatController")
    , mpInputHandler(new BoatInputHandler(&keyboard, &mouse))
@@ -35,6 +44,7 @@ BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard
    , mpKeyboardToListenTo(&keyboard)
    , mpMouseToListenTo(&mouse)
    , mpOceanResizer(new OceanWindowResize())
+   , mInDemoMode(false)
 {
    win.AddResizeCallback(*mpOceanResizer);
 }
@@ -78,9 +88,10 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
       {
          const dtGame::TickMessage& tickMsg = static_cast<const dtGame::TickMessage&>(message);
 
+         float dt = tickMsg.GetDeltaSimTime();
          static float delay = 0.0f;
          static const float kPeriod = 0.1f;
-         delay += tickMsg.GetDeltaSimTime();
+         delay += dt;
 
          if (delay > kPeriod)
          {
@@ -95,6 +106,11 @@ void BoatController::ProcessMessage(const dtGame::Message& message)
 
          //mpBoat->GetGameActorProxy().NotifyFullActorUpdate();
          mpInputHandler->Update();
+
+         if (mInDemoMode)
+         {
+            UpdateBoat(dt);
+         }
       }
    }
 
@@ -203,6 +219,75 @@ void BoatController::CleanupControlledBoat()
    mpBoat->SetGetHeight(NULL);
    mpBoat->EnableDynamics(false);
    mpBoat = NULL;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void BoatController::UpdateBoat(double deltaTime)
+{
+   mTimeSinceLastTurn += deltaTime;
+
+   if (NeedToTurn())
+   {
+      mpBoat->GetOutBoard()->ActivateTurning(mTurnDirection);
+   }
+   else
+   {
+      mpBoat->GetOutBoard()->DeactivateTurning();
+   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool BoatController::NeedToTurn()
+{
+   if (CurrentlyTurning())
+   {
+      return true;
+   }
+   else if (TimeToStartTurning())
+   {
+      Reset();
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool BoatController::CurrentlyTurning() const
+{
+   if (mTimeSinceLastTurn <= mTurnDuration)
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+bool BoatController::TimeToStartTurning() const
+{
+   if (mTimeSinceLastTurn >= mWhenToTurnNext)
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void BoatController::Reset()
+{
+   mTimeSinceLastTurn = 0.0;
+   mTurnDirection = dtUtil::RandRange(0,1) ? true : false;
+   mWhenToTurnNext = dtUtil::RandFloat(WHEN_TO_TURN_MIN, WHEN_TO_TURN_MAX);
+   mTurnDuration = dtUtil::RandFloat(TURN_DURATION_MIN, TURN_DURATION_MAX);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

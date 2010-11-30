@@ -292,6 +292,9 @@ bool SuperMaritimeKart::KeyReleased(const dtCore::Keyboard* keyboard, int kc)
    case 'C':
       mCameraComponent->CycleCameraModes();
       break;
+   case osgGA::GUIEventAdapter::KEY_Return:
+      mpBoatComponent->ToggleDemoMode();
+      break;
    case osgGA::GUIEventAdapter::KEY_Escape:
       Quit();
       break;
