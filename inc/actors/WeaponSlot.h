@@ -48,6 +48,7 @@ public:
 
    void SetWeapon(const std::string& weaponClass, dtGame::GameActorProxy* actorProxy);
    Weapon* GetWeapon() { return mpWeapon; }
+   const Weapon* GetWeapon() const { return mpWeapon; }
 
    ///The relative position of the weapon is placed
    osg::Vec3 GetWeaponPosition() const;

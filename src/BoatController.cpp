@@ -2,7 +2,6 @@
 #include <BoatInputHandler.h>
 #include <util/DeltaOceanGetHeight.h>
 #include <OceanWindowResize.h>
-#include <WeaponMouseListener.h>
 #include <actors/SMKActorLibraryRegistry.h>
 #include <actors/SMKBoatActor.h>
 #include <actors/WeaponSlot.h>
@@ -39,8 +38,6 @@ const double TURN_DURATION_MAX = 6.0;
 BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard, dtCore::Mouse& mouse)
    : dtGame::GMComponent("BoatController")
    , mpInputHandler(new BoatInputHandler(&keyboard, &mouse))
-   , mpPrimaryMouseListener(new WeaponMouseListener())
-   , mpSecondaryMouseListener(new WeaponMouseListener())
    , mpKeyboardToListenTo(&keyboard)
    , mpMouseToListenTo(&mouse)
    , mpOceanResizer(new OceanWindowResize())
@@ -53,11 +50,7 @@ BoatController::BoatController(dtCore::DeltaWin& win, dtCore::Keyboard& keyboard
 BoatController::~BoatController()
 {
    mpInputHandler->SetOutboard(NULL);
-   mpMouseToListenTo->RemoveMouseListener(mpPrimaryMouseListener.get());
-   mpMouseToListenTo->RemoveMouseListener(mpSecondaryMouseListener.get());
    mpMouseToListenTo = NULL;
-   mpPrimaryMouseListener = NULL;
-   mpSecondaryMouseListener = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -182,12 +175,8 @@ void BoatController::SetupControlledBoat(dtOcean::OceanActor* ocean)
 {
    // Setup BoatKeyboardListener
    mpInputHandler->SetOutboard(mpBoat->GetOutBoard());
-
-   // Setup WeaponMouseListener
-   mpPrimaryMouseListener->SetWeapon(mpBoat->GetFrontWeapon());
-   mpSecondaryMouseListener->SetWeapon(mpBoat->GetBackWeapon());
-   mpMouseToListenTo->AddMouseListener(mpPrimaryMouseListener.get());
-   mpMouseToListenTo->AddMouseListener(mpSecondaryMouseListener.get());
+   mpInputHandler->SetPrimaryWeapon(mpBoat->GetFrontWeapon());
+   mpInputHandler->SetSecondaryWeapon(mpBoat->GetBackWeapon());
 
    // Setup Boat to float
    mpBoat->SetGetHeight(new DeltaOceanGetHeight(*ocean));
@@ -213,8 +202,6 @@ void BoatController::SetupControlledBoat(dtOcean::OceanActor* ocean)
 void BoatController::CleanupControlledBoat()
 {
    mpInputHandler->SetOutboard(NULL);
-   mpMouseToListenTo->RemoveMouseListener(mpPrimaryMouseListener.get());
-   mpMouseToListenTo->RemoveMouseListener(mpSecondaryMouseListener.get());
 
    mpBoat->SetGetHeight(NULL);
    mpBoat->EnableDynamics(false);
@@ -291,3 +278,18 @@ void BoatController::Reset()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+/*
+void WeaponMouseListener::UpdateLastMousePosition(float x, float y)
+{
+   FrontWeaponSlot* turret = dynamic_cast<FrontWeaponSlot*>(mpWeapon.get());
+   if (turret != NULL)
+   {
+      Weapon* actor = turret->GetWeapon();
+      dtCore::Transform weaponTransform;
+      actor->GetTransform(weaponTransform, dtCore::Transformable::REL_CS);
+      weaponTransform.SetRotation(-x * turret->GetHorizontalMaxAngle(),
+         y * turret->GetVerticalMaxAngle(), 0);
+      actor->SetTransform(weaponTransform, dtCore::Transformable::REL_CS);
+   }
+}
+//*/

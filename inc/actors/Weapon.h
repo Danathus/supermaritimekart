@@ -27,6 +27,7 @@ public:
    void SetFiringRate(float rate);
 
    void Update(float deltaTime);
+   bool IsFiring() const { return mIsFiring; }
 
    virtual void StartWeaponFiring();
    virtual void FireWeapon();
