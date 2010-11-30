@@ -1,8 +1,8 @@
-#include <actors/MineActor.h>
+#include <actors/TorpedoActor.h>
 #include <actors/SimpleFloaterActorComponent.h>
 
 #include <dtCore/transform.h>
-#include <dtCore/shadermanager.h>
+
 #include <dtGame/gamemanager.h>
 
 #ifdef BUILD_WITH_DTOCEAN
@@ -13,19 +13,20 @@
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////
-static const float MINE_LIFETIME = 10.0f;
-static const float MINE_ARMING_DELAY = 1.5f;
+static const float TORPEDO_SPEED = 1.0f;
+static const float TORPEDO_LIFETIME = 5.0f;
+static const float TORPEDO_ARMING_DELAY = 0.5f;
 
 //////////////////////////////////////////////////////////////////////////
-MineActor::MineActor(dtGame::GameActorProxy& proxy)
+TorpedoActor::TorpedoActor(dtGame::GameActorProxy& proxy)
 : ProjectileActor(proxy)
 {
-   SetLifetime(MINE_LIFETIME);
-   SetArmingDelay(MINE_ARMING_DELAY);
+   SetLifetime(TORPEDO_LIFETIME);
+   SetArmingDelay(TORPEDO_ARMING_DELAY);
 }
 
 //////////////////////////////////////////////////////////////////////////
-MineActor::~MineActor()
+TorpedoActor::~TorpedoActor()
 {
    if (mpFloaterComponent.valid())
    {
@@ -35,31 +36,36 @@ MineActor::~MineActor()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MineActor::TickLocal(const dtGame::Message& msg)
+void TorpedoActor::TickLocal(const dtGame::Message& msg)
 {
    ProjectileActor::TickLocal(msg);
 
    dtCore::Transform currentTransform;
    GetTransform(currentTransform);
-   currentTransform.SetRotation(currentTransform.GetRotation() + osg::Vec3(1.0, 0.0, 0.0));
+   osg::Vec3 right, up, forward, translation;
+   currentTransform.GetOrientation(right, up, forward);
+   currentTransform.GetTranslation(translation);
+   if (!mpFloaterComponent.valid())
+   {
+      currentTransform.SetRotation(currentTransform.GetRotation() + osg::Vec3(0.0, -0.4, 0.0));
+   }
+   currentTransform.SetTranslation(translation + forward * TORPEDO_SPEED);
    SetTransform(currentTransform);
+
+   if (IsArmed() && !mpFloaterComponent.valid())
+   {
+      SetupFloaterComponent();
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MineActor::OnEnteredWorld()
+void TorpedoActor::OnEnteredWorld()
 {
-   SetupFloaterComponent();
-   SetMeshResource("Boat:Mine_LG.ive");
-
-   // Retrieve the shader from the shader manager and assign it to this stateset
-   dtCore::ShaderManager& shaderManager = dtCore::ShaderManager::GetInstance();
-   const dtCore::ShaderProgram* prototypeProgram = shaderManager.FindShaderPrototype("BumpedPhong");
-   dtCore::ShaderProgram* program = shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetOSGNode());
-   assert(program);
+   SetMeshResource("Boat:TorpedoType1.IVE");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MineActor::SetupFloaterComponent()
+void TorpedoActor::SetupFloaterComponent()
 {
 #ifdef BUILD_WITH_DTOCEAN
    //find any OceanActors;
@@ -72,26 +78,34 @@ void MineActor::SetupFloaterComponent()
    // Create a new floater component with the ocean
    mpFloaterComponent = new SimpleFloaterActorComponent(*oceanActor);
    AddComponent(*mpFloaterComponent);
+
+   // Clear out any pitch we have so we're moving forward
+   dtCore::Transform currentTransform;
+   GetTransform(currentTransform);
+   osg::Vec3 rotation = currentTransform.GetRotation();
+   rotation.y() = 0.0;
+   currentTransform.SetRotation(rotation);
+   SetTransform(currentTransform);
 #endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-MineActorProxy::MineActorProxy()
+TorpedoActorProxy::TorpedoActorProxy()
 {
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-MineActorProxy::~MineActorProxy()
+TorpedoActorProxy::~TorpedoActorProxy()
 {
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MineActorProxy::CreateActor()
+void TorpedoActorProxy::CreateActor()
 {
-   MineActor* pActor = new MineActor(*this);
+   TorpedoActor* pActor = new TorpedoActor(*this);
    SetActor(*pActor);
 }
 

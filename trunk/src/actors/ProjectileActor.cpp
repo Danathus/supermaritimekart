@@ -158,7 +158,7 @@ void ProjectileActor::BuildActorComponents()
 ///////////////////////////////////////////////////////////////////////////////
 bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
 {
-   if (mLifeCounter < mArmingDelay) { return false; }
+   if (!IsArmed()) { return false; }
 
    if (!GetGameActorProxy().IsInSTAGE() && !IsRemote() && GetCollisionDetection())
    {
