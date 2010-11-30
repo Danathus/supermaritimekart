@@ -22,6 +22,8 @@ public:
    void SetSMKBoatActorProxy(dtGame::GameActorProxy* proxy) { mpSMKBoatActorProxy = proxy;      }
    dtGame::GameActorProxy* GetSMKBoatActorProxy() const     { return mpSMKBoatActorProxy.get(); }
 
+   //virtual osg::Node* LoadFile(const std::string& filename, bool useCache);
+
    void SetFiringRate(float rate);
 
    void Update(float deltaTime);

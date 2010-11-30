@@ -33,7 +33,7 @@
 
 using namespace SMK;
 
-#define ENABLE_DAMAGE_SHADER 0
+#define ENABLE_DAMAGE_SHADER 1
 
 //////////////////////////////////////////////////////////
 static const std::string FRONT_WEAPON_FIRED  = "FrontWeaponFired";
@@ -85,6 +85,12 @@ void SMKBoatActor::TickLocal(const dtGame::Message& msg)
 
    UpdateHealthShader(dt);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//void SMKBoatActor::SetMesh(const std::string& meshFile)
+//{
+//
+//}
 
 ////////////////////////////////////////////////////////////////////////////////
 SMK::Health SMKBoatActor::GetHealth() const
@@ -184,6 +190,8 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
 
 }
 
+#include <iostream>
+
 ////////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::OnEnteredWorld()
 {
@@ -206,12 +214,19 @@ void SMKBoatActor::OnEnteredWorld()
    // Retrieve the shader from the shader manager and assign it to this stateset
    dtCore::ShaderManager& shaderManager = dtCore::ShaderManager::GetInstance();
    const dtCore::ShaderProgram* prototypeProgram = shaderManager.FindShaderPrototype("Boat");
-   dtCore::ShaderProgram* program = shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetOSGNode());
-   assert(program);
+   mBoatProgram = shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetOSGNode());
+   //shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetMeshNode());
 
-   mHealthUniform = dynamic_cast<dtCore::ShaderParamFloat*>(program->FindParameter("health"));
+   // hack for iitsec, remote boats don't respect the shader so manually put it on the mesh
+   GetMeshNode()->getOrCreateStateSet()->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);  
+   assert(mBoatProgram);
+
+   mHealthUniform = dynamic_cast<dtCore::ShaderParamFloat*>(mBoatProgram->FindParameter("health"));
    mHealthUniform->SetValue(1.0f);
    assert(mHealthUniform);
+
+   //GetOSGNode()->getOrCreateStateSet()->setRenderingHint(osg::StateSet::OPAQUE_BIN);
+   //GetOSGNode()->getOrCreateStateSet()->setRenderBinDetails(100, "RenderBin");
 
    if (!IsRemote())
    {
@@ -223,6 +238,10 @@ void SMKBoatActor::OnEnteredWorld()
       osg::Vec3 rot;
       xform.GetRotation(rot);
       GetDeadReckoningHelper()->SetLastKnownRotation(rot);
+   }
+   else
+   {
+      std::cout << "remotely entered world" << std::endl;
    }
 
    //////////////////////////////
@@ -354,11 +373,17 @@ void SMKBoatActor::SetupDefaultWeapon()
       if (mpFrontWeapon)
       {
          mpFrontWeapon->Initialize(proxy);
+
+         osg::StateSet* weaponState = mpFrontWeapon->GetWeapon()->GetOSGNode()->getOrCreateStateSet();
+         weaponState->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);
       }
 
       if (mpBackWeapon)
       {
          mpBackWeapon->Initialize(proxy);
+
+         osg::StateSet* weaponState = mpBackWeapon->GetWeapon()->GetOSGNode()->getOrCreateStateSet();
+         weaponState->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);
       }
    }
 }
@@ -486,6 +511,10 @@ void SMKBoatActor::RespawnBoat(const dtGame::Message& weaponFiredMessage)
       // Reset our health and weapons
       mHealth.SetHealth(mHealth.GetMax());
       
+      // Nulling so that the shading will be reinitialized
+      mpFrontWeapon = NULL;
+      mpBackWeapon = NULL;
+
       SetupDefaultWeapon();
 
       // If this is our boat, move back to the respawn point
