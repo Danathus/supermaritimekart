@@ -1,4 +1,5 @@
 #include <actors/ProjectileActor.h>
+#include <actors/PickUpItemHandle.h>
 #include <actors/SMKBoatActor.h>
 #include <messages/DamageMessage.h>
 #include <messages/NetworkMessages.h>
@@ -160,7 +161,8 @@ bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
 {
    if (!IsArmed()) { return false; }
 
-   if (!GetGameActorProxy().IsInSTAGE() && !IsRemote() && GetCollisionDetection())
+   if (!GetGameActorProxy().IsInSTAGE() && !IsRemote() && GetCollisionDetection() &&
+      dynamic_cast<SMK::PickUpItemHandle*>(collider) == NULL)
    {
       // Set the damage's location to where we are at the time of impact
       mDamage.SetLocation(GetGameActorProxy().GetTranslation());
