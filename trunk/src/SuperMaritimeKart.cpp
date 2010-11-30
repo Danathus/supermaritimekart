@@ -85,8 +85,15 @@ SuperMaritimeKart::~SuperMaritimeKart()
    }
   
    mGameManager->RemoveComponent(*mAppComponent);
+   mGameManager->RemoveComponent(*mpBoatComponent);
    mGameManager->RemoveComponent(*mCameraComponent);
+   mGameManager->RemoveComponent(*mpFloaterComponent);
    mGameManager->RemoveComponent(*mpEffectsComponent);
+   mAppComponent = NULL;
+   mpBoatComponent = NULL;
+   mCameraComponent = NULL;
+   mpFloaterComponent = NULL;
+   mpEffectsComponent = NULL;
 
    mGameManager->Shutdown();
 
@@ -128,15 +135,15 @@ void SuperMaritimeKart::Config()
          }
 
          mAppComponent = new SuperMaritimeKartMessenger(*this);
-         BoatController* boatComponent = new BoatController(*GetWindow(), *GetKeyboard(), *GetMouse());
+         mpBoatComponent = new BoatController(*GetWindow(), *GetKeyboard(), *GetMouse());
          mCameraComponent = new CameraController(*GetCamera(),*GetKeyboard(), *GetMouse());
-         FloaterController* floaterComponent = new FloaterController();
+         mpFloaterComponent = new FloaterController();
          mpEffectsComponent = new ImpactEffectsComponent();
 
          mGameManager->AddComponent(*mAppComponent);
-         mGameManager->AddComponent(*boatComponent);
+         mGameManager->AddComponent(*mpBoatComponent);
          mGameManager->AddComponent(*mCameraComponent);
-         mGameManager->AddComponent(*floaterComponent);
+         mGameManager->AddComponent(*mpFloaterComponent);
          mGameManager->AddComponent(*mpEffectsComponent);
 
          mGameManager->AddComponent(*new dtGame::DefaultMessageProcessor(), dtGame::GameManager::ComponentPriority::HIGHEST);
@@ -144,7 +151,7 @@ void SuperMaritimeKart::Config()
 
          dtGame::DeadReckoningComponent* deadReckoningComponent = new dtGame::DeadReckoningComponent();
          mGameManager->AddComponent(*deadReckoningComponent);
-         boatComponent->SetDeadReckoningComponent(deadReckoningComponent);
+         mpBoatComponent->SetDeadReckoningComponent(deadReckoningComponent);
 
          mNetworkComponent = new SMK_NetworkComponent();
          mGameManager->AddComponent(*mNetworkComponent);
@@ -284,6 +291,9 @@ bool SuperMaritimeKart::KeyReleased(const dtCore::Keyboard* keyboard, int kc)
    case 'c':
    case 'C':
       mCameraComponent->CycleCameraModes();
+      break;
+   case osgGA::GUIEventAdapter::KEY_Escape:
+      Quit();
       break;
    default:
       handled = false;

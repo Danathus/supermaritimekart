@@ -7,7 +7,7 @@
         <comment></comment>
         <copyright></copyright>
         <createTimestamp>2009-11-19T17:53:50-08:00</createTimestamp>
-        <lastUpdateTimestamp>2010-11-23T19:16:26-08:00</lastUpdateTimestamp>
+        <lastUpdateTimestamp>2010-11-29T16:09:42-05:00</lastUpdateTimestamp>
         <editorVersion>2.5.0</editorVersion>
         <schemaVersion>1.0</schemaVersion>
     </header>
@@ -1380,6 +1380,119 @@
                     <value2>0.000000</value2>
                     <value3>0.000000</value3>
                 </vec3>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
+        </actor>
+        <actor>
+            <type>SuperMaritimeKart.SMKPickUp</type>
+            <id>37610694-4cc2-45ac-b14d-90cfc2c025ec</id>
+            <name>armor_iron_pickup_02</name>
+            <property>
+                <name>Description</name>
+                <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Rotation</name>
+                <vec3>
+                    <value1>-1.081291</value1>
+                    <value2>0.202384</value2>
+                    <value3>-1.298081</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Translation</name>
+                <vec3>
+                    <value1>28.168356</value1>
+                    <value2>-135.227295</value2>
+                    <value3>-0.282183</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Normal Rescaling</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Show Collision Geometry</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Collision Type</name>
+                <enumerated>CUBE</enumerated>
+            </property>
+            <property>
+                <name>Collision Radius</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Length</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Box</name>
+                <vec3>
+                    <value1>1.000000</value1>
+                    <value2>1.000000</value2>
+                    <value3>1.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Enable Collision</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Render Proxy Node</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Enable Dynamics</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Mass</name>
+                <float>4.1887903</float>
+            </property>
+            <property>
+                <name>Center of Gravity</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Initial Ownership</name>
+                <enumerated>PROTOTYPE</enumerated>
+            </property>
+            <property>
+                <name>Local Actor Update Policy</name>
+                <enumerated>ACCEPT_ALL</enumerated>
+            </property>
+            <property>
+                <name>ShaderGroup</name>
+                <string></string>
+            </property>
+            <property>
+                <name>Type</name>
+                <string>MachineGun</string>
+            </property>
+            <property>
+                <name>IconImage</name>
+                <resourceType>Textures</resourceType>
+                <resourceDisplayName>Textures::bulletTrail.png</resourceDisplayName>
+                <resource>Textures::bulletTrail.png</resource>
+            </property>
+            <property>
+                <name>PickupCategory</name>
+                <enumerated>Bow Weapon</enumerated>
             </property>
             <property>
                 <name>CurrentShader</name>
@@ -4506,6 +4619,119 @@
             </property>
         </actor>
         <actor>
+            <type>SuperMaritimeKart.SMKPickUp</type>
+            <id>c659fd13-6dae-446c-92fe-f6798fd99541</id>
+            <name>armor_iron_pickup_01</name>
+            <property>
+                <name>Description</name>
+                <string></string>
+            </property>
+            <property>
+                <name>IsActive</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Rotation</name>
+                <vec3>
+                    <value1>-1.081291</value1>
+                    <value2>0.202384</value2>
+                    <value3>-1.298081</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Translation</name>
+                <vec3>
+                    <value1>-22.606880</value1>
+                    <value2>-134.073349</value2>
+                    <value3>-0.102816</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Normal Rescaling</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Show Collision Geometry</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Collision Type</name>
+                <enumerated>CUBE</enumerated>
+            </property>
+            <property>
+                <name>Collision Radius</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Length</name>
+                <float>0</float>
+            </property>
+            <property>
+                <name>Collision Box</name>
+                <vec3>
+                    <value1>1.000000</value1>
+                    <value2>1.000000</value2>
+                    <value3>1.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Enable Collision</name>
+                <boolean>true</boolean>
+            </property>
+            <property>
+                <name>Render Proxy Node</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Enable Dynamics</name>
+                <boolean>false</boolean>
+            </property>
+            <property>
+                <name>Mass</name>
+                <float>4.1887903</float>
+            </property>
+            <property>
+                <name>Center of Gravity</name>
+                <vec3>
+                    <value1>0.000000</value1>
+                    <value2>0.000000</value2>
+                    <value3>0.000000</value3>
+                </vec3>
+            </property>
+            <property>
+                <name>Initial Ownership</name>
+                <enumerated>PROTOTYPE</enumerated>
+            </property>
+            <property>
+                <name>Local Actor Update Policy</name>
+                <enumerated>ACCEPT_ALL</enumerated>
+            </property>
+            <property>
+                <name>ShaderGroup</name>
+                <string></string>
+            </property>
+            <property>
+                <name>Type</name>
+                <string>RocketLauncher</string>
+            </property>
+            <property>
+                <name>IconImage</name>
+                <resourceType>Textures</resourceType>
+                <resourceDisplayName>Textures::rocket_pickup.png</resourceDisplayName>
+                <resource>Textures::rocket_pickup.png</resource>
+            </property>
+            <property>
+                <name>PickupCategory</name>
+                <enumerated>Bow Weapon</enumerated>
+            </property>
+            <property>
+                <name>CurrentShader</name>
+                <resourceType>Shaders</resourceType>
+                <resourceDisplayName></resourceDisplayName>
+                <resource></resource>
+            </property>
+        </actor>
+        <actor>
             <type>dtcore.Game.Actors.Game Mesh Actor</type>
             <id>c8c7a677-e823-4b97-ba18-747159f7482a</id>
             <name>StaticMesh_13</name>
@@ -5173,6 +5399,12 @@
         </group>
         <group>
             <actor>21155c63-135d-469f-9729-fba595c74e16</actor>
+        </group>
+        <group>
+            <actor>c659fd13-6dae-446c-92fe-f6798fd99541</actor>
+        </group>
+        <group>
+            <actor>37610694-4cc2-45ac-b14d-90cfc2c025ec</actor>
         </group>
     </groups>
     <presetCameras></presetCameras>

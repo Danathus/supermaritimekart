@@ -242,6 +242,21 @@ void PickUpItemBaseProxy::OnEnteredWorld()
    }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void PickUpItemBaseProxy::OnRemovedFromWorld()
+{
+   if (!IsRemote())
+   {
+      UnregisterForMessages(dtGame::MessageType::TICK_LOCAL, dtGame::GameActorProxy::TICK_LOCAL_INVOKABLE);
+   }
+   else
+   {
+      UnregisterForMessages(dtGame::MessageType::TICK_REMOTE, dtGame::GameActorProxy::TICK_REMOTE_INVOKABLE);
+   }
+
+   dtGame::GameActorProxy::OnRemovedFromWorld();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 void PickUpItemBaseProxy::CreateActor()
 {

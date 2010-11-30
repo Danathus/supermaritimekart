@@ -15,7 +15,9 @@ namespace dtDAL
    class BaseActorObject;
 }
 
+class BoatController;
 class CameraController;
+class FloaterController;
 class FloatingActor;
 class GameFinder;
 class ImpactEffectsComponent;
@@ -53,7 +55,9 @@ private:
    ProxyContainer mInstantiatedPrototypes;
    dtCore::RefPtr<SMK_NetworkComponent> mNetworkComponent;
    dtCore::RefPtr<SuperMaritimeKartMessenger> mAppComponent;
+   dtCore::RefPtr<BoatController> mpBoatComponent;
    dtCore::RefPtr<CameraController> mCameraComponent;
+   dtCore::RefPtr<FloaterController> mpFloaterComponent;
    dtCore::RefPtr<ImpactEffectsComponent> mpEffectsComponent;
 
    bool mTryingToBeServer; ///<Are we attempting to be the server?

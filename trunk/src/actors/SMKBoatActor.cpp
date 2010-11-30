@@ -272,11 +272,21 @@ void SMKBoatActor::OnEnteredWorld()
 ////////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::OnRemovedFromWorld()
 {
-   //clear out our references so instances will be destroyed.
-   BoatActor::OnRemovedFromWorld();
+   UnregisterGlobalBoatMessages();
+   if (IsRemote())
+   {
+      UnregisterRemoteBoatMessages();
+   }
+   else
+   {
+      UnregisterLocalBoatMessages();
+   }
 
    mpFrontWeapon = NULL;
    mpBackWeapon = NULL;
+
+   //clear out our references so instances will be destroyed.
+   BoatActor::OnRemovedFromWorld();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -369,6 +379,14 @@ void SMKBoatActor::RegisterGlobalBoatMessages()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::UnregisterGlobalBoatMessages()
+{
+   GetGameActorProxy().UnregisterForMessages(SMK::SMKNetworkMessages::INFO_PICKUP_ITEM_ACQUIRED, PICKUP_ACQUIRED);
+   GetGameActorProxy().UnregisterForMessages(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, BOAT_HIT);
+   GetGameActorProxy().UnregisterForMessages(SMK::SMKNetworkMessages::ACTION_BOAT_EXPLODED, BOAT_EXPLODED);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::RegisterRemoteBoatMessages()
 {
    GetGameActorProxy().AddInvokable(*new dtGame::Invokable(FRONT_WEAPON_FIRED,
@@ -381,12 +399,25 @@ void SMKBoatActor::RegisterRemoteBoatMessages()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::UnregisterRemoteBoatMessages()
+{
+   GetGameActorProxy().UnregisterForMessages(SMK::SMKNetworkMessages::ACTION_FRONT_WEAPON_FIRED, FRONT_WEAPON_FIRED);
+   GetGameActorProxy().UnregisterForMessages(SMK::SMKNetworkMessages::ACTION_BACK_WEAPON_FIRED, BACK_WEAPON_FIRED);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void SMKBoatActor::RegisterLocalBoatMessages()
 {
    GetGameActorProxy().AddInvokable(*new dtGame::Invokable(PROJECTILE_EXPLODED,
       dtUtil::MakeFunctor(&SMKBoatActor::ProjectileExploded, this)));
 
    GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, PROJECTILE_EXPLODED);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::UnregisterLocalBoatMessages()
+{
+   GetGameActorProxy().UnregisterForMessages(SMK::SMKNetworkMessages::ACTION_PROJECTILE_EXPLODED, PROJECTILE_EXPLODED);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

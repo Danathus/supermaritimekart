@@ -64,6 +64,7 @@ namespace SMK
       virtual void BuildPropertyMap();
       
       virtual void OnEnteredWorld();
+      virtual void OnRemovedFromWorld();
 
    protected:
       virtual void CreateActor();
