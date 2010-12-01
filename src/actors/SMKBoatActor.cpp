@@ -86,6 +86,17 @@ void SMKBoatActor::TickLocal(const dtGame::Message& msg)
    UpdateHealthShader(dt);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::TickRemote(const dtGame::Message& msg)
+{
+   BoatActor::TickRemote(msg);
+
+   const dtGame::TickMessage& tickMessage = static_cast<const dtGame::TickMessage&>(msg);
+   float dt = tickMessage.GetDeltaSimTime();
+
+   //UpdateHealthShader(dt);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //void SMKBoatActor::SetMesh(const std::string& meshFile)
 //{
@@ -374,16 +385,25 @@ void SMKBoatActor::SetupDefaultWeapon()
       {
          mpFrontWeapon->Initialize(proxy);
 
-         osg::StateSet* weaponState = mpFrontWeapon->GetWeapon()->GetOSGNode()->getOrCreateStateSet();
-         weaponState->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);
+         //Weapon* frontWeapon = mpFrontWeapon->GetWeapon();
+         //osg::Node* frontWeaponNode = frontWeapon->GetOSGNode();
+         //osg::StateSet* weaponState = frontWeaponNode->getOrCreateStateSet();
+         //if (weaponState == NULL || mBoatProgram == NULL)
+         //{
+         //   LOG_ERROR("WeaponState is null");
+         //}
+         //else
+         //{
+         //   weaponState->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);
+         //}
       }
 
       if (mpBackWeapon)
       {
          mpBackWeapon->Initialize(proxy);
 
-         osg::StateSet* weaponState = mpBackWeapon->GetWeapon()->GetOSGNode()->getOrCreateStateSet();
-         weaponState->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);
+         //osg::StateSet* weaponState = mpBackWeapon->GetWeapon()->GetOSGNode()->getOrCreateStateSet();
+         //weaponState->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);
       }
    }
 }
@@ -512,8 +532,8 @@ void SMKBoatActor::RespawnBoat(const dtGame::Message& weaponFiredMessage)
       mHealth.SetHealth(mHealth.GetMax());
       
       // Nulling so that the shading will be reinitialized
-      mpFrontWeapon = NULL;
-      mpBackWeapon = NULL;
+      //mpFrontWeapon = NULL;
+      //mpBackWeapon = NULL;
 
       SetupDefaultWeapon();
 

@@ -49,6 +49,7 @@ public:
    SMKBoatActor(SMKBoatActorProxy& proxy);
 
    virtual void TickLocal(const dtGame::Message& msg);
+   virtual void TickRemote(const dtGame::Message& msg);
 
    //virtual void SetMesh(const std::string& meshFile);
 
