@@ -46,8 +46,8 @@ static const struct
 {
    5, // firePrimary   (formerly 12)
    4, // fireSecondary (formerly 11)
-   2, // cutEngines    (formerly 14)
-   1  // roll          (formerly 13)
+   1, // cutEngines    (formerly 14)
+   0  // roll          (formerly 13)
 };
 
 #define TEST_CONTROLLER 0
@@ -165,11 +165,14 @@ BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mo
    // initialize input
    dtInputPLIB::Joystick::CreateInstances();
 
-   //*
-   MapKeyboardControls();
-   /*/
-   MapGamepadControls();
-   //*/
+   if (dtInputPLIB::Joystick::GetInstanceCount() > 0)
+   {
+      MapGamepadControls();
+   }
+   else
+   {
+      MapKeyboardControls();
+   }
 }
 
 //////////////////////////////////////////////////////////////////////////
