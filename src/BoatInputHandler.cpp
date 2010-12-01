@@ -14,6 +14,8 @@
 #include <dtCore/inputmapper.h>
 #include <dtInputPLIB/joystick.h>
 
+#include <sstream>
+
 enum ButtonNames
 {
    kFirstButtonName     = 0xAAAA,
@@ -24,6 +26,31 @@ enum ButtonNames
 
    kMaxButtons
 };
+
+// 0 is triangle
+// 1 is circle
+// 2 engines is X
+// 3 is square
+// 4 is L2
+// 5 is R2
+// 6 is L1
+// 7 is R1
+// 8 is select
+// 9 is start
+// 10 is left stick in
+// 11 is right stick in
+static const struct
+{
+   int firePrimary, fireSecondary, cutEngines, roll;
+} sgkControllerButtonMappings =
+{
+   5, // firePrimary   (formerly 12)
+   4, // fireSecondary (formerly 11)
+   2, // cutEngines    (formerly 14)
+   1  // roll          (formerly 13)
+};
+
+#define TEST_CONTROLLER 0
 
 //////////////////////////////////////////////////////////////////////////
 BoatInputHandler::BoatInputHandler(dtCore::Keyboard* keyboard, dtCore::Mouse* mouse)
@@ -170,11 +197,46 @@ void BoatInputHandler::MapKeyboardControls()
 
 void BoatInputHandler::MapGamepadControls()
 {
-   for (int i = 0; i < dtInputPLIB::Joystick::GetInstanceCount(); i++)
+   printf(">>> mapping gamepad controls -- founding %d joysticks\n", dtInputPLIB::Joystick::GetInstanceCount());
+   for (int joyID = 0; joyID < dtInputPLIB::Joystick::GetInstanceCount(); joyID++)
    {
-      mInputMapper->AddDevice(dtInputPLIB::Joystick::GetInstance(i));
+      dtInputPLIB::Joystick* joystick = dtInputPLIB::Joystick::GetInstance(joyID);
+      printf(">>> controller %d has %d axes, %d buttons\n", joyID, joystick->GetAxisCount(), joystick->GetButtonCount());
+      mInputMapper->AddDevice(joystick);
+
+#if TEST_CONTROLLER
+      for (size_t axisIdx = 0; axisIdx < joystick->GetAxisCount(); ++axisIdx)
+      {
+         while (axisIdx >= mApplicationInputDevice->GetAxisCount())
+         {
+            std::stringstream strstrm;
+            strstrm << "axis";
+            strstrm << int(axisIdx);
+            mApplicationInputDevice->AddAxis(strstrm.str());
+         }
+         dtCore::LogicalAxis* axis = static_cast<dtCore::LogicalAxis*>(mApplicationInputDevice->GetAxis(axisIdx));
+         dtCore::AxisMapping* mapping = new dtCore::AxisToAxis(joystick->GetAxis(axisIdx));
+         axis->SetMapping(mapping);
+      }
+      /*
+      for (size_t buttonIdx = 0; buttonIdx < joystick->GetButtonCount(); ++buttonIdx)
+      {
+         while (buttonIdx >= mApplicationInputDevice->GetButtonCount())
+         {
+            std::stringstream strstrm;
+            strstrm << "button";
+            strstrm << int(buttonIdx);
+            mApplicationInputDevice->AddButton(strstrm.str(), buttonIdx);
+         }
+         dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(buttonIdx));
+         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(joystick->GetButton(buttonIdx));
+         button->SetMapping(mapping);
+      }
+      //*/
+#endif
    }
 
+#if !TEST_CONTROLLER
    // map gamepad controls
    {
       dtCore::LogicalAxis* axis;
@@ -191,31 +253,32 @@ void BoatInputHandler::MapGamepadControls()
       // cut engines button (X)
       {
          dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kCutEnginesButton));
-         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(14));
+         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(sgkControllerButtonMappings.cutEngines));
          button->SetMapping(mapping);
       }
 
       // roll button (O)
       {
          dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kRollButton));
-         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(13));
+         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(sgkControllerButtonMappings.roll));
          button->SetMapping(mapping);
       }
 
       // fire primary (/\) (todo: find correct button number)
       {
          dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kFirePrimaryWeapon));
-         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(12));
+         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(sgkControllerButtonMappings.firePrimary));
          button->SetMapping(mapping);
       }
 
       // fire secondary ([]) (todo: find correct button number)
       {
          dtCore::LogicalButton* button = static_cast<dtCore::LogicalButton*>(mApplicationInputDevice->GetButton(kFireSecondaryWeapon));
-         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(11));
+         dtCore::ButtonMapping* mapping = new dtCore::ButtonToButton(dtInputPLIB::Joystick::GetInstance(0)->GetButton(sgkControllerButtonMappings.fireSecondary));
          button->SetMapping(mapping);
       }
    }
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -232,6 +295,17 @@ bool BoatInputHandler::Update()
    dtInputPLIB::Joystick::PollInstances();
 
    bool handled = true;
+
+#if TEST_CONTROLLER
+   dtInputPLIB::Joystick* joystick = dtInputPLIB::Joystick::GetInstance(0);
+   for (size_t axisIdx = 0; axisIdx < joystick->GetAxisCount(); ++axisIdx)
+   {
+      const float axisValue = mApplicationInputDevice->GetAxis(axisIdx)->GetState();
+      printf("%2.2f, ", axisValue);
+   }
+   printf("\n");
+   return handled;
+#endif
 
    const float forwardAxis = mApplicationInputDevice->GetAxis(0)->GetState();
    if (forwardAxis > 0.5f)
@@ -285,10 +359,11 @@ bool BoatInputHandler::Update()
          dtCore::Timer_t currentTime = timer->Tick();
 
          if (timer->DeltaSec(lastTime, currentTime) > 2.0f)
-         {          
-            boat->GetBodyWrapper()->SetLinearVelocity(osg::Vec3());
-            boat->GetBodyWrapper()->SetAngularVelocity(osg::Vec3());
-            boat->GetBodyWrapper()->ApplyRelTorque(osg::Vec3(0.0f, 10000000.0f, 0.0f));
+         {
+            boat->GetBodyWrapper()->SetLinearVelocity(osg::Vec3(0, 0, 0));
+            boat->GetBodyWrapper()->SetAngularVelocity(osg::Vec3(0, 0, 0));
+            //boat->GetBodyWrapper()->ApplyRelTorque(osg::Vec3(0.0f, 10000000.0f, 0.0f));
+            boat->GetBodyWrapper()->ApplyRelTorque(osg::Vec3(0.0f, 100000.0f, 0.0f));
             lastTime = currentTime;
          }         
 
