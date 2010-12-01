@@ -1488,8 +1488,8 @@
             <property>
                 <name>IconImage</name>
                 <resourceType>Textures</resourceType>
-                <resourceDisplayName>Textures::bulletTrail.png</resourceDisplayName>
-                <resource>Textures::bulletTrail.png</resource>
+                <resourceDisplayName>Textures::machinegun_pickup.png</resourceDisplayName>
+                <resource>Textures::machinegun_pickup.png</resource>
             </property>
             <property>
                 <name>PickupCategory</name>
