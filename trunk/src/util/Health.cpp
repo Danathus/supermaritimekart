@@ -23,7 +23,7 @@ Health::Health(HealthType health, HealthType maxHealth):
  ////////////////////////////////////////////////////////////////////////////////
  Health::Health(const Health& copy)
  : mAmount(copy.mAmount)
- , mMax(copy.mAmount)
+ , mMax(copy.mMax)
  {
 
  }
