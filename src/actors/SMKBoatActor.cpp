@@ -49,6 +49,7 @@ static const std::string LOGNAME             = "SMKBoatActor";
 //////////////////////////////////////////////////////////
 SMKBoatActor::SMKBoatActor(SMKBoatActorProxy& proxy)
    : BoatActor(proxy)
+   , mState(ALIVE)
    , mpFrontWeapon(new FrontWeaponSlot())
    , mpBackWeapon(new BackWeaponSlot())
    , mDeadReckoningHelper(new dtGame::DeadReckoningHelper)
@@ -69,21 +70,32 @@ SMKBoatActor::~SMKBoatActor()
 void SMKBoatActor::TickLocal(const dtGame::Message& msg)
 {
    BoatActor::TickLocal(msg);
-
    const dtGame::TickMessage& tickMessage = static_cast<const dtGame::TickMessage&>(msg);
    float dt = tickMessage.GetDeltaSimTime();
 
-   if (mpFrontWeapon)
+   switch (GetState())
    {
-      mpFrontWeapon->Update(dt);
-   }
+   case ALIVE:
+      if (mpFrontWeapon)
+      {
+         mpFrontWeapon->Update(dt);
+      }
 
-   if (mpBackWeapon)
-   {
-      mpBackWeapon->Update(dt);
-   }
+      if (mpBackWeapon)
+      {
+         mpBackWeapon->Update(dt);
+      }
 
-   UpdateHealthShader(dt);
+      UpdateHealthShader(dt);
+      break;
+   case DEAD:
+      mRespawnCountdown -= dt;
+      if (mRespawnCountdown <= 0.0f)
+      {
+         RespawnBoat();
+      }
+      break;
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -416,7 +428,7 @@ void SMKBoatActor::RegisterGlobalBoatMessages()
    GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BOAT_HIT,
       dtUtil::MakeFunctor(&SMKBoatActor::BoatHit, this)));
    GetGameActorProxy().AddInvokable(*new dtGame::Invokable(BOAT_EXPLODED,
-      dtUtil::MakeFunctor(&SMKBoatActor::RespawnBoat, this)));
+      dtUtil::MakeFunctor(&SMKBoatActor::DieBoat, this)));
 
    GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::INFO_PICKUP_ITEM_ACQUIRED, PICKUP_ACQUIRED);
    GetGameActorProxy().RegisterForMessages(SMK::SMKNetworkMessages::ACTION_BOAT_HIT, BOAT_HIT);
@@ -517,10 +529,18 @@ void SMKBoatActor::ProjectileExploded(const SMK::DamageMessage& weaponFiredMessa
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SMKBoatActor::RespawnBoat(const dtGame::Message& weaponFiredMessage)
+void SMKBoatActor::DieBoat(const dtGame::Message& weaponFiredMessage)
 {
+   if (GetState() == DEAD)
+   {
+      return;
+   }
+
    if (weaponFiredMessage.GetAboutActorId() == GetUniqueId())
    {
+      SetState(DEAD);
+      mRespawnCountdown = 3.0f;
+
       // Play explosion particle
       dtCore::Transform currentTransform;
       GetTransform(currentTransform);
@@ -528,24 +548,44 @@ void SMKBoatActor::RespawnBoat(const dtGame::Message& weaponFiredMessage)
       mpExplosionParticles->ResetTime();
       mpExplosionParticles->SetEnabled(true);
 
+      // cut engines
+      GetOutBoard()->CutEngine();
+
+      // flip out
+      GetBodyWrapper()->SetLinearVelocity(osg::Vec3(0, 0, 0));
+      GetBodyWrapper()->SetAngularVelocity(osg::Vec3(0, 0, 0));
+      GetBodyWrapper()->ApplyRelTorque(osg::Vec3(0.0f, 1000000.0f, 0.0f));
+
       // Reset our health and weapons
-      mHealth.SetHealth(mHealth.GetMax());
+      //mHealth.SetHealth(0);
       
       // Nulling so that the shading will be reinitialized
       //mpFrontWeapon = NULL;
       //mpBackWeapon = NULL;
+   }
+}
 
-      SetupDefaultWeapon();
+///////////////////////////////////////////////////////////////////////////////
+void SMKBoatActor::RespawnBoat()
+{
+   SetState(ALIVE);
 
-      // If this is our boat, move back to the respawn point
-      if (!IsRemote())
-      {
-         SMKBoatActorProxy* prototypeProxy;
-         GetGameActorProxy().GetGameManager()->FindPrototypeByName(GetPrototypeName(), prototypeProxy);
-         dtCore::Transform transform;
-         prototypeProxy->GetGameActor().GetTransform(transform);
-         Teleport(transform);
-      }
+   // Reset our health and weapons
+   mHealth.SetHealth(mHealth.GetMax());
+
+   SetupDefaultWeapon();
+
+   // If this is our boat, move back to the respawn point
+   if (!IsRemote())
+   {
+      // enable physics
+      //EnableDynamics(true);
+
+      SMKBoatActorProxy* prototypeProxy;
+      GetGameActorProxy().GetGameManager()->FindPrototypeByName(GetPrototypeName(), prototypeProxy);
+      dtCore::Transform transform;
+      prototypeProxy->GetGameActor().GetTransform(transform);
+      Teleport(transform);
    }
 }
 

@@ -42,12 +42,18 @@ namespace SMK
 
 class SMK_ACTOR_EXPORT SMKBoatActor : public BoatActor
 {
-public:  
+public:
+   enum State
+   {
+      ALIVE,
+      DEAD
+   };
    /**
    * Constructor
    */
    SMKBoatActor(SMKBoatActorProxy& proxy);
 
+   State GetState() const { return mState; }
    virtual void TickLocal(const dtGame::Message& msg);
    virtual void TickRemote(const dtGame::Message& msg);
 
@@ -100,6 +106,7 @@ public:
    const dtGame::DRPublishingActComp* GetDRPublishingActComp() const { return mDRPublishingActComp; }
 
 protected:
+   void SetState(State state) { mState = state; }
 
    /**
    * Destructor
@@ -127,7 +134,8 @@ private:
 
    void BoatHit(const SMK::DamageMessage& boatHitMessage);
    void ProjectileExploded(const SMK::DamageMessage& weaponFiredMessage);
-   void RespawnBoat(const dtGame::Message& weaponFiredMessage);
+   void DieBoat(const dtGame::Message& weaponFiredMessage);
+   void RespawnBoat();
 
    void ApplyDamage(const SMK::Damage& damage);
    void UpdateHealthShader(float timeStep);
@@ -135,6 +143,9 @@ private:
    void PickupAquired(const dtGame::MachineInfoMessage& pickupAcquiredMsg);
 
    bool DoWeWantThisPickUp(const SMK::PickUpItemHandle& pickup) const;
+
+   State mState;
+   float mRespawnCountdown;
 
    dtCore::RefPtr<FrontWeaponSlot> mpFrontWeapon;
    dtCore::RefPtr<BackWeaponSlot> mpBackWeapon;
