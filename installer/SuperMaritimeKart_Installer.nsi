@@ -4,6 +4,29 @@
 ; Uses environment variables to find external files
 ; DELTA_ROOT           - root of the delta3d folder
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Paths to assets and binaries for Super Maritime Kart App  ;;;;;;
+;;;; - Edit these paths if you have custom locations for files ;;;;;;
+!define APPLICATION_ASSET_PATH  "..\data"
+!define BIN_PATH                "..\bin"
+!define EXT_PATH                "..\ext\bin"
+
+!define DELTA_ASSET_PATH        "$%DELTA_ROOT%\data"
+!define DELTA_BIN_PATH          "$%DELTA_ROOT%\build\bin"
+!define DELTA_EXT_PATH          "$%DELTA_ROOT%\ext\bin"
+
+!define CAL3D_PATH "$%CAL3D_DIR%\bin\Release"
+;!define CAL3D_PATH "${DELTA_EXT_PATH}"
+
+;!define OSG_PATH "$%OSG_DIR%\build\bin"
+;!define OSG_PATH "$%OSG_ROOT%\bin"
+!define OSG_PATH "${DELTA_EXT_PATH}"
+
+;!define OSG_PLUGIN_PATH "${OSG_DIR}\osgPlugins-2.8.1"
+!define OSG_PLUGIN_PATH "${DELTA_EXT_PATH}"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 !define /date NOW "%m-%d-%Y_%H%M%S"
 
 !ifndef VERSION
@@ -33,11 +56,6 @@
 !define MUI_ABORTWARNING
 !define MUI_ICON   "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-
-; paths to assets and binaries for Super Maritime Kart App
-!define DELTA_ASSET_PATH        "$%DELTA_ROOT%\data"
-!define APPLICATION_ASSET_PATH  "..\data"
-!define BIN_PATH                "..\bin"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
@@ -72,26 +90,48 @@ var ICONS_GROUP
 ; Language files
 !insertmacro MUI_LANGUAGE "English"
 
-!define USE_CUSTOM_OSG false
-
-; Dependencies
-!define XERCES "xerces-c_3_1.dll"
+; External Dependencies
+!define ALUT "alut.dll"
+!define CAL3D "cal3d.dll"
+!define DTOCEAN "dtOcean.dll"
+!define LIBPNG "libpng13.dll"
 !define ODE_SINGLE "ode_single.dll"
 !define OSG "osg65-osg.dll"
 !define OSGDB "osg65-osgDB.dll"
+!define OSGFX "osg65-osgFX.dll"
 !define OSGGA "osg65-osgGA.dll"
+!define OSGOCEAN "osgOcean.dll"
 !define OSGPARTICLE "osg65-osgParticle.dll"
+!define OSGSIM "osg65-osgSim.dll"
+!define OSGTERRAIN "osg65-osgTerrain.dll"
 !define OSGTEXT "osg65-osgText.dll"
 !define OSGUTIL "osg65-osgUtil.dll"
 !define OSGVIEWER "osg65-osgViewer.dll"
 !define OPENTHREADS  "ot11-OpenThreads.dll"
-!define OSGDB_FREETYPE "osgdb_freetype.dll"
-!define OSGDB_JPEG "osgdb_jpeg.dll"
+!define OSGDB_IVE "osgdb_ive.dll"
+!define OSGDB_OSG "osgdb_osg.dll"
+!define OSGDB_OSGPARTICLE "osgdb_osgparticle.dll"
+!define OSGDB_PNG "osgdb_png.dll"
+!define OSGDB_RGB "osgdb_rgb.dll"
+!define OSGDB_TGA "osgdb_tga.dll"
+!define XERCES "xerces-c_3_1.dll"
+!define ZLIB "zlib1.dll"
+
+; Delta libs
 !define DTABC "dtABC.dll"
+!define DTACTORS "dtActors.dll"
+!define DTAUDIO "dtAudio.dll"
 !define DTCORE "dtCore.dll"
 !define DTDAL "dtDAL.dll"
-!define DTQT "dtQt.dll"
+!define DTDIRECTOR "dtDirector.dll"
+!define DTGAME "dtGame.dll"
+!define DTINPUTPLIB "dtInputPLIB.dll"
 !define DTUTIL "dtUtil.dll"
+
+; Shared Code libs
+!define BOAT_ACTORS "BoatActors.dll"
+!define DELTA_NETWORK_ADAPTER "DeltaNetworkAdapter.dll"
+!define NETCORE "NetCore.dll"
 
 ; MUI end ------
 
@@ -106,62 +146,54 @@ Section "-Delta3D Dependencies" DeltaDepsSection
    SetOverwrite ifnewer
    SetOutPath "$INSTDIR\bin"
 
+   ; SMK External Dependencies
+   File "${EXT_PATH}\${DTOCEAN}"
+   File "${EXT_PATH}\${OSGOCEAN}"
+   File "${EXT_PATH}\${BOAT_ACTORS}"
+   File "${EXT_PATH}\${DELTA_NETWORK_ADAPTER}"
+   File "${EXT_PATH}\${NETCORE}"
+
    ; Delta3D dependencies
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${ODE_SINGLE}"
-   File "$%DELTA_ROOT%\ext\bin\${XERCES}"
-   
-   SetOutPath "$INSTDIR\bin"
+   File "${CAL3D_PATH}\${CAL3D}"
+   File "${DELTA_EXT_PATH}\${ALUT}"
+   File "${DELTA_EXT_PATH}\${LIBPNG}"
+   File "${DELTA_EXT_PATH}\${ODE_SINGLE}"
+   File "${DELTA_EXT_PATH}\${XERCES}"
+   File "${DELTA_EXT_PATH}\${ZLIB}"
+   File "${OSG_PATH}\${OSG}"
+   File "${OSG_PATH}\${OSGDB}"
+   File "${OSG_PATH}\${OSGFX}"
+   File "${OSG_PATH}\${OSGGA}"
+   File "${OSG_PATH}\${OSGPARTICLE}"
+   File "${OSG_PATH}\${OSGSIM}"
+   File "${OSG_PATH}\${OSGTERRAIN}"
+   File "${OSG_PATH}\${OSGTEXT}"
+   File "${OSG_PATH}\${OSGUTIL}"
+   File "${OSG_PATH}\${OSGVIEWER}"
+   File "${OSG_PATH}\${OPENTHREADS}"
+   File "${OSG_PLUGIN_PATH}\${OSGDB_IVE}"
+   File "${OSG_PLUGIN_PATH}\${OSGDB_OSG}"
+   File "${OSG_PLUGIN_PATH}\${OSGDB_OSGPARTICLE}"
+   File "${OSG_PLUGIN_PATH}\${OSGDB_PNG}"
+   File "${OSG_PLUGIN_PATH}\${OSGDB_RGB}"
+   File "${OSG_PLUGIN_PATH}\${OSGDB_TGA}"
 
-!if USE_CUSTOM_OSG == true
-   ; try an OSG_DIR-based osg installation first
-   File /nonfatal "$%OSG_DIR%\build\bin\${OSG}"
-   File /nonfatal "$%OSG_DIR%\build\bin\${OSGDB}"
-   File /nonfatal "$%OSG_DIR%\build\bin\${OSGGA}"
-   File /nonfatal "$%OSG_DIR%\build\bin\${OSGPARTICLE}"
-   File /nonfatal "$%OSG_DIR%\build\bin\${OSGTEXT}"
-   File /nonfatal "$%OSG_DIR%\build\bin\${OSGUTIL"
-   File /nonfatal "$%OSG_DIR%\build\bin\${OSGVIEWER}"
-   File /nonfatal "$%OSG_DIR%\build\bin\${OPENTHREADS}"
-   File /nonfatal "$%OSG_DIR%\build\bin\osgPlugins-2.8.1\${OSGDB_FREETYPE}"
-   File /nonfatal "$%OSG_DIR%\build\bin\osgPlugins-2.8.1\${OSGDB_JPEG}"
-
-   ; try an OSG_ROOT-based osg installation next
-   File /nonfatal "$%OSG_ROOT%\bin\${OSG}"
-   File /nonfatal "$%OSG_ROOT%\bin\${OSGDB}"
-   File /nonfatal "$%OSG_ROOT%\bin\${OSGGA}"
-   File /nonfatal "$%OSG_ROOT%\bin\${OSGPARTICLE}"
-   File /nonfatal "$%OSG_ROOT%\bin\${OSGTEXT}"
-   File /nonfatal "$%OSG_ROOT%\bin\${OSGUTIL}"
-   File /nonfatal "$%OSG_ROOT%\bin\${OSGVIEWER}"
-   File /nonfatal "$%OSG_ROOT%\bin\${OPENTHREADS}"
-   File /nonfatal "$%OSG_ROOT%\bin\osgPlugins-2.8.1\${OSGDB_FREETYPE}"
-   File /nonfatal "$%OSG_ROOT%\bin\osgPlugins-2.8.1\${OSGDB_JPEG}"
-!else
-   ; try an DELTA_ROOT-based osg installation next
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OSG}"
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OSGDB}"
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OSGGA}"
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OSGPARTICLE}"
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OSGTEXT}"
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OSGUTIL}"
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OSGVIEWER}"
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OPENTHREADS}"
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OSGDB_FREETYPE}"
-   File /nonfatal "$%DELTA_ROOT%\ext\bin\${OSGDB_JPEG}"
-!endif
-
-SectionEnd
+   SectionEnd
 
 Section "-Delta3D Engine" DeltaSection
    SetOverwrite ifnewer
 
    ; non-debug Delta3D dll's
    SetOutPath "$INSTDIR\bin"
-     File "$%DELTA_ROOT%\build\bin\${DTABC}"
-     File "$%DELTA_ROOT%\build\bin\${DTCORE}"
-     File "$%DELTA_ROOT%\build\bin\${DTDAL}"
-     File "$%DELTA_ROOT%\build\bin\${DTQT}"
-     File "$%DELTA_ROOT%\build\bin\${DTUTIL}"
+     File "${DELTA_BIN_PATH}\${DTABC}"
+     File "${DELTA_BIN_PATH}\${DTACTORS}"
+     File "${DELTA_BIN_PATH}\${DTAUDIO}"
+     File "${DELTA_BIN_PATH}\${DTCORE}"
+     File "${DELTA_BIN_PATH}\${DTDAL}"
+     File "${DELTA_BIN_PATH}\${DTDIRECTOR}"
+     File "${DELTA_BIN_PATH}\${DTGAME}"
+     File "${DELTA_BIN_PATH}\${DTINPUTPLIB}"
+     File "${DELTA_BIN_PATH}\${DTUTIL}"
 SectionEnd
 
 Section "-SuperMaritimeKart Application" AppSection
@@ -173,26 +205,163 @@ Section "-SuperMaritimeKart Application" AppSection
 
    ; SuperMaritimeKart application binaries
    SetOutPath "$INSTDIR\bin"
-	 File "${BIN_PATH}\DEVOApp.exe"
+	 File "${BIN_PATH}\SuperMaritimeKart.exe"
+	 File "${BIN_PATH}\SMKActors.dll"
+	 File "${BIN_PATH}\SMKMessages.dll"
+	 File "${BIN_PATH}\SMKNetwork.dll"
+	 File "${BIN_PATH}\SMKUtil.dll"
 
 SectionEnd
 
 Section "-SuperMaritimeKart Data" DataSection
    SetOverwrite ifnewer
 
-   SetOutPath "$INSTDIR"
-     File "${APPLICATION_ASSET_PATH}\object.xsd"
-
    ; assets for SuperMaritimeKart application
-   SetOutPath "$INSTDIR\bin"
+   SetOutPath "$INSTDIR\data"
      File "${APPLICATION_ASSET_PATH}\config.xml"
-     
-   SetOutPath "$INSTDIR\data\images"
-   
-   SetOutPath "$INSTDIR\data\objects"
-     File "${APPLICATION_ASSET_PATH}\objects\example.xml"
-     File "${APPLICATION_ASSET_PATH}\objects\JHSV Structure.xml"
-     
+	 File "${DELTA_ASSET_PATH}\application.xsd"
+	 File "${DELTA_ASSET_PATH}\map.xsd"
+
+   SetOutPath "$INSTDIR\data\maps"
+     File "${APPLICATION_ASSET_PATH}\maps\islands.dtmap"
+     File "${APPLICATION_ASSET_PATH}\maps\JustOcean.dtmap"
+     File "${APPLICATION_ASSET_PATH}\maps\track1.dtmap"
+
+   SetOutPath "$INSTDIR\data\particles"
+     File "${APPLICATION_ASSET_PATH}\particles\boat_explosion.osg"
+     File "${APPLICATION_ASSET_PATH}\particles\bow_spray3.osg"
+     File "${APPLICATION_ASSET_PATH}\particles\defwake.tga"
+     File "${APPLICATION_ASSET_PATH}\particles\impactPuff.osg"
+     File "${APPLICATION_ASSET_PATH}\particles\mine_launch.osg"
+     File "${APPLICATION_ASSET_PATH}\particles\projectile_explosion.osg"
+     File "${APPLICATION_ASSET_PATH}\particles\propwash.osg"
+     File "${APPLICATION_ASSET_PATH}\particles\rocket_launch.osg"
+     File "${APPLICATION_ASSET_PATH}\particles\smoke.rgb"
+     File "${APPLICATION_ASSET_PATH}\particles\torpedo_launch.osg"
+     File "${APPLICATION_ASSET_PATH}\particles\wake.osg"
+     File "${APPLICATION_ASSET_PATH}\particles\water_splash8.tga"
+
+   SetOutPath "$INSTDIR\data\Prefabs\General"
+     File "${APPLICATION_ASSET_PATH}\Prefabs\General\boat.dtprefab"
+     File "${APPLICATION_ASSET_PATH}\Prefabs\General\Generic_Ground.dtprefab"
+     File "${APPLICATION_ASSET_PATH}\Prefabs\General\HealthPickup.dtprefab"
+     File "${APPLICATION_ASSET_PATH}\Prefabs\General\OceanAndOceanConfig.dtprefab"
+     File "${APPLICATION_ASSET_PATH}\Prefabs\General\TugBoatFloatable.dtprefab"
+
+   SetOutPath "$INSTDIR\data\Prefabs\icons"
+
+   SetOutPath "$INSTDIR\data\shaders"
+     File "${APPLICATION_ASSET_PATH}\shaders\boat.frag"
+     File "${APPLICATION_ASSET_PATH}\shaders\boat.vert"
+     File "${APPLICATION_ASSET_PATH}\shaders\BulletTrail.frag"
+     File "${APPLICATION_ASSET_PATH}\shaders\BulletTrail.vert"
+     File "${APPLICATION_ASSET_PATH}\shaders\BumpedPhong.frag"
+     File "${APPLICATION_ASSET_PATH}\shaders\BumpedPhong.vert"
+     File "${APPLICATION_ASSET_PATH}\shaders\PerPixelLit.frag"
+     File "${APPLICATION_ASSET_PATH}\shaders\PerPixelLit.vert"
+     File "${APPLICATION_ASSET_PATH}\shaders\ShaderDefinitions.xml"
+
+   SetOutPath "$INSTDIR\data\sounds"
+     File "${APPLICATION_ASSET_PATH}\sounds\boat_engine_idle.wav"
+     File "${APPLICATION_ASSET_PATH}\sounds\explosion.wav"
+     File "${APPLICATION_ASSET_PATH}\sounds\impact.wav"
+     File "${APPLICATION_ASSET_PATH}\sounds\pop.wav"
+     File "${APPLICATION_ASSET_PATH}\sounds\r1k.wav"
+     File "${APPLICATION_ASSET_PATH}\sounds\r2k.wav"
+     File "${APPLICATION_ASSET_PATH}\sounds\r4k.wav"
+     File "${APPLICATION_ASSET_PATH}\sounds\splash.wav"
+
+   SetOutPath "$INSTDIR\data\StaticMeshes\Boat"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\DeckGun.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\HydroBoat.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\HydroGrey.tga"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\Lagoon.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\Mine.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\Mine.tga"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\Mine_LG.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\MineNormal.tga"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\MineRack.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\RocketRackGreen.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\Torp1.tga"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\Torp1Normal.tga"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\TorpedoRack.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\TorpedoType1.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\TorpRackGreen.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Boat\WeaponRacks.tga"
+
+   SetOutPath "$INSTDIR\data\StaticMeshes"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\BagOBeans.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\boatCollisionMesh.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\BouyGreen.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\BouyRed.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\CargoFull.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\ConcWall50m.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\DeckGun.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\DefendCG_Amb.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Defender25.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\DefenderPol.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\DockFront100ft.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\FerryBld.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\GShackLG.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\height1.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\height2.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\heightfield.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\HydroBlue.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\HydroGreen.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\HydroGreyCamo.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\HydroRed.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\islands.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\JumpRamp.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Mine.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Mine_LG.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\MineRack.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\OakTree.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\PalmFrons.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\physics_happy_sphere.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\PS-Rib.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\RailLoader.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\RocketRackGreen.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\SingleCrate.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Spool.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Stump.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\TorpedoType1.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\TorpRackGreen.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\track1.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\TrashDrum.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Tree_Apricot_Fall.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Tree_Ash_Fall.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\TreeType1.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\TreeType1sm.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Tug.ive"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\Wharfcap.IVE"
+     File "${APPLICATION_ASSET_PATH}\StaticMeshes\WreckedCabin.IVE"
+
+   SetOutPath "$INSTDIR\data\textures\sky_clear"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_clear\down.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_clear\east.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_clear\north.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_clear\south.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_clear\up.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_clear\west.png"
+
+   SetOutPath "$INSTDIR\data\textures\sky_cloudy"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_cloudy\down.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_cloudy\east.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_cloudy\north.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_cloudy\south.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_cloudy\up.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sky_cloudy\west.png"
+
+   SetOutPath "$INSTDIR\data\textures"
+     File "${APPLICATION_ASSET_PATH}\textures\bulletTrail.png"
+     File "${APPLICATION_ASSET_PATH}\textures\health_iron_armor.png"
+     File "${APPLICATION_ASSET_PATH}\textures\health_pickup.png"
+     File "${APPLICATION_ASSET_PATH}\textures\noise2d.tga"
+     File "${APPLICATION_ASSET_PATH}\textures\noise2d-alt.tga"
+     File "${APPLICATION_ASSET_PATH}\textures\rocket_pickup.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sea_foam.png"
+     File "${APPLICATION_ASSET_PATH}\textures\sun_glare.png"
+     File "${APPLICATION_ASSET_PATH}\textures\torpedo_pickup.png"
 
 SectionEnd
 
@@ -224,7 +393,7 @@ Section -Post
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" $INSTDIR
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\bin\DEVOApp.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\bin\SuperMaritimeKart.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
