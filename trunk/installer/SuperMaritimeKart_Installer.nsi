@@ -15,15 +15,15 @@
 !define DELTA_BIN_PATH          "$%DELTA_ROOT%\build\bin"
 !define DELTA_EXT_PATH          "$%DELTA_ROOT%\ext\bin"
 
-!define CAL3D_PATH "$%CAL3D_DIR%\bin\Release"
-;!define CAL3D_PATH "${DELTA_EXT_PATH}"
+!define CAL3D_PATH              "$%CAL3D_DIR%\bin\Release"
+;!define CAL3D_PATH              "${DELTA_EXT_PATH}"
 
-;!define OSG_PATH "$%OSG_DIR%\build\bin"
-;!define OSG_PATH "$%OSG_ROOT%\bin"
-!define OSG_PATH "${DELTA_EXT_PATH}"
+;!define OSG_PATH                "$%OSG_DIR%\build\bin"
+;!define OSG_PATH                "$%OSG_ROOT%\bin"
+!define OSG_PATH                "${DELTA_EXT_PATH}"
 
-;!define OSG_PLUGIN_PATH "${OSG_DIR}\osgPlugins-2.8.1"
-!define OSG_PLUGIN_PATH "${DELTA_EXT_PATH}"
+;!define OSG_PLUGIN_PATH         "${OSG_DIR}\osgPlugins-2.8.1"
+!define OSG_PLUGIN_PATH         "${DELTA_EXT_PATH}"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
