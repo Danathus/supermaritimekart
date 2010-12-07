@@ -128,7 +128,7 @@ SET(LIBS_TO_LINK ${DTABC_LIBRARIES}
                  ${BOATACTORS_LIBRARIES}
                  SMKActors
                  SMKMessages
-                 SMKNetwork
+                 #SMKNetwork
                  SMKUtil
 )
 IF (BUILD_WITH_DTOCEAN)
@@ -154,5 +154,5 @@ SET_TARGET_PROPERTIES(${APP_NAME} PROPERTIES DEBUG_POSTFIX "${CMAKE_DEBUG_POSTFI
 
 ADD_SUBDIRECTORY(src/actors)
 ADD_SUBDIRECTORY(src/messages)
-ADD_SUBDIRECTORY(src/network)
+#ADD_SUBDIRECTORY(src/network)
 ADD_SUBDIRECTORY(src/util)

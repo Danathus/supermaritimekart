@@ -11,7 +11,7 @@
 #include <actors/WeaponFactory.h>
 #include <messages/NetworkMessages.h>
 #include <network/NetConfig.h>
-#include <network/NetworkBuddy.h>
+#include <DeltaNetworkAdapter/NetworkBuddy.h>
 #include <actors/PickupItemFactory.h>
 #include <actors/HealthPickup.h>
 #include <actors/ArmorPickup.h>
@@ -322,7 +322,7 @@ void SuperMaritimeKart::OnMapLoaded()
    }
 
    // ...and let's start advertising on the network
-   if (NetworkBuddy::GetRef().IsServer())
+   if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer())
    {
       // put some extra info in the beacon packet
       BeaconData* userData = new BeaconData();
@@ -471,14 +471,14 @@ void SuperMaritimeKart::GetFloatingActors(std::vector<FloatingActor*>& floatingA
 ////////////////////////////////////////////////////////////////////////////////
 void SuperMaritimeKart::CreatePickUpItemHandleActors()
 {
-   if (NetworkBuddy::GetRef().IsServer() == false) { return;}
+   if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer() == false) { return; }
 
    //Assuming we're the server, lets create the PickUpItems defined in the map
    const dtGame::GameManager::NameVector& mapNames = mGameManager->GetCurrentMapSet();
    if (mapNames.empty()) {return;} //no maps loaded?
 
    std::vector<dtDAL::BaseActorObject*> proxiesToCreate;
-   
+
    std::vector<dtDAL::BaseActorObject*> pickupProtoProxies;
    mGameManager->FindPrototypesByActorType(*SMKActorLibraryRegistry::SMK_PICKUP_ACTOR_TYPE, pickupProtoProxies);
 
