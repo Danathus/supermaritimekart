@@ -5,7 +5,7 @@
 //#include <CCTS_ActorLibrary/EnterableActor.h>
 //#include <CCTS_ActorLibrary/EnterableActorProxy.h>
 //#include <CCTS_ActorLibrary/IdentityAssignmentManager.h>
-#include <network/NetworkBuddy.h>
+#include <DeltaNetworkAdapter/NetworkBuddy.h>
 //#include <CCTS_ActorLibrary/PickupableActor.h>
 //#include <CCTS_ActorLibrary/PickupableActorProxy.h>
 //#include <CCTS_ActorLibrary/RoleActor.h>
@@ -43,13 +43,13 @@ void ScenarioComponent::ProcessMessage(const dtGame::Message& message)
    else if (message.GetMessageType() == DeltaNetworkAdapter::NetworkMessageType::INFO_JOINED_SERVER)
    {
       const DeltaNetworkAdapter::NetworkedUniqueIDMessage& networkedIDMessage = static_cast<const DeltaNetworkAdapter::NetworkedUniqueIDMessage&>(message);
-      const dtGame::MachineInfo* machineInfo = NetworkBuddy::GetRef().GetMachineInfo(networkedIDMessage.GetUniqueId());
+      const dtGame::MachineInfo* machineInfo = DeltaNetworkAdapter::NetworkBuddy::GetRef().GetMachineInfo(networkedIDMessage.GetUniqueId());
       OnPlayerJoinedServer(machineInfo);
    }
    else if (message.GetMessageType() == DeltaNetworkAdapter::NetworkMessageType::INFO_LEFT_SERVER)
    {
       const DeltaNetworkAdapter::NetworkedUniqueIDMessage& networkedIDMessage = static_cast<const DeltaNetworkAdapter::NetworkedUniqueIDMessage&>(message);
-      const dtGame::MachineInfo* machineInfo = NetworkBuddy::GetRef().GetMachineInfo(networkedIDMessage.GetUniqueId());
+      const dtGame::MachineInfo* machineInfo = DeltaNetworkAdapter::NetworkBuddy::GetRef().GetMachineInfo(networkedIDMessage.GetUniqueId());
       OnPlayerLeftServer(machineInfo);
    }
 #if 0
@@ -131,7 +131,7 @@ void ScenarioComponent::OnPlayerJoinedServer(const dtGame::MachineInfo* joinerMa
 {
    //ForwardSelectedRoleToNewPlayer(joinerMachineInfo);
 
-   if (NetworkBuddy::GetRef().IsServer())
+   if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer())
    {
       ServerForwardGameTimeToNewPlayer(joinerMachineInfo);
       ServerForwardPlayerJoinedServer(joinerMachineInfo);
@@ -145,7 +145,7 @@ void ScenarioComponent::OnPlayerLeftServer(const dtGame::MachineInfo* quitterMac
    //ClearQuitterIdentity(quitterMachineInfo);
 
    // If we're the server, then pass this message on
-   if (NetworkBuddy::GetRef().IsServer())
+   if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer())
    {
       ServerForwardPlayerLeftServer(quitterMachineInfo);
       //ServerReplaceLostInventoryItems(quitterMachineInfo);
@@ -247,7 +247,7 @@ void ScenarioComponent::CheckForPlayerDisconnects()
       {
          dtCore::RefPtr<DeltaNetworkAdapter::NetworkedUniqueIDMessage> playerDisconnectMessage;
          GetGameManager()->GetMessageFactory().CreateMessage(DeltaNetworkAdapter::NetworkMessageType::INFO_LEFT_SERVER, playerDisconnectMessage);
-         const dtGame::MachineInfo* machineInfo = NetworkBuddy::GetRef().GetMachineInfo(nodeIndex);
+         const dtGame::MachineInfo* machineInfo = DeltaNetworkAdapter::NetworkBuddy::GetRef().GetMachineInfo(nodeIndex);
          assert(machineInfo);
          playerDisconnectMessage->SetUniqueId(machineInfo->GetUniqueId().ToString());
          GetGameManager()->SendMessage(*playerDisconnectMessage);
@@ -456,17 +456,17 @@ void ScenarioComponent::ServerForwardGameTimeToNewPlayer(const dtGame::MachineIn
    GetGameManager()->GetMessageFactory().CreateMessage(dtGame::MessageType::INFO_TIME_CHANGED, timeChangeMessage);
    timeChangeMessage->SetSimulationTime(GetGameManager()->GetSimulationTime());
    timeChangeMessage->SetSimulationClockTime(GetGameManager()->GetSimulationClockTime());
-   NetworkBuddy::GetRef().SendNetworkMessage(*timeChangeMessage, *joinerMachineInfo);
+   DeltaNetworkAdapter::NetworkBuddy::GetRef().SendNetworkMessage(*timeChangeMessage, *joinerMachineInfo);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void ScenarioComponent::ServerForwardPlayerJoinedServer(const dtGame::MachineInfo* joinerMachineInfo)
 {
    dtCore::RefPtr<DeltaNetworkAdapter::NetworkedUniqueIDMessage> msg;
-   NetworkBuddy::GetRef().CreateMessage(DeltaNetworkAdapter::NetworkMessageType::INFO_JOINED_SERVER, msg);
+   DeltaNetworkAdapter::NetworkBuddy::GetRef().CreateMessage(DeltaNetworkAdapter::NetworkMessageType::INFO_JOINED_SERVER, msg);
    msg->SetUniqueId(joinerMachineInfo->GetUniqueId().ToString());
 
-   const MachineInfoList& connectedMachines = NetworkBuddy::GetRef().GetConnectedMachineList();
+   const MachineInfoList& connectedMachines = DeltaNetworkAdapter::NetworkBuddy::GetRef().GetConnectedMachineList();
 
    for (size_t connectedMachineIndex = 0; connectedMachineIndex < connectedMachines.size(); ++connectedMachineIndex)
    {
@@ -475,27 +475,27 @@ void ScenarioComponent::ServerForwardPlayerJoinedServer(const dtGame::MachineInf
       {
          continue;
       }
-      NetworkBuddy::GetRef().SendNetworkMessage(*msg, *connectedMachines[connectedMachineIndex]);
+      DeltaNetworkAdapter::NetworkBuddy::GetRef().SendNetworkMessage(*msg, *connectedMachines[connectedMachineIndex]);
    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void ScenarioComponent::ServerForwardPlayerLeftServer(const dtGame::MachineInfo* quitterMachineInfo)
 {
-   if (!NetworkBuddy::GetRef().IsServer()) { return; }
+   if (!DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer()) { return; }
 
    dtCore::RefPtr<DeltaNetworkAdapter::NetworkedUniqueIDMessage> msg;
-   NetworkBuddy::GetRef().CreateMessage(DeltaNetworkAdapter::NetworkMessageType::INFO_LEFT_SERVER, msg);
+   DeltaNetworkAdapter::NetworkBuddy::GetRef().CreateMessage(DeltaNetworkAdapter::NetworkMessageType::INFO_LEFT_SERVER, msg);
    msg->SetUniqueId(quitterMachineInfo->GetUniqueId().ToString());
 
-   const MachineInfoList& connectedMachineList = NetworkBuddy::GetRef().GetConnectedMachineList();
+   const MachineInfoList& connectedMachineList = DeltaNetworkAdapter::NetworkBuddy::GetRef().GetConnectedMachineList();
    for (size_t i = 0; i < connectedMachineList.size(); ++i)
    {
       if (!connectedMachineList[i].valid()) { continue; }
       if (connectedMachineList[i]->GetUniqueId() == GetGameManager()->GetMachineInfo().GetUniqueId()) { continue; }
       if (connectedMachineList[i]->GetUniqueId() == quitterMachineInfo->GetUniqueId()) { continue; }
       // got past all checks -- send it on
-      NetworkBuddy::GetRef().SendNetworkMessage(*msg, *connectedMachineList[i]);
+      DeltaNetworkAdapter::NetworkBuddy::GetRef().SendNetworkMessage(*msg, *connectedMachineList[i]);
    }
 }
 

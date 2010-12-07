@@ -6,12 +6,12 @@ SET(HEADER_PATH ${CMAKE_SOURCE_DIR}/inc/network)
 ################### SOURCE FILES #####################
     
 SET(LIB_SOURCE_FILES
-    ${SOURCE_PATH}/NetworkBuddy.cpp
+    #${SOURCE_PATH}/NetworkBuddy.cpp
 )
 
 SET(LIB_HEADER_FILES
     ${HEADER_PATH}/NetConfig.h
-    ${HEADER_PATH}/NetworkBuddy.h
+    #${HEADER_PATH}/NetworkBuddy.h
     ${HEADER_PATH}/SMKNetworkExport.h
 )
 

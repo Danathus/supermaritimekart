@@ -6,7 +6,7 @@
 #include <actors/PickupItem.h>
 #include <messages/DamageMessage.h>
 #include <messages/NetworkMessages.h>
-#include <network/NetworkBuddy.h>
+#include <DeltaNetworkAdapter/NetworkBuddy.h>
 #include <util/Damage.h>
 #include <util/DamageAssessor.h>
 
@@ -196,7 +196,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          msg->SetAboutActorId(pickup->GetUniqueId());
          msg->SetSendingActorId(GetUniqueId());
 
-         if (NetworkBuddy::GetRef().IsServer())
+         if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer())
          {
             //if we're the server and this is our local boat, send the message locally (?)
             GetGameActorProxy().GetGameManager()->SendMessage(*msg);  

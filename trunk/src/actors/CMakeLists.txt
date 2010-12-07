@@ -22,7 +22,7 @@ SET(SOURCE_FILES
     ${SOURCE_PATH}/ProjectileActor.cpp
     ${SOURCE_PATH}/RocketActor.cpp
     ${SOURCE_PATH}/RocketLauncher.cpp
-	${SOURCE_PATH}/SimpleFloaterActorComponent.cpp
+    ${SOURCE_PATH}/SimpleFloaterActorComponent.cpp
     ${SOURCE_PATH}/SMKActorLibraryRegistry.cpp
     ${SOURCE_PATH}/SMKBoatActor.cpp
     ${SOURCE_PATH}/TorpedoActor.cpp
@@ -50,7 +50,7 @@ SET(HEADER_FILES
     ${HEADER_PATH}/ProjectileActor.h
     ${HEADER_PATH}/RocketActor.h
     ${HEADER_PATH}/RocketLauncher.h
-	${HEADER_PATH}/SimpleFloaterActorComponent.h
+    ${HEADER_PATH}/SimpleFloaterActorComponent.h
     ${HEADER_PATH}/SMKActorExport.h
     ${HEADER_PATH}/SMKActorLibraryRegistry.h
     ${HEADER_PATH}/SMKBoatActor.h
@@ -79,9 +79,9 @@ TARGET_LINK_LIBRARIES(${LIB_NAME}
                       ${BOATACTORS_LIBRARIES}
                       ${DELTANETWORKADAPTER_LIBRARIES}
                       ${NETCORE_LIBRARIES}
-					  SMKMessages
-					  SMKNetwork
-					  SMKUtil
+                      SMKMessages
+                      #SMKNetwork
+                      SMKUtil
 )
 
 SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES DEFINE_SYMBOL SMKACTOR_EXPORTS)

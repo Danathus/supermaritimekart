@@ -1,5 +1,5 @@
 #include <SMK_NetworkComponent.h>
-#include <network/NetworkBuddy.h>
+#include <DeltaNetworkAdapter/NetworkBuddy.h>
 
 #include <DeltaNetworkAdapter/NetworkMessages.h>
 #include <DeltaNetworkAdapter/machineinfomessage.h>
@@ -33,21 +33,21 @@ void SMK_NetworkComponent::OnAddedToGM()
 {
    NetworkEngineComponent::OnAddedToGM();
 
-   NetworkBuddy::GetRef().SetGameManager(GetGameManager());
-   NetworkBuddy::GetRef().SetNetworkComponent(this);
+   DeltaNetworkAdapter::NetworkBuddy::GetRef().SetGameManager(GetGameManager());
+   DeltaNetworkAdapter::NetworkBuddy::GetRef().SetNetworkComponent(this);
 }
 
 void SMK_NetworkComponent::OnRemovedFromGM()
 {
-   NetworkBuddy::GetRef().StartShutdownProcess();
-   NetworkBuddy::GetRef().WaitForShutdownProcessToFinish();
+   DeltaNetworkAdapter::NetworkBuddy::GetRef().StartShutdownProcess();
+   DeltaNetworkAdapter::NetworkBuddy::GetRef().WaitForShutdownProcessToFinish();
 
    NetworkEngineComponent::OnRemovedFromGM();
 }
 
 void SMK_NetworkComponent::ProcessMessage(const dtGame::Message& message)
 {
-   if (NetworkBuddy::GetRef().IsServer())
+   if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer())
    {
       if (message.GetMessageType() == dtGame::MessageType::INFO_CLIENT_CONNECTED)
       {
