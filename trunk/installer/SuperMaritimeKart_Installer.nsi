@@ -355,6 +355,7 @@ Section "-SuperMaritimeKart Data" DataSection
      File "${APPLICATION_ASSET_PATH}\textures\bulletTrail.png"
      File "${APPLICATION_ASSET_PATH}\textures\health_iron_armor.png"
      File "${APPLICATION_ASSET_PATH}\textures\health_pickup.png"
+     File "${APPLICATION_ASSET_PATH}\textures\machinegun_pickup.png"
      File "${APPLICATION_ASSET_PATH}\textures\noise2d.tga"
      File "${APPLICATION_ASSET_PATH}\textures\noise2d-alt.tga"
      File "${APPLICATION_ASSET_PATH}\textures\rocket_pickup.png"
