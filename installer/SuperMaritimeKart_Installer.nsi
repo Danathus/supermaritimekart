@@ -136,7 +136,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-InstallDir "c:\Training\Super Maritime Kart"
+InstallDir "C:\Training\Super Maritime Kart"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
@@ -208,7 +208,6 @@ Section "-SuperMaritimeKart Application" AppSection
 	 File "${BIN_PATH}\SuperMaritimeKart.exe"
 	 File "${BIN_PATH}\SMKActors.dll"
 	 File "${BIN_PATH}\SMKMessages.dll"
-	 File "${BIN_PATH}\SMKNetwork.dll"
 	 File "${BIN_PATH}\SMKUtil.dll"
 
 SectionEnd
