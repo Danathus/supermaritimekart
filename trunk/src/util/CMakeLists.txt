@@ -10,6 +10,7 @@ SET(LIB_SOURCE_FILES
     ${SOURCE_PATH}/Damage.cpp
     ${SOURCE_PATH}/DamageAssessor.cpp
     ${SOURCE_PATH}/DeltaOceanGetHeight.cpp
+    ${SOURCE_PATH}/GeometryUtils.cpp
     ${SOURCE_PATH}/Health.cpp
     ${SOURCE_PATH}/SMKUtilFunctions.cpp
 )
@@ -19,6 +20,7 @@ SET(LIB_HEADER_FILES
     ${HEADER_PATH}/Damage.h
     ${HEADER_PATH}/DamageAssessor.h
     ${HEADER_PATH}/DeltaOceanGetHeight.h
+    ${HEADER_PATH}/GeometryUtils.h
     ${HEADER_PATH}/Health.h
     ${HEADER_PATH}/SMKUtilExport.h
     ${HEADER_PATH}/SMKUtilFunctions.h

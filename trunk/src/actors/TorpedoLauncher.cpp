@@ -69,6 +69,7 @@ void TorpedoLauncher::FireWeapon()
          TorpedoActor* torpedoActor = dynamic_cast<TorpedoActor*>(&torpedoActorProxy->GetGameActor());
          torpedoActor->SetTransform(currentTransform);
          torpedoActor->SetDamage(mDamage);
+         torpedoActor->SetOwner(&mpSMKBoatActorProxy->GetGameActor());
          mpSMKBoatActorProxy->GetGameManager()->AddActor(*torpedoActorProxy, false, true);
       }
    }
@@ -79,7 +80,7 @@ osg::Matrix TorpedoLauncher::GetLaunchLocation()
 {
    osg::Matrix launchLocation;
 
-   dtCore::RefPtr<dtUtil::NodeCollector> collect = 
+   dtCore::RefPtr<dtUtil::NodeCollector> collect =
       new dtUtil::NodeCollector(GetOSGNode(),
       dtUtil::NodeCollector::MatrixTransformFlag);
 

@@ -38,6 +38,9 @@ public:
    dtGame::DRPublishingActComp* GetDRPublishingActComp() { return mDRPublishingActComp; }
    const dtGame::DRPublishingActComp* GetDRPublishingActComp() const { return mDRPublishingActComp; }
 
+   void SetOwner(dtGame::GameActor* owner);
+   dtGame::GameActor* GetOwner() const     { return mpOwner.get();  }
+
    void SetDamage(const SMK::Damage& damage) { mDamage = damage; }
    SMK::Damage GetDamage() const             { return mDamage;   }
 
@@ -48,7 +51,7 @@ public:
    ///a chance to not be hit by it's own weapons.
    void SetArmingDelay(float delay) { mArmingDelay = delay; }
    float GetArmingDelay() const     { return mArmingDelay;  }
-   bool IsArmed() { return mLifeCounter >= mArmingDelay; }
+   bool IsArmed() { return mIsArmed; }
 
    virtual bool FilterContact(dContact* contact, Transformable* collider);
 
@@ -57,15 +60,20 @@ protected:
    void SetMeshResource(const std::string& name);
 
 private:
+   void CheckWeaponArming();
    void DetonateProjectile();
 
    dtCore::RefPtr<dtGame::DeadReckoningHelper> mDeadReckoningHelper;
    dtCore::RefPtr<dtGame::DRPublishingActComp> mDRPublishingActComp;
+   dtCore::RefPtr<dtGame::GameActor> mpOwner;
 
+   osg::BoundingSphere mProjectileBounds;
+   osg::BoundingSphere mBoatBounds;
    SMK::Damage mDamage;
    float mLifetime;
    float mLifeCounter;
    float mArmingDelay;
+   bool mIsArmed;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

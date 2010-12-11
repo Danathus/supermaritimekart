@@ -23,6 +23,7 @@ ProjectileActor::ProjectileActor(dtGame::GameActorProxy& proxy)
 , mLifetime(10.0f)
 , mLifeCounter(0.0f)
 , mArmingDelay(1.0f)
+, mIsArmed(false)
 {
 }
 
@@ -42,7 +43,9 @@ void ProjectileActor::TickLocal(const dtGame::Message& msg)
    mLifeCounter += dt;
    if (mLifeCounter > mLifetime)
    {
-      mDamage.SetLocation(GetGameActorProxy().GetTranslation());
+      dtCore::Transform currentTransform;
+      GetTransform(currentTransform);
+      mDamage.SetLocation(currentTransform.GetTranslation());
 
       if (mDamage.GetRadius() > 0.0f)
       {
@@ -52,6 +55,11 @@ void ProjectileActor::TickLocal(const dtGame::Message& msg)
       // Destroy ourselves
       SetCollisionDetection(false);
       GetGameActorProxy().GetGameManager()->DeleteActor(GetGameActorProxy());
+   }
+
+   if (!IsArmed())
+   {
+      CheckWeaponArming();
    }
 }
 
@@ -89,7 +97,7 @@ void ProjectileActor::OnEnteredWorld()
 
    // Always Use Max Smoothing Time (as opposed to averaged update rate)
    // Some systems publish regularly, and some don't. If a system doesn't
-   // publish updates like clockwork, then we use the average publish rate to blend. 
+   // publish updates like clockwork, then we use the average publish rate to blend.
    std::string useFixedTimeBlends = ""; //configParams.GetConfigPropertyValue("SimCore.DR.UseFixedTimeBlends", "");
    if (useFixedTimeBlends == "true" || useFixedTimeBlends == "TRUE" || useFixedTimeBlends == "1")
    {
@@ -102,8 +110,8 @@ void ProjectileActor::OnEnteredWorld()
 
    // The MaxTransSmoothingTime is usually set, but there are very obscure cases where it might
    // not have been set or not published for some reason. In that case, we need a non-zero value.
-   // In practice, a vehicle that publishes will typically set these directly (for example, see 
-   // BasePhysicsVehicleActor.SetMaxUpdateSendRate()). 
+   // In practice, a vehicle that publishes will typically set these directly (for example, see
+   // BasePhysicsVehicleActor.SetMaxUpdateSendRate()).
    // Previously, it set the smoothing time to 0.0 so that local actors would not smooth
    // their DR pos & rot to potentially make a cleaner comparison with less publishes.
    // Turning local smoothing on allows better vis & debugging of DR values (ex the DRGhostActor).
@@ -157,6 +165,15 @@ void ProjectileActor::BuildActorComponents()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void ProjectileActor::SetOwner(dtGame::GameActor* owner)
+{
+   mpOwner = owner;
+
+   // Cache the boat's bounding sphere
+   mBoatBounds = dynamic_cast<dtActors::GameMeshActor*>(mpOwner.get())->GetMeshNode()->getBound();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
 {
    if (!IsArmed()) { return false; }
@@ -165,7 +182,9 @@ bool ProjectileActor::FilterContact(dContact* contact, Transformable* collider)
       dynamic_cast<SMK::PickUpItemHandle*>(collider) == NULL)
    {
       // Set the damage's location to where we are at the time of impact
-      mDamage.SetLocation(GetGameActorProxy().GetTranslation());
+      dtCore::Transform currentTransform;
+      GetTransform(currentTransform);
+      mDamage.SetLocation(currentTransform.GetTranslation());
 
       // If our damage radius is greater than 0, then tell everyone we exploded
       if (mDamage.GetRadius() > 0.0f)
@@ -202,6 +221,22 @@ void ProjectileActor::SetMeshResource(const std::string& name)
    meshProperty->SetValue(dtDAL::ResourceDescriptor("StaticMeshes:" + name));
    SetCollisionBox();
    SetCollisionDetection(true);
+
+   // Cache our bounding sphere
+   mProjectileBounds = GetMeshNode()->getBound();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void ProjectileActor::CheckWeaponArming()
+{
+   // Arm ourselves if we are outside our owner and our arming delay has passed
+   dtCore::Transform boatTransform, projectileTransform;
+   mpOwner->GetTransform(boatTransform);
+   GetTransform(projectileTransform);
+   osg::BoundingSphere boatBounds = mBoatBounds, projectileBounds = mProjectileBounds;
+   boatBounds._center += boatTransform.GetTranslation();
+   projectileBounds._center += projectileTransform.GetTranslation();
+   mIsArmed = (mArmingDelay > 0.0f && mLifeCounter >= mArmingDelay) || !projectileBounds.intersects(boatBounds);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

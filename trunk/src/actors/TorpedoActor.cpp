@@ -15,7 +15,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 static const float TORPEDO_SPEED = 1.0f;
 static const float TORPEDO_LIFETIME = 5.0f;
-static const float TORPEDO_ARMING_DELAY = 0.5f;
+static const float TORPEDO_ARMING_DELAY = 0.0f;
 
 //////////////////////////////////////////////////////////////////////////
 TorpedoActor::TorpedoActor(dtGame::GameActorProxy& proxy)
