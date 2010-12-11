@@ -66,6 +66,7 @@ void MineDropper::FireWeapon()
          MineActor* mineActor = dynamic_cast<MineActor*>(&mineActorProxy->GetGameActor());
          mineActor->SetTransform(currentTransform);
          mineActor->SetDamage(mDamage);
+         mineActor->SetOwner(&mpSMKBoatActorProxy->GetGameActor());
          mpSMKBoatActorProxy->GetGameManager()->AddActor(*mineActorProxy, false, true);
       }
    }
@@ -76,7 +77,7 @@ osg::Matrix MineDropper::GetLaunchLocation()
 {
    osg::Matrix launchLocation;
 
-   dtCore::RefPtr<dtUtil::NodeCollector> collect = 
+   dtCore::RefPtr<dtUtil::NodeCollector> collect =
       new dtUtil::NodeCollector(GetOSGNode(),
       dtUtil::NodeCollector::MatrixTransformFlag);
 

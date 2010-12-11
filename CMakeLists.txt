@@ -47,7 +47,6 @@ SET(APP_SOURCE_FILES
     ${SOURCE_PATH}/CollisionCallback.cpp
     ${SOURCE_PATH}/FloaterController.cpp
     ${SOURCE_PATH}/GameFinder.cpp
-    ${SOURCE_PATH}/GeometryUtils.cpp
     ${SOURCE_PATH}/ImpactEffectsComponent.cpp
     ${SOURCE_PATH}/main.cpp
     ${SOURCE_PATH}/OceanWindowResize.cpp
@@ -71,7 +70,6 @@ SET(APP_HEADER_FILES
     ${HEADER_PATH}/CollisionCallback.h
     ${HEADER_PATH}/FloaterController.h
     ${HEADER_PATH}/GameFinder.h
-    ${HEADER_PATH}/GeometryUtils.h
     ${HEADER_PATH}/ImpactEffectsComponent.h
     ${HEADER_PATH}/OceanWindowResize.h
     ${HEADER_PATH}/ScenarioComponent.h

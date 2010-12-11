@@ -69,6 +69,7 @@ void RocketLauncher::FireWeapon()
          RocketActor* rocketActor = dynamic_cast<RocketActor*>(&rocketActorProxy->GetGameActor());
          rocketActor->SetTransform(currentTransform);
          rocketActor->SetDamage(mDamage);
+         rocketActor->SetOwner(&mpSMKBoatActorProxy->GetGameActor());
          mpSMKBoatActorProxy->GetGameManager()->AddActor(*rocketActorProxy, false, true);
       }
    }
@@ -79,7 +80,7 @@ osg::Matrix RocketLauncher::GetLaunchLocation()
 {
    osg::Matrix launchLocation;
 
-   dtCore::RefPtr<dtUtil::NodeCollector> collect = 
+   dtCore::RefPtr<dtUtil::NodeCollector> collect =
       new dtUtil::NodeCollector(GetOSGNode(),
       dtUtil::NodeCollector::MatrixTransformFlag);
 

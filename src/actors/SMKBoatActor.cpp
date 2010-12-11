@@ -177,7 +177,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
    {
       return false;
    }
-   
+
    if (!IsRemote())
    {
       PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
@@ -190,7 +190,7 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          //pickup->SetActive(false);
          //pickup->SetCollisionDetection(false);
 
-         //Send request to server indicating our interest in acquiring "pickup"         
+         //Send request to server indicating our interest in acquiring "pickup"
          dtCore::RefPtr<dtGame::Message> msg;
          GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP, msg);
          msg->SetAboutActorId(pickup->GetUniqueId());
@@ -199,11 +199,11 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
          if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer())
          {
             //if we're the server and this is our local boat, send the message locally (?)
-            GetGameActorProxy().GetGameManager()->SendMessage(*msg);  
+            GetGameActorProxy().GetGameManager()->SendMessage(*msg);
          }
          else
          {
-            GetGameActorProxy().GetGameManager()->SendNetworkMessage(*msg);  
+            GetGameActorProxy().GetGameManager()->SendNetworkMessage(*msg);
          }
          return false;
       }
@@ -241,7 +241,7 @@ void SMKBoatActor::OnEnteredWorld()
    //shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetMeshNode());
 
    // hack for iitsec, remote boats don't respect the shader so manually put it on the mesh
-   GetMeshNode()->getOrCreateStateSet()->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);  
+   GetMeshNode()->getOrCreateStateSet()->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);
    assert(mBoatProgram);
 
    mHealthUniform = dynamic_cast<dtCore::ShaderParamFloat*>(mBoatProgram->FindParameter("health"));
@@ -284,7 +284,7 @@ void SMKBoatActor::OnEnteredWorld()
 
    // Always Use Max Smoothing Time (as opposed to averaged update rate)
    // Some systems publish regularly, and some don't. If a system doesn't
-   // publish updates like clockwork, then we use the average publish rate to blend. 
+   // publish updates like clockwork, then we use the average publish rate to blend.
    std::string useFixedTimeBlends = ""; //configParams.GetConfigPropertyValue("SimCore.DR.UseFixedTimeBlends", "");
    if (useFixedTimeBlends == "true" || useFixedTimeBlends == "TRUE" || useFixedTimeBlends == "1")
    {
@@ -297,8 +297,8 @@ void SMKBoatActor::OnEnteredWorld()
 
    // The MaxTransSmoothingTime is usually set, but there are very obscure cases where it might
    // not have been set or not published for some reason. In that case, we need a non-zero value.
-   // In practice, a vehicle that publishes will typically set these directly (for example, see 
-   // BasePhysicsVehicleActor.SetMaxUpdateSendRate()). 
+   // In practice, a vehicle that publishes will typically set these directly (for example, see
+   // BasePhysicsVehicleActor.SetMaxUpdateSendRate()).
    // Previously, it set the smoothing time to 0.0 so that local actors would not smooth
    // their DR pos & rot to potentially make a cleaner comparison with less publishes.
    // Turning local smoothing on allows better vis & debugging of DR values (ex the DRGhostActor).
@@ -558,7 +558,7 @@ void SMKBoatActor::DieBoat(const dtGame::Message& weaponFiredMessage)
 
       // Reset our health and weapons
       //mHealth.SetHealth(0);
-      
+
       // Nulling so that the shading will be reinitialized
       //mpFrontWeapon = NULL;
       //mpBackWeapon = NULL;
@@ -652,9 +652,9 @@ void SMKBoatActor::PickupAquired(const dtGame::MachineInfoMessage& pickupAcquire
                bool applied = pickupItem->Apply(*this);
             }
             else
-            {          
+            {
                LOGN_WARNING(LOGNAME, "PickupItemFactory couldn't create pickup of type: " + pickup->GetType());
-            }      
+            }
          }
          else
          {
@@ -663,7 +663,7 @@ void SMKBoatActor::PickupAquired(const dtGame::MachineInfoMessage& pickupAcquire
             if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_BOW_WEAPON)
             {
                slot = GetFrontWeapon();
-            }         
+            }
             else if (pickup->GetPickupCategory() == PickupCategoryEnum::PICKUP_TOP_WEAPON)
             {
                //slot = GetTopWeapon();
@@ -680,15 +680,15 @@ void SMKBoatActor::PickupAquired(const dtGame::MachineInfoMessage& pickupAcquire
             if (slot)
             {
                slot->SetWeapon(pickup->GetType(), &GetGameActorProxy());
-            }         
-         }     
+            }
+         }
 
          if (!IsRemote())
          {
             // aural feedback
             mPickupAcquireSound->Play();
          }
-      }  
+      }
    }
 }
 
