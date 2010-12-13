@@ -79,11 +79,6 @@ SET(APP_HEADER_FILES
     ${HEADER_PATH}/SuperMaritimeKartMessenger.h
 )
 
-###################### RESOURCE FILES ######################
-SET(REAPP_SOURCE_FILES
-    ${CMAKE_SOURCE_DIR}/SMK.rc
-)
-
 ##################### INCLUDE DIRECTORIES ######################
 SET(DIRS_TO_INCLUDE ${HEADER_PATH}
                     ${DTABC_INCLUDE_DIRECTORIES}
