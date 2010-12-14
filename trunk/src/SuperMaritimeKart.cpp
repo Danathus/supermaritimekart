@@ -10,7 +10,7 @@
 #include <actors/SMKActorLibraryRegistry.h>
 #include <actors/WeaponFactory.h>
 #include <messages/NetworkMessages.h>
-#include <network/NetConfig.h>
+#include <NetConfig.h>
 #include <DeltaNetworkAdapter/NetworkBuddy.h>
 #include <actors/PickupItemFactory.h>
 #include <actors/HealthPickup.h>
