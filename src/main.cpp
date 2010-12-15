@@ -9,11 +9,20 @@
 #include <dtUtil/stringutils.h>
 
 #include <conio.h>
+#include <direct.h>
 
 
 int main(int argc, char **argv)
 {
-   if (dtUtil::FileUtils::GetInstance().FileExists("data/config.xml"))
+   const std::string relativeConfigPath("data/config.xml");
+
+   // Attempt to automatically set the correct working directory
+   if (dtUtil::FileUtils::GetInstance().FileExists("../" + relativeConfigPath))
+   {
+      chdir("../");
+   }
+
+   if (dtUtil::FileUtils::GetInstance().FileExists(relativeConfigPath))
    {
       std::string dataPath = dtUtil::GetDeltaDataPathList();
       dtUtil::SetDataFilePathList(dataPath + ";" + dtUtil::FileUtils::GetInstance().CurrentDirectory() + "/data");
