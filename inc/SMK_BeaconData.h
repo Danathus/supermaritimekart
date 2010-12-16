@@ -5,7 +5,7 @@
 
 #include <string>
 
-#include <NetCore/Serialization.h> // for Serializable class
+#include <NetSetGo/NetCore/Serialization.h> // for Serializable class
 
 //////////////////////////////////////////////////////////////////////////////
 

@@ -6,7 +6,7 @@
 #include <map>
 #include <vector>
 
-#include <NetCore/Beacon.h>
+#include <NetSetGo/NetCore/Beacon.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

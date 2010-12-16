@@ -16,7 +16,7 @@
 #include <DeltaNetworkAdapter/NetworkedUniqueIDMessage.h>
 //#include <CCTS_Util/EnterableInventoryUpdateMessage.h>
 
-#include <NetCore/NetworkEngine.h>
+#include <NetSetGo/NetCore/NetworkEngine.h>
 
 //#include <SharedActors/ActorLibraryMessages.h>
 

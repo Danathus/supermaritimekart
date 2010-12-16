@@ -35,7 +35,7 @@
 #include <BoatActors/FloatingActor.h>
 #include <BoatActors/ActorLibraryRegistry.h>
 
-#include <NetCore/NetworkEngine.h>
+#include <NetSetGo/NetCore/NetworkEngine.h>
 #include <DeltaNetworkAdapter/NetworkMessages.h>
 #include <SMK_NetworkComponent.h>
 #include <CollisionCallback.h>
