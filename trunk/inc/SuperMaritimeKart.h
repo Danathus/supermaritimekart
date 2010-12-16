@@ -2,7 +2,7 @@
 #define SUPERMARITIMEKART_H
 
 #include <dtABC/application.h>
-#include <NetCore/Address.h>
+#include <NetSetGo/NetCore/Address.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

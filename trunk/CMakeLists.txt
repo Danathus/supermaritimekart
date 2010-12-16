@@ -1,6 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 # Convert to CMake standard path string
+FILE(TO_CMAKE_PATH "$ENV{NETSETGO_ROOT}" NETSETGO_ROOT_CMAKE)
 FILE(TO_CMAKE_PATH "$ENV{DELTA_ROOT}" DELTA_ROOT_CMAKE)
 FILE(TO_CMAKE_PATH "$ENV{DELTA_SHARED_CODE}" DELTA_SHARED_CODE_CMAKE)
 
@@ -8,6 +9,7 @@ FILE(TO_CMAKE_PATH "$ENV{DELTA_SHARED_CODE}" DELTA_SHARED_CODE_CMAKE)
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMakeModules
                       ${DELTA_ROOT_CMAKE}/CMakeModules
                       ${DELTA_SHARED_CODE_CMAKE}/CMakeModules
+                      ${NETSETGO_ROOT_CMAKE}/CMakeModules
                       ${CMAKE_MODULE_PATH})
                       
 SET(APP_NAME SuperMaritimeKart) # USE_FUN
@@ -27,7 +29,7 @@ FIND_PACKAGE(dtUtil              REQUIRED)
 FIND_PACKAGE(dtGame              REQUIRED)
 FIND_PACKAGE(dtInputPLIB         REQUIRED)
 FIND_PACKAGE(OpenGL              REQUIRED)
-FIND_PACKAGE(dtOcean             REQUIRED) #For the OceanActor
+FIND_PACKAGE(dtOcean             REQUIRED) # For the OceanActor
 FIND_PACKAGE(NetCore             REQUIRED)
 FIND_PACKAGE(DeltaNetworkAdapter REQUIRED)
 FIND_PACKAGE(BoatActors          REQUIRED)
@@ -90,6 +92,7 @@ SET(DIRS_TO_INCLUDE ${HEADER_PATH}
                     ${DTGAME_INCLUDE_DIRECTORIES}
                     ${OPENGL_INCLUDE_DIR}
                     ${BOATACTORS_INCLUDE_DIRECTORIES}
+                    ${NETCORE_INCLUDE_DIRECTORIES}
 )
 
 IF (BUILD_WITH_DTOCEAN)
