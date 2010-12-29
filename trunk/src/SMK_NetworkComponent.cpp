@@ -23,12 +23,12 @@ SMK_NetworkComponent::SMK_NetworkComponent()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
 SMK_NetworkComponent::~SMK_NetworkComponent()
 {
    //
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void SMK_NetworkComponent::OnAddedToGM()
 {
    NetworkEngineComponent::OnAddedToGM();
@@ -37,6 +37,7 @@ void SMK_NetworkComponent::OnAddedToGM()
    DeltaNetworkAdapter::NetworkBuddy::GetRef().SetNetworkComponent(this);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void SMK_NetworkComponent::OnRemovedFromGM()
 {
    DeltaNetworkAdapter::NetworkBuddy::GetRef().StartShutdownProcess();
@@ -45,6 +46,7 @@ void SMK_NetworkComponent::OnRemovedFromGM()
    NetworkEngineComponent::OnRemovedFromGM();
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void SMK_NetworkComponent::ProcessMessage(const dtGame::Message& message)
 {
    if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer())
@@ -52,11 +54,11 @@ void SMK_NetworkComponent::ProcessMessage(const dtGame::Message& message)
       if (message.GetMessageType() == dtGame::MessageType::INFO_CLIENT_CONNECTED)
       {
          const DeltaNetworkAdapter::MachineInfoMessage& machineInfoMessage = static_cast<const DeltaNetworkAdapter::MachineInfoMessage&>(message);
-         mNeedToUpdateClients = true;  
+         mNeedToUpdateClients = true;
          mTimeLeftBeforeUpdatingClients = SECONDS_BEFORE_SENDING_GAME_STATE;
       }
       else if (message.GetMessageType() == SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP)
-      {      
+      {
          HandleThePickUpRequest(message);
       }
       else if (message.GetMessageType() == dtGame::MessageType::TICK_LOCAL)
@@ -73,7 +75,7 @@ void SMK_NetworkComponent::ProcessMessage(const dtGame::Message& message)
                SendGameDataToClient();
                mNeedToUpdateClients = false;
             }
-         }         
+         }
       }
    }
 
@@ -81,6 +83,7 @@ void SMK_NetworkComponent::ProcessMessage(const dtGame::Message& message)
    NetworkEngineComponent::ProcessMessage(message);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void SMK_NetworkComponent::QueueMessage(net::NodeID nodeID, const dtGame::Message* message)
 {
 #if 0
@@ -112,7 +115,7 @@ void SMK_NetworkComponent::ClearNewClientPublishList()
 
 ////////////////////////////////////////////////////////////////////////////////
 void SMK_NetworkComponent::SendGameDataToClient()
-{   
+{
    ProxyContainer::const_iterator proxyItr = mProxiesToSendToNewClients.begin();
    while (proxyItr != mProxiesToSendToNewClients.end())
    {
@@ -158,8 +161,8 @@ void SMK_NetworkComponent::HandleThePickUpRequest(const dtGame::Message& message
          propsToSend.push_back("IsActive"); //DeltaDrawable
          propsToSend.push_back(dtDAL::TransformableActorProxy::PROPERTY_ENABLE_COLLISION);
          pickupProxy->NotifyPartialActorUpdate(propsToSend);
-      }      
-   }   
+      }
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

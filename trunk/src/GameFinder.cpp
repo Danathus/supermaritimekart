@@ -11,13 +11,13 @@
 const float GameFinder::GameDescription::kMaxLife = 1.0f;
 
 ////////////////////////////////////////////////////////////////////////////////
-
 GameFinder::GameFinder()
    : mpBeaconReceiver(NULL)
 {
    //
 }
 
+////////////////////////////////////////////////////////////////////////////////
 const GameFinder::GameDescription* GameFinder::GetGame(const std::string& name) const
 {
    GameDescription* selectedGame = NULL;
@@ -32,6 +32,7 @@ const GameFinder::GameDescription* GameFinder::GetGame(const std::string& name) 
    return selectedGame;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> GameFinder::GenerateGameNameList() const
 {
    std::vector<std::string> gameNameList;
@@ -46,23 +47,27 @@ std::vector<std::string> GameFinder::GenerateGameNameList() const
    return gameNameList;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void GameFinder::Startup()
 {
    mpBeaconReceiver = new net::BeaconReceiver(BEACON_LISTENER_PORT, new BeaconData());
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void GameFinder::Shutdown()
 {
    delete mpBeaconReceiver;
    mpBeaconReceiver = NULL;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 bool GameFinder::IsRunning() const
 {
    const bool running = mpBeaconReceiver != NULL;
    return running;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 bool GameFinder::Update(float deltaTime)
 {
    net::Address senderAddress;
