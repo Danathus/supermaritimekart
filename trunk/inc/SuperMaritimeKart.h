@@ -22,6 +22,7 @@ class FloatingActor;
 class GameFinder;
 class ImpactEffectsComponent;
 class SMK_NetworkComponent;
+class Netrospect;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,7 +30,7 @@ class SuperMaritimeKart : public dtABC::Application
 {
    friend class SuperMaritimeKartMessenger;
 public:
-   SuperMaritimeKart(const std::string& configFilename = "config.xml");
+   SuperMaritimeKart(int argc, char** argv, const std::string& configFilename = "config.xml");
 
    virtual void Config();
 
@@ -59,6 +60,8 @@ private:
    dtCore::RefPtr<CameraController> mCameraComponent;
    dtCore::RefPtr<FloaterController> mpFloaterComponent;
    dtCore::RefPtr<ImpactEffectsComponent> mpEffectsComponent;
+
+   Netrospect* mNetrospect;
 
    bool mTryingToBeServer; ///<Are we attempting to be the server?
    net::Address mAddressToConnectTo; ///<The address the client is trying to connect to

@@ -16,6 +16,10 @@
 #include <actors/HealthPickup.h>
 #include <actors/ArmorPickup.h>
 
+#if BUILD_WITH_NETROSPECT
+# include <netrospect.h>
+#endif
+
 #include <dtAudio/audiomanager.h>
 #include <dtCore/system.h>
 #include <dtCore/scene.h>
@@ -44,7 +48,7 @@
 #define CONNECT_ONLY_TO_ME 0 // commit as 0
 
 ////////////////////////////////////////////////////////////////////////////////
-SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
+SuperMaritimeKart::SuperMaritimeKart(int argc, char** argv, const std::string& configFilename)
    : Application(configFilename)
    , mGameFinder(NULL)
    , mTryingToBeServer(false)
@@ -54,11 +58,18 @@ SuperMaritimeKart::SuperMaritimeKart(const std::string& configFilename)
    net::NetworkEngine::GetRef();
    // lets allow for extra big packets :P
    net::NetworkEngine::GetRef().GetNode().SetMaxPacketSize(3 * 1024); // formerly 2048
+
+#if BUILD_WITH_NETROSPECT
+   mNetrospect = new Netrospect(argc, argv);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 SuperMaritimeKart::~SuperMaritimeKart()
 {
+   delete mNetrospect;
+   mNetrospect = NULL;
+
    if (mGameFinder)
    {
       delete mGameFinder;
@@ -83,7 +94,7 @@ SuperMaritimeKart::~SuperMaritimeKart()
       mNetworkComponent->ClearNewClientPublishList();
       mGameManager->RemoveComponent(*mNetworkComponent);
    }
-  
+
    mGameManager->RemoveComponent(*mAppComponent);
    mGameManager->RemoveComponent(*mpBoatComponent);
    mGameManager->RemoveComponent(*mCameraComponent);
@@ -119,7 +130,7 @@ void SuperMaritimeKart::Config()
 
       mGameManager = new dtGame::GameManager(*GetScene());
       mGameManager->SetApplication(*this);
-      
+
       try
       {
          mGameManager->SetProjectContext("./data", true);
@@ -199,6 +210,30 @@ void SuperMaritimeKart::Config()
 void SuperMaritimeKart::PreFrame(const double deltaFrameTime)
 {
    dtABC::Application::PreFrame(deltaFrameTime);
+
+#if BUILD_WITH_NETROSPECT
+   // Get the data from the GameFinder
+   std::vector<const GameFinder::GameDescription*> gameList;
+   mGameFinder->GetAllAvailableGames(gameList);
+
+   std::vector<Netro::BeaconData> convertedList;
+
+   for (size_t gameIndex = 0; gameIndex < gameList.size(); ++gameIndex)
+   {
+      Netro::BeaconData newData;
+      newData.name = gameList[gameIndex]->mName;
+      newData.senderAddress = gameList[gameIndex]->mSenderAddress;
+      newData.port = gameList[gameIndex]->mPort;
+      newData.map = gameList[gameIndex]->mMapName;
+      newData.life = gameList[gameIndex]->mLife;
+
+      convertedList.push_back(newData);
+   }
+
+   // Update the tool/UI
+   mNetrospect->SetBeaconData(convertedList);
+   mNetrospect->Update();
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -245,7 +280,7 @@ void SuperMaritimeKart::PostFrame(const double deltaFrameTime)
 
          // connect to the game
          printf(">>> game found; joining...\n");
-         
+
          //save this address for later use
          mAddressToConnectTo = net::Address(selectedGame->mSenderAddress.GetAddress(), selectedGame->mPort);
 
@@ -266,7 +301,7 @@ bool SuperMaritimeKart::KeyPressed(const dtCore::Keyboard* keyboard, int kc)
 
       if (!usingShaders)
       {
-         // Retrieve the shader from the shader manager and assign it to this stateset         
+         // Retrieve the shader from the shader manager and assign it to this stateset
          const dtCore::ShaderProgram* prototypeProgram = shaderManager.FindShaderPrototype("PerPixelLit");
          dtCore::ShaderProgram* program = shaderManager.AssignShaderFromPrototype(*prototypeProgram, *GetScene()->GetSceneNode());
          assert(program);
@@ -313,7 +348,7 @@ void SuperMaritimeKart::OnMapLoaded()
    {
       StartHosting();
    }
- 
+
    //wipe out our container of any previous instantiated Prototypes
    mInstantiatedPrototypes.clear();
    if (mNetworkComponent)
@@ -345,7 +380,7 @@ void SuperMaritimeKart::OnMapLoaded()
       //Tell the server we finished loading our maps.  Now we can receive msgs
       //about actors!
       LOG_DEBUG("sending map loaded message to server");
-      
+
       dtCore::RefPtr<dtGame::Message> msg;
       mGameManager->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::INFO_CLIENT_MAP_LOADED, msg);
       mGameManager->SendNetworkMessage(*msg);
@@ -505,7 +540,7 @@ void SuperMaritimeKart::CreatePickUpItemHandleActors()
          catch (const dtUtil::Exception& e)
          {
             LOG_ERROR("Problem adding the actor prototype to the GM. " + e.ToString());
-         }         
+         }
       }
       ++itr;
    }
@@ -515,7 +550,7 @@ void SuperMaritimeKart::CreatePickUpItemHandleActors()
 void SuperMaritimeKart::OnMapUnloaded()
 {
    //wipe out our container of any previous instantiated Prototypes
-   mInstantiatedPrototypes.clear();   
+   mInstantiatedPrototypes.clear();
 
    if (mNetworkComponent)
    {
