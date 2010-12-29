@@ -12,7 +12,7 @@
 #include <direct.h>
 
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
    const std::string relativeConfigPath("data/config.xml");
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
       std::string dataPath = dtUtil::GetDeltaDataPathList();
       dtUtil::SetDataFilePathList(dataPath + ";" + dtUtil::FileUtils::GetInstance().CurrentDirectory() + "/data");
 
-      dtCore::RefPtr<SuperMaritimeKart> app = new SuperMaritimeKart("config.xml");
+      dtCore::RefPtr<SuperMaritimeKart> app = new SuperMaritimeKart(argc, argv, "config.xml");
       app->Config();
       app->Run();
    }

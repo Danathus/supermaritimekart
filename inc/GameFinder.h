@@ -27,6 +27,7 @@ public:
    GameFinder();
 
    const GameDescription* GetGame(const std::string& name) const;
+   void GetAllAvailableGames(std::vector<const GameDescription*>& gameList);
    std::vector<std::string> GenerateGameNameList() const;
 
    void Startup();

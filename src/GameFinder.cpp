@@ -33,6 +33,20 @@ const GameFinder::GameDescription* GameFinder::GetGame(const std::string& name) 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+void GameFinder::GetAllAvailableGames(std::vector<const GameDescription*>& gameList)
+{
+   gameList.clear();
+
+   GamesFoundOnNetworkMap::iterator iter = mGamesFoundOnNetworkMap.begin();
+
+   while (iter != mGamesFoundOnNetworkMap.end())
+   {
+      gameList.push_back(&iter->second);
+      ++iter;
+   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 std::vector<std::string> GameFinder::GenerateGameNameList() const
 {
    std::vector<std::string> gameNameList;
