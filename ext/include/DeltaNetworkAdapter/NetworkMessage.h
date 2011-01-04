@@ -3,7 +3,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <NetCore/NodeID.h>
+#include <NetSetGo/NetCore/NodeID.h>
 
 #include <DeltaNetworkAdapter/LibraryExport.h>
 #include <DeltaNetworkAdapter/TransmissionProtocol.h>

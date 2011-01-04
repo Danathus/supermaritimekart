@@ -5,7 +5,7 @@
 
 #include <dtCore/refptr.h>
 
-#include <NetCore/NodeID.h>
+#include <NetSetGo/NetCore/NodeID.h>
 
 namespace dtUtil
 {

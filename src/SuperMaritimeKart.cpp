@@ -67,8 +67,11 @@ SuperMaritimeKart::SuperMaritimeKart(int argc, char** argv, const std::string& c
 ////////////////////////////////////////////////////////////////////////////////
 SuperMaritimeKart::~SuperMaritimeKart()
 {
+#if BUILD_WITH_NETROSPECT
    delete mNetrospect;
    mNetrospect = NULL;
+#endif
+
 
    if (mGameFinder)
    {

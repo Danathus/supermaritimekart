@@ -38,7 +38,8 @@ public:
       Disconnected,
       Connecting,
       Connected,
-      ConnectFail
+      ConnectFail,
+      Unknown = 0x7fffffff
    };
    struct NodeState
    {
@@ -92,6 +93,7 @@ public:
    NodeID GetNodeIDFromAddress(const Address& address) const;
    NodeState* GetNodeByID(NodeID nodeID);
    const NodeState* GetNodeByID(NodeID nodeID) const;
+   const std::vector<NodeState*>& GetAllNodes() const;
    //
    void Reserve(int numNodes);
    int GetNumNodesReserved() const; // can include nodes that have dropped out
@@ -115,6 +117,9 @@ protected:
 
    float mSendAccumulator;
 
+#pragma warning (push)
+#pragma warning (disable:4251)
+
    //*
    // todo: move down to private
    typedef std::map<Address, NodeID> AddrToNodeID;
@@ -135,6 +140,7 @@ private:
    AddrToNodeID mAddrToNodeID;
    //*/
    std::vector<NodeState*> mNodes;
+#pragma warning (pop)
 };
 
 ////////////////////////////////////////////////////////////////////////////////
