@@ -30,7 +30,7 @@ FIND_PACKAGE(dtGame              REQUIRED)
 FIND_PACKAGE(dtInputPLIB         REQUIRED)
 FIND_PACKAGE(OpenGL              REQUIRED)
 FIND_PACKAGE(dtOcean             REQUIRED) # For the OceanActor
-FIND_PACKAGE(NetCore             REQUIRED)
+FIND_PACKAGE(NetSetGo            REQUIRED)
 FIND_PACKAGE(Netrospect          REQUIRED)
 FIND_PACKAGE(DeltaNetworkAdapter REQUIRED)
 FIND_PACKAGE(BoatActors          REQUIRED)
@@ -134,6 +134,7 @@ SET(LIBS_TO_LINK ${DTABC_LIBRARIES}
                  SMKMessages
                  #SMKNetwork
                  SMKUtil
+                 ${NETSETGO_LIBRARIES}
 )
 
 IF (BUILD_WITH_DTOCEAN)
