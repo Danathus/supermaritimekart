@@ -2,8 +2,11 @@
 #include <util/Armor.h>
 #include <util/Damage.h>
 #include <util/Health.h>
+
+#include <dtActors/gamemeshactor.h>
 #include <dtCore/transformable.h>
 #include <dtCore/transform.h>
+
 #include <osg/BoundingSphere>
 
 using namespace SMK;
@@ -46,15 +49,28 @@ void DamageAssessor::Assess(const Damage& damage, DamageTaker& damageTaker) cons
 ///////////////////////////////////////////////////////////////////////////////
 void SMK::DamageAssessor::AssessBlastDamage(const Damage& damage, DamageTaker& damageTaker) const
 {
-   dtCore::Transform xform;
-   damageTaker.mTransformable->GetTransform(xform);
+   dtCore::Transform takerTransform;
+   damageTaker.mTransformable->GetTransform(takerTransform);
+   dtActors::GameMeshActor* takerMeshActor = dynamic_cast<dtActors::GameMeshActor*>(damageTaker.mTransformable);
+   osg::BoundingSphere takerSphere = takerMeshActor->GetMeshNode()->getBound();
+   takerSphere._center += takerTransform.GetTranslation();
    osg::BoundingSphere bsphere(damage.GetLocation(), damage.GetRadius());
 
    //the damage taker is within distance to receive damage
-   if (bsphere.contains(xform.GetTranslation()))
+   if (bsphere.intersects(takerSphere))
    {
-      // TODO: Alter damage based on distance to explosion location
-      ApplyDamage(damage, damageTaker);
+      // Alter damage based on distance to blast
+      Damage newDamage = damage;
+      float distanceToBlast = (takerSphere._center - bsphere._center).length();
+      float maxDamage = damage.GetAmount();
+      float radius = damage.GetRadius();
+      int newDamageAmount = -exp((3.2f * distanceToBlast) / radius) + maxDamage;
+      if (newDamageAmount < 0)
+      {
+         newDamageAmount = 0;
+      }
+      newDamage.SetAmount(newDamageAmount);
+      ApplyDamage(newDamage, damageTaker);
    }
 }
 
