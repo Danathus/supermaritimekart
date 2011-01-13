@@ -58,6 +58,10 @@ public:
    std::string GetDefaultWeapon() const;
    void SetDefaultWeapon(const std::string& val);
 
+   ///The current weapon for the boat actor
+   std::string GetCurrentWeapon() const;
+   void SetCurrentWeapon(const std::string& val);
+
 protected:
    virtual ~WeaponSlot();
    virtual Weapon* CreateWeapon(const std::string& weaponClass, dtGame::GameActorProxy* actorProxy);
@@ -67,6 +71,7 @@ protected:
    std::string            mName;
    osg::Vec3              mPosition;
    std::string            mDefaultWeaponClass;
+   std::string            mCurrentWeaponClass;
    dtCore::RefPtr<Weapon> mpWeapon;
 };
 #endif // WeaponSlot_h__
