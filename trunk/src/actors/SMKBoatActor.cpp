@@ -106,6 +106,16 @@ void SMKBoatActor::TickRemote(const dtGame::Message& msg)
    const dtGame::TickMessage& tickMessage = static_cast<const dtGame::TickMessage&>(msg);
    float dt = tickMessage.GetDeltaSimTime();
 
+   switch (GetState())
+   {
+   case DEAD:
+      mRespawnCountdown -= dt;
+      if (mRespawnCountdown <= 0.0f)
+      {
+         RespawnBoat();
+      }
+      break;
+   }
    //UpdateHealthShader(dt);
 }
 
@@ -173,40 +183,37 @@ bool SMKBoatActor::FilterContact(dContact* contact, Transformable* collider)
    //osg::Vec3 normal(contact->geom.normal[0], contact->geom.normal[1], contact->geom.normal[2]);
 
    // Do not send events in STAGE or if we're a remote actor
-   if (GetGameActorProxy().IsInSTAGE())
+   if (GetGameActorProxy().IsInSTAGE() || IsRemote())
    {
       return false;
    }
 
-   if (!IsRemote())
+   PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
+
+   if (pickup && (DoWeWantThisPickUp(*pickup)))
    {
-      PickUpItemHandle* pickup = dynamic_cast<PickUpItemHandle*>(collider);
+      dtGame::GameActorProxy& boatProxy = GetGameActorProxy();
 
-      if (pickup && (DoWeWantThisPickUp(*pickup)))
+      //TODO make it inactive locally.  The server will provide the ultimate jugment later
+      //pickup->SetActive(false);
+      //pickup->SetCollisionDetection(false);
+
+      //Send request to server indicating our interest in acquiring "pickup"
+      dtCore::RefPtr<dtGame::Message> msg;
+      GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP, msg);
+      msg->SetAboutActorId(pickup->GetUniqueId());
+      msg->SetSendingActorId(GetUniqueId());
+
+      if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer())
       {
-         dtGame::GameActorProxy& boatProxy = GetGameActorProxy();
-
-         //TODO make it inactive locally.  The server will provide the ultimate jugment later
-         //pickup->SetActive(false);
-         //pickup->SetCollisionDetection(false);
-
-         //Send request to server indicating our interest in acquiring "pickup"
-         dtCore::RefPtr<dtGame::Message> msg;
-         GetGameActorProxy().GetGameManager()->GetMessageFactory().CreateMessage(SMK::SMKNetworkMessages::REQUEST_PICKUP_PICKUP, msg);
-         msg->SetAboutActorId(pickup->GetUniqueId());
-         msg->SetSendingActorId(GetUniqueId());
-
-         if (DeltaNetworkAdapter::NetworkBuddy::GetRef().IsServer())
-         {
-            //if we're the server and this is our local boat, send the message locally (?)
-            GetGameActorProxy().GetGameManager()->SendMessage(*msg);
-         }
-         else
-         {
-            GetGameActorProxy().GetGameManager()->SendNetworkMessage(*msg);
-         }
-         return false;
+         //if we're the server and this is our local boat, send the message locally (?)
+         GetGameActorProxy().GetGameManager()->SendMessage(*msg);
       }
+      else
+      {
+         GetGameActorProxy().GetGameManager()->SendNetworkMessage(*msg);
+      }
+      return false;
    }
 
   return BoatActor::FilterContact(contact, collider);
@@ -306,8 +313,6 @@ void SMKBoatActor::OnEnteredWorld()
       GetDeadReckoningHelper()->SetMaxTranslationSmoothingTime(0.5f);
    if (GetDeadReckoningHelper()->GetMaxRotationSmoothingTime() == 0.0f)
       GetDeadReckoningHelper()->SetMaxRotationSmoothingTime(0.5f);
-
-   SetupDefaultWeapon();
 }
 
 
@@ -385,6 +390,17 @@ void SMKBoatActor::Initialize()
    {
       RegisterLocalBoatMessages();
    }
+
+   SMKBoatActorProxy* proxy = dynamic_cast<SMKBoatActorProxy*>(&GetGameActorProxy());
+   if (mpFrontWeapon.valid())
+   {
+      mpFrontWeapon->Initialize(proxy);
+   }
+
+   if (mpBackWeapon.valid())
+   {
+      mpBackWeapon->Initialize(proxy);
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -395,7 +411,7 @@ void SMKBoatActor::SetupDefaultWeapon()
    {
       if (mpFrontWeapon)
       {
-         mpFrontWeapon->Initialize(proxy);
+         mpFrontWeapon->SetWeapon(mpFrontWeapon->GetDefaultWeapon(), &GetGameActorProxy());
 
          //Weapon* frontWeapon = mpFrontWeapon->GetWeapon();
          //osg::Node* frontWeaponNode = frontWeapon->GetOSGNode();
@@ -412,7 +428,7 @@ void SMKBoatActor::SetupDefaultWeapon()
 
       if (mpBackWeapon)
       {
-         mpBackWeapon->Initialize(proxy);
+         mpBackWeapon->SetWeapon(mpBackWeapon->GetDefaultWeapon(), &GetGameActorProxy());
 
          //osg::StateSet* weaponState = mpBackWeapon->GetWeapon()->GetOSGNode()->getOrCreateStateSet();
          //weaponState->setAttributeAndModes(mBoatProgram->GetShaderProgram(), osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);

@@ -50,6 +50,15 @@ void WeaponSlot::BuildPropertyMap(dtDAL::BaseActorObject* actorProxy)
       dtDAL::StringActorProperty::SetFuncType(this, &WeaponSlot::SetDefaultWeapon),
       dtDAL::StringActorProperty::GetFuncType(this, &WeaponSlot::GetDefaultWeapon),
       "The class name of the SMKBoatActor's default weapon", mName));
+
+   if (!actorProxy->IsInSTAGE())
+   {
+      actorProxy->AddProperty(new dtDAL::StringActorProperty(
+         mName + "CurrentWeapon", "Current Weapon",
+         dtDAL::StringActorProperty::SetFuncType(this, &WeaponSlot::SetCurrentWeapon),
+         dtDAL::StringActorProperty::GetFuncType(this, &WeaponSlot::GetCurrentWeapon),
+         "The class name of the SMKBoatActor's current weapon", mName));
+   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,9 +69,14 @@ void WeaponSlot::GetPartialUpdateProperties(std::vector<dtUtil::RefString>& prop
 ///////////////////////////////////////////////////////////////////////////////
 void WeaponSlot::Initialize(SMKBoatActorProxy* actorProxy)
 {
-   if (!mDefaultWeaponClass.empty())
+   std::string initialWeapon = mDefaultWeaponClass;
+   if (actorProxy->IsRemote())
    {
-      SetWeapon(mDefaultWeaponClass, actorProxy);
+      initialWeapon = mCurrentWeaponClass;
+   }
+   if (!initialWeapon.empty())
+   {
+      SetWeapon(initialWeapon, actorProxy);
    }
 }
 
@@ -88,7 +102,7 @@ void WeaponSlot::StopWeaponFire()
 void WeaponSlot::SetWeapon(const std::string& weaponClass, dtGame::GameActorProxy* actorProxy)
 {
    // Set this weapon as our new default
-   mDefaultWeaponClass = weaponClass;
+   mCurrentWeaponClass = weaponClass;
 
    if (mpWeapon != NULL)
    {
@@ -127,6 +141,18 @@ std::string WeaponSlot::GetDefaultWeapon() const
 void WeaponSlot::SetDefaultWeapon(const std::string& val)
 {
    mDefaultWeaponClass = val;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+std::string WeaponSlot::GetCurrentWeapon() const
+{
+   return mCurrentWeaponClass;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void WeaponSlot::SetCurrentWeapon(const std::string& val)
+{
+   mCurrentWeaponClass = val;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

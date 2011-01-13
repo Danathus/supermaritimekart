@@ -368,7 +368,7 @@ bool BoatInputHandler::Update()
             //boat->GetBodyWrapper()->ApplyRelTorque(osg::Vec3(0.0f, 10000000.0f, 0.0f));
             boat->GetBodyWrapper()->ApplyRelTorque(osg::Vec3(0.0f, 100000.0f, 0.0f));
             lastTime = currentTime;
-         }         
+         }
 
          /*float h, p, r;
          boatTransform.GetRotation(h, p, r);
@@ -378,26 +378,32 @@ bool BoatInputHandler::Update()
       }
    }
 
-   if (mApplicationInputDevice->GetButton(kFirePrimaryWeapon)->GetState() &&
-      !mpPrimaryWeapon->GetWeapon()->IsFiring())
+   if (mpPrimaryWeapon->GetWeapon() != NULL)
    {
-      mpPrimaryWeapon->StartWeaponFire();
-   }
-   else if (!mApplicationInputDevice->GetButton(kFirePrimaryWeapon)->GetState() &&
-      mpPrimaryWeapon->GetWeapon()->IsFiring())
-   {
-      mpPrimaryWeapon->StopWeaponFire();
+      if (mApplicationInputDevice->GetButton(kFirePrimaryWeapon)->GetState() &&
+         !mpPrimaryWeapon->GetWeapon()->IsFiring())
+      {
+         mpPrimaryWeapon->StartWeaponFire();
+      }
+      else if (!mApplicationInputDevice->GetButton(kFirePrimaryWeapon)->GetState() &&
+         mpPrimaryWeapon->GetWeapon()->IsFiring())
+      {
+         mpPrimaryWeapon->StopWeaponFire();
+      }
    }
 
-   if (mApplicationInputDevice->GetButton(kFireSecondaryWeapon)->GetState() &&
-      !mpSecondaryWeapon->GetWeapon()->IsFiring())
+   if (mpSecondaryWeapon->GetWeapon() != NULL)
    {
-      mpSecondaryWeapon->StartWeaponFire();
-   }
-   else if (!mApplicationInputDevice->GetButton(kFireSecondaryWeapon)->GetState() &&
-      mpSecondaryWeapon->GetWeapon()->IsFiring())
-   {
-      mpSecondaryWeapon->StopWeaponFire();
+      if (mApplicationInputDevice->GetButton(kFireSecondaryWeapon)->GetState() &&
+         !mpSecondaryWeapon->GetWeapon()->IsFiring())
+      {
+         mpSecondaryWeapon->StartWeaponFire();
+      }
+      else if (!mApplicationInputDevice->GetButton(kFireSecondaryWeapon)->GetState() &&
+         mpSecondaryWeapon->GetWeapon()->IsFiring())
+      {
+         mpSecondaryWeapon->StopWeaponFire();
+      }
    }
 
    return handled;
