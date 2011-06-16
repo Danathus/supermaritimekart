@@ -44,7 +44,7 @@
 !define PRODUCT_VERSION          ${VERSION}
 !define PRODUCT_PUBLISHER        "MOVES"
 !define PRODUCT_WEB_SITE         "http://delta3d.org"
-!define PRODUCT_DIR_REGKEY       "Software\S"
+!define PRODUCT_DIR_REGKEY       "Software\Super Maritime Kart"
 !define PRODUCT_UNINST_KEY       "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY  "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
